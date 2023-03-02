@@ -3,7 +3,7 @@ import { configureStore, combineReducers } from "@reduxjs/toolkit"
 import storage from "redux-persist/lib/storage"
 import { persistReducer } from "redux-persist"
 import axios, { AxiosResponse } from "axios"
-import thunk from "redux-thunk"
+// import thunk from "redux-thunk"
 import exampleSlice, { exActions } from "./example-slice"
 // import thunk from "redux-thunk"
 
@@ -44,6 +44,7 @@ export const AxiosExample = function (requestData: object) {
   return async function (dispatch: AppDispatch) {
     axios(requestData).then((res: AxiosResponse) => {
       console.log(res.data)
+      dispatch(exActions.changeEx({ exval: "바뀜" }))
     })
   }
 }
