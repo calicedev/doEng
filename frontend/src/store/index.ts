@@ -1,8 +1,10 @@
 import { configureStore, combineReducers } from "@reduxjs/toolkit"
-import exampleSlice, { exActions } from "./example-slice"
+// import {getDefaultMiddleware} from "@reduxjs/toolkit"
 import storage from "redux-persist/lib/storage"
 import { persistReducer } from "redux-persist"
 import axios, { AxiosResponse } from "axios"
+import thunk from "redux-thunk"
+import exampleSlice, { exActions } from "./example-slice"
 // import thunk from "redux-thunk"
 
 export type AppDispatch = typeof store.dispatch
@@ -15,12 +17,19 @@ const rootReducers = combineReducers({
 const persistConfig = {
   key: "root",
   storage,
+  // whitelist: ["example"], // persist로 유지 할 값들
+  // blacklist: ["example"], // persist에서 제외 할 것들
 }
 
 const persistedReducer = persistReducer(persistConfig, rootReducers)
 
 const store = configureStore({
   reducer: persistedReducer,
+  // middleware: [thunk],
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware({
+      serializableCheck: false,
+    }),
 })
 
 /*
