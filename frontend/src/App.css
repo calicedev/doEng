@@ -1,0 +1,49 @@
+.canvas-under-bg-container {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  position: fixed;
+  z-index: -30;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.canvas-over-bg-container {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  position: fixed;
+  z-index: -10;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+.bg-container {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  outline: none;
+  position: fixed;
+  z-index: -20;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.page-container {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 5%;
+  outline: none;
+  /* background-color: red; */
+  position: fixed;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}

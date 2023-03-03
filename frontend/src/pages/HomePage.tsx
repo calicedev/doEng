@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react"
+import { useRef } from "react"
 import Wave from "../components/CanvasComponents/Wave/Wave"
+import { useWidthHeight } from "../hooks/useWidthHwight"
 
 function HomePage() {
-  const [canvasWidth, setCanvasWidth] = useState<number>(0)
-  const [canvasHeight, setCanvasHeight] = useState<number>(0)
-  useEffect(
-    function () {
-      setCanvasHeight(window.innerHeight)
-      setCanvasWidth(window.innerWidth)
-    },
-    [window.innerHeight, window.innerWidth]
-  )
+  const canvasDivRef = useRef<HTMLDivElement>(null)
+  const { width: canvasWidth, height: canvasHeight } =
+    useWidthHeight(canvasDivRef)
   return (
     <>
-      <div className="h-full w-full fixed">
-        <Wave canvasHeight={canvasHeight} canvasWidth={canvasWidth} />
+      <div
+        ref={canvasDivRef}
+        className={`w-full h-full blur-sm canvas-under-bg-container`}
+      >
+        <Wave canvasWidth={canvasWidth} canvasHeight={canvasHeight} />
       </div>
-      <div>홈입니다.</div>
+      <div className={``}>
+        <div>홈인데요</div>
+      </div>
     </>
   )
 }
