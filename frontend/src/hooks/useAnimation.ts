@@ -16,8 +16,8 @@ interface animationHook {
 export const useAnimation: animationHook = function (
   opened,
   compo,
-  appearClassName = "show",
-  disappearClassName = "end"
+  appearClassName = "animate-appear-from-bottom",
+  disappearClassName = "animate-disappear-to-bottom"
 ) {
   const [isAnimate, setIsAnimate] = useState<boolean>(opened)
   const [isRender, setIsRender] = useState<boolean>(opened || isAnimate)
