@@ -13,5 +13,5 @@ public class ResponseMainTaleDetailDto {
     private String title;
     private int progress;
     private String mainImage;
-    private List<ResopnseWordDto> wordList;
+    private List<ResponseWordDto> wordList;
 }

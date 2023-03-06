@@ -7,7 +7,7 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 @Builder
-public class ResopnseWordDto {
+public class ResponseWordDto {
 
     private int id;
     private String image;
