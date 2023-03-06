@@ -11,7 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class responseProgressTaleDto {
+public class ResponseProgressTaleDto {
     private int id;
     private String title;
     private String backgroundImage;

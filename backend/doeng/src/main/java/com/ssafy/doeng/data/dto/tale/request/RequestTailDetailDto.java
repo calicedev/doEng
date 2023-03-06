@@ -9,6 +9,6 @@ import lombok.Setter;
 @Setter
 public class RequestTailDetailDto {
 
-    private int memberId;
+    private long memberId;
     private int taleId;
 }
