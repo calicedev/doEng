@@ -1,7 +1,7 @@
 package com.ssafy.doeng.controller;
 
 import com.ssafy.doeng.data.dto.tale.request.RequestTailDetailDto;
-import com.ssafy.doeng.data.dto.tale.response.ResopnseWordDto;
+import com.ssafy.doeng.data.dto.tale.response.ResponseWordDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDto;
 import java.util.ArrayList;
@@ -10,7 +10,6 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
@@ -30,19 +29,20 @@ public class TaleController {
                 .backgroundImage("path")
                 .purchased(true)
                 .build());
+        LOGGER.info("[TaleController] getTaleList 종료");
         return ResponseEntity.ok().body(resopnseDto);
     }
 
     @GetMapping("{taleId}/detail")
-    public ResponseEntity<ResponseMainTaleDetailDto> getTaledeTailDto(
+    public ResponseEntity<ResponseMainTaleDetailDto> getTaleDetail(
             @PathVariable("taleId") int tailId) {
         RequestTailDetailDto requestDto = new RequestTailDetailDto(tailId, 1);
 
-        LOGGER.info("[TaleController] getTaleDetailList taleId: {} loginId : {}",
+        LOGGER.info("[TaleController] getTaleDetail taleId: {} loginId : {}",
                 requestDto.getTaleId(), requestDto.getMemberId());
 
-        List<ResopnseWordDto> wordList = new ArrayList<>();
-        wordList.add(ResopnseWordDto.builder()
+        List<ResponseWordDto> wordList = new ArrayList<>();
+        wordList.add(ResponseWordDto.builder()
                 .id(1)
                 .engWord("apple")
                 .korWord("사과")
@@ -57,7 +57,7 @@ public class TaleController {
                 .progress(1)
                 .mainImage("메인 이미지 위치")
                 .build();
-
+        LOGGER.info("[TaleController] getTaleDetail 종료");
         return ResponseEntity.ok().body(resopnseDto);
     }
 }
