@@ -1,4 +1,4 @@
-package com.ssafy.doeng.data.dto.word.response;
+package com.ssafy.doeng.data.dto.tale.response;
 
 import java.util.List;
 import lombok.AllArgsConstructor;
@@ -12,7 +12,6 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ResponseProgressTestResultDto {
-    private int testCount;
-    private List<Boolean> engList;
+public class ResponseProgressTaleListDto {
+    private List<ResponseProgressTaleDto> taleList;
 }
