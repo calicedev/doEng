@@ -1,4 +1,4 @@
-package com.idle.imfine.data.entity;
+package com.ssafy.doeng.data.entity;
 
 import java.time.LocalDateTime;
 import javax.persistence.Column;
