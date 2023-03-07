@@ -1,6 +1,7 @@
 package com.ssafy.doeng.controller;
 
 import com.ssafy.doeng.data.dto.picture.response.ResponseProgressImageDto;
+import com.ssafy.doeng.data.dto.picture.response.ResponseProgressImageListDto;
 import com.ssafy.doeng.data.dto.review.request.RequestReviewDto;
 import com.ssafy.doeng.data.dto.review.request.RequestReviewModifyDto;
 import com.ssafy.doeng.data.dto.review.response.ResponseReviewDto;
@@ -92,6 +93,30 @@ public class MyPageController {
                 .testList(progressTestResultDtoList)
                 .build();
         return ResponseEntity.ok().body(responseProgressTaleDetailDto);
+    }
+
+    @GetMapping("/progress/{taleId}/{sceneId}")
+    public ResponseEntity<ResponseProgressImageListDto> getProgressImageList(@PathVariable("taleId") long taleId,
+            @PathVariable("sceneId") long sceneId) {
+        LOGGER.info("학습 앨범 리스트 api 들어옴 {} {}", taleId, sceneId);
+
+        List<ResponseProgressImageDto> progressImageDtoList = new ArrayList<>();
+        ResponseProgressImageDto progressImageDto1 = ResponseProgressImageDto.builder()
+                .id(1)
+                .image("path")
+                .build();
+        progressImageDtoList.add(progressImageDto1);
+        ResponseProgressImageDto progressImageDto2 = ResponseProgressImageDto.builder()
+                .id(2)
+                .image("path2")
+                .build();
+        progressImageDtoList.add(progressImageDto2);
+
+        ResponseProgressImageListDto imageListDto = ResponseProgressImageListDto.builder()
+                .imageList(progressImageDtoList)
+                .build();
+
+        return ResponseEntity.ok().body(imageListDto);
     }
 
     @GetMapping("/tale-list")
