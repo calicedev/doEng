@@ -2,7 +2,7 @@
 const engCheck = /[a-z]/
 const upperCheck = /[A-Z]/
 const numCheck = /[0-9]/
-const speCheck = /[~!@#/$%^&*()_+|<>?:{}\[\]\\'"]/
+const speCheck = /[,~!@#/$%^&.*()_\`\=+|<>?:\{\}\[\]\\'"-]/
 
 export interface validationFunctionInterface {
   (val: string): { status: boolean; message: string }
@@ -66,7 +66,8 @@ const passwordValidation: validationFunctionInterface = function (val) {
   } else if (!numCheck.test(val)) {
     return { status: false, message: "숫자를 포함해야 합니다." }
   }
-  const passwordRules = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/
+  const passwordRules =
+    /^(?=.*[a-zA-Z])(?=.*[,~!@#/$%^&.*()_\`\=+|<>?:\{\}\[\]\\'"-])(?=.*[0-9]).{8,16}$/
   if (passwordRules.test(val)) {
     return { status: true, message: "유효한 비밀번호입니다." }
   }
