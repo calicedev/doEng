@@ -1,6 +1,6 @@
 package com.ssafy.doeng.controller;
 
-import com.ssafy.doeng.data.dto.tale.request.RequestTailDetailDto;
+import com.ssafy.doeng.data.dto.tale.request.RequestTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseWordDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDto;
@@ -35,8 +35,8 @@ public class TaleController {
 
     @GetMapping("{taleId}/detail")
     public ResponseEntity<ResponseMainTaleDetailDto> getTaleDetail(
-            @PathVariable("taleId") int tailId) {
-        RequestTailDetailDto requestDto = new RequestTailDetailDto(tailId, 1);
+            @PathVariable("taleId") int taleId) {
+        RequestTaleDetailDto requestDto = new RequestTaleDetailDto(taleId, 1);
 
         LOGGER.info("[TaleController] getTaleDetail taleId: {} loginId : {}",
                 requestDto.getTaleId(), requestDto.getMemberId());
