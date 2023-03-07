@@ -18,6 +18,7 @@ public class ResponsePaymentTaleDetailDto {
     private long id;
     private String title;
     private String backgroundImage;
+    private String summary;
     private double score;
     private boolean purchased;
     private ResponseReviewDto myReview;
