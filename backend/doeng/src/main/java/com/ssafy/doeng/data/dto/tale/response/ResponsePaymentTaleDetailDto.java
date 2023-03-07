@@ -1,6 +1,7 @@
 package com.ssafy.doeng.data.dto.tale.response;
 
 import com.ssafy.doeng.data.dto.review.response.ResponseReviewDto;
+import com.ssafy.doeng.data.dto.review.response.ResponseReviewListDto;
 import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
@@ -20,5 +21,5 @@ public class ResponsePaymentTaleDetailDto {
     private double score;
     private boolean purchased;
     private ResponseReviewDto myReview;
-    private List<ResponseReviewDto> reviewList;
+    private ResponseReviewListDto reviewList;
 }

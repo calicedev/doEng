@@ -1,7 +1,9 @@
 package com.ssafy.doeng.controller;
 
 import com.ssafy.doeng.data.dto.picture.response.ResponseProgressImageDto;
+import com.ssafy.doeng.data.dto.review.request.RequestReviewDto;
 import com.ssafy.doeng.data.dto.review.response.ResponseReviewDto;
+import com.ssafy.doeng.data.dto.review.response.ResponseReviewListDto;
 import com.ssafy.doeng.data.dto.scene.response.ResponseProgressSceneDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDto;
@@ -18,6 +20,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -142,6 +146,10 @@ public class MyPageController {
         reviewDtoList.add(reviewDto1);
         reviewDtoList.add(reviewDto2);
 
+        ResponseReviewListDto reviewListDto = ResponseReviewListDto.builder()
+                .reviewList(reviewDtoList)
+                .build();
+
         ResponsePaymentTaleDetailDto responsePaymentTaleDetailDto = ResponsePaymentTaleDetailDto.builder()
                 .id(1)
                 .title("백설공쥬")
@@ -149,8 +157,23 @@ public class MyPageController {
                 .score(4.5)
                 .purchased(true)
                 .myReview(myReview)
-                .reviewList(reviewDtoList)
+                .reviewList(reviewListDto)
                 .build();
         return ResponseEntity.ok().body(responsePaymentTaleDetailDto);
     }
+
+    @PostMapping("/review/{taleId}")
+    private ResponseEntity<String> postReview(@PathVariable("taleId") long taleId,
+            @RequestBody RequestReviewDto requestReviewDto) {
+        requestReviewDto.setMemberId(1);
+        requestReviewDto.setTaleId(taleId);
+        LOGGER.info("리뷰 작성 post api, memberId: {} taleId: {} score: {}"
+                , requestReviewDto.getMemberId(), requestReviewDto.getTaleId(), requestReviewDto.getScore());
+        return ResponseEntity.ok().body("review 저장 완료");
+    }
+
+//    @GetMapping("/review/{taleId}/review-list")
+//    private ResponseEntity<ResponseReviewListDto> getReviewList(@PathVariable("taleId") long taleId) {
+//
+//    }
 }
