@@ -4,7 +4,7 @@ import { RefObject, useEffect, useState } from "react"
 
 type inputHook = (
   ref: RefObject<HTMLInputElement | null>,
-  validation: (inputData: string) => { status: boolean; message: string },
+  validation?: (inputData: string) => { status: boolean; message: string },
   maxLength?: number
 ) => {
   inputData: string
