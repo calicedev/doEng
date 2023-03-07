@@ -40,6 +40,4 @@ public class Tale {
     private String backgroundImage;
     @Column(nullable = false)
     private String mainImage;
-    @Column
-    private String summary;
 }

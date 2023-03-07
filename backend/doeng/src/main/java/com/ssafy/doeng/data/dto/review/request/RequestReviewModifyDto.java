@@ -12,6 +12,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class RequestReviewModifyDto {
+    private long reviewId;
     private int score;
     private String content;
+
+    public void setReviewId(long reviewId) { this.reviewId = reviewId; }
 }
