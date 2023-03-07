@@ -1,5 +1,6 @@
 package com.ssafy.doeng.data.entity.review;
 
+import com.ssafy.doeng.data.entity.BaseEntity;
 import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.entity.tale.Tale;
 import javax.persistence.Column;
@@ -22,7 +23,7 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-public class Review {
+public class Review extends BaseEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

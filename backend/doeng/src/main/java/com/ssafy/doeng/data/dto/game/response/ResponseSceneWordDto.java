@@ -1,6 +1,5 @@
 package com.ssafy.doeng.data.dto.game.response;
 
-import java.util.List;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -12,12 +11,10 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ResponseSceneDto {
+public class ResponseSceneWordDto {
     private long id;
-    private String sequence;
-    private int sceneOrder;
-    private int interactiveType;
-    private String backgroundMusic;
-    private List<ResponseScriptDto> scriptList;
-    private ResponseSceneWordDto word;
+    private String image;
+    private String engWord;
+    private String korWord;
+    private String voice;
 }
