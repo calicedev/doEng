@@ -2,7 +2,7 @@
 const engCheck = /[a-z]/
 const upperCheck = /[A-Z]/
 const numCheck = /[0-9]/
-const speCheck = /[~!@#$%^&*()_+|<>?:{}\[\]\\'"]/
+const speCheck = /[,~!@#/$%^&.*()_\`\=+|<>?:\{\}\[\]\\'"-]/
 
 export interface validationFunctionInterface {
   (val: string): { status: boolean; message: string }
@@ -11,16 +11,18 @@ export interface validationFunctionInterface {
 // 길이는 4이상 16이하, 영어 + 숫자로만 가능.
 const idValidation: validationFunctionInterface = function idValidation(val) {
   const idRegExp = /[A-Za-z0-9]{4,16}/
+  if (val.trim().length === 0) {
+    return { status: false, message: "ID는 필수 입력란입니다." }
+  }
   if (val.trim().length < 4 || val.trim().length > 16) {
     return {
       status: false,
-      message:
-        "ID의 길이가 유효하지 않습니다. 4자 이상 16자 이하의 값을 입력해주세요.",
+      message: "4자 이상 16자 이하의 ID를 입력해주세요.",
     }
   } else if (val.search(/\s/) !== -1) {
     return {
       status: false,
-      message: "ID에 공백은 허용되지 않습니다. 공백을 제외하고 입력 해주세요.",
+      message: "ID에 공백은 허용되지 않습니다. 공백을 제거 해주세요.",
     }
   } else if (speCheck.test(val)) {
     return {
@@ -53,13 +55,19 @@ const emailValidation: validationFunctionInterface = function (email) {
 const passwordValidation: validationFunctionInterface = function (val) {
   if (val.trim().length === 0) {
     return { status: false, message: "비밀번호는 필수 입력란입니다." }
+  } else if (val.trim().length < 8) {
+    return {
+      status: false,
+      message: "비밀번호는 8자 이상 16자 이하여야 합니다.",
+    }
   }
   if (!speCheck.test(val)) {
     return { status: false, message: "특수문자를 포함해야 합니다." }
   } else if (!numCheck.test(val)) {
     return { status: false, message: "숫자를 포함해야 합니다." }
   }
-  const passwordRules = /^(?=.*[a-zA-Z])(?=.*[!@#$%^*+=-])(?=.*[0-9]).{8,16}$/
+  const passwordRules =
+    /^(?=.*[a-zA-Z])(?=.*[,~!@#/$%^&.*()_\`\=+|<>?:\{\}\[\]\\'"-])(?=.*[0-9]).{8,16}$/
   if (passwordRules.test(val)) {
     return { status: true, message: "유효한 비밀번호입니다." }
   }
@@ -103,7 +111,7 @@ const phoneValidation: validationFunctionInterface = function (val) {
   if (phoneRegExp.test(val)) {
     return { status: true, message: "유효한 핸드폰 번호입니다." }
   }
-  return { status: false, message: "유효한 핸드폰 번호를 입력 바랍니다." }
+  return { status: false, message: "01X-XXXX-XXXX 형태로 입력 바랍니다." }
 }
 
 export {

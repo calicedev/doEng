@@ -2,12 +2,17 @@
 module.exports = {
   content: [
     "./src/**/*.{js,jsx,ts,tsx}",
+    "./src/**/**/*.{js,jsx,ts,tsx}",
+    "./src/**/**/**/*.{js,jsx,ts,tsx}",
     "./node_modules/tw-elements/dist/js/**/*.js",
   ],
   theme: {
     // screens: {},
     // fontFamily: {},
     extend: {
+      screens: {
+        mobile: "400px",
+      },
       colors: {},
       animation: {
         "appear-from-left": "appear-from-left 1.6s ease-in-out both",
@@ -19,10 +24,15 @@ module.exports = {
         "appear-from-bottom": "appear-from-bottom 1.6s ease-in-out both",
         "disappear-to-bottom": "disappear-to-bottom 1.6s ease-in-out both",
       },
+      spacing: {
+        vh: "1vh",
+        vw: "1vw",
+        pc: "1%",
+      },
       keyframes: {
         "appear-from-left": {
           "0%": {
-            transform: "translate(-200px, 0px)",
+            transform: "translate(-150px, 0px)",
             opacity: 0,
           },
           "100%": {
@@ -32,7 +42,7 @@ module.exports = {
         },
         "disappear-to-left": {
           "100%": {
-            transform: "translate(-200px, 0px)",
+            transform: "translate(-150px, 0px)",
             opacity: 0,
           },
           "0%": {
@@ -42,7 +52,7 @@ module.exports = {
         },
         "appear-from-right": {
           "0%": {
-            transform: "translate(200px, 0px)",
+            transform: "translate(150px, 0px)",
             opacity: 0,
           },
           "100%": {
@@ -52,7 +62,7 @@ module.exports = {
         },
         "disappear-to-right": {
           "100%": {
-            transform: "translate(200px, 0px)",
+            transform: "translate(150px, 0px)",
             opacity: 0,
           },
           "0%": {
@@ -62,7 +72,7 @@ module.exports = {
         },
         "appear-from-top": {
           "0%": {
-            transform: "translate(0px, -200px)",
+            transform: "translate(0px, -150px)",
             opacity: 0,
           },
           "100%": {
@@ -72,7 +82,7 @@ module.exports = {
         },
         "disappear-to-top": {
           "100%": {
-            transform: "translate(0px, -200px)",
+            transform: "translate(0px, -150px)",
             opacity: 0,
           },
           "0%": {
@@ -82,7 +92,7 @@ module.exports = {
         },
         "appear-from-bottom": {
           "0%": {
-            transform: "translate(0px, 200px)",
+            transform: "translate(0px, 150px)",
             opacity: 0,
           },
           "100%": {
@@ -92,7 +102,7 @@ module.exports = {
         },
         "disappear-to-bottom": {
           "100%": {
-            transform: "translate(0px, 200px)",
+            transform: "translate(0px, 150px)",
             opacity: 0,
           },
           "0%": {

@@ -1,23 +1,18 @@
-import React from "react"
+import React, { FC, PropsWithChildren } from "react"
 import { useEffect, useState, useCallback } from "react"
 
 interface animationHook {
-  (
-    isOpened: boolean,
-    compo: JSX.Element,
-    appearClassName?: string,
-    disappearClassName?: string
-  ): {
+  (isOpened: boolean, appearClassName?: string, disappearClassName?: string): {
     isRender: boolean
-    animationComp: () => JSX.Element
+    animationClasses: string
+    animationEndHandler: () => void
   }
 }
 
-export const useAnimation: animationHook = function (
+export const useAnimate: animationHook = function (
   opened,
-  compo,
-  appearClassName = "show",
-  disappearClassName = "end"
+  appearClassName = "animate-appear-from-bottom",
+  disappearClassName = "animate-disappear-to-bottom"
 ) {
   const [isAnimate, setIsAnimate] = useState<boolean>(opened)
   const [isRender, setIsRender] = useState<boolean>(opened || isAnimate)
@@ -60,29 +55,10 @@ export const useAnimation: animationHook = function (
     },
     [opened]
   )
-  // JSX Element 외에도 ReactNode[] 등 여러가지 확인해봐야 할 듯.
-  const animationComp: () => JSX.Element = useCallback(
-    function () {
-      return React.createElement(
-        "div",
-        {
-          className: `empty-box ${animationClasses}`,
-          onAnimationEnd: animationEndHandler,
-        },
-        compo
-      )
-    },
-    [animationClasses, animationEndHandler, compo]
-  )
-
-  // const animationCompo = function():JSX.Element {
-  //   return (
-  //       <div className=`empty-box ${animationClasses}` onAnimationEnd={animationEndHandler}>{compo}</div>
-  //     )
-  // }
 
   return {
     isRender,
-    animationComp,
+    animationClasses,
+    animationEndHandler,
   }
 }
