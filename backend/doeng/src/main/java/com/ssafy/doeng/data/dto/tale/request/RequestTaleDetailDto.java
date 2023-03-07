@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @AllArgsConstructor
 @Setter
-public class RequestTailDetailDto {
+public class RequestTaleDetailDto {
 
     private long memberId;
     private int taleId;

@@ -1,7 +1,9 @@
 package com.ssafy.doeng.controller;
 
 import com.ssafy.doeng.data.dto.picture.response.ResponseProgressImageDto;
+import com.ssafy.doeng.data.dto.review.response.ResponseReviewDto;
 import com.ssafy.doeng.data.dto.scene.response.ResponseProgressSceneDto;
+import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleListDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleDetailDto;
@@ -13,7 +15,6 @@ import java.util.List;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -112,5 +113,44 @@ public class MyPageController {
                 .build();
 
         return ResponseEntity.ok().body(paymentTaleListDto);
+    }
+
+    @GetMapping("/tale-list/{taleId}")
+    public ResponseEntity<ResponsePaymentTaleDetailDto> getPaymentDetail(@PathVariable("taleId") long taleId) {
+        LOGGER.info("책 구매 목록 상세 api 들어옴: {}", taleId);
+
+        ResponseReviewDto myReview = ResponseReviewDto.builder()
+                .id(1)
+                .memberId(1)
+                .score(4)
+                .content("너무 조아요")
+                .build();
+
+        List<ResponseReviewDto> reviewDtoList = new ArrayList<>();
+        ResponseReviewDto reviewDto1 = ResponseReviewDto.builder()
+                .id(2)
+                .memberId(2)
+                .score(3)
+                .content("그저 그래여")
+                .build();
+        ResponseReviewDto reviewDto2 = ResponseReviewDto.builder()
+                .id(3)
+                .memberId(3)
+                .score(1)
+                .content("너무 별로에여")
+                .build();
+        reviewDtoList.add(reviewDto1);
+        reviewDtoList.add(reviewDto2);
+
+        ResponsePaymentTaleDetailDto responsePaymentTaleDetailDto = ResponsePaymentTaleDetailDto.builder()
+                .id(1)
+                .title("백설공쥬")
+                .backgroundImage("path")
+                .score(4.5)
+                .purchased(true)
+                .myReview(myReview)
+                .reviewList(reviewDtoList)
+                .build();
+        return ResponseEntity.ok().body(responsePaymentTaleDetailDto);
     }
 }

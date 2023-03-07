@@ -1,8 +1,8 @@
-package com.ssafy.doeng.data.entity.scene;
+package com.ssafy.doeng.data.entity.test;
 
-import com.ssafy.doeng.data.entity.script.Script;
+import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.entity.tale.Tale;
-import java.util.List;
+import com.ssafy.doeng.data.entity.word.Word;
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -11,7 +11,6 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,23 +23,27 @@ import lombok.Setter;
 @AllArgsConstructor
 @Builder
 @NoArgsConstructor
-public class Scene {
+public class Test {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
+
+    @Column(nullable = false)
+    private int testCount;
+
+    @Column(columnDefinition="tinyint(1) default 1")
+    private boolean isCorrect;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "tale_id", nullable = false)
     private Tale tale;
-    @OneToMany(mappedBy = "scene", fetch = FetchType.LAZY)
-    private List<Script> scripts;
-    @Column(nullable = false)
-    private String title;
-    @Column(nullable = false)
-    private String image;
-    @Column(nullable = false)
-    private String sceneOrder;
-    @Column(nullable = false)
-    private String interactiveType;
-    @Column(nullable = false)
-    private String backgroundMusic;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "member_id", nullable = false)
+    private Member member;
+
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "word_id", nullable = false)
+    private Word word;
 }
