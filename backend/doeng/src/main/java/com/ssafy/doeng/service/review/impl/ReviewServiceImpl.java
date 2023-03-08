@@ -10,6 +10,8 @@ import com.ssafy.doeng.data.entity.tale.Tale;
 import com.ssafy.doeng.data.repository.member.MemberRepository;
 import com.ssafy.doeng.data.repository.review.ReviewRepository;
 import com.ssafy.doeng.data.repository.tale.TaleRepository;
+import com.ssafy.doeng.errors.code.ReviewErrorCode;
+import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.service.review.ReviewService;
 import java.util.ArrayList;
 import java.util.List;
@@ -58,7 +60,7 @@ public class ReviewServiceImpl implements ReviewService {
         if (reviewRepository.existsById(reviewId)) {
             reviewRepository.deleteById(reviewId);
         } else {
-            throw new RuntimeException();
+            throw new ErrorException(ReviewErrorCode.REVIEW_NOT_FOUND);
         }
     }
 

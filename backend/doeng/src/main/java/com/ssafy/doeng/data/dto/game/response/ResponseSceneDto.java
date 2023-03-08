@@ -14,7 +14,7 @@ import lombok.ToString;
 @ToString
 public class ResponseSceneDto {
     private long id;
-    private String sequence;
+    private String image;
     private int sceneOrder;
     private int interactiveType;
     private String backgroundMusic;
