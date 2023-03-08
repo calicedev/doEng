@@ -15,7 +15,7 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
     Review findByMember(Member member);
     List<Review> findByTaleOrderByCreatedAtDesc(Tale tale);
     Slice<Review> findByTaleOrderByCreatedAtDesc(Tale tale, Pageable pageable);
-    @Query("select r.tale.id, sum(r.score) from Review r "
+    @Query("select r.tale.id, count(r.score), sum(r.score) from Review r "
             + "where r.tale.id =: taleId "
             + "group by r.tale.id")
     Object[] findReviewsGroupByTale(@Param("taleId") long taleId);

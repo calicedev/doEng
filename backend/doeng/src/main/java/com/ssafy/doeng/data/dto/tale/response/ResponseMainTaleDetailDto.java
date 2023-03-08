@@ -11,7 +11,8 @@ import lombok.Getter;
 public class ResponseMainTaleDetailDto {
 
     private String title;
-    private int progress;
+    private int sceneOrder;
+    private int sceneCount;
     private String mainImage;
     private List<ResponseWordDto> wordList;
 }
