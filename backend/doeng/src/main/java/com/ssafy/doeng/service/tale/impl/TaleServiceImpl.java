@@ -1,5 +1,6 @@
 package com.ssafy.doeng.service.tale.impl;
 
+import com.ssafy.doeng.data.dto.review.vo.ReviewSum;
 import com.ssafy.doeng.data.dto.tale.request.RequestTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDto;
@@ -21,6 +22,7 @@ import com.ssafy.doeng.service.Common;
 import com.ssafy.doeng.service.tale.TaleService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Set;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -49,16 +51,21 @@ public class TaleServiceImpl implements TaleService {
     public ResponsePaymentTaleListDto getPaymentTaleList(long memberId, Pageable pageable) {
 
         Slice<Tale> tales = taleRepository.findAll(pageable);
-        Member member = memberRepository.getById(memberId);
+        Member member = common.getMember(memberId);
         List<ResponsePaymentTaleDto> paymentTaleDtoList = new ArrayList<>();
         for (Tale t:tales) {
             boolean isPurchased = paymentRepository.existsByMemberAndTale(member, t);
-//            reviewRepository.findReviewsGroupByTale().stream()
+            Optional<ReviewSum> reviewSum = reviewRepository.findReviewsGroupByTale(t.getId());
+            double score = 0.0;
+            if(reviewSum.isPresent()) {
+                double sum = reviewSum.get().getSum();
+                score = Math.round((sum / reviewSum.get().getCount()) * 10) / 10.0;
+            }
             ResponsePaymentTaleDto paymentTaleDto = ResponsePaymentTaleDto.builder()
                     .id(t.getId())
                     .title(t.getTitle())
                     .backgroundImage(t.getBackgroundImage())
-                    .score(5)
+                    .score(score)
                     .purchased(isPurchased)
                     .build();
             paymentTaleDtoList.add(paymentTaleDto);
