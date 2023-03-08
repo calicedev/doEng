@@ -10,5 +10,5 @@ import lombok.Setter;
 public class RequestTaleDetailDto {
 
     private long memberId;
-    private int taleId;
+    private long taleId;
 }

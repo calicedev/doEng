@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 @Getter
 public class ResponseMainTaleDetailDto {
-
+    private long id;
     private String title;
     private int sceneOrder;
     private int sceneCount;

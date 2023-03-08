@@ -9,7 +9,7 @@ import lombok.Getter;
 @Builder
 public class ResponseWordDto {
 
-    private int id;
+    private long id;
     private String image;
     private String engWord;
     private String korWord;
