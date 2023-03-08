@@ -36,7 +36,6 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 @RestController
-@Transactional
 @RequestMapping("/mypage")
 @RequiredArgsConstructor
 public class MyPageController {
@@ -189,8 +188,11 @@ public class MyPageController {
     @PostMapping("/review/{taleId}")
     private ResponseEntity<String> postReview(@PathVariable("taleId") long taleId,
             @RequestBody RequestReviewDto requestReviewDto) {
+        LOGGER.info("리뷰 post 들어옴 {}", taleId);
         requestReviewDto.setMemberId(2);
         requestReviewDto.setTaleId(taleId);
+        LOGGER.info("score: {}, content: {}", requestReviewDto.getScore(), requestReviewDto.getContent());
+        LOGGER.info("reviewService: {}", reviewService);
         reviewService.save(requestReviewDto);
 
         return ResponseEntity.ok().body("review 저장 완료");
