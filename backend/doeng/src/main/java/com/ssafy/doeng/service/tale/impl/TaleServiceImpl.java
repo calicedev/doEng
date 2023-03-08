@@ -6,6 +6,7 @@ import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.entity.tale.Tale;
 import com.ssafy.doeng.data.repository.member.MemberRepository;
 import com.ssafy.doeng.data.repository.payment.PaymentRepository;
+import com.ssafy.doeng.data.repository.progress.ProgressRepository;
 import com.ssafy.doeng.data.repository.review.ReviewRepository;
 import com.ssafy.doeng.data.repository.tale.TaleRepository;
 import com.ssafy.doeng.service.tale.TaleService;
@@ -29,7 +30,7 @@ public class TaleServiceImpl implements TaleService {
     private final TaleRepository taleRepository;
     private final PaymentRepository paymentRepository;
     private final ReviewRepository reviewRepository;
-
+    private final ProgressRepository progressRepository;
     @Override
     public ResponsePaymentTaleListDto getPaymentTaleList(long memberId, Pageable pageable) {
 
