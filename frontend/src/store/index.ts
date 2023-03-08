@@ -1,21 +1,22 @@
-import { configureStore, combineReducers } from "@reduxjs/toolkit"
+import { configureStore, combineReducers } from '@reduxjs/toolkit'
 // import {getDefaultMiddleware} from "@reduxjs/toolkit"
-import storage from "redux-persist/lib/storage"
-import { persistReducer } from "redux-persist"
-import axios, { AxiosResponse } from "axios"
+import storage from 'redux-persist/lib/storage'
+import { persistReducer } from 'redux-persist'
+import axios, { AxiosResponse } from 'axios'
 // import thunk from "redux-thunk"
-import exampleSlice, { exActions } from "./example-slice"
-// import thunk from "redux-thunk"
+import exampleSlice, { exActions } from './example-slice'
+import tokenSlice, { tokenActions } from './tokenSlice'
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
 
 const rootReducers = combineReducers({
   example: exampleSlice,
+  token: tokenSlice,
 })
 
 const persistConfig = {
-  key: "root",
+  key: 'root',
   storage,
   // whitelist: ["example"], // persist로 유지 할 값들
   // blacklist: ["example"], // persist에서 제외 할 것들
@@ -44,7 +45,7 @@ export const AxiosExample = function (requestData: object) {
   return async function (dispatch: AppDispatch) {
     axios(requestData).then((res: AxiosResponse) => {
       console.log(res.data)
-      dispatch(exActions.changeEx({ exval: "바뀜" }))
+      dispatch(exActions.changeEx({ exval: '바뀜' }))
     })
   }
 }
