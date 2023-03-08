@@ -1,11 +1,7 @@
 package com.ssafy.doeng.controller;
 
-
-import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDto;
-import com.ssafy.doeng.data.dto.word.response.ResponseTestWordDto;
 import com.ssafy.doeng.data.dto.word.response.ResponseWordDto;
 import com.ssafy.doeng.data.dto.word.response.ResponseWordListDto;
-import com.ssafy.doeng.data.dto.word.response.ResponseWordTestDto;
 import java.util.ArrayList;
 import java.util.List;
 import org.slf4j.Logger;

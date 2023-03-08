@@ -9,7 +9,7 @@ import lombok.Getter;
 @AllArgsConstructor
 public class ResponseMainTaleDto {
 
-    private int id;
+    private long id;
     private String title;
     private String backgroundImage;
     private boolean purchased;
