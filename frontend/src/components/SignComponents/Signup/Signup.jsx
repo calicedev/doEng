@@ -3,7 +3,7 @@ function Signup() {
     <div>
       <div>회원가입</div>
     </div>
-  )
+  );
 }
 
-export default Signup
+export default Signup;

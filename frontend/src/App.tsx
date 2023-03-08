@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage'
 import SignPage from './pages/SignPage'
 import MyPage from './pages/MyPage'
 import TaleStorePage from './pages/TaleStorePage'
+import ProgressListPage from "./pages/ProgressListPage";
 
 function App() {
   return (
@@ -19,11 +20,12 @@ function App() {
           <Route path={`signup`} element={<Signup />} />
         </Route>
         <Route path={`/mypage`} element={<MyPage />}>
+          <Route path={"progress"} element={<ProgressListPage />} />
           <Route path={`talestore`} element={<TaleStorePage />} />
         </Route>
       </Routes>
     </div>
-  )
+  );
 }
 
-export default App
+export default App;
