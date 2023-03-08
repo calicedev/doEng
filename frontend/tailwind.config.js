@@ -1,112 +1,151 @@
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
-    "./src/**/*.{js,jsx,ts,tsx}",
-    "./src/**/**/*.{js,jsx,ts,tsx}",
-    "./src/**/**/**/*.{js,jsx,ts,tsx}",
-    "./node_modules/tw-elements/dist/js/**/*.js",
+    './src/**/*.{js,jsx,ts,tsx}',
+    './src/**/**/*.{js,jsx,ts,tsx}',
+    './src/**/**/**/*.{js,jsx,ts,tsx}',
+    './node_modules/tw-elements/dist/js/**/*.js',
   ],
   theme: {
     // screens: {},
     // fontFamily: {},
     extend: {
       screens: {
-        mobile: "400px",
+        mobile: '400px',
       },
-      colors: {},
+      colors: {
+        custom: {
+          primary: {
+            50: '#FFF5EB',
+            100: '#FFE6CE',
+            200: '#FFD2A7',
+            300: '#FFBD7E',
+            400: '#FFA958',
+            500: '#FF9633',
+            600: '#D9802B',
+            700: '#B56B24',
+            800: '#91561D',
+            900: '#734417',
+          },
+          secondary: {
+            50: '#E9FCE6',
+            100: '#CBF7C4',
+            200: '#A2F095',
+            300: '#76E964',
+            400: '#4DE235',
+            500: '#26DC09',
+            600: '#20BB08',
+            700: '#1B9C06',
+            800: '#167D05',
+            900: '#116304',
+          },
+          tertiary: {
+            50: '#FFFDED',
+            100: '#FFFAD4',
+            200: '#FFF7B2',
+            300: '#FEF38F',
+            400: '#FEEF6D',
+            500: '#FEEC4D',
+            600: '#D8C941',
+            700: '#B4A837',
+            800: '#91872C',
+            900: '#726A23',
+          },
+        },
+      },
       animation: {
-        "appear-from-left": "appear-from-left 1.6s ease-in-out both",
-        "disappear-to-left": "disappear-to-left 1.6s ease-in-out both",
-        "appear-from-right": "appear-from-right 1.6s ease-in-out both",
-        "disappear-to-right": "disappear-to-right 1.6s ease-in-out both",
-        "appear-from-top": "appear-from-top 1.6s ease-in-out both",
-        "disappear-to-top": "disappear-to-top 1.6s ease-in-out both",
-        "appear-from-bottom": "appear-from-bottom 1.6s ease-in-out both",
-        "disappear-to-bottom": "disappear-to-bottom 1.6s ease-in-out both",
+        'appear-from-left': 'appear-from-left 1.6s ease-in-out both',
+        'disappear-to-left': 'disappear-to-left 1.6s ease-in-out both',
+        'appear-from-right': 'appear-from-right 1.6s ease-in-out both',
+        'disappear-to-right': 'disappear-to-right 1.6s ease-in-out both',
+        'appear-from-top': 'appear-from-top 1.6s ease-in-out both',
+        'disappear-to-top': 'disappear-to-top 1.6s ease-in-out both',
+        'appear-from-bottom': 'appear-from-bottom 1.6s ease-in-out both',
+        'disappear-to-bottom': 'disappear-to-bottom 1.6s ease-in-out both',
       },
       spacing: {
-        vh: "1vh",
-        vw: "1vw",
-        pc: "1%",
+        vh: '1vh',
+        vw: '1vw',
+        pc: '1%',
       },
       keyframes: {
-        "appear-from-left": {
-          "0%": {
-            transform: "translate(-150px, 0px)",
+        'appear-from-left': {
+          '0%': {
+            transform: 'translate(-150px, 0px)',
             opacity: 0,
           },
-          "100%": {
-            transform: "translate(0px, 0px)",
+          '100%': {
+            transform: 'translate(0px, 0px)',
             opacity: 1,
           },
         },
-        "disappear-to-left": {
-          "100%": {
-            transform: "translate(-150px, 0px)",
+        'disappear-to-left': {
+          '100%': {
+            transform: 'translate(-150px, 0px)',
             opacity: 0,
           },
-          "0%": {
-            transform: "translate(0px, 0px)",
+          '0%': {
+            transform: 'translate(0px, 0px)',
             opacity: 1,
           },
         },
-        "appear-from-right": {
-          "0%": {
-            transform: "translate(150px, 0px)",
+        'appear-from-right': {
+          '0%': {
+            transform: 'translate(150px, 0px)',
             opacity: 0,
           },
-          "100%": {
-            transform: "translate(0px, 0px)",
+          '100%': {
+            transform: 'translate(0px, 0px)',
             opacity: 1,
           },
         },
-        "disappear-to-right": {
-          "100%": {
-            transform: "translate(150px, 0px)",
+        'disappear-to-right': {
+          '100%': {
+            transform: 'translate(150px, 0px)',
             opacity: 0,
           },
-          "0%": {
-            transform: "translate(0px, 0px)",
+          '0%': {
+            transform: 'translate(0px, 0px)',
             opacity: 1,
           },
         },
-        "appear-from-top": {
-          "0%": {
-            transform: "translate(0px, -150px)",
+        'appear-from-top': {
+          '0%': {
+            transform: 'translate(0px, -150px)',
             opacity: 0,
           },
-          "100%": {
-            transform: "translate(0px, 0px)",
+          '100%': {
+            transform: 'translate(0px, 0px)',
             opacity: 1,
           },
         },
-        "disappear-to-top": {
-          "100%": {
-            transform: "translate(0px, -150px)",
+        'disappear-to-top': {
+          '100%': {
+            transform: 'translate(0px, -150px)',
             opacity: 0,
           },
-          "0%": {
-            transform: "translate(0px, 0px)",
+          '0%': {
+            transform: 'translate(0px, 0px)',
             opacity: 1,
           },
         },
-        "appear-from-bottom": {
-          "0%": {
-            transform: "translate(0px, 150px)",
+        'appear-from-bottom': {
+          '0%': {
+            transform: 'translate(0px, 150px)',
             opacity: 0,
           },
-          "100%": {
-            transform: "translate(0px, 0px)",
+          '100%': {
+            transform: 'translate(0px, 0px)',
             opacity: 1,
           },
         },
-        "disappear-to-bottom": {
-          "100%": {
-            transform: "translate(0px, 150px)",
+        'disappear-to-bottom': {
+          '100%': {
+            transform: 'translate(0px, 150px)',
             opacity: 0,
           },
-          "0%": {
-            transform: "translate(0px, 0px)",
+          '0%': {
+            transform: 'translate(0px, 0px)',
             opacity: 1,
           },
         },
