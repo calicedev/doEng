@@ -2,6 +2,7 @@ package com.ssafy.doeng.data.entity.progress;
 
 import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.entity.scene.Scene;
+import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
@@ -32,4 +33,7 @@ public class Progress {
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "scene_id", nullable = false)
     private Scene scene;
+
+//    @Column
+//    private
 }

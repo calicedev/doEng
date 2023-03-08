@@ -54,7 +54,8 @@ public class TaleController {
         ResponseMainTaleDetailDto resopnseDto = ResponseMainTaleDetailDto.builder()
                 .title("백설공주")
                 .wordList(wordList)
-                .progress(1)
+                .sceneOrder(1)
+                .sceneCount(10)
                 .mainImage("메인 이미지 위치")
                 .build();
         LOGGER.info("[TaleController] getTaleDetail 종료");
