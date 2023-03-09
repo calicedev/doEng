@@ -8,6 +8,7 @@ import HomePage from './pages/HomePage'
 import SignPage from './pages/SignPage'
 import MyPage from './pages/MyPage'
 import TaleStorePage from './pages/TaleStorePage'
+import TaleDetailPage from './pages/TaleDetailPage'
 import ProgressListPage from './pages/ProgressListPage'
 import ProfiliePage from 'pages/ProfiliePage'
 
@@ -23,6 +24,7 @@ function App() {
         <Route path={`/mypage`} element={<MyPage />}>
           <Route path={`progress`} element={<ProgressListPage />} />
           <Route path={`talestore`} element={<TaleStorePage />} />
+          <Route path={`talestore/:taleId`} element={<TaleDetailPage />} />
           <Route path={`profile`} element={<ProfiliePage />} />
         </Route>
       </Routes>

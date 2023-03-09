@@ -1,18 +1,18 @@
-import React from "react";
-import dummy from "../components/Progress/DummyData/ProgressList.json";
-import ProgressList from "../components/Progress/ProgressList/ProgressList";
+import React from 'react'
+import dummy from '../components/Progress/DummyData/ProgressList.json'
+import ProgressList from '../components/Progress/ProgressList/ProgressList'
 
 type Tale = {
-  id: number;
-  title: string;
-  backgroundImage: string;
-  progress: number;
-  correctWordCount: number;
-  totalWordCount: number;
-};
+  id: number
+  title: string
+  backgroundImage: string
+  progress: number
+  correctWordCount: number
+  totalWordCount: number
+}
 
 function ProgressListPage() {
-  const { taleList }: { taleList: Tale[] } = dummy;
+  const { taleList }: { taleList: Tale[] } = dummy
 
   return (
     <div>
@@ -23,7 +23,7 @@ function ProgressListPage() {
         ))}
       </div>
     </div>
-  );
+  )
 }
 
-export default ProgressListPage;
+export default ProgressListPage
