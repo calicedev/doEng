@@ -13,6 +13,7 @@ function MyPage() {
       }}
     >
       <MyPageNavigation />
+      <Outlet />
     </div>
   )
 }
