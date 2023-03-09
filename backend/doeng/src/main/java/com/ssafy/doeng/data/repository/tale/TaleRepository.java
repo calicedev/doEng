@@ -9,7 +9,7 @@ import org.springframework.data.repository.query.Param;
 public interface TaleRepository extends JpaRepository<Tale, Long> {
 
     @Query("select distinct t from Tale t "
-            + "join fetch Scene s on s.tale=t "
+            + "left join fetch Scene s on s.tale=t "
             + "where t.id=:taleId")
     Optional<Tale> findByIdFetchScene(@Param("taleId") long taleId);
 }

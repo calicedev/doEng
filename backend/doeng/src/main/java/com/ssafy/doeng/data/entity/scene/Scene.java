@@ -44,7 +44,7 @@ public class Scene {
     @Column(nullable = false)
     private String image;
     @Column(nullable = false)
-    private String sceneOrder;
+    private int sceneOrder;
     @Column(nullable = false)
     private String interactiveType;
     @Column(nullable = false)
