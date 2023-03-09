@@ -14,6 +14,8 @@ import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleListDto;
 import com.ssafy.doeng.data.dto.word.response.ResponseProgressTestResultDto;
+import com.ssafy.doeng.data.entity.progress.Progress;
+import com.ssafy.doeng.data.repository.progress.ProgressRepository;
 import com.ssafy.doeng.service.review.ReviewService;
 import com.ssafy.doeng.service.tale.TaleService;
 import java.util.ArrayList;
@@ -23,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -39,6 +42,7 @@ public class MyPageController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyPageController.class);
     private final TaleService taleService;
     private final ReviewService reviewService;
+    private final ProgressRepository progressRepository;
 
     @GetMapping("/progress")
     public ResponseEntity<ResponseProgressTaleListDto> getProgress() {
@@ -56,8 +60,12 @@ public class MyPageController {
     @GetMapping("/progress/{taleId}")
     public ResponseEntity<ResponseProgressTaleDetailDto> getProgressDetail(@PathVariable("taleId") long taleId) {
         LOGGER.info("진행률 상세 api 들어옴 : {}", taleId);
-
+        long memberId = 2;
         List<ResponseProgressImageDto> progressImageDtoList = new ArrayList<>();
+        List<Progress> progressList = progressRepository.getProgressDetailsByMember(memberId, taleId);
+        LOGGER.info(progressList.get(0).getPictures().get(0).getImage());
+        LOGGER.info(progressList.get(0).getPictures().get(1).getImage());
+        LOGGER.info(progressList.get(0).getScene().getTitle());
         ResponseProgressImageDto progressImageDto = ResponseProgressImageDto.builder()
                 .id(1)
                 .image("path")
@@ -180,8 +188,11 @@ public class MyPageController {
     @PostMapping("/review/{taleId}")
     private ResponseEntity<String> postReview(@PathVariable("taleId") long taleId,
             @RequestBody RequestReviewDto requestReviewDto) {
+        LOGGER.info("리뷰 post 들어옴 {}", taleId);
         requestReviewDto.setMemberId(2);
         requestReviewDto.setTaleId(taleId);
+        LOGGER.info("score: {}, content: {}", requestReviewDto.getScore(), requestReviewDto.getContent());
+        LOGGER.info("reviewService: {}", reviewService);
         reviewService.save(requestReviewDto);
 
         return ResponseEntity.ok().body("review 저장 완료");
