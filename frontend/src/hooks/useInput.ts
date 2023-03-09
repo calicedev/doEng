@@ -16,6 +16,16 @@ type inputHook = (
   onBlurHandler: () => void
 }
 
+export interface inputHooksReturn {
+  inputData: string
+  isValid: boolean | null
+  validMessage: string
+  onChangeHandler: () => void
+  setFirstData: (data: string) => void
+  onResetHandler: () => void
+  onBlurHandler: () => void
+}
+
 // 기본 콜백 함수 설정을 모르겠어서 선언해서 쓰는 것임.
 const initialFunc = function (inputData: string = "필요 없음") {
   return {

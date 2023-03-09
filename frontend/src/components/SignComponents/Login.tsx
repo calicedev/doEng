@@ -1,15 +1,18 @@
-import { FormEvent, useRef } from "react"
-import { useInput } from "../../../hooks/useInput"
-import { idValidation, passwordValidation } from "../../../utils/validation"
-import InputWithValidation from "../../UI/InputWithValidation"
-import LogoImg from "../../../assets/images/doEngLogo.png"
+import { FormEvent, useRef, useState, useEffect, useCallback } from "react"
+import { useInput } from "../../hooks/useInput"
+import { idValidation, passwordValidation } from "../../utils/validation"
+import InputWithValidation from "../UI/InputWithValidation"
+import LogoImg from "../../assets/images/doEngLogo.png"
 import { useNavigate } from "react-router-dom"
-import useApi from "../../../hooks/useApi"
+import useApi from "../../hooks/useApi"
+import useDebounce from "../../hooks/useDebounce"
+import { AxiosRequestConfig } from "axios"
 
 function Login() {
   const navigate = useNavigate()
   const idInputRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
+
   const {
     inputData: idInput,
     isValid: idValid,
@@ -30,6 +33,10 @@ function Login() {
     isError: loginError,
     axiosRequest: loginRequest,
   } = useApi()
+
+  const idValidate = useCallback(function (data: string) {
+    return idValidation(data)
+  }, [])
 
   const loginHandler = function (e: FormEvent) {
     e.preventDefault()
@@ -86,13 +93,13 @@ function Login() {
           className={`box-border flex flex-row items-center justify-center min-h-[45px] max-h-[80px] min-w-[288px] h-[8vh] max-w-[480px] w-[40vw] gap-4 mt-4`}
         >
           <div
-            className={`box-border flex basis-[1/2] items-center justify-center w-full h-full rounded-full font-hopang-white text-3xl cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[-6deg] hover:-skew-y-[-6deg]`}
+            className={`box-border flex basis-[50%] items-center justify-center w-full h-full rounded-full font-hopang-white text-3xl cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[-6deg] hover:-skew-y-[-6deg]`}
             onClick={findIdHandler}
           >
             회원 정보 찾기
           </div>
           <div
-            className={`box-border flex basis-[1/2] items-center justify-center w-full h-full rounded-full font-hopang-white text-3xl cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[5deg] hover:-skew-y-[5deg]`}
+            className={`box-border flex basis-[50%] items-center justify-center w-full h-full rounded-full font-hopang-white text-3xl cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[5deg] hover:-skew-y-[5deg]`}
             onClick={goSignupHandler}
           >
             회원 가입
