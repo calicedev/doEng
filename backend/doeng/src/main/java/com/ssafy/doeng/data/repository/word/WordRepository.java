@@ -1,5 +1,6 @@
 package com.ssafy.doeng.data.repository.word;
 
+import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.entity.tale.Tale;
 import com.ssafy.doeng.data.entity.word.Word;
 import java.util.List;
@@ -23,4 +24,12 @@ public interface WordRepository extends JpaRepository<Word, Long> {
             + "where s.tale=:tale "
             + "order by s.sceneOrder")
     List<Word> findTaleWordsByTale(@Param("tale") Tale tale);
+
+
+    @Query("select distinct w from MemberHasWord mhw "
+            + "join mhw.word w "
+            + "join mhw.member m "
+            + "where m=:member")
+    List<Word> findWordByMemberIdDistinct(@Param("member") Member member);
+
 }
