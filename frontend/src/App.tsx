@@ -10,6 +10,7 @@ import MyPage from './pages/MyPage'
 import TaleStorePage from './pages/TaleStorePage'
 import ProgressListPage from './pages/ProgressListPage'
 import ProgressDetailPage from 'pages/ProgressDetailPage'
+import ProfiliePage from 'pages/ProfiliePage'
 
 function App() {
   return (
@@ -24,6 +25,7 @@ function App() {
           <Route path={`progress`} element={<ProgressListPage />} />
           <Route path={`progress/:taleId`} element={<ProgressDetailPage />} />
           <Route path={`talestore`} element={<TaleStorePage />} />
+          <Route path={`profile`} element={<ProfiliePage />} />
         </Route>
       </Routes>
     </div>
