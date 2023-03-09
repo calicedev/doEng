@@ -5,9 +5,11 @@ import com.ssafy.doeng.data.entity.tale.Tale;
 import com.ssafy.doeng.data.entity.word.Word;
 import java.util.List;
 import java.util.Set;
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
+import org.springframework.security.core.parameters.P;
 
 public interface WordRepository extends JpaRepository<Word, Long> {
 
@@ -32,4 +34,11 @@ public interface WordRepository extends JpaRepository<Word, Long> {
             + "where m=:member")
     List<Word> findWordByMemberIdDistinct(@Param("member") Member member);
 
+    @Query("SELECT w FROM Word w "
+            + "where w not in :found "
+            + "ORDER BY RAND() ")
+    List<Word> findWordByRandomNotAnswer(@Param("found") List<Word> testWordList,
+            Pageable page);
+
+    List<Word> findWordByIdIn(List<Long> wordIn);
 }
