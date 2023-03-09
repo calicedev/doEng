@@ -1,24 +1,25 @@
 import React, { FC, PropsWithChildren, MouseEvent, ReactNode } from 'react'
 
 interface Props {
-  icon: ReactNode
-  label: string
-  onClick?: (e: MouseEvent<HTMLElement>) => void
-  size?: 'small' | 'medium' | 'large'
-  colorClass?: string
-  disabled?: boolean
-  labelPosition?: 'up' | 'down' | 'left' | 'right'
+  icon: ReactNode // 아이콘: <svg/> react-icons 라이브러리 사용을 추천
+  label?: string // 라벨: 아이콘과 함께 띄울 문구
+  onClick?: (e: MouseEvent<HTMLElement>) => void // 클릭 시 동작 함수
+  size?: 'small' | 'medium' | 'large' // 크기: sizing 옵션
+  colorClass?: string // 색깔: tailwind 클래스
+  disabled?: boolean // 아이콘 클릭 가능 여부
+  labelPosition?: 'up' | 'down' | 'left' | 'right' // 아이콘을 기준으로 한 라벨의 위치
 }
 
 const IconButton: FC<PropsWithChildren<Props>> = function ({
   icon,
-  label,
+  label = '',
   onClick = () => {},
   size = 'medium',
   colorClass = 'text-yellow-100',
   disabled = false,
   labelPosition = 'down',
 }) {
+  // 라벨 위치를 조정하는 tailwind 클래스 할당
   let positionClass = ''
   switch (labelPosition) {
     case 'down':
@@ -35,19 +36,25 @@ const IconButton: FC<PropsWithChildren<Props>> = function ({
       break
   }
 
-  let sizeClass = ''
+  // 아이콘과 라벨 크기를 조절하는 tailwind 클래스 할당
+  let iconSizeClass = ''
+  let labelSizeClass = ''
   switch (size) {
     case 'small':
-      sizeClass = 'text-base'
+      iconSizeClass = 'text-xl'
+      labelSizeClass = 'text-base'
       break
     case 'medium':
-      sizeClass = 'text-lg'
+      iconSizeClass = 'text-4xl'
+      labelSizeClass = 'text-lg'
       break
     case 'large':
-      sizeClass = 'text-xl'
+      iconSizeClass = 'text-6xl'
+      labelSizeClass = 'text-xl'
       break
   }
 
+  // disabled 옵션에 따라 버튼 동작여부 결정
   const handleClick = (e: MouseEvent<HTMLElement>) => {
     if (disabled) return
     onClick(e)
@@ -55,11 +62,11 @@ const IconButton: FC<PropsWithChildren<Props>> = function ({
 
   return (
     <div
-      className={`flex ${positionClass} ${colorClass} ${sizeClass} justify-center items-center cursor-pointer`}
+      className={`flex ${positionClass} ${colorClass} justify-center items-center cursor-pointer`}
       onClick={handleClick}
     >
-      {icon}
-      {label ? <div>{label}</div> : null}
+      <div className={`${iconSizeClass}`}>{icon}</div>
+      {label ? <div className={`${labelSizeClass}`}>{label}</div> : null}
     </div>
   )
 }
