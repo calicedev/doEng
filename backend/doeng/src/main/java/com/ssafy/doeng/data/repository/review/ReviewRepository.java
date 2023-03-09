@@ -14,8 +14,8 @@ import org.springframework.data.repository.query.Param;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
     boolean existsById(long reviewId);
-    Review findByMember(Member member);
-    List<Review> findByTaleOrderByCreatedAtDesc(Tale tale);
+    boolean existsByTaleAndMember(Tale tale, Member member);
+    List<Review> findByTale_IdOrderByCreatedAtDesc(long taleId);
     Slice<Review> findByTaleOrderByCreatedAtDesc(Tale tale, Pageable pageable);
     @Query("select "
             + "new com.ssafy.doeng.data.dto.review.vo.ReviewSum(r.tale.id, count(r.score), sum(r.score)) "
@@ -23,4 +23,5 @@ public interface ReviewRepository extends JpaRepository<Review, Long> {
             + "where r.tale.id = :taleId "
             + "group by r.tale.id")
     Optional<ReviewSum> findReviewsGroupByTale(@Param("taleId") long taleId);
+    Optional<Review> findByTale_IdAndMember_Id(long taleId, long memberId);
 }

@@ -37,6 +37,11 @@ public class ReviewServiceImpl implements ReviewService {
         LOGGER.info("[리뷰 저장 service 들어옴]");
         Member member = memberRepository.getById(requestReviewDto.getMemberId());
         Tale tale = taleRepository.getById(requestReviewDto.getTaleId());
+
+        if(reviewRepository.existsByTaleAndMember(tale, member)) {
+            throw new ErrorException(ReviewErrorCode.REVIEW_CONFLICT);
+        }
+
         Review review = Review.builder()
                 .member(member)
                 .tale(tale)
@@ -50,6 +55,10 @@ public class ReviewServiceImpl implements ReviewService {
     public void modifyReview(RequestReviewModifyDto requestReviewModifyDto) {
         LOGGER.info("[리뷰 수정 api: {}]", requestReviewModifyDto.getReviewId());
         Review review = reviewRepository.getById(requestReviewModifyDto.getReviewId());
+        if (!reviewRepository.existsById(review.getId())) {
+            throw new ErrorException(ReviewErrorCode.REVIEW_NOT_FOUND);
+        }
+
         review.setScore(requestReviewModifyDto.getScore());
         review.setContent(requestReviewModifyDto.getContent());
     }

@@ -7,6 +7,7 @@ import com.ssafy.doeng.data.dto.review.request.RequestReviewModifyDto;
 import com.ssafy.doeng.data.dto.review.response.ResponseReviewDto;
 import com.ssafy.doeng.data.dto.review.response.ResponseReviewListDto;
 import com.ssafy.doeng.data.dto.scene.response.ResponseProgressSceneDto;
+import com.ssafy.doeng.data.dto.tale.request.RequestTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleListDto;
@@ -45,14 +46,10 @@ public class MyPageController {
     private final ProgressRepository progressRepository;
 
     @GetMapping("/progress")
-    public ResponseEntity<ResponseProgressTaleListDto> getProgress() {
+    public ResponseEntity<ResponseProgressTaleListDto> getProgress(Pageable pageable) {
         LOGGER.info("진행률 리스트 api 들어옴");
-        List<ResponseProgressTaleDto> taleList = new ArrayList<>();
-        taleList.add(new ResponseProgressTaleDto(1, "백설공주", "path", 75, 3, 5));
-        taleList.add(new ResponseProgressTaleDto(2, "워녕곤듀", "path2", 50, 5, 5));
-        ResponseProgressTaleListDto progressTaleListDto = ResponseProgressTaleListDto.builder()
-                .taleList(taleList)
-                .build();
+        long memberId = 1;
+        ResponseProgressTaleListDto progressTaleListDto = taleService.getProgressTaleList(memberId, pageable);
 
         return ResponseEntity.ok().body(progressTaleListDto);
     }
@@ -135,7 +132,7 @@ public class MyPageController {
     @GetMapping("/tale-list")
     public ResponseEntity<ResponsePaymentTaleListDto> getPaymentTaleList(Pageable pageable) {
         LOGGER.info("구매 관련 책 목록 들어옴");
-        long memberId = 1;
+        long memberId = 2;
         ResponsePaymentTaleListDto paymentTaleListDto = taleService.getPaymentTaleList(memberId, pageable);
         return ResponseEntity.ok().body(paymentTaleListDto);
     }
@@ -143,45 +140,8 @@ public class MyPageController {
     @GetMapping("/tale-list/{taleId}")
     public ResponseEntity<ResponsePaymentTaleDetailDto> getPaymentDetail(@PathVariable("taleId") long taleId) {
         LOGGER.info("책 구매 목록 상세 api 들어옴: {}", taleId);
-
-        ResponseReviewDto myReview = ResponseReviewDto.builder()
-                .id(1)
-                .memberId(1)
-                .score(4)
-                .content("너무 조아요")
-                .build();
-
-        List<ResponseReviewDto> reviewDtoList = new ArrayList<>();
-        ResponseReviewDto reviewDto1 = ResponseReviewDto.builder()
-                .id(2)
-                .memberId(2)
-                .score(3)
-                .content("그저 그래여")
-                .build();
-        ResponseReviewDto reviewDto2 = ResponseReviewDto.builder()
-                .id(3)
-                .memberId(3)
-                .score(1)
-                .content("너무 별로에여")
-                .build();
-        reviewDtoList.add(reviewDto1);
-        reviewDtoList.add(reviewDto2);
-
-        ResponseReviewListDto reviewListDto = ResponseReviewListDto.builder()
-                .reviewList(reviewDtoList)
-                .build();
-
-        ResponsePaymentTaleDetailDto responsePaymentTaleDetailDto = ResponsePaymentTaleDetailDto.builder()
-                .id(1)
-                .title("백설공쥬")
-                .backgroundImage("path")
-                .description("백설곤듀와 난쟁이들 블라블ㄹ라")
-                .score(4.5)
-                .price(15000)
-                .purchased(true)
-                .myReview(myReview)
-                .reviewList(reviewListDto)
-                .build();
+        long memberId = 2;
+        ResponsePaymentTaleDetailDto responsePaymentTaleDetailDto = taleService.getPaymentTaleDetail(memberId, taleId);
         return ResponseEntity.ok().body(responsePaymentTaleDetailDto);
     }
 
@@ -191,8 +151,6 @@ public class MyPageController {
         LOGGER.info("리뷰 post 들어옴 {}", taleId);
         requestReviewDto.setMemberId(2);
         requestReviewDto.setTaleId(taleId);
-        LOGGER.info("score: {}, content: {}", requestReviewDto.getScore(), requestReviewDto.getContent());
-        LOGGER.info("reviewService: {}", reviewService);
         reviewService.save(requestReviewDto);
 
         return ResponseEntity.ok().body("review 저장 완료");

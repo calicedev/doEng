@@ -12,10 +12,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ResponseProgressTaleDto {
-    private int id;
+    private long id;
     private String title;
     private String backgroundImage;
     private int progress;
-    private int correctWordCount;
-    private int totalWordCount;
 }
