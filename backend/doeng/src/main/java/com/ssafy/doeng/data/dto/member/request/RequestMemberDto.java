@@ -11,26 +11,21 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Getter
 @AllArgsConstructor
 @NoArgsConstructor
-public class RequestSignupDto {
+public class RequestMemberDto {
 
     private String memberId;
     private String password;
-    private String name;
-    private String nickname;
-    private String email;
-    private String phone;
 
 
     public Member toMember(PasswordEncoder passwordEncoder) {
         return Member.builder()
                 .memberId(memberId)
                 .password(passwordEncoder.encode(password))
-                .name(name)
-                .nickname(nickname)
-                .email(email)
-                .phone(phone)
                 .authority(Authority.ROLE_USER)
                 .build();
     }
 
+    public UsernamePasswordAuthenticationToken toAuthentication() {
+        return new UsernamePasswordAuthenticationToken(memberId, password);
+    }
 }
