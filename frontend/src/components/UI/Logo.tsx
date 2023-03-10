@@ -1,8 +1,9 @@
 import React, { FC, PropsWithChildren } from "react"
-import LogoImg from "assets/images/doEngLogo.png"
+import LogoImg from "../../assets/images/doEngLogo.png"
 import { useNavigate } from "react-router-dom"
 
 interface Props {
+  height?: string
   width?: string // 로고의 너비
   disabled?: boolean // 로고 클릭 시 메인화면으로 이동 여부
 }

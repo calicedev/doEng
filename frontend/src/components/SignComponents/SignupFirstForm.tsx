@@ -1,6 +1,5 @@
 import { PropsWithChildren, RefObject, useEffect, useState } from "react"
 import InputInSignup from "../UI/InputInSignup"
-import InputWithValidation from "../UI/InputWithValidation"
 
 interface PropsSignupFirstForm {
   toggleStep: () => void
@@ -70,7 +69,7 @@ const SignupFirstForm = function ({
         setLockEmailTabIndex(() => -1)
       }
     },
-    [emailCertValid]
+    [emailCertValid],
   )
   // useEffect(function() {
   //   if (phoneCertValid) {
@@ -80,7 +79,9 @@ const SignupFirstForm = function ({
   // }, [phoneCertValid])
 
   return (
-    <form>
+    <div>
+      <br />
+      <br />
       <InputInSignup
         inputRef={nameRef}
         labelText={`name`}
@@ -109,8 +110,10 @@ const SignupFirstForm = function ({
             inputBlur={emailBlurHandler}
             maxLength={50}
           >
-            <div className="bg-blue-400 basis-[16%] h-full rounded-full p-5 font-hopang-black text-2xl flex items-center justify-center cursor-pointer shadow-md">
-              인증
+            <div
+              className={`bg-blue-400 basis-[16%] h-full rounded-full lg:p-2 font-hopang-black text-lg lg:text-2xl flex items-center justify-center cursor-pointer shadow-md hover:scale-105 duration-[0.33s]`}
+            >
+              요청
             </div>
           </InputInSignup>
         </div>
@@ -129,7 +132,7 @@ const SignupFirstForm = function ({
             maxLength={50}
           >
             <div
-              className="bg-blue-400 basis-[16%] h-full rounded-full p-5 font-hopang-black text-2xl flex items-center justify-center cursor-pointer shadow-md"
+              className={`bg-blue-400 basis-[16%] h-full rounded-full lg:p-2 font-hopang-black text-lg lg:text-2xl flex items-center justify-center cursor-pointer shadow-md hover:scale-105 duration-[0.33s]`}
               onClick={emailCertClickHandler}
             >
               인증
@@ -152,8 +155,10 @@ const SignupFirstForm = function ({
             inputBlur={phoneBlurHandler}
             maxLength={50}
           >
-            <div className="bg-blue-400 basis-[16%] h-full rounded-full p-5 font-hopang-black text-2xl flex items-center justify-center cursor-pointer shadow-md">
-              인증
+            <div
+              className={`bg-blue-400 basis-[16%] h-full rounded-full lg:p-2 font-hopang-black text-lg lg:text-2xl flex items-center justify-center cursor-pointer shadow-md hover:scale-105 duration-[0.33s]`}
+            >
+              요청
             </div>
           </InputInSignup>
         </div>
@@ -171,14 +176,15 @@ const SignupFirstForm = function ({
             inputBlur={() => {}}
             maxLength={50}
           >
-            <div className="bg-blue-400 basis-[16%] h-full rounded-full p-5 font-hopang-black text-2xl flex items-center justify-center cursor-pointer shadow-md">
+            <div
+              className={`bg-blue-400 basis-[16%] h-full rounded-full lg:p-2 font-hopang-black text-lg lg:text-2xl flex items-center justify-center cursor-pointer shadow-md hover:scale-105 duration-[0.33s]`}
+            >
               인증
             </div>
           </InputInSignup>
         </div>
       </div>
-      <div>다음</div>
-    </form>
+    </div>
   )
 }
 

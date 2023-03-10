@@ -13,7 +13,7 @@ function MyPage() {
       }}
     >
       <MyPageNavigation />
-      <div className="flex flex-col overflow-hidden relative w-full h-full px-5 pt-14 pb-5 border-2 border-orange-400 bg-yellow-100 rounded-lg">
+      <div className="flex flex-col overflow-y-auto relative w-full h-full px-5 pt-14 pb-5 border-2 border-orange-400 bg-yellow-100 rounded-lg">
         <MyPageTab />
         <Outlet />
       </div>

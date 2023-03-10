@@ -7,8 +7,13 @@ import { useNavigate } from "react-router-dom"
 import useApi from "../../hooks/useApi"
 import useDebounce from "../../hooks/useDebounce"
 import { AxiosRequestConfig } from "axios"
+import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
+import { DispatchToast } from "store"
+import { SpinnerDots } from "components/UI/Spinner"
+import Toast from "components/UI/Toast"
 
 function Login() {
+  const dispatch = useStoreDispatch()
   const navigate = useNavigate()
   const idInputRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
@@ -40,7 +45,18 @@ function Login() {
 
   const loginHandler = function (e: FormEvent) {
     e.preventDefault()
-    console.log("로그인!")
+    loginRequest(
+      {
+        method: "post",
+        data: {
+          memberId: `${idInput}`,
+          password: `${passwordInput}`,
+        },
+      },
+      function () {
+        dispatch(DispatchToast("로그인 성공!", true))
+      },
+    )
   }
   const goSignupHandler = function () {
     navigate("/member/signup")
@@ -48,9 +64,18 @@ function Login() {
   const findIdHandler = function () {
     navigate("/member/find")
   }
+  useEffect(
+    function () {
+      if (loginError) {
+        dispatch(DispatchToast("로그인 실패!", false))
+      }
+    },
+    [loginError],
+  )
 
   return (
     <>
+      <Toast />
       <form
         className={`box-border flex flex-col gap-1 items-center justify-center`}
         onSubmit={loginHandler}
@@ -87,7 +112,13 @@ function Login() {
         <button
           className={`box-border flex items-center justify-center bg-lime-400 bg-opacity-80 rounded-full min-h-[45px] max-h-[80px] min-w-[288px] h-[8vh] max-w-[480px] w-[40vw] px-6 py-4 font-hopang-black text-3xl text-black border-lime-600 border-[4px] shadow-xl duration-[0.66s] hover:scale-105 hover:skew-x-[-1deg] hover:skew-y-[-1deg]`}
         >
-          {loginLoading ? "로딩" : loginError ? "에러" : "로그인"}
+          {loginLoading ? (
+            <SpinnerDots />
+          ) : loginError ? (
+            "로그인 실패"
+          ) : (
+            "로그인"
+          )}
         </button>
         <div
           className={`box-border flex flex-row items-center justify-center min-h-[45px] max-h-[80px] min-w-[288px] h-[8vh] max-w-[480px] w-[40vw] gap-4 mt-4`}

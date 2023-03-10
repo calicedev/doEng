@@ -13,8 +13,13 @@ import {
 } from "../../utils/validation"
 import useApi from "../../hooks/useApi"
 import axios from "axios"
+import AnimationBox from "components/UI/AnimationBox"
+import SignupSecondForm from "./SignupSecondForm"
+import { FaArrowLeft, FaArrowRight } from "react-icons/fa"
+import { useNavigate } from "react-router-dom"
 
 function Signup() {
+  const navigate = useNavigate()
   const [step, setStep] = useState<boolean>(true)
   function toggleStep(): void {
     setStep((val) => !val)
@@ -54,7 +59,7 @@ function Signup() {
     onChangeHandler: emailChangeHandler,
     onBlurHandler: emailBlurHandler,
   } = useInput(emailRef, emailValidation, 50)
-  console.log(emailValid)
+
   const {
     inputData: phoneInput,
     isValid: phoneValid,
@@ -87,7 +92,6 @@ function Signup() {
   /////////////////////////////////////////////////////////////////////////
   // PW2 로직 모음
   /////////////////////////////////////////////////////////////////////////
-
   // pw2 로직 변수들
   const [pw2Input, setpw2Input] = useState<string>("")
   const [pw2Valid, setPw2Valid] = useState<boolean | null>(null)
@@ -95,7 +99,10 @@ function Signup() {
   const [pw2Touched, setPw2Touched] = useState<boolean>(false)
   // const password2Validation = function () {}  validation 함수는 useEffect로 째려보세 해서 해결.
   const pw2ChangeHandler = function () {
-    if (pw2Ref.current && pw2Ref.current.value.length > 16) {
+    if (!pw2Ref.current) {
+      return
+    }
+    if (pw2Ref.current.value.length > 16) {
       return
     } else {
       setpw2Input(() => (pw2Ref.current ? pw2Ref.current.value : ""))
@@ -111,31 +118,30 @@ function Signup() {
   // pw2 valid & validMessage useEffect
   useEffect(
     function () {
-      if (pw2Input.trim().length === 0 && !pw2Touched) {
-        const validMessage = "2차 비밀번호는 필수 입력 값입니다."
-        setPw2ValidMessage(() => validMessage)
+      if (!pw2Touched) {
         return
       }
-      if (pw2Input.trim().length === 0 && pw2Touched) {
+      if (pw2Input.trim().length === 0) {
         const validMessage = "2차 비밀번호는 필수 입력 값입니다."
+        setPw2Valid(() => false)
         setPw2ValidMessage(() => validMessage)
         return
       }
       if (!pw1Valid) {
         setPw2ValidMessage(() => "1차 비밀번호가 유효하지 않습니다.")
+        setPw2Valid(() => false)
         return
       }
+      // 여기가 validation 한 값. true라면 유효, false라면 틀린 것.
       setPw2Valid(() => pw1Input === pw2Input)
       if (pw2Valid) {
         setPw2ValidMessage(() => "2차 비밀번호가 유효합니다.")
         return
-      } else if (!pw2Touched) {
-      } else if (pw2Touched) {
-        const validMessage = "2차 비밀번호가 일치하지 않습니다."
-        setPw2ValidMessage(() => validMessage)
+      } else {
+        setPw2ValidMessage(() => "2차 비밀번호가 일치하지 않습니다.")
       }
     },
-    [pw2Valid, pw1Input, pw1Valid, pw2Input, pw2Touched]
+    [pw2Valid, pw1Input, pw1Valid, pw2Input, pw2Touched],
   )
 
   //////////////////////////////////////////////////////////////
@@ -194,28 +200,60 @@ function Signup() {
     // }
   }
 
+  const signupHandler = function () {}
+
+  const pushLoginHandler = function () {
+    navigate("/member/login")
+  }
+  const pushFindHandler = function () {
+    navigate("/member/find")
+  }
+
   return (
     <div
-      className={`flex flex-col items-center justify-center rounded-[2pc] bg-white bg-opacity-75 w-full h-full px-[2vw] py-[2vh]`}
+      className={`flex flex-col items-start justify-start rounded-[2pc] bg-white bg-opacity-75 w-auto h-full px-[2vw] py-[2vh] min-h-[700px]`}
     >
-      <div className={`basis-[28%] w-full flex items-center justify-center`}>
-        <img alt={`로고`} src={LetsDoEng} className={`w-[66vw]`} />
-      </div>
+      {/* <div
+        className={`basis-[25%] w-full h-[25%] flex items-center justify-center object-contain `}
+      ></div> */}
+      <img
+        alt={`로고`}
+        src={LetsDoEng}
+        className={`lg:basis-[24%] basis-[20%] w-full h-[25%] flex items-center justify-center object-contain`}
+      />
       <div
-        className={`basis-[72%] flex mobile:flex-row flex-col w-full items-center justify-center`}
+        className={`lg:basis-[75%] basis-[80%] flex lg:flex-row flex-col w-full h-[72vh] items-center justify-start object-contain`}
       >
         <div
-          className={`basis-[34%] h-full mobile:w-full w-[70vw] flex flex-col items-center justify-center`}
+          className={`basis-[34%] h-full lg:w-full w-[50vw] flex flex-col items-center justify-center gap-3 pb-[3%]`}
         >
-          <img alt={`fox`} src={SignupFox} />
-          <div>로그인</div>
-          <div>비밀번호 찾기</div>
+          <img
+            alt={`fox`}
+            src={SignupFox}
+            className={`basis-[70%] h-[70%] lg:w-auto w-[50vw] lg:h-[70%] flex flex-col items-center justify-center hover:animate-[shake_0.7s_ease-in-out_1]`}
+          />
+          <div
+            className={`basis-[10%] h-[10%] w-[70%] flex flex-col items-center justify-center font-dolbom-bold text-[1.7rem] py-0.5 bg-yellow-300 rounded-full cursor-pointer hover:scale-[105%] duration-[0.33s] drop-shadow-xl`}
+            onClick={pushLoginHandler}
+          >
+            로그인
+          </div>
+          <div
+            className={`basis-[10%] h-[10%] w-[70%] flex flex-col items-center justify-center font-dolbom-bold text-[1.7rem] py-0.5 bg-yellow-300 rounded-full cursor-pointer hover:scale-[105%] duration-[0.33s] drop-shadow-xl`}
+            onClick={pushFindHandler}
+          >
+            회원정보 찾기
+          </div>
         </div>
         <div
-          className={`basis-[64%] h-full w-[64vw] flex flex-col items-center justify-center overflow-hidden`}
+          className={`basis-[64%] h-full lg:w-[64vw] w-full flex flex-col items-center justify-center object-contain`}
         >
           <div
-            className={`flex flex-row w-full h-[61vh] items-center justify-center`}
+            className={`${
+              step
+                ? `animate-appear-from-left-fast`
+                : `animate-disappear-to-left-fast absolute -z-[31]`
+            }`}
           >
             <SignupFirstForm
               toggleStep={toggleStep}
@@ -245,7 +283,58 @@ function Signup() {
               phoneCertChangeHandler={phoneCertChangeHandler}
               phoneCertClickHandler={phoneCertClickHandler}
             />
-            {/* <div className={`bg-orange-400 w-[100vw] h-[64vh]`}>폼2</div> */}
+          </div>
+          <div
+            className={`${
+              step
+                ? `animate-disappear-to-left-fast absolute -z-[31]`
+                : `animate-appear-from-left-fast`
+            }`}
+          >
+            <SignupSecondForm
+              toggleStep={toggleStep}
+              nickRef={nickRef}
+              nickValid={nickValid}
+              nickValidMessage={nickValidMessage}
+              nickChangeHandler={nickChangeHandler}
+              nickBlurHandler={nickBlurHandler}
+              idRef={IDRef}
+              idValid={idValid}
+              idValidMessage={idValidMessage}
+              idChangeHandler={idChangeHandler}
+              idBlurHandler={idBlurHandler}
+              pw1Ref={pw1Ref}
+              pw1Valid={pw1Valid}
+              pw1ValidMessage={pw1ValidMessage}
+              pw1ChangeHandler={pw1ChangeHandler}
+              pw1BlurHandler={pw1BlurHandler}
+              pw2Ref={pw2Ref}
+              pw2Valid={pw2Valid}
+              pw2ValidMessage={pw2ValidMessage}
+              pw2ChangeHandler={pw2ChangeHandler}
+              pw2BlurHandler={pw2BlurHandler}
+              signupHandler={signupHandler}
+            />
+          </div>
+          <div
+            className={`sticky lg:absolute top-[80vh] left-[46vw] lg:top-[59vh] lg:left-[87.5vw] cursor-pointer min-w-[30px] min-h-[30px] max-w-[100px] max-h-[150px] h-[7%] w-[7%] flex flex-col items-center justify-center hover:scale-[110%] duration-[0.3s]`}
+            onClick={toggleStep}
+          >
+            {step ? (
+              <>
+                <FaArrowRight
+                  className={`min-w-[30px] min-h-[30px] max-w-[50px] max-h-[80px] h-[5%] w-[5%]`}
+                />
+                <div className={`font-jalnan text-xl`}>다음</div>
+              </>
+            ) : (
+              <>
+                <FaArrowLeft
+                  className={`min-w-[30px] min-h-[30px] max-w-[50px] max-h-[80px] h-[5%] w-[5%]`}
+                />
+                <div className={`font-jalnan text-xl`}>이전</div>
+              </>
+            )}
           </div>
         </div>
       </div>

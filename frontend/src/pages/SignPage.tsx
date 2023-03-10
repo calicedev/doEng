@@ -10,12 +10,14 @@ function SignPage() {
 
   return (
     <>
-      <div className={`w-full h-full blur-sm canvas-under-bg-container`}>
+      <div
+        className={`w-full lg:h-full h-auto blur-sm canvas-under-bg-container`}
+      >
         <Wave canvasWidth={canvasWidth} canvasHeight={canvasHeight} />
       </div>
       <div ref={canvasDivRef} className={`page-container`}>
         <div
-          className={`sign-outlet-container h-full w-full rounded-[25px] flex items-center justify-center flex-row`}
+          className={`sign-outlet-container lg:h-full h-auto w-full rounded-[25px] flex items-center justify-center flex-row`}
         >
           <Outlet />
         </div>

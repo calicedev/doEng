@@ -1,15 +1,16 @@
-import axios, { AxiosInstance } from 'axios'
-import store from 'store/index'
-import { tokenActions } from 'store/tokenSlice'
+import axios from "axios"
+import store, { DispatchToast } from "store/index"
+import { tokenActions } from "store/tokenSlice"
 
 /*
 서버에 요청을 날리는 axios instance
 https://yamoo9.github.io/axios/guide/api.html#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%83%9D%EC%84%B1
 */
 
-const apiRequest: AxiosInstance = axios.create({
-  baseURL: 'https://localhost:8080', // 서버 주소
+const apiRequest = axios.create({
+  baseURL: "https://localhost:8080", // 서버 주소
   withCredentials: true, // 쿠키 사용을 위해 설정
+  timeout: 3000,
 })
 
 // request 인터셉터
@@ -30,11 +31,11 @@ apiRequest.interceptors.request.use(
 // response 인터셉터
 apiRequest.interceptors.response.use(
   (response) => {
-    console.log('response', response)
+    console.log("response", response)
     return response
   },
   async (error) => {
-    console.log('error', error)
+    console.log("error", error)
 
     const originalConfig = error.config // 기존 요청 정보 저장 (accessToken 요청 후 재발급을 위해)
     const response = error.response // 에러 정보
@@ -51,14 +52,18 @@ apiRequest.interceptors.response.use(
           return apiRequest(originalConfig) // 기존 요청 새로운 token으로 재시도
         })
         .catch((err) => {
-          alert('다시 로그인 해주세요.')
+          store.dispatch(DispatchToast("다시 로그인 해주세요.", false))
+          // alert("다시 로그인 해주세요.")
         })
     } else if (response.status === 403) {
-      alert('다시 로그인 해주세요.')
+      store.dispatch(DispatchToast("다시 로그인 해주세요.", false))
+      // alert("다시 로그인 해주세요.")
     } else if (response.status >= 500) {
-      alert('서버와의 통신에 문제가 발생하였습니다.')
+      store.dispatch(
+        DispatchToast("서버와의 통신에 문제가 발생하였습니다.", false),
+      )
+      // alert("서버와의 통신에 문제가 발생하였습니다.")
     }
-
     return Promise.reject(error)
   },
 )

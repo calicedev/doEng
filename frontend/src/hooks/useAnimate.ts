@@ -11,8 +11,8 @@ interface animationHook {
 
 export const useAnimate: animationHook = function (
   opened,
-  appearClassName = "animate-appear-from-bottom",
-  disappearClassName = "animate-disappear-to-bottom"
+  appearClassName = "animate-appear-from-bottom-fast",
+  disappearClassName = "animate-disappear-to-bottom-fast",
 ) {
   const [isAnimate, setIsAnimate] = useState<boolean>(opened)
   const [isRender, setIsRender] = useState<boolean>(opened || isAnimate)
@@ -22,19 +22,19 @@ export const useAnimate: animationHook = function (
     function () {
       if (opened) {
         setIsAnimate(() => true)
-        setAnimationClasses(() => appearClassName)
+        setAnimationClasses(() => appearClassName + ` `)
       } else {
-        setAnimationClasses(() => disappearClassName)
+        setAnimationClasses(() => disappearClassName + ` absolute`)
       }
     },
-    [opened, appearClassName, disappearClassName]
+    [opened, appearClassName, disappearClassName],
   )
 
   useEffect(
     function () {
       setIsRender(() => opened || isAnimate)
     },
-    [opened, isAnimate]
+    [opened, isAnimate],
   )
 
   useEffect(
@@ -43,7 +43,7 @@ export const useAnimate: animationHook = function (
         setAnimationClasses(() => "")
       }
     },
-    [isRender]
+    [isRender],
   )
 
   // 열지 않기 원하는데 animation이 끝났을 때만 false로 바꿔준다.
@@ -53,7 +53,7 @@ export const useAnimate: animationHook = function (
         setIsAnimate(() => false)
       }
     },
-    [opened]
+    [opened],
   )
 
   return {
