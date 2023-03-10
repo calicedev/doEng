@@ -1,5 +1,6 @@
 package com.ssafy.doeng.controller;
 
+import com.ssafy.doeng.config.auth.LoginId;
 import com.ssafy.doeng.data.dto.tale.request.RequestTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseWordDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDetailDto;
@@ -24,18 +25,18 @@ public class TaleController {
     private final TaleService taleService;
     private final static Logger LOGGER = LoggerFactory.getLogger(TaleController.class);
     @GetMapping("/list")
-    public ResponseEntity<List<ResponseMainTaleDto>> getTaleList() {
+    public ResponseEntity<List<ResponseMainTaleDto>> getTaleList(@LoginId long memberId) {
         LOGGER.info("[TaleController] getTaleList loginId : {}", 1);
 
-        List<ResponseMainTaleDto> resopnseDto = taleService.getTaleList(1);
+        List<ResponseMainTaleDto> resopnseDto = taleService.getTaleList(memberId);
         LOGGER.info("[TaleController] getTaleList 종료");
         return ResponseEntity.ok().body(resopnseDto);
     }
 
     @GetMapping("{taleId}/detail")
     public ResponseEntity<ResponseMainTaleDetailDto> getTaleDetail(
-            @PathVariable("taleId") int taleId) {
-        RequestTaleDetailDto requestDto = new RequestTaleDetailDto(2, taleId);
+            @PathVariable("taleId") int taleId, @LoginId long memberId) {
+        RequestTaleDetailDto requestDto = new RequestTaleDetailDto(memberId, taleId);
 
         LOGGER.info("[TaleController] getTaleDetail taleId: {} loginId : {}",
                 requestDto.getTaleId(), requestDto.getMemberId());

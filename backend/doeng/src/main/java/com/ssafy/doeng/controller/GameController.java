@@ -1,5 +1,6 @@
 package com.ssafy.doeng.controller;
 
+import com.ssafy.doeng.config.auth.LoginId;
 import com.ssafy.doeng.data.dto.progress.request.RequestPostProgressDto;
 import com.ssafy.doeng.data.dto.scene.response.ResopnseSceneDto;
 import com.ssafy.doeng.data.dto.scene.response.ResopnseSceneListDto;
@@ -28,9 +29,9 @@ public class GameController {
     private final ProgressService progressService;
 
     @GetMapping("/{taleId}/scene")
-    public ResponseEntity<ResopnseSceneListDto> getSceneListByTale(@PathVariable @Min(1) long taleId) {
+    public ResponseEntity<ResopnseSceneListDto> getSceneListByTale(@PathVariable @Min(1) long taleId, @LoginId long memberId) {
         LOGGER.info("[GameController] getSceneListByTale 동화 전체 scene taleId : {}", taleId);
-        ResopnseSceneListDto responseDto = sceneService.getSceneListByTale(taleId, 1);
+        ResopnseSceneListDto responseDto = sceneService.getSceneListByTale(taleId, memberId);
 
         LOGGER.info("[GameController] getSceneListByTale 종료");
         return ResponseEntity.ok().body(responseDto);
@@ -38,17 +39,17 @@ public class GameController {
 
     @GetMapping("/{taleId}/scene/{sceneOrder}")
     public ResponseEntity<ResopnseSceneDto> getSceneByTale(@PathVariable @Min(1) long taleId,
-            @PathVariable @Min(1) int sceneOrder) {
+            @PathVariable @Min(1) int sceneOrder, @LoginId long memberId) {
         LOGGER.info("[GameController] getSceneByTale 동화 scene taleId : {}", taleId);
-        ResopnseSceneDto responseDto = sceneService.getSceneByTale(taleId, 1, sceneOrder);
+        ResopnseSceneDto responseDto = sceneService.getSceneByTale(taleId, memberId, sceneOrder);
 
         LOGGER.info("[GameController] getSceneByTale 종료");
         return ResponseEntity.ok().body(responseDto);
     }
 
     @PostMapping("/scene")
-    public ResponseEntity<String> getSceneByTale(@RequestBody @Valid RequestPostProgressDto requestDto) {
-        requestDto.setMemberId(1);
+    public ResponseEntity<String> getSceneByTale(@RequestBody @Valid RequestPostProgressDto requestDto, @LoginId long memberId) {
+        requestDto.setMemberId(memberId);
         LOGGER.info("[GameController] getSceneByTale 동화 진행도 저장 request : {}", requestDto);
         progressService.save(requestDto);
         LOGGER.info("[GameController] getSceneByTale 동화 진행도 저장");
