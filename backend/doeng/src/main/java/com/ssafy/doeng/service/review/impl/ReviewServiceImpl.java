@@ -53,10 +53,10 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void modifyReview(RequestReviewModifyDto requestReviewModifyDto) {
+    public void modifyReview(RequestReviewModifyDto requestReviewModifyDto, long memberId) {
         LOGGER.info("[리뷰 수정 api: {}]", requestReviewModifyDto.getReviewId());
         Review review = reviewRepository.getById(requestReviewModifyDto.getReviewId());
-        if (!reviewRepository.existsById(review.getId())) {
+        if (!reviewRepository.existsByIdAndMember_Id(review.getId(), memberId)) {
             throw new ErrorException(ReviewErrorCode.REVIEW_NOT_FOUND);
         }
 
@@ -65,9 +65,9 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public void deleteReview(long reviewId) {
+    public void deleteReview(long reviewId, long memberId) {
         LOGGER.info("[리뷰 삭제 api: {}]", reviewId);
-        if (reviewRepository.existsById(reviewId)) {
+        if (reviewRepository.existsByIdAndMember_Id(reviewId, memberId)) {
             reviewRepository.deleteById(reviewId);
         } else {
             throw new ErrorException(ReviewErrorCode.REVIEW_NOT_FOUND);

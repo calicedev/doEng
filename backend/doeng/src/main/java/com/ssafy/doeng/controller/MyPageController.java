@@ -1,5 +1,6 @@
 package com.ssafy.doeng.controller;
 
+import com.ssafy.doeng.config.auth.LoginId;
 import com.ssafy.doeng.data.dto.review.request.RequestReviewDto;
 import com.ssafy.doeng.data.dto.review.request.RequestReviewModifyDto;
 import com.ssafy.doeng.data.dto.review.response.ResponseAllReviewDto;
@@ -32,44 +33,44 @@ public class MyPageController {
     private final ReviewService reviewService;
 
     @GetMapping("/progress")
-    public ResponseEntity<ResponseProgressTaleListDto> getProgress(Pageable pageable) {
+    public ResponseEntity<ResponseProgressTaleListDto> getProgress(Pageable pageable, @LoginId Long id) {
         LOGGER.info("진행률 리스트 api 들어옴");
-        long memberId = 1;
-        ResponseProgressTaleListDto progressTaleListDto = taleService.getProgressTaleList(memberId, pageable);
+
+        ResponseProgressTaleListDto progressTaleListDto = taleService.getProgressTaleList(id, pageable);
 
         return ResponseEntity.ok().body(progressTaleListDto);
     }
 
     @GetMapping("/progress/{taleId}")
-    public ResponseEntity<ResponseProgressTaleDetailDto> getProgressDetail(@PathVariable("taleId") long taleId) {
+    public ResponseEntity<ResponseProgressTaleDetailDto> getProgressDetail(@PathVariable("taleId") long taleId, @LoginId Long id) {
         LOGGER.info("진행률 상세 api 들어옴 : {}", taleId);
-        long memberId = 1;
+
         ResponseProgressTaleDetailDto responseProgressTaleDetailDto
-                = taleService.getProgressTaleDetail(memberId, taleId);
+                = taleService.getProgressTaleDetail(id, taleId);
         return ResponseEntity.ok().body(responseProgressTaleDetailDto);
     }
 
     @GetMapping("/tale-list")
-    public ResponseEntity<ResponsePaymentTaleListDto> getPaymentTaleList(Pageable pageable) {
+    public ResponseEntity<ResponsePaymentTaleListDto> getPaymentTaleList(Pageable pageable, @LoginId Long id) {
         LOGGER.info("구매 관련 책 목록 들어옴");
-        long memberId = 2;
-        ResponsePaymentTaleListDto paymentTaleListDto = taleService.getPaymentTaleList(memberId, pageable);
+
+        ResponsePaymentTaleListDto paymentTaleListDto = taleService.getPaymentTaleList(id, pageable);
         return ResponseEntity.ok().body(paymentTaleListDto);
     }
 
     @GetMapping("/tale-list/{taleId}")
-    public ResponseEntity<ResponsePaymentTaleDetailDto> getPaymentDetail(@PathVariable("taleId") long taleId) {
+    public ResponseEntity<ResponsePaymentTaleDetailDto> getPaymentDetail(@PathVariable("taleId") long taleId, @LoginId Long id) {
         LOGGER.info("책 구매 목록 상세 api 들어옴: {}", taleId);
-        long memberId = 1;
-        ResponsePaymentTaleDetailDto responsePaymentTaleDetailDto = taleService.getPaymentTaleDetail(memberId, taleId);
+
+        ResponsePaymentTaleDetailDto responsePaymentTaleDetailDto = taleService.getPaymentTaleDetail(id, taleId);
         return ResponseEntity.ok().body(responsePaymentTaleDetailDto);
     }
 
     @PostMapping("/review/{taleId}")
     public ResponseEntity<String> postReview(@PathVariable("taleId") long taleId,
-            @RequestBody RequestReviewDto requestReviewDto) {
+            @RequestBody RequestReviewDto requestReviewDto, @LoginId Long id) {
         LOGGER.info("리뷰 post 들어옴 {}", taleId);
-        requestReviewDto.setMemberId(2);
+        requestReviewDto.setMemberId(id);
         requestReviewDto.setTaleId(taleId);
         reviewService.save(requestReviewDto);
 
@@ -78,28 +79,27 @@ public class MyPageController {
 
     @PutMapping("/review/{reviewId}")
     public ResponseEntity<String> putReview(@PathVariable("reviewId") long reviewId,
-            @RequestBody RequestReviewModifyDto requestReviewModifyDto) {
+            @RequestBody RequestReviewModifyDto requestReviewModifyDto, @LoginId Long id) {
         LOGGER.info("리뷰 수정 api {}", reviewId);
         requestReviewModifyDto.setReviewId(reviewId);
-        reviewService.modifyReview(requestReviewModifyDto);
+        reviewService.modifyReview(requestReviewModifyDto, id);
 
         return ResponseEntity.ok().body("review 수정 완료");
     }
 
     @DeleteMapping("/review/{reviewId}")
-    public ResponseEntity<String> deleteReview(@PathVariable("reviewId") long reviewId) {
+    public ResponseEntity<String> deleteReview(@PathVariable("reviewId") long reviewId, @LoginId Long id) {
         LOGGER.info("리뷰 삭제 api {}", reviewId);
-        reviewService.deleteReview(reviewId);
+        reviewService.deleteReview(reviewId, id);
 
         return ResponseEntity.ok().body("review 삭제 완료");
     }
 
     @GetMapping("/review/{taleId}/review-list")
-    public ResponseEntity<ResponseAllReviewDto> getReviewList(@PathVariable("taleId") long taleId, Pageable pageable) {
+    public ResponseEntity<ResponseAllReviewDto> getReviewList(@PathVariable("taleId") long taleId, Pageable pageable, @LoginId Long id) {
         LOGGER.info("리뷰 리스트 get api 호출");
-        //로그인 어떻게 되는지에 따라 바뀔 수도 있음
-        long memberId = 1;
-        ResponseAllReviewDto reviewListDto = reviewService.getReviewList(taleId, memberId, pageable);
+
+        ResponseAllReviewDto reviewListDto = reviewService.getReviewList(taleId, id, pageable);
 
         return ResponseEntity.ok().body(reviewListDto);
     }
