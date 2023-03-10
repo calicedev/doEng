@@ -1,6 +1,8 @@
 package com.ssafy.doeng.data.repository.progress;
 
+import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.entity.progress.Progress;
+import com.ssafy.doeng.data.entity.scene.Scene;
 import com.ssafy.doeng.data.entity.tale.Tale;
 import java.util.List;
 import java.util.Optional;
@@ -23,4 +25,5 @@ public interface ProgressRepository extends JpaRepository<Progress, Long> {
             + "and s.tale.id = :taleId")
     List<Integer> findProgressByMemberAndTale(@Param("memberId") long memberId, @Param("taleId") long taleId);
 
+    Optional<Progress> findByMemberAndScene(Member member, Scene scene);
 }
