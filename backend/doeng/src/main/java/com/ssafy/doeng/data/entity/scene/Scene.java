@@ -47,7 +47,7 @@ public class Scene {
     @Column(nullable = false)
     private int sceneOrder;
     @Column(nullable = false)
-    private String interactiveType;
+    private int interactiveType;
     @Column(nullable = false)
     private String backgroundMusic;
     @OneToMany(mappedBy = "scene")
