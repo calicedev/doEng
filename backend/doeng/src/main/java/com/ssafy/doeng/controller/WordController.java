@@ -1,5 +1,6 @@
 package com.ssafy.doeng.controller;
 
+import com.ssafy.doeng.config.auth.LoginId;
 import com.ssafy.doeng.data.dto.word.response.ResponseWordDto;
 import com.ssafy.doeng.data.dto.word.response.ResponseWordListDto;
 import com.ssafy.doeng.service.word.WordService;
@@ -21,9 +22,9 @@ public class WordController {
     private final WordService wordService;
     private final static Logger LOGGER = LoggerFactory.getLogger(TaleController.class);
     @GetMapping()
-    public ResponseEntity<ResponseWordListDto> getWord() {
-        LOGGER.info("[WordController] getWord loginId : {}", 1);
-        ResponseWordListDto responseDto = wordService.getWord(1);
+    public ResponseEntity<ResponseWordListDto> getWord(@LoginId long memberId) {
+        LOGGER.info("[WordController] getWord loginId : {}", memberId);
+        ResponseWordListDto responseDto = wordService.getWord(memberId);
         LOGGER.info("[WordController] getWord 종료");
         return ResponseEntity.ok().body(responseDto);
     }

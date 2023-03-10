@@ -1,6 +1,7 @@
 package com.ssafy.doeng.controller;
 
 
+import com.ssafy.doeng.config.auth.LoginId;
 import com.ssafy.doeng.data.dto.word.request.RequestListPostGetWord;
 import com.ssafy.doeng.data.dto.word.request.RequestPostGetWord;
 import com.ssafy.doeng.data.dto.word.request.RequestWordTestDto;
@@ -33,8 +34,8 @@ public class WordTestController {
     private final TestService testService;
 
     @GetMapping("/{taleId}")
-    public ResponseEntity<ResponseWordTestDto> getWordTest(@PathVariable("taleId") @Min(1) long taleId) {
-        RequestWordTestDto requestDto = new RequestWordTestDto(1, taleId);
+    public ResponseEntity<ResponseWordTestDto> getWordTest(@PathVariable("taleId") @Min(1) long taleId, @LoginId long memberId) {
+        RequestWordTestDto requestDto = new RequestWordTestDto(memberId, taleId);
         LOGGER.info("[WordTestController] getWordTest taleId : {}, memberId : {}", requestDto.getTaleId(), requestDto.getMemberId());
 
         ResponseWordTestDto resopnseDto = wordService.getWordTest(requestDto);
@@ -44,8 +45,8 @@ public class WordTestController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> postGetWord(@RequestBody @Valid RequestListPostGetWord wordList) {
-        wordList.setMemberId(1);
+    public ResponseEntity<String> postGetWord(@RequestBody @Valid RequestListPostGetWord wordList, @LoginId long memberId) {
+        wordList.setMemberId(memberId);
         System.out.println();
         LOGGER.info("[WordTestController] postGetWord getSize : {}, memberId : {}", wordList.getWordList().size(), wordList.getMemberId());
         testService.save(wordList);
