@@ -1,5 +1,6 @@
 package com.ssafy.doeng.data.entity.scene;
 
+import com.ssafy.doeng.data.entity.progress.Progress;
 import com.ssafy.doeng.data.entity.script.Script;
 import com.ssafy.doeng.data.entity.tale.Tale;
 import com.ssafy.doeng.data.entity.word.Word;
@@ -49,4 +50,6 @@ public class Scene {
     private String interactiveType;
     @Column(nullable = false)
     private String backgroundMusic;
+    @OneToMany(mappedBy = "scene")
+    List<Progress> progresses;
 }
