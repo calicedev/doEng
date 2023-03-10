@@ -1,8 +1,8 @@
 package com.ssafy.doeng.service.tale.impl;
 
+import com.ssafy.doeng.data.dto.material.response.ResponseMaterialDto;
 import com.ssafy.doeng.data.dto.picture.response.ResponseProgressImageDto;
 import com.ssafy.doeng.data.dto.review.response.ResponseReviewDto;
-import com.ssafy.doeng.data.dto.review.response.ResponseReviewListDto;
 import com.ssafy.doeng.data.dto.review.vo.ReviewSum;
 import com.ssafy.doeng.data.dto.scene.response.ResponseProgressSceneDto;
 import com.ssafy.doeng.data.dto.tale.request.RequestTaleDetailDto;
@@ -17,6 +17,7 @@ import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleListDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseWordDto;
 import com.ssafy.doeng.data.dto.word.response.ResponseProgressTestResultDto;
 import com.ssafy.doeng.data.dto.word.response.ResponseProgressWordListDto;
+import com.ssafy.doeng.data.entity.material.Material;
 import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.entity.payment.Payment;
 import com.ssafy.doeng.data.entity.picture.Picture;
@@ -26,6 +27,7 @@ import com.ssafy.doeng.data.entity.scene.Scene;
 import com.ssafy.doeng.data.entity.tale.Tale;
 import com.ssafy.doeng.data.entity.test.Test;
 import com.ssafy.doeng.data.entity.word.Word;
+import com.ssafy.doeng.data.repository.material.MaterialRepository;
 import com.ssafy.doeng.data.repository.member.MemberRepository;
 import com.ssafy.doeng.data.repository.payment.PaymentRepository;
 import com.ssafy.doeng.data.repository.progress.ProgressRepository;
@@ -69,6 +71,7 @@ public class TaleServiceImpl implements TaleService {
     private final WordRepository wordRepository;
     private final Common common;
     private final TestRepository testRepository;
+    private final MaterialRepository materialRepository;
 
     @Override
     public List<ResponseMainTaleDto> getTaleList(long memberId) {
@@ -288,36 +291,41 @@ public class TaleServiceImpl implements TaleService {
 
     public ResponsePaymentTaleDetailDto getPaymentTaleDetail(long memberId, long taleId) {
         LOGGER.info("[책 구매 상세 목록 service] memberId {}, taleId {}", memberId, taleId);
-        Optional<Review> review = reviewRepository.findByTale_IdAndMember_Id(taleId, memberId);
+        Tale tale = common.getTale(taleId);
+        long tId = tale.getId();
+
         ResponseReviewDto myReview = null;
-        if (review.isPresent()) {
-            myReview = ResponseReviewDto.builder()
-                    .id(review.get().getId())
-                    .memberId(review.get().getMember().getId())
-                    .score(review.get().getScore())
-                    .content(review.get().getContent())
-                    .build();
-        }
 
         List<ResponseReviewDto> reviewDtoList = new ArrayList<>();
-        List<Review> reviews = reviewRepository.findByTale_IdOrderByCreatedAtDesc(taleId);
+        List<Review> reviews = reviewRepository.findByTale_IdOrderByCreatedAtDesc(tId);
         for (Review r: reviews) {
-            if(r.getMember().getId() == memberId) continue;
-            ResponseReviewDto reviewDto = ResponseReviewDto.builder()
-                    .id(r.getId())
-                    .memberId(r.getMember().getId())
-                    .score(r.getScore())
-                    .content(r.getContent())
-                    .build();
-            reviewDtoList.add(reviewDto);
+            if(r.getMember().getId() == memberId) {
+                myReview = ResponseReviewDto.builder()
+                        .id(r.getId())
+                        .userId(r.getMember().getMemberId())
+                        .score(r.getScore())
+                        .content(r.getContent())
+                        .build();
+            } else {
+                ResponseReviewDto reviewDto = ResponseReviewDto.builder()
+                        .id(r.getId())
+                        .userId(r.getMember().getMemberId())
+                        .score(r.getScore())
+                        .content(r.getContent())
+                        .build();
+                reviewDtoList.add(reviewDto);
+            }
         }
 
-        ResponseReviewListDto reviewList = ResponseReviewListDto.builder()
-                .reviewList(reviewDtoList)
-                .build();
-
-        Tale tale = taleRepository.findByIdFetchScene(taleId)
-                .orElseThrow(() -> new ErrorException(TaleErrorCode.TALE_NOT_FOUND));
+        List<Material> materials = materialRepository.findByTale(tale);
+        List<ResponseMaterialDto> responseMaterialDtoList = new ArrayList<>();
+        for (Material m:materials) {
+            ResponseMaterialDto materialDto = ResponseMaterialDto.builder()
+                    .id(m.getId())
+                    .name(m.getName())
+                    .build();
+            responseMaterialDtoList.add(materialDto);
+        }
 
         boolean isPurchased = paymentRepository.existsByMemberAndTale(common.getMember(memberId), tale);
         var responsePaymentTaleDetailDto = ResponsePaymentTaleDetailDto.builder()
@@ -328,8 +336,9 @@ public class TaleServiceImpl implements TaleService {
                 .score(getReviewSum(taleId))
                 .price(tale.getPrice())
                 .purchased(isPurchased)
+                .materialList(responseMaterialDtoList)
                 .myReview(myReview)
-                .reviewList(reviewList)
+                .reviewList(reviewDtoList)
                 .build();
 
         return responsePaymentTaleDetailDto;

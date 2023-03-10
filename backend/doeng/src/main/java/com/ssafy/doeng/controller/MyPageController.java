@@ -2,12 +2,11 @@ package com.ssafy.doeng.controller;
 
 import com.ssafy.doeng.data.dto.review.request.RequestReviewDto;
 import com.ssafy.doeng.data.dto.review.request.RequestReviewModifyDto;
-import com.ssafy.doeng.data.dto.review.response.ResponseReviewListDto;
+import com.ssafy.doeng.data.dto.review.response.ResponseAllReviewDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleListDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleListDto;
-import com.ssafy.doeng.data.repository.progress.ProgressRepository;
 import com.ssafy.doeng.service.review.ReviewService;
 import com.ssafy.doeng.service.tale.TaleService;
 import lombok.RequiredArgsConstructor;
@@ -67,10 +66,10 @@ public class MyPageController {
     }
 
     @PostMapping("/review/{taleId}")
-    private ResponseEntity<String> postReview(@PathVariable("taleId") long taleId,
+    public ResponseEntity<String> postReview(@PathVariable("taleId") long taleId,
             @RequestBody RequestReviewDto requestReviewDto) {
         LOGGER.info("리뷰 post 들어옴 {}", taleId);
-        requestReviewDto.setMemberId(1);
+        requestReviewDto.setMemberId(2);
         requestReviewDto.setTaleId(taleId);
         reviewService.save(requestReviewDto);
 
@@ -78,7 +77,7 @@ public class MyPageController {
     }
 
     @PutMapping("/review/{reviewId}")
-    private ResponseEntity<String> putReview(@PathVariable("reviewId") long reviewId,
+    public ResponseEntity<String> putReview(@PathVariable("reviewId") long reviewId,
             @RequestBody RequestReviewModifyDto requestReviewModifyDto) {
         LOGGER.info("리뷰 수정 api {}", reviewId);
         requestReviewModifyDto.setReviewId(reviewId);
@@ -88,7 +87,7 @@ public class MyPageController {
     }
 
     @DeleteMapping("/review/{reviewId}")
-    private ResponseEntity<String> deleteReview(@PathVariable("reviewId") long reviewId) {
+    public ResponseEntity<String> deleteReview(@PathVariable("reviewId") long reviewId) {
         LOGGER.info("리뷰 삭제 api {}", reviewId);
         reviewService.deleteReview(reviewId);
 
@@ -96,11 +95,11 @@ public class MyPageController {
     }
 
     @GetMapping("/review/{taleId}/review-list")
-    private ResponseEntity<ResponseReviewListDto> getReviewList(@PathVariable("taleId") long taleId, Pageable pageable) {
+    public ResponseEntity<ResponseAllReviewDto> getReviewList(@PathVariable("taleId") long taleId, Pageable pageable) {
         LOGGER.info("리뷰 리스트 get api 호출");
         //로그인 어떻게 되는지에 따라 바뀔 수도 있음
         long memberId = 1;
-        ResponseReviewListDto reviewListDto = reviewService.getReviewList(taleId, memberId, pageable);
+        ResponseAllReviewDto reviewListDto = reviewService.getReviewList(taleId, memberId, pageable);
 
         return ResponseEntity.ok().body(reviewListDto);
     }
