@@ -1,7 +1,8 @@
 package com.ssafy.doeng.data.dto.word.request;
 
-import com.sun.istack.NotNull;
 import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.NotNull;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -16,5 +17,6 @@ import lombok.ToString;
 public class RequestListPostGetWord {
     private long memberId;
     @NotNull
+    @Valid
     private List<RequestPostGetWord> wordList;
 }

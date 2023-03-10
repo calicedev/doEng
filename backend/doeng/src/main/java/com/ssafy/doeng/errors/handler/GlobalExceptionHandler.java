@@ -4,6 +4,8 @@ import com.ssafy.doeng.errors.code.CommonErrorCode;
 import com.ssafy.doeng.errors.code.ErrorCode;
 import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.errors.response.ErrorResponseService;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -32,7 +34,15 @@ public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
         return responseService.handleExceptionInternal(errorCode, e.getMessage());
     }
 
+//    @ExceptionHandler(MethodArgumentNotValidException.class)
+//    public ResponseEntity<Object> handleMethodValidException(MethodArgumentNotValidException e, HttpServletRequest request){
+//        final ErrorCode errorCode = CommonErrorCode.INVALID_PARAMETER;
+//        return responseService.handleExceptionInternal(e, errorCode);
+////        return new ResponseEntity<ErrorResponse>(errorResponse, HttpStatus.BAD_REQUEST);
+//    }
+
     @Override
+    @ExceptionHandler({ConstraintViolationException.class})
     public ResponseEntity<Object> handleMethodArgumentNotValid(
             final MethodArgumentNotValidException e,
             final HttpHeaders headers,
