@@ -12,15 +12,13 @@ function ProgressDetailPhotoModal({ isOpen, onClose, children }: ModalProps) {
   }
 
   return (
-    <>
-      <div className="modal-backdrop" onClick={onClose} />
-      <div className="modal-content">
-        <button className="modal-close" onClick={onClose}>
-          X
-        </button>
+    <div>
+      <div onClick={onClose} />
+      <div>
+        <button onClick={onClose}>X</button>
         {children}
       </div>
-    </>
+    </div>
   )
 }
 

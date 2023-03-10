@@ -18,10 +18,8 @@ interface PhotoCard {
 
 function ProgressDetailPhotoCard({ photoCard }: PhotoCard) {
   const [showModal, setShowModal] = useState(false)
-  const [selectedImage, setSelectedImage] = useState("")
 
   const handleImageClick = (image: string) => {
-    setSelectedImage(image)
     setShowModal(true)
   }
   return (
@@ -30,6 +28,7 @@ function ProgressDetailPhotoCard({ photoCard }: PhotoCard) {
       <img
         src={photoCard.imageList[0].image}
         alt="progressPhotoCard"
+        className="cursor-pointer"
         onClick={() => handleImageClick(photoCard.imageList[0].image)}
       />
 
@@ -37,7 +36,9 @@ function ProgressDetailPhotoCard({ photoCard }: PhotoCard) {
         isOpen={showModal}
         onClose={() => setShowModal(false)}
       >
-        <img src={selectedImage} alt="modalImage" />
+        {photoCard.imageList.map((image: SceneImage) => (
+          <img key={image.id} src={image.image} alt="modalImage" />
+        ))}
       </ProgressDetailPhotoModal>
     </div>
   )
