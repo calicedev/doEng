@@ -13,6 +13,7 @@ public class ResponseMainTaleDetailDto {
     private String title;
     private int sceneOrder;
     private int sceneCount;
+    private boolean taleDone;
     private String mainImage;
     private List<ResponseWordDto> wordList;
 }
