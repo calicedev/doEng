@@ -1,7 +1,7 @@
-import React, { FC, PropsWithChildren } from 'react'
-import checkImg from 'assets/checkPurchased.png'
-import StarRating from '../common/StarRating'
-import { useNavigate } from 'react-router-dom'
+import React, { FC, PropsWithChildren } from "react"
+import checkImg from "assets/images/checkPurchased.png"
+import StarRating from "../common/StarRating"
+import { useNavigate } from "react-router-dom"
 
 interface Tale {
   id: number
@@ -36,7 +36,7 @@ const TaleStoreItem: FC<PropsWithChildren<Props>> = function ({ tale }) {
       )}
       <div
         className={`overflow-hidden relative z-0 w-full rounded drop-shadow-md`}
-        style={{ paddingBottom: '133.33%' }}
+        style={{ paddingBottom: "133.33%" }}
       >
         <img
           src={tale.backgroundImage}
