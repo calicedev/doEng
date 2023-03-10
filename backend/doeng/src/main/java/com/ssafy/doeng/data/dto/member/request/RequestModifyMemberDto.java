@@ -12,8 +12,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class RequestModifyMemberDto {
-    private String memberId;
-    private String password;
     private String nickname;
     private String name;
     private String email;

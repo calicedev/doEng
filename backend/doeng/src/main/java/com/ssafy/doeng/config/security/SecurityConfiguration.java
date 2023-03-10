@@ -1,14 +1,12 @@
 package com.ssafy.doeng.config.security;
 
-import com.ssafy.doeng.util.JwtAccessDeniedHandler;
-import com.ssafy.doeng.util.JwtAuthenticationEntryPoint;
-import com.ssafy.doeng.util.JwtSecurityConfig;
-import com.ssafy.doeng.util.TokenProvider;
+import com.ssafy.doeng.jwt.JwtAccessDeniedHandler;
+import com.ssafy.doeng.jwt.JwtAuthenticationEntryPoint;
+import com.ssafy.doeng.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -45,7 +43,7 @@ public class SecurityConfiguration {
                 // 로그인, 회원가입 API 는 토큰이 없는 상태에서 요청이 들어오기 때문에 permitAll 설정
                 .and()
                 .authorizeRequests()
-                .antMatchers("/auth/**").permitAll()
+                .antMatchers("/**/**").permitAll()
                 .anyRequest().authenticated()   // 나머지 API 는 전부 인증 필요
 
                 // JwtFilter 를 addFilterBefore 로 등록했던 JwtSecurityConfig 클래스를 적용
