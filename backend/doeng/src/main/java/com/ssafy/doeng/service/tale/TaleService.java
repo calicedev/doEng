@@ -5,6 +5,7 @@ import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleListDto;
+import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleListDto;
 import java.util.List;
 import org.springframework.data.domain.Pageable;
@@ -16,6 +17,8 @@ public interface TaleService {
     ResponseMainTaleDetailDto getTaleDetail(RequestTaleDetailDto requestDto);
 
     ResponseProgressTaleListDto getProgressTaleList(long memberId, Pageable pageable);
+
+    ResponseProgressTaleDetailDto getProgressTaleDetail(long memberId, long taleId);
 
     ResponsePaymentTaleListDto getPaymentTaleList(long memberId, Pageable pageable);
 

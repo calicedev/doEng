@@ -12,7 +12,8 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class ResponseProgressTestResultDto {
-    private int testCount;
-    private List<ResponseProgressWordListDto> wordList;
+public class ResponseProgressWordListDto {
+    private String engWord;
+    private List<Boolean> correctList;
+
 }

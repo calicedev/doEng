@@ -1,21 +1,28 @@
 package com.ssafy.doeng.service.tale.impl;
 
+import com.ssafy.doeng.data.dto.picture.response.ResponseProgressImageDto;
 import com.ssafy.doeng.data.dto.review.response.ResponseReviewDto;
 import com.ssafy.doeng.data.dto.review.response.ResponseReviewListDto;
 import com.ssafy.doeng.data.dto.review.vo.ReviewSum;
+import com.ssafy.doeng.data.dto.scene.response.ResponseProgressSceneDto;
 import com.ssafy.doeng.data.dto.tale.request.RequestTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleListDto;
+import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleListDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseWordDto;
+import com.ssafy.doeng.data.dto.word.response.ResponseProgressTestResultDto;
+import com.ssafy.doeng.data.dto.word.response.ResponseProgressWordListDto;
 import com.ssafy.doeng.data.entity.member.Member;
-import com.ssafy.doeng.data.entity.progress.Progress;
+import com.ssafy.doeng.data.entity.picture.Picture;
 import com.ssafy.doeng.data.entity.review.Review;
+import com.ssafy.doeng.data.entity.scene.Scene;
 import com.ssafy.doeng.data.entity.tale.Tale;
+import com.ssafy.doeng.data.entity.test.Test;
 import com.ssafy.doeng.data.entity.word.Word;
 import com.ssafy.doeng.data.repository.member.MemberRepository;
 import com.ssafy.doeng.data.repository.payment.PaymentRepository;
@@ -23,6 +30,7 @@ import com.ssafy.doeng.data.repository.progress.ProgressRepository;
 import com.ssafy.doeng.data.repository.review.ReviewRepository;
 import com.ssafy.doeng.data.repository.scene.SceneRepository;
 import com.ssafy.doeng.data.repository.tale.TaleRepository;
+import com.ssafy.doeng.data.repository.test.TestRepository;
 import com.ssafy.doeng.data.repository.word.WordRepository;
 import com.ssafy.doeng.errors.code.TaleErrorCode;
 import com.ssafy.doeng.errors.exception.ErrorException;
@@ -56,6 +64,7 @@ public class TaleServiceImpl implements TaleService {
     private final ProgressRepository progressRepository;
     private final WordRepository wordRepository;
     private final Common common;
+    private final TestRepository testRepository;
 
     @Override
     public List<ResponseMainTaleDto> getTaleList(long memberId) {
@@ -146,6 +155,87 @@ public class TaleServiceImpl implements TaleService {
                 .build();
 
         return progressTaleListDto;
+    }
+
+    @Override
+    public ResponseProgressTaleDetailDto getProgressTaleDetail(long memberId, long taleId) {
+
+        Tale tale = common.getTale(taleId);
+        List<Scene> scenes = sceneRepository.findDetailByTale(tale);
+        Member member = common.getMember(memberId);
+
+        List<Test> testList = testRepository.findByTaleAndMemberFetchWord(tale, member);
+        List<Integer> testCountList = testRepository.getTestCountByTaleAndMember(tale, member);
+
+        int maxCount = 0;
+        if (testCountList != null && !testCountList.isEmpty()) {
+            maxCount = Collections.max(testCountList);
+        }
+
+        LOGGER.info("[TaleServiceImpl] getProgressTaleDetail dto 작성");
+        var progressTaleDetailDto = ResponseProgressTaleDetailDto.builder()
+                .id(tale.getId())
+                .title(tale.getTitle())
+                .backgroundImage(tale.getBackgroundImage())
+                .sceneList(makeSceneList(scenes))
+                .testResult(maxCount == 0 ? null : makeTest(testList, maxCount))
+                .build();
+        LOGGER.info("[TaleServiceImpl] getProgressTaleDetail dto 종료");
+        return progressTaleDetailDto;
+    }
+
+    private ResponseProgressTestResultDto makeTest(List<Test> testList, int maxCount) {
+        LOGGER.info("[TaleServiceImpl] makeTest dto 시작");
+
+        List<ResponseProgressWordListDto> testResult = new ArrayList<>();
+        int wordCount = testList.size() / maxCount;
+        for(int i = 0; i < wordCount; i++) {
+            List<Boolean> correctList = new ArrayList<>();
+            for (int j = i * maxCount; j < (i + 1) * maxCount; j++) {
+                correctList.add(testList.get(j).isCorrect());
+            }
+            testResult.add(ResponseProgressWordListDto.builder()
+                            .engWord(testList.get(i*maxCount).getWord().getEngWord())
+                            .correctList(correctList)
+                    .build());
+        }
+        LOGGER.info("[TaleServiceImpl] makeTest dto 종료");
+
+        return ResponseProgressTestResultDto.builder()
+                .testCount(maxCount)
+                .wordList(testResult)
+                .build();
+    }
+
+    private List<ResponseProgressSceneDto> makeSceneList(List<Scene> sceneList) {
+        LOGGER.info("[TaleServiceImpl] makeSceneList 시작");
+        List<ResponseProgressSceneDto> returnDto = sceneList.stream().map(
+                scene -> ResponseProgressSceneDto.builder()
+                        .id(scene.getId())
+                        .sceneTitle(scene.getTitle())
+                        .imageList(findProgress(scene))
+                        .build()
+        ).collect(Collectors.toList());
+        LOGGER.info("[TaleServiceImpl] makeSceneList 종료");
+        return returnDto;
+    }
+
+    private List<ResponseProgressImageDto> findProgress(Scene scene) {
+        if (!scene.getProgresses().isEmpty() && scene.getProgresses() != null) {
+            return makeImageList(scene.getProgresses().get(0).getPictures());
+        }
+        return null;
+    }
+
+    private List<ResponseProgressImageDto> makeImageList(List<Picture> pictures) {
+        LOGGER.info("[TaleServiceImpl] makeImageList 시작");
+        List<ResponseProgressImageDto> returnDtoList = pictures.stream().map(picture -> ResponseProgressImageDto.builder()
+                .id(picture.getId())
+                .image(picture.getImage())
+                .build()
+        ).collect(Collectors.toList());
+        LOGGER.info("[TaleServiceImpl] makeImageList 종료");
+        return returnDtoList;
     }
 
     @Override

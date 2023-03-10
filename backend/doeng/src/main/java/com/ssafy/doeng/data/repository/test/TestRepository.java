@@ -18,4 +18,16 @@ public interface TestRepository extends JpaRepository<Test, Long> {
     List<Integer> getTestCountByTaleAndMember(@Param("tale") Tale tale,
             @Param("member") Member member);
 
+    List<Test> findByTaleAndMember(Tale tale, Member member);
+
+    @Query("select distinct t from Test t "
+            + "join fetch Word w "
+            + "on t.word = w "
+            + "join fetch Scene s "
+            + "on s.word = w "
+            + "where t.tale=:tale "
+            + "and t.member=:member "
+            + "order by s.sceneOrder asc, t.testCount asc")
+    List<Test> findByTaleAndMemberFetchWord(@Param("tale") Tale tale,
+            @Param("member") Member member);
 }

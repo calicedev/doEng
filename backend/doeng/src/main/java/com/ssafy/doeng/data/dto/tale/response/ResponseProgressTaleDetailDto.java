@@ -15,8 +15,9 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ResponseProgressTaleDetailDto {
+    private long id;
     private String title;
     private String backgroundImage;
     private List<ResponseProgressSceneDto> sceneList;
-    private List<ResponseProgressTestResultDto> testList;
+    private ResponseProgressTestResultDto testResult;
 }
