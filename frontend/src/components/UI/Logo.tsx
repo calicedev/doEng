@@ -4,13 +4,11 @@ import { useNavigate } from "react-router-dom"
 
 interface Props {
   width?: string // 로고의 너비
-  height?: string // 로고의 높이
   disabled?: boolean // 로고 클릭 시 메인화면으로 이동 여부
 }
 
 const Logo: FC<PropsWithChildren<Props>> = function ({
-  width = "200px",
-  height = "100px",
+  width = '200px',
   disabled = false,
 }) {
   const navigate = useNavigate()
@@ -22,13 +20,13 @@ const Logo: FC<PropsWithChildren<Props>> = function ({
   }
 
   return (
-    <div
-      className={`bg-contain bg-center bg-no-repeat cursor-pointer`}
+    <img
+      src={LogoImg}
+      alt={`logo`}
+      className={`h-auto bg-contain bg-center bg-no-repeat cursor-pointer`}
       onClick={toMain}
       style={{
         width: width,
-        height: height,
-        backgroundImage: `url(${LogoImg})`,
       }}
     />
   )

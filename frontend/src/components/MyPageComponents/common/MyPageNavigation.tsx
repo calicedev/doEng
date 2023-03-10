@@ -5,6 +5,10 @@ import { BsArrowLeftCircle } from 'react-icons/bs'
 import { BiUser } from 'react-icons/bi'
 import { useNavigate } from 'react-router-dom'
 
+/*
+마이페이지(/mypage) 상단에 나오는 네비게이션 바
+*/
+
 export default function MyPageNavigation() {
   const navigate = useNavigate()
 

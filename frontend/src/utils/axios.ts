@@ -1,4 +1,4 @@
-import axios from 'axios'
+import axios, { AxiosInstance } from 'axios'
 import store from 'store/index'
 import { tokenActions } from 'store/tokenSlice'
 
@@ -7,7 +7,7 @@ import { tokenActions } from 'store/tokenSlice'
 https://yamoo9.github.io/axios/guide/api.html#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%83%9D%EC%84%B1
 */
 
-const apiRequest = axios.create({
+const apiRequest: AxiosInstance = axios.create({
   baseURL: 'https://localhost:8080', // 서버 주소
   withCredentials: true, // 쿠키 사용을 위해 설정
 })
