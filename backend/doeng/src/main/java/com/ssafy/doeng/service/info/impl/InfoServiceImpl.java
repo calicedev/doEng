@@ -3,14 +3,17 @@ package com.ssafy.doeng.service.info.impl;
 import com.ssafy.doeng.data.dto.info.request.RequestMaterialInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestSceneInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestScriptInfoDto;
+import com.ssafy.doeng.data.dto.info.request.RequestTaleHasMaterialInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestTaleInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestWordInfoDto;
+import com.ssafy.doeng.data.entity.TaleHasMaterial;
 import com.ssafy.doeng.data.entity.material.Material;
 import com.ssafy.doeng.data.entity.scene.Scene;
 import com.ssafy.doeng.data.entity.script.Script;
 import com.ssafy.doeng.data.entity.tale.Tale;
 import com.ssafy.doeng.data.entity.word.Word;
 import com.ssafy.doeng.data.repository.material.MaterialRepository;
+import com.ssafy.doeng.data.repository.material.TaleHasMaterialRepository;
 import com.ssafy.doeng.data.repository.scene.SceneRepository;
 import com.ssafy.doeng.data.repository.script.ScriptRepository;
 import com.ssafy.doeng.data.repository.tale.TaleRepository;
@@ -35,6 +38,7 @@ public class InfoServiceImpl implements InfoService {
     private final ScriptRepository scriptRepository;
     private final WordRepository wordRepository;
     private final MaterialRepository materialRepository;
+    private final TaleHasMaterialRepository taleHasMaterialRepository;
 
     @Override
     public void saveTale(RequestTaleInfoDto requestTaleInfoDto) {
@@ -114,5 +118,21 @@ public class InfoServiceImpl implements InfoService {
         materialRepository.save(material);
 
         LOGGER.info("[InfoServiceImpl] material 저장 완료");
+    }
+
+    @Override
+    public void saveTaleHasMaterial(RequestTaleHasMaterialInfoDto requestTaleHasMaterialInfoDto) {
+        LOGGER.info("[InfoServiceImpl] talehasmaterial 저장");
+        Tale tale = taleRepository.findById(requestTaleHasMaterialInfoDto.getTaleId())
+                .orElseThrow(() -> new ErrorException(TaleErrorCode.TALE_NOT_FOUND));
+        Material material = materialRepository.findById(
+                requestTaleHasMaterialInfoDto.getMaterialId())
+                .orElseThrow(() -> new RuntimeException("material을 찾을 수 없습니다."));
+        TaleHasMaterial taleHasMaterial = TaleHasMaterial.builder()
+                .tale(tale)
+                .material(material)
+                .build();
+
+        taleHasMaterialRepository.save(taleHasMaterial);
     }
 }
