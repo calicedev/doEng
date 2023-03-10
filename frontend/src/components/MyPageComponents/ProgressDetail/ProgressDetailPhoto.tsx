@@ -1,6 +1,5 @@
-import React from 'react'
-import dummy from 'components/MyPageComponents/DummyData/ProgressDetailPhoto.json'
-import ProgressDetailPhotoCard from './ProgressDetailPhotoCard'
+import React from "react"
+import ProgressDetailPhotoCard from "./ProgressDetailPhotoCard"
 
 interface SceneImage {
   id: number
