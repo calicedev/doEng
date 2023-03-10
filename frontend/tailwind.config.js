@@ -1,4 +1,5 @@
 /** @type {import('tailwindcss').Config} */
+
 module.exports = {
   content: [
     './src/**/*.{js,jsx,ts,tsx}',
@@ -7,8 +8,6 @@ module.exports = {
     './node_modules/tw-elements/dist/js/**/*.js',
   ],
   theme: {
-    // screens: {},
-    // fontFamily: {},
     extend: {
       screens: {
         mobile: '400px',
@@ -53,6 +52,21 @@ module.exports = {
           },
         },
       },
+      fontFamily: {
+        'hongcha-nemo': ['nemo', 'ui-sans-serif'],
+        'hongcha-lefthand': ['lefthand', 'ui-sans-serif'],
+        'dolbom-bold': ['dolbomB', 'ui-sans-serif'],
+        'dolbom-regular': ['dolbomR', 'ui-sans-serif'],
+        jalnan: ['jalnan', 'ui-sans-serif'],
+        'hopang-black': ['hopangB', 'ui-sans-serif'],
+        'hopang-white': ['hopangW', 'ui-sans-serif'],
+      },
+      colors: {
+        custom: {
+          100: '#ff1256',
+          200: '#ff1256',
+        },
+      },
       animation: {
         'appear-from-left': 'appear-from-left 1.6s ease-in-out both',
         'disappear-to-left': 'disappear-to-left 1.6s ease-in-out both',
@@ -62,6 +76,7 @@ module.exports = {
         'disappear-to-top': 'disappear-to-top 1.6s ease-in-out both',
         'appear-from-bottom': 'appear-from-bottom 1.6s ease-in-out both',
         'disappear-to-bottom': 'disappear-to-bottom 1.6s ease-in-out both',
+        'shiny-btn': 'shiny-btn 3s ease-in-out both',
       },
       spacing: {
         vh: '1vh',
@@ -149,8 +164,14 @@ module.exports = {
             opacity: 1,
           },
         },
+        'shiny-btn': {
+          '0%': { transform: 'scale(0) rotate(45deg)', opacity: 0 },
+          '80%': { transform: 'scale(0) rotate(45deg)', opacity: 0.5 },
+          '81%': { transform: 'scale(4) rotate(45deg)', opacity: 1 },
+          '100%': { transform: 'scale(50) rotate(45deg)', opacity: 0 },
+        },
       },
     },
   },
-  plugins: [],
+  plugins: [require('@tailwindcss/typography')],
 }

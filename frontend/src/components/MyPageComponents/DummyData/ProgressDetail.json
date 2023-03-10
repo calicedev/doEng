@@ -1,0 +1,160 @@
+{
+  "taleList": [
+    {
+      "id": 1,
+      "title": "백설공주",
+      "backgroundImage": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788965671527.jpg",
+      "sceneList": [
+        {
+          "id": 1,
+          "sceneTitle": "사과를 먹는 백설공주111",
+          "imageList": [
+            {
+              "id": 1,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788969524850.jpg"
+            },
+            {
+              "id": 2,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788969524850.jpg"
+            },
+            {
+              "id": 3,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788969524850.jpg"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "sceneTitle": "사과를 먹는 백설공주222",
+          "imageList": [
+            {
+              "id": 1,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788969524850.jpg"
+            },
+            {
+              "id": 2,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788969524850.jpg"
+            },
+            {
+              "id": 3,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788969524850.jpg"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "sceneTitle": "사과를 먹는 백설공주33333",
+          "imageList": [
+            {
+              "id": 1,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788969524850.jpg"
+            },
+            {
+              "id": 2,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788969524850.jpg"
+            },
+            {
+              "id": 3,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788969524850.jpg"
+            }
+          ]
+        }
+      ],
+      "testResult": {
+        "testCount": 5,
+        "wordList": [
+          {
+            "engWord": "apple",
+            "correctList": [true, true, false, true, false]
+          },
+          {
+            "engWord": "banana",
+            "correctList": [true, false, false, true, false]
+          },
+          {
+            "engWord": "salad",
+            "correctList": [true, false, false, true, false]
+          }
+        ]
+      }
+    },
+    {
+      "id": 2,
+      "title": "신데렐라",
+      "backgroundImage": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788969524850.jpg",
+      "sceneList": [
+        {
+          "id": 1,
+          "sceneTitle": "유리구두를 잃어버린 신데렐라11111",
+          "imageList": [
+            {
+              "id": 1,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788965671527.jpg"
+            },
+            {
+              "id": 2,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788965671527.jpg"
+            },
+            {
+              "id": 3,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788965671527.jpg"
+            }
+          ]
+        },
+        {
+          "id": 2,
+          "sceneTitle": "유리구두를 잃어버린 신데렐라222222",
+          "imageList": [
+            {
+              "id": 1,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788965671527.jpg"
+            },
+            {
+              "id": 2,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788965671527.jpg"
+            },
+            {
+              "id": 3,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788965671527.jpg"
+            }
+          ]
+        },
+        {
+          "id": 3,
+          "sceneTitle": "유리구두를 잃어버린 신데렐라33333",
+          "imageList": [
+            {
+              "id": 1,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788965671527.jpg"
+            },
+            {
+              "id": 2,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788965671527.jpg"
+            },
+            {
+              "id": 3,
+              "image": "https://contents.kyobobook.co.kr/sih/fit-in/458x0/pdt/9788965671527.jpg"
+            }
+          ]
+        }
+      ],
+      "testResult": {
+        "testCount": 5,
+        "wordList": [
+          {
+            "engWord": "apple",
+            "correctList": [true, true, false, true, false]
+          },
+          {
+            "engWord": "banana",
+            "correctList": [true, false, false, true, false]
+          },
+          {
+            "engWord": "salad",
+            "correctList": [true, false, false, true, false]
+          }
+        ]
+      }
+    }
+  ]
+}

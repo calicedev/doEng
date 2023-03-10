@@ -10,6 +10,12 @@
 9. color/font(글꼴)
 10. animation
 */
+.lock-down-box {
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
 
 /* bg-container보다 z-index가 낮은 canvas 컨테이너 */
 .canvas-under-bg-container {
