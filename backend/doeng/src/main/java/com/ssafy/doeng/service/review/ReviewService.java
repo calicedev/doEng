@@ -7,7 +7,7 @@ import org.springframework.data.domain.Pageable;
 
 public interface ReviewService {
     void save(RequestReviewDto requestReviewDto);
-    void modifyReview(RequestReviewModifyDto requestReviewModifyDto);
-    void deleteReview(long reviewId);
+    void modifyReview(RequestReviewModifyDto requestReviewModifyDto, long memberId);
+    void deleteReview(long reviewId, long memberId);
     ResponseAllReviewDto getReviewList(long taleId, long memberId, Pageable pageable);
 }

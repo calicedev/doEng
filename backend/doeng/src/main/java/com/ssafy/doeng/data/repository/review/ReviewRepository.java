@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
 public interface ReviewRepository extends JpaRepository<Review, Long> {
-    boolean existsById(long reviewId);
+    boolean existsByIdAndMember_Id(long reviewId, long memberId);
     boolean existsByTaleAndMember(Tale tale, Member member);
     List<Review> findByTale_IdOrderByCreatedAtDesc(long taleId);
     Slice<Review> findByTaleOrderByCreatedAtDesc(Tale tale, Pageable pageable);
