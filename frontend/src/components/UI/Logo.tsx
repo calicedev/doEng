@@ -10,7 +10,6 @@ interface Props {
 
 const Logo: FC<PropsWithChildren<Props>> = function ({
   width = "200px",
-  height = "100px",
   disabled = false,
 }) {
   const navigate = useNavigate()

@@ -7,17 +7,12 @@ interface Props {
 }
 
 function Modal({ closeModal, children }: PropsWithChildren<Props>) {
-  const onClickHandle = (e: MouseEvent<HTMLElement>) => {
-    e.stopPropagation()
-    closeModal()
-  }
-
   return (
     <>
       {ReactDOM.createPortal(
         <>
           <div
-            onClick={onClickHandle}
+            onClick={closeModal}
             className={`flex justify-center items-center absolute z-50 top-0 right-0 bg-black bg-opacity-50 w-full h-full`}
           >
             <div onClick={(e) => e.stopPropagation()}>{children}</div>

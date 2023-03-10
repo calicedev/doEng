@@ -1,12 +1,12 @@
-import React from 'react'
-import { FaStar, FaRegStar, FaStarHalfAlt } from 'react-icons/fa'
+import React from "react"
+import { FaStar, FaRegStar, FaStarHalfAlt } from "react-icons/fa"
 
 interface StarRatingProps {
   rating: number // 0~5 사이의 소수
   size?: String // 사이즈
 }
 
-const StarRating: React.FC<StarRatingProps> = ({ rating, size = 'small' }) => {
+const StarRating: React.FC<StarRatingProps> = ({ rating, size = "small" }) => {
   const starComponents = []
 
   for (let i = 1; i <= 5; i++) {
@@ -19,25 +19,7 @@ const StarRating: React.FC<StarRatingProps> = ({ rating, size = 'small' }) => {
     }
   }
 
-  let sizeClass = ''
-
-  switch (size) {
-    case 'small':
-      sizeClass = 'text-base'
-      break
-    case 'medium':
-      sizeClass = 'text-lg'
-      break
-    case 'large':
-      sizeClass = 'text-xl'
-      break
-  }
-
-  return (
-    <div className={`flex gap-1 ${sizeClass} text-yellow-400`}>
-      {starComponents}
-    </div>
-  )
+  return <div className={`flex gap-1 text-yellow-400`}>{starComponents}</div>
 }
 
 export default StarRating

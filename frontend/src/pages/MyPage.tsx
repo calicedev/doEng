@@ -1,6 +1,6 @@
 import React from "react"
 import { Outlet } from "react-router-dom"
-import BackgroundImg from "assets/MyPageBackground.png"
+import BackgroundImg from "assets/images/MyPageBackground.png"
 import MyPageNavigation from "components/MyPageComponents/common/MyPageNavigation"
 import MyPageTab from "components/MyPageComponents/common/MyPageTab"
 
