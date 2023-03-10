@@ -4,6 +4,7 @@ import com.ssafy.doeng.data.entity.progress.Progress;
 import com.ssafy.doeng.data.entity.scene.Scene;
 import com.ssafy.doeng.data.entity.tale.Tale;
 import java.util.List;
+import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
@@ -22,4 +23,11 @@ public interface SceneRepository extends JpaRepository<Scene, Long> {
             + "where s.tale = :tale "
             + "and s.word is not null")
     List<Scene> findDetailByTale(@Param("tale") Tale tale);
+
+    @Query("select s from Scene s "
+            + "left join fetch Script sc on sc.scene=s "
+            + "left join fetch Word w on s.word = w "
+            + "where s.tale = :tale "
+            + "and s.sceneOrder=:sceneOrder")
+    Optional<Scene> findByTaleIdAndSceneOrderFetch(@Param("tale")Tale tale, @Param("sceneOrder") int sceneOrder);
 }
