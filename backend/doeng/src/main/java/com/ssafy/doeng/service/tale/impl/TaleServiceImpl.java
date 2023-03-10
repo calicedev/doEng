@@ -18,7 +18,9 @@ import com.ssafy.doeng.data.dto.tale.response.ResponseWordDto;
 import com.ssafy.doeng.data.dto.word.response.ResponseProgressTestResultDto;
 import com.ssafy.doeng.data.dto.word.response.ResponseProgressWordListDto;
 import com.ssafy.doeng.data.entity.member.Member;
+import com.ssafy.doeng.data.entity.payment.Payment;
 import com.ssafy.doeng.data.entity.picture.Picture;
+import com.ssafy.doeng.data.entity.progress.Progress;
 import com.ssafy.doeng.data.entity.review.Review;
 import com.ssafy.doeng.data.entity.scene.Scene;
 import com.ssafy.doeng.data.entity.tale.Tale;
@@ -32,10 +34,12 @@ import com.ssafy.doeng.data.repository.scene.SceneRepository;
 import com.ssafy.doeng.data.repository.tale.TaleRepository;
 import com.ssafy.doeng.data.repository.test.TestRepository;
 import com.ssafy.doeng.data.repository.word.WordRepository;
+import com.ssafy.doeng.errors.code.PaymentErrorCode;
 import com.ssafy.doeng.errors.code.TaleErrorCode;
 import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.service.Common;
 import com.ssafy.doeng.service.tale.TaleService;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -93,25 +97,44 @@ public class TaleServiceImpl implements TaleService {
         memberId = requestDto.getMemberId();
         LOGGER.info("[TaleServiceImpl] getTaleList memberId : {}, taleId : {}", memberId, taleId);
 
-        common.getMember(memberId);
-
+        Member member = common.getMember(memberId);
         Tale tale = taleRepository.findByIdFetchScene(taleId)
                 .orElseThrow(() -> new ErrorException(TaleErrorCode.TALE_NOT_FOUND));
 
+        common.notPaymentThrowException(member, tale);
+
         List<Word> wordList = wordRepository.findTaleWordsByTale(tale);
+        List<Progress> progresses = progressRepository.getProgressDetailsByMember(memberId,taleId);
         Set<Long> correctWords = wordRepository.findByMemberIdAndTaleId(memberId,taleId);
 
         var responseDto = ResponseMainTaleDetailDto.builder()
                 .id(tale.getId())
                 .title(tale.getTitle())
                 .wordList(makeWordList(wordList, correctWords))
-                .sceneOrder(1)
+                .sceneOrder(getOrder(progresses))
+                .taleDone(progresses.size() == tale.getScenes().size())
                 .sceneCount(tale.getScenes().size())
                 .mainImage("메인 이미지 위치")
                 .build();
 
         LOGGER.info("[TaleServiceImpl] getTaleList 종료");
         return responseDto;
+    }
+
+    private int getOrder(List<Progress> progresses) {
+        if (progresses.isEmpty()) {
+            return 0;
+        }
+        int rtn = 0;
+        LocalDateTime recentlyPosted = progresses.get(0).getPlayedAt();
+        for (Progress p : progresses) {
+           if (recentlyPosted.isAfter(p.getPlayedAt())){
+               Scene crtScene = p.getScene();
+               rtn = crtScene.getSceneOrder();
+               recentlyPosted = p.getPlayedAt();
+           }
+        }
+        return rtn;
     }
 
     private List<ResponseWordDto> makeWordList(List<Word> wordList, Set<Long> correctIdList) {

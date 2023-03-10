@@ -11,6 +11,7 @@ import com.ssafy.doeng.data.entity.tale.Tale;
 import com.ssafy.doeng.data.entity.word.Word;
 import com.ssafy.doeng.data.repository.tale.TaleRepository;
 import com.ssafy.doeng.data.repository.word.WordRepository;
+import com.ssafy.doeng.errors.code.PaymentErrorCode;
 import com.ssafy.doeng.errors.code.TaleErrorCode;
 import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.service.Common;
@@ -40,7 +41,6 @@ public class WordServiceImpl implements WordService {
         LOGGER.info("[WordServiceImpl] getWord memberId : {}", memberId);
         Member member = common.getMember(memberId);
         List<Word> wordList = wordRepository.findWordByMemberIdDistinct(member);
-
         var responseDto = ResponseWordListDto.builder()
                 .wordList(makeWordList(wordList))
                 .build();
