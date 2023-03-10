@@ -12,6 +12,7 @@ import ProgressDetailPage from "pages/ProgressDetailPage"
 import ProfiliePage from "pages/ProfiliePage"
 import Find from "./components/SignComponents/Find"
 import axios from "axios"
+import TaleDetailPage from "pages/TaleDetailPage"
 
 function App() {
   // axios.defaults.baseURL(``)
