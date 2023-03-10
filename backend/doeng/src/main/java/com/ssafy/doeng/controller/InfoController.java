@@ -3,6 +3,7 @@ package com.ssafy.doeng.controller;
 import com.ssafy.doeng.data.dto.info.request.RequestMaterialInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestSceneInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestScriptInfoDto;
+import com.ssafy.doeng.data.dto.info.request.RequestTaleHasMaterialInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestTaleInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestWordInfoDto;
 import com.ssafy.doeng.service.info.InfoService;
@@ -50,4 +51,11 @@ public class InfoController {
         infoService.saveMaterial(requestMaterialInfoDto);
         return ResponseEntity.ok().body("material 저장 완료");
     }
+
+    @PostMapping("/talehasmaterial")
+    public ResponseEntity<String> postTaleHasMaterial(RequestTaleHasMaterialInfoDto requestTaleHasMaterialInfoDto) {
+        infoService.saveTaleHasMaterial(requestTaleHasMaterialInfoDto);
+        return ResponseEntity.ok().body("taleHasMaterial 저장 완료");
+    }
+
 }
