@@ -31,7 +31,7 @@ const InputInSignup = function ({
   const [bgClasses, setBgClasses] = useState<string>("bg-white")
   const [textClasses, setTextClasses] = useState<string>("text-black")
   const [borderClasses, setBorderClasses] = useState<string>(
-    "border-black-500 border-[4px]"
+    "border-black-500 border-[4px]",
   )
   useEffect(
     function () {
@@ -49,16 +49,16 @@ const InputInSignup = function ({
         setBorderClasses(() => `border-red-500 border-[4px]`)
       }
     },
-    [isValid]
+    [isValid],
   )
   return (
     <div>
       <div
-        className={`box-border flex rounded-full min-h-[45px] max-h-[80px] min-w-[288px] h-[7.1vh] max-w-[700px] w-[52vw] px-5 py-[5px] items-center shadow-xl duration-[0.44s] ${bgClasses} ${borderClasses}`}
+        className={`box-border flex rounded-full min-h-[45px] max-h-[80px] min-w-[288px] h-[7.1vh] max-w-[700px] w-[47vw] px-5 py-[5px] items-center shadow-xl duration-[0.44s] ${bgClasses} ${borderClasses} hover:scale-[102%] duration-[0.33s]`}
       >
         <label
           htmlFor={`${inputId}`}
-          className={`box-border h-full w-full flex items-center justify-center basis-[19%] font-semibold text-xl sm:text-3xl mobile:text-2xl font-hopang-white`}
+          className={`box-border h-full w-full flex items-center justify-center basis-[17%] font-semibold text-xl sm:text-3xl mobile:text-2xl font-hopang-white`}
         >
           {labelText}
         </label>
@@ -69,7 +69,7 @@ const InputInSignup = function ({
           onChange={inputChange}
           onBlur={inputBlur}
           placeholder={placeHolder}
-          className={`box-border w-full h-full flex items-center basis-[62%] text-sm sm:text-xl mobile:text-lg px-3 py-1 rounded-[8px] font-jalnan duration-[0.44s] mr-2 ${bgClasses} ${textClasses}`}
+          className={`box-border w-full h-full flex items-center basis-[66%] text-sm sm:text-xl mobile:text-lg px-3 py-1 rounded-[8px] font-jalnan duration-[0.44s] mr-2 ${bgClasses} ${textClasses}`}
           maxLength={maxLength}
         />
         {children}

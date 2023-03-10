@@ -41,7 +41,6 @@ const idValidation: validationFunctionInterface = function idValidation(val) {
 const emailValidation: validationFunctionInterface = function (email) {
   const regex =
     /^[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*@[0-9a-zA-Z]([-_.]?[0-9a-zA-Z])*\.[a-zA-Z]{2,3}$/i
-  console.log(regex.test(email), email)
   if (email.trim().length === 0) {
     return { status: false, message: "이메일은 필수 입력 값입니다." }
   }

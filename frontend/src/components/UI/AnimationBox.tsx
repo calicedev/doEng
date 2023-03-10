@@ -1,6 +1,5 @@
 import { FC, PropsWithChildren, memo } from "react"
 import { useAnimate } from "../../hooks/useAnimate"
-import { useInput } from "../../hooks/useInput"
 
 type AnimateBoxProps = {
   isOpened: boolean
@@ -19,13 +18,13 @@ const AnimationBox: FC<PropsWithChildren<AnimateBoxProps>> = function ({
   const { isRender, animationClasses, animationEndHandler } = useAnimate(
     isOpened,
     appearClassName,
-    disappearClassName
+    disappearClassName,
   )
   return (
     <>
       {isRender && (
         <div
-          className={`empty-box ${boxClasses} ${animationClasses}`}
+          className={`empty-box w-auto h-auto ${boxClasses} ${animationClasses}`}
           onAnimationEnd={animationEndHandler}
         >
           {children}

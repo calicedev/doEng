@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice } from "@reduxjs/toolkit"
 
 const initialState = {
   accessToken: null,
@@ -6,8 +6,8 @@ const initialState = {
   expiration: null,
 }
 
-const exSlice = createSlice({
-  name: 'token',
+const tokenSlice = createSlice({
+  name: "token",
   initialState,
   reducers: {
     setTokens(state, action) {
@@ -25,5 +25,5 @@ const exSlice = createSlice({
   },
 })
 
-export const tokenActions = exSlice.actions
-export default exSlice.reducer
+export const tokenActions = tokenSlice.actions
+export default tokenSlice.reducer

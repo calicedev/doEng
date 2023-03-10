@@ -1,5 +1,5 @@
 import React, { FC, PropsWithChildren } from "react"
-import LogoImg from "assets/images/doEngLogo.png"
+import LogoImg from "../../assets/images/doEngLogo.png"
 import { useNavigate } from "react-router-dom"
 
 interface Props {
@@ -8,7 +8,8 @@ interface Props {
 }
 
 const Logo: FC<PropsWithChildren<Props>> = function ({
-  width = '200px',
+  width = "200px",
+  height = "100px",
   disabled = false,
 }) {
   const navigate = useNavigate()
