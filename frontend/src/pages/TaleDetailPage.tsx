@@ -1,7 +1,15 @@
-import React from 'react'
+import Modal from 'components/UI/Modal'
+import React, { useState } from 'react'
 
 export default function TaleDetailPage() {
-  return <div>TaleDetail</div>
+  const [isModal, setIsModal] = useState(false)
+
+  return (
+    <div>
+      {isModal && <Modal closeModal={() => setIsModal(false)}>asdfad</Modal>}
+      <div onClick={() => setIsModal(true)}>TaleDetail</div>
+    </div>
+  )
 }
 
 const exData = {
