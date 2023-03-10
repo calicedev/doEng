@@ -1,5 +1,6 @@
 import axios from "axios"
 import { useState, useCallback } from "react"
+import apiRequest from "../utils/axios"
 
 // requestData = {
 //   method: requestData.method,
@@ -14,7 +15,7 @@ import { useState, useCallback } from "react"
 
 type axiosFunc = (
   requestData: object,
-  saveDataFunction: (data: object) => void
+  saveDataFunction: (data: object) => void,
 ) => Promise<void>
 
 interface useApiHook {
@@ -31,11 +32,11 @@ const useApi: useApiHook = function () {
 
   const axiosRequest: axiosFunc = useCallback(async function (
     requestData: object,
-    saveDataFunction: (data: object) => void
+    saveDataFunction: (data: object) => void,
   ): Promise<void> {
     setIsLoading(() => true)
     setError(() => false)
-    await axios(requestData)
+    await apiRequest(requestData)
       .then((res: object) => {
         saveDataFunction(res)
         return res
@@ -45,8 +46,12 @@ const useApi: useApiHook = function () {
         setError(() => false)
       })
       .catch((err: object) => {
+        console.log(err) // 추후 삭제해야함!
         setIsLoading(() => false)
         setError(() => true)
+        setTimeout(function () {
+          setError(() => false)
+        }, 3000)
       })
   },
   [])

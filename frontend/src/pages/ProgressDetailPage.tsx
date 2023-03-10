@@ -1,9 +1,9 @@
-import React from 'react'
-import { useParams } from 'react-router-dom'
-import dummy from 'components/MyPageComponents/DummyData/ProgressDetail.json'
-import ProgressDetail from 'components/MyPageComponents/ProgressDetail/ProgressDetail'
-import ProgressDetailTest from 'components/MyPageComponents/ProgressDetail/ProgressDetailTest'
-import ProgressDetailPhoto from 'components/MyPageComponents/ProgressDetail/ProgressDetailPhoto'
+import React from "react"
+import { useParams } from "react-router-dom"
+import dummy from "components/MyPageComponents/DummyData/ProgressDetail.json"
+import ProgressDetail from "components/MyPageComponents/ProgressDetail/ProgressDetail"
+import ProgressDetailTest from "components/MyPageComponents/ProgressDetail/ProgressDetailTest"
+import ProgressDetailPhoto from "components/MyPageComponents/ProgressDetail/ProgressDetailPhoto"
 
 interface SceneImage {
   id: number
