@@ -11,6 +11,8 @@ import com.ssafy.doeng.service.test.TestService;
 import com.ssafy.doeng.service.word.WordService;
 import java.util.ArrayList;
 import java.util.List;
+import javax.validation.Valid;
+import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,7 +33,7 @@ public class WordTestController {
     private final TestService testService;
 
     @GetMapping("/{taleId}")
-    public ResponseEntity<ResponseWordTestDto> getWordTest(@PathVariable("taleId") long taleId) {
+    public ResponseEntity<ResponseWordTestDto> getWordTest(@PathVariable("taleId") @Min(1) long taleId) {
         RequestWordTestDto requestDto = new RequestWordTestDto(1, taleId);
         LOGGER.info("[WordTestController] getWordTest taleId : {}, memberId : {}", requestDto.getTaleId(), requestDto.getMemberId());
 
@@ -42,8 +44,9 @@ public class WordTestController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> postGetWord(@RequestBody RequestListPostGetWord wordList) {
+    public ResponseEntity<String> postGetWord(@RequestBody @Valid RequestListPostGetWord wordList) {
         wordList.setMemberId(1);
+        System.out.println();
         LOGGER.info("[WordTestController] postGetWord getSize : {}, memberId : {}", wordList.getWordList().size(), wordList.getMemberId());
         testService.save(wordList);
         LOGGER.info("[WordTestController] postGetWord 종료");
