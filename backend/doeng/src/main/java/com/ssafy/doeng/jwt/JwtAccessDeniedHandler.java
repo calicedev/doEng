@@ -1,4 +1,4 @@
-package com.ssafy.doeng.util;
+package com.ssafy.doeng.jwt;
 
 import java.io.IOException;
 import javax.servlet.ServletException;

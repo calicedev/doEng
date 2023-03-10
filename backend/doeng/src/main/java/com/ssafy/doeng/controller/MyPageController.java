@@ -56,7 +56,7 @@ public class MyPageController {
 
     @GetMapping("/progress/{taleId}")
     public ResponseEntity<ResponseProgressTaleDetailDto> getProgressDetail(@PathVariable("taleId") long taleId) {
-        LOGGER.info("진행률 상세 api 들어옴 : {}", taleId);
+        LOGGER.info("진00000000000000000000000000행률 상세 api 들어옴 : {}", taleId);
         long memberId = 2;
         List<ResponseProgressImageDto> progressImageDtoList = new ArrayList<>();
         List<Progress> progressList = progressRepository.getProgressDetailsByMember(memberId, taleId);

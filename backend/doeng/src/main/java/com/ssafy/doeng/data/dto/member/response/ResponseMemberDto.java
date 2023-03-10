@@ -18,8 +18,13 @@ import lombok.ToString;
 @ToString
 public class ResponseMemberDto  {
     private String memberId;
+    private String nickname;
+    private String name;
+    private String email;
+    private String phone;
+    private LocalDateTime createdAt;
 
     public static ResponseMemberDto of(Member member) {
-        return new ResponseMemberDto(member.getMemberId());
+        return new ResponseMemberDto(member.getMemberId(), member.getNickname(), member.getName(), member.getEmail(), member.getPhone(), member.getCreatedAt());
     }
 }

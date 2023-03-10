@@ -1,5 +1,7 @@
-package com.ssafy.doeng.util;
+package com.ssafy.doeng.config.security;
 
+import com.ssafy.doeng.jwt.JwtFilter;
+import com.ssafy.doeng.jwt.TokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.config.annotation.SecurityConfigurerAdapter;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;

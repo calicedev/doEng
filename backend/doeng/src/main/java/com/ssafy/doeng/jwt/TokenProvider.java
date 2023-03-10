@@ -1,4 +1,4 @@
-package com.ssafy.doeng.util;
+package com.ssafy.doeng.jwt;
 
 import com.ssafy.doeng.data.dto.member.TokenDto;
 import io.jsonwebtoken.*;
