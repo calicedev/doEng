@@ -2,8 +2,8 @@ package com.ssafy.doeng.service.review.impl;
 
 import com.ssafy.doeng.data.dto.review.request.RequestReviewDto;
 import com.ssafy.doeng.data.dto.review.request.RequestReviewModifyDto;
+import com.ssafy.doeng.data.dto.review.response.ResponseAllReviewDto;
 import com.ssafy.doeng.data.dto.review.response.ResponseReviewDto;
-import com.ssafy.doeng.data.dto.review.response.ResponseReviewListDto;
 import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.entity.review.Review;
 import com.ssafy.doeng.data.entity.tale.Tale;
@@ -15,6 +15,7 @@ import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.service.review.ReviewService;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -74,27 +75,37 @@ public class ReviewServiceImpl implements ReviewService {
     }
 
     @Override
-    public ResponseReviewListDto getReviewList(long taleId, long memberId, Pageable pageable) {
+    public ResponseAllReviewDto getReviewList(long taleId, long memberId, Pageable pageable) {
         LOGGER.info("[리뷰 리스트 api 들어옴]");
         Tale tale = taleRepository.getById(taleId);
         List<ResponseReviewDto> reviewDtoList = new ArrayList<>();
         Slice<Review> reviews = reviewRepository.findByTaleOrderByCreatedAtDesc(tale, pageable);
+        ResponseReviewDto myReview = null;
 
         for (Review r: reviews) {
-            if(r.getMember().getId() == memberId) continue;
-            ResponseReviewDto reviewDto = ResponseReviewDto.builder()
-                    .id(r.getId())
-                    .memberId(r.getMember().getId())
-                    .score(r.getScore())
-                    .content(r.getContent())
-                    .build();
-            reviewDtoList.add(reviewDto);
+            if(r.getMember().getId() == memberId) {
+                myReview = ResponseReviewDto.builder()
+                        .id(r.getId())
+                        .userId(r.getMember().getMemberId())
+                        .score(r.getScore())
+                        .content(r.getContent())
+                        .build();
+            } else {
+                ResponseReviewDto reviewDto = ResponseReviewDto.builder()
+                        .id(r.getId())
+                        .userId(r.getMember().getMemberId())
+                        .score(r.getScore())
+                        .content(r.getContent())
+                        .build();
+                reviewDtoList.add(reviewDto);
+            }
         }
 
-        ResponseReviewListDto reviewListDto = ResponseReviewListDto.builder()
+        ResponseAllReviewDto allReviewDto = ResponseAllReviewDto.builder()
+                .myReview(myReview)
                 .reviewList(reviewDtoList)
                 .build();
 
-        return reviewListDto;
+        return allReviewDto;
     }
 }

@@ -13,7 +13,7 @@ import lombok.ToString;
 @ToString
 public class ResponseReviewDto {
     private long id;
-    private long memberId;
+    private String userId;
     private int score;
     private String content;
 }
