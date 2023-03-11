@@ -36,6 +36,11 @@ public class MemberController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
     private final MemberService memberService;
 
+    @GetMapping("test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("자동 배포 했습니다 축하드립니다.");
+    }
+
 
     @PostMapping
     public ResponseEntity<Void> signup(@RequestBody RequestSignupDto requestDto) {
