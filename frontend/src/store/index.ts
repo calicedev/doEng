@@ -5,13 +5,16 @@ import { persistReducer } from "redux-persist"
 import axios, { AxiosResponse } from "axios"
 // import thunk from "redux-thunk"
 import exampleSlice, { exActions } from "./example-slice"
-// import thunk from "redux-thunk"
+import tokenSlice, { tokenActions } from "./tokenSlice"
+import toastSlice, { toastActions } from "./toastSlice"
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
 
 const rootReducers = combineReducers({
   example: exampleSlice,
+  token: tokenSlice,
+  toast: toastSlice,
 })
 
 const persistConfig = {
@@ -46,6 +49,17 @@ export const AxiosExample = function (requestData: object) {
       console.log(res.data)
       dispatch(exActions.changeEx({ exval: "바뀜" }))
     })
+  }
+}
+
+export const DispatchToast = function (message: string, isSuccess: boolean) {
+  return async function (dispatch: AppDispatch) {
+    dispatch(toastActions.setToastMessage({ message: message }))
+    dispatch(toastActions.setIsSuccess({ isSuccess: isSuccess }))
+    dispatch(toastActions.setToast({}))
+    setTimeout(function () {
+      dispatch(toastActions.toastOff({}))
+    }, 3000)
   }
 }
 
