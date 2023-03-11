@@ -1,6 +1,6 @@
 # JAVA Version
 # alpine is light than JDK only but alpine only supported sh scripts not bash script
-FROM openjdk:11-jdk-alpine
+FROM openjdk:11
 
 # Define argument using ARG
 # Setting your path which located .jar file
