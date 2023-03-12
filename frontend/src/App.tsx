@@ -1,5 +1,4 @@
-import { Route } from "react-router"
-import { Routes } from "react-router-dom"
+import { Routes, Route } from "react-router-dom"
 import "./App.css"
 import Login from "./components/SignComponents/Login"
 import Signup from "./components/SignComponents/Signup"
