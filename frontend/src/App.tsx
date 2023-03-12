@@ -12,6 +12,7 @@ import ProfiliePage from "pages/ProfiliePage"
 import Find from "./components/SignComponents/Find"
 import axios from "axios"
 import TaleDetailPage from "pages/TaleDetailPage"
+import NotFoundPage from "pages/NotFoundPage"
 
 function App() {
   // axios.defaults.baseURL(``)
@@ -31,6 +32,7 @@ function App() {
           <Route path={`talestore/:taleId`} element={<TaleDetailPage />} />
           <Route path={`profile`} element={<ProfiliePage />} />
         </Route>
+        <Route path={`*`} element={<NotFoundPage />} />
       </Routes>
     </div>
   )
