@@ -61,7 +61,7 @@ const Toast = function ({ children }: PropsWithChildren<Props>) {
       {ReactDOM.createPortal(
         <AnimationBox
           isOpened={isToast}
-          boxClasses={`box-border fixed w-[31%] h-[14.5%] z-[100] flex justify-center items-center bottom-[0%] left-[50%]`}
+          boxClasses={`box-border fixed w-[32%] h-[15%] z-[100] flex justify-center items-center bottom-[0%] left-[50%]`}
         >
           <div
             className={`box-border w-full h-full rounded-[8px] flex flex-row items-center justify-center z-[100] translate-x-[-50%] translate-y-[-30%] p-2 bg-[#FFFEE1] shadow-2xl drop-shadow-2xl duration-[0.33s] active:bg-[#F4F2C3]`}
@@ -76,7 +76,9 @@ const Toast = function ({ children }: PropsWithChildren<Props>) {
                 {isSuccess ? <Smile /> : <Sad />}
               </div>
               <div
-                className={`basis-[68%] w-[68%] flex font-hopang-black text-[1.9rem] items-center justify-center`}
+                className={`basis-[68%] w-[68%] flex font-hopang-black items-center justify-center ${
+                  toastMessage.length > 10 ? `text-[1.33rem] ` : `text-[1.9rem]`
+                }`}
               >
                 {toastMessage}
               </div>

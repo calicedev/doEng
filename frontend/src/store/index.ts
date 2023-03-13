@@ -54,12 +54,13 @@ export const AxiosExample = function (requestData: object) {
 
 export const DispatchToast = function (message: string, isSuccess: boolean) {
   return async function (dispatch: AppDispatch) {
+    dispatch(toastActions.toastOff({}))
     dispatch(toastActions.setToastMessage({ message: message }))
     dispatch(toastActions.setIsSuccess({ isSuccess: isSuccess }))
     dispatch(toastActions.setToast({}))
     setTimeout(function () {
       dispatch(toastActions.toastOff({}))
-    }, 3000)
+    }, 4000)
   }
 }
 

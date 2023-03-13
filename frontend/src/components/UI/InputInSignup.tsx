@@ -12,6 +12,7 @@ interface Props {
   inputChange: () => void
   inputBlur?: () => void
   maxLength?: number
+  tabIndex?: number
 }
 
 const InputInSignup = function ({
@@ -26,6 +27,7 @@ const InputInSignup = function ({
   inputChange,
   inputBlur = () => {},
   maxLength = 50,
+  tabIndex = 0,
   children,
 }: PropsWithChildren<Props>) {
   const [bgClasses, setBgClasses] = useState<string>("bg-white")
@@ -71,11 +73,12 @@ const InputInSignup = function ({
           placeholder={placeHolder}
           className={`box-border w-full h-full flex items-center basis-[66%] text-sm sm:text-xl mobile:text-lg px-3 py-1 rounded-[8px] font-jalnan duration-[0.44s] mr-2 ${bgClasses} ${textClasses}`}
           maxLength={maxLength}
+          tabIndex={tabIndex}
         />
         {children}
       </div>
       <div
-        className={`box-border min-h-[20px] max-h-[40px] min-w-[288px] h-[5vh] max-w-[700px] w-[52vw] px-4 pt-2 items-center text-lg sm:text-[1rem] mobile:text-sm duration-[0.44s] font-dolbom-regular ${textClasses}`}
+        className={`box-border min-h-[20px] max-h-[40px] min-w-[288px] h-[5vh] max-w-[700px] w-[47vw] px-4 pt-2 items-center text-lg sm:text-[1rem] mobile:text-sm duration-[0.44s] font-dolbom-regular ${textClasses}`}
       >
         {validMessage}
       </div>

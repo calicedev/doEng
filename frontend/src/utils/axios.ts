@@ -8,7 +8,7 @@ https://yamoo9.github.io/axios/guide/api.html#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%
 */
 
 const apiRequest = axios.create({
-  baseURL: "https://localhost:8080", // 서버 주소
+  baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
   withCredentials: true, // 쿠키 사용을 위해 설정
   timeout: 3000,
 })
