@@ -5,7 +5,6 @@ import InputWithValidation from "../UI/InputWithValidation"
 import LogoImg from "../../assets/images/doEngLogo.png"
 import { useNavigate } from "react-router-dom"
 import useApi from "../../hooks/useApi"
-import useDebounce from "../../hooks/useDebounce"
 import { AxiosRequestConfig } from "axios"
 import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import { DispatchToast } from "store"
@@ -39,15 +38,19 @@ function Login() {
     axiosRequest: loginRequest,
   } = useApi()
 
-  const idValidate = useCallback(function (data: string) {
-    return idValidation(data)
-  }, [])
-
   const loginHandler = function (e: FormEvent) {
     e.preventDefault()
+    if (!idValid) {
+      dispatch(DispatchToast("아이디가 유효하지 않습니다.", false))
+      return
+    } else if (!passwordValid) {
+      dispatch(DispatchToast("비밀번호가 유효하지 않습니다.", false))
+      return
+    }
     loginRequest(
       {
         method: "post",
+        url: ``,
         data: {
           memberId: `${idInput}`,
           password: `${passwordInput}`,
@@ -55,7 +58,9 @@ function Login() {
       },
       function () {
         dispatch(DispatchToast("로그인 성공!", true))
+        navigate("/")
       },
+      "로그인 실패!",
     )
   }
   const goSignupHandler = function () {
@@ -64,10 +69,17 @@ function Login() {
   const findIdHandler = function () {
     navigate("/member/find")
   }
+  const [loginBtnClasses, setLoginBtnClasses] = useState<string>(
+    "bg-lime-400 text-black border-lime-600",
+  )
+
   useEffect(
     function () {
       if (loginError) {
-        dispatch(DispatchToast("로그인 실패!", false))
+        // dispatch(DispatchToast("로그인 실패!", false))
+        setLoginBtnClasses(() => "bg-red-400 text-black border-red-600")
+      } else {
+        setLoginBtnClasses(() => "bg-lime-400 text-black border-lime-600")
       }
     },
     [loginError],
@@ -75,7 +87,6 @@ function Login() {
 
   return (
     <>
-      <Toast />
       <form
         className={`box-border flex flex-col gap-1 items-center justify-center`}
         onSubmit={loginHandler}
@@ -110,7 +121,7 @@ function Login() {
           maxLength={16}
         />
         <button
-          className={`box-border flex items-center justify-center bg-lime-400 bg-opacity-80 rounded-full min-h-[45px] max-h-[80px] min-w-[288px] h-[8vh] max-w-[480px] w-[40vw] px-6 py-4 font-hopang-black text-3xl text-black border-lime-600 border-[4px] shadow-xl duration-[0.66s] hover:scale-105 hover:skew-x-[-1deg] hover:skew-y-[-1deg]`}
+          className={`box-border flex items-center justify-center bg-opacity-80 rounded-full min-h-[45px] max-h-[80px] min-w-[288px] h-[8vh] max-w-[480px] w-[40vw] px-6 py-4 font-hopang-black text-3xl border-[4px] shadow-xl duration-[0.66s] hover:scale-105 hover:skew-x-[-1deg] hover:skew-y-[-1deg] ${loginBtnClasses}`}
         >
           {loginLoading ? (
             <SpinnerDots />

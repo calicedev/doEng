@@ -1,4 +1,4 @@
-import { useState, useRef, useEffect } from "react"
+import { useState, useRef, useEffect, useCallback } from "react"
 import SignupFirstForm from "./SignupFirstForm"
 import SignupFox from "../../assets/images/signupFox.png"
 import LetsDoEng from "../../assets/images/LetsDoEng.png"
@@ -17,8 +17,13 @@ import AnimationBox from "components/UI/AnimationBox"
 import SignupSecondForm from "./SignupSecondForm"
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa"
 import { useNavigate } from "react-router-dom"
+import Toast from "components/UI/Toast"
+import { useStoreDispatch } from "hooks/useStoreSelector"
+import { DispatchToast } from "store"
+import useINEP from "hooks/useINEP"
 
 function Signup() {
+  const dispatch = useStoreDispatch()
   const navigate = useNavigate()
   const [step, setStep] = useState<boolean>(true)
   function toggleStep(): void {
@@ -156,21 +161,15 @@ function Signup() {
   const emailCertChangeHandler = function () {
     setEmailcert(() => (emailCertRef.current ? emailCertRef.current.value : ""))
   }
-  const {
-    isLoading: emailCertLoading,
-    isError: emailCertError,
-    axiosRequest: AxiosEmailCertRequest,
-  } = useApi()
-  const emailCertClickHandler = async function () {
-    // await AxiosEmailCertRequest({}, function () {
-    //   setEmailCertValid(() => true)
-    //   setEmailCertValidMessage(() => "인증에 성공하셨습니다!")
-    // })
-    // if (emailCertError) {
-    //   setEmailCertValid(() => false)
-    //   setEmailCertValidMessage(() => "인증에 실패하셨습니다!")
-    // }
-  }
+  const emailCertClickHandler = useCallback(function (op: boolean) {
+    if (op) {
+      setEmailCertValid(() => true)
+      setEmailCertValidMessage(() => "인증에 성공하셨습니다!")
+    } else {
+      setEmailCertValid(() => false)
+      setEmailCertValidMessage(() => "인증에 실패하셨습니다!")
+    }
+  }, [])
 
   //////////////////////////////////////////////////////////////
   // Phone Certification 관련 코드
@@ -184,23 +183,103 @@ function Signup() {
   const phoneCertChangeHandler = function () {
     setPhoneCert(() => (phoneCertRef.current ? phoneCertRef.current.value : ""))
   }
-  const {
-    isLoading: phoneCertLoading,
-    isError: phoneCertError,
-    axiosRequest: AxiosPhoneCertRequest,
-  } = useApi()
-  const phoneCertClickHandler = async function () {
-    // await AxiosPhoneCertRequest({}, function () {
-    //   setPhoneCertValid(() => true)
-    //   setPhoneCertValidMessage(() => "인증에 성공하셨습니다!")
-    // })
-    // if (phoneCertError) {
-    //   setPhoneCertValid(() => false)
-    //   setPhoneCertValidMessage(() => "인증에 실패하셨습니다!")
-    // }
-  }
+  const phoneCertClickHandler = useCallback(function (op: boolean) {
+    if (op) {
+      setPhoneCertValid(() => true)
+      setPhoneCertValidMessage(() => "인증에 성공하셨습니다!")
+    } else {
+      setPhoneCertValid(() => false)
+      setPhoneCertValidMessage(() => "인증에 실패하셨습니다!")
+    }
+  }, [])
 
-  const signupHandler = function () {}
+  const { dupValid: emailDupValid } = useINEP(emailInput, "email", emailValid)
+  const { dupValid: phoneDupValid } = useINEP(phoneInput, "phone", phoneValid)
+  const { dupValid: nickDupValid } = useINEP(nickInput, "nick", nickValid)
+  const { dupValid: idDupValid } = useINEP(idInput, "id", idValid)
+
+  const {
+    isLoading: signupLoading,
+    isError: signupError,
+    axiosRequest: SignupRequest,
+  } = useApi()
+  const [signupBtnClasses, setSignupBtnClasses] = useState<string>(
+    "bg-lime-400 text-black border-lime-600",
+  )
+  useEffect(
+    function () {
+      if (signupError) {
+        setSignupBtnClasses(() => "bg-red-400 text-black border-red-600")
+      } else {
+        setSignupBtnClasses(() => "bg-lime-400 text-black border-lime-600")
+      }
+    },
+    [signupError],
+  )
+  const signupHandler = function () {
+    if (!nameValid) {
+      dispatch(DispatchToast("이름이 유효하지 않습니다!", false))
+      return
+    } else if (!emailValid) {
+      dispatch(DispatchToast("이메일이 유효하지 않습니다!", false))
+      return
+    } else if (!emailCertValid) {
+      dispatch(DispatchToast("이메일 인증을 해주세요!", false))
+      return
+    } else if (!phoneValid) {
+      dispatch(DispatchToast("핸드폰 번호가 유효하지 않습니다!", false))
+      return
+    } else if (!phoneCertValid) {
+      dispatch(DispatchToast("핸드폰 인증을 해주세요!", false))
+      return
+    } else if (!idValid) {
+      dispatch(DispatchToast("아이디가 유효하지 않습니다!", false))
+      return
+    } else if (!nickValid) {
+      dispatch(DispatchToast("닉네입이 유효하지 않습니다!", false))
+      return
+    } else if (!pw1Valid) {
+      dispatch(DispatchToast("비밀번호가 유효하지 않습니다!", false))
+      return
+    } else if (!pw2Valid) {
+      dispatch(DispatchToast("2차 비밀번호가 유효하지 않습니다!", false))
+      return
+    } else if (idDupValid === null) {
+      dispatch(
+        DispatchToast("id 중복 검사 중입니다. 잠시 후에 시도해주세요!", false),
+      )
+    } else if (idDupValid === false) {
+      dispatch(DispatchToast("id가 중복 되었습니다!", false))
+    } else if (nickDupValid === null) {
+      dispatch(
+        DispatchToast(
+          "닉네임 중복 검사 중입니다. 잠시 후에 시도해주세요!",
+          false,
+        ),
+      )
+    } else if (nickDupValid === false) {
+      dispatch(DispatchToast("닉네임이 중복되었습니다!", false))
+    } else {
+      SignupRequest(
+        {
+          method: `post`,
+          url: ``,
+          data: {
+            memberId: idInput,
+            password: pw1Input,
+            nickname: nickInput,
+            name: nameInput,
+            email: emailInput,
+            phone: phoneInput,
+          },
+        },
+        function (res) {
+          console.log("회원가입 성공 시")
+          navigate("member/login")
+        },
+      )
+    }
+  }
 
   const pushLoginHandler = function () {
     navigate("/member/login")
@@ -213,9 +292,6 @@ function Signup() {
     <div
       className={`flex flex-col items-start justify-start rounded-[2pc] bg-white bg-opacity-75 w-auto h-full px-[2vw] py-[2vh] min-h-[700px]`}
     >
-      {/* <div
-        className={`basis-[25%] w-full h-[25%] flex items-center justify-center object-contain `}
-      ></div> */}
       <img
         alt={`로고`}
         src={LetsDoEng}
@@ -282,6 +358,8 @@ function Signup() {
               phoneCertValid={phoneCertValid}
               phoneCertChangeHandler={phoneCertChangeHandler}
               phoneCertClickHandler={phoneCertClickHandler}
+              emailDupValid={emailDupValid}
+              phoneDupValid={phoneDupValid}
             />
           </div>
           <div
@@ -314,6 +392,11 @@ function Signup() {
               pw2ChangeHandler={pw2ChangeHandler}
               pw2BlurHandler={pw2BlurHandler}
               signupHandler={signupHandler}
+              signupBtnClasses={signupBtnClasses}
+              signupBtnLoading={signupLoading}
+              signupBtnError={signupError}
+              nickDupValid={nickDupValid}
+              idDupValid={idDupValid}
             />
           </div>
           <div

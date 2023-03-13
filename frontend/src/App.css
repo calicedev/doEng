@@ -15,6 +15,7 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  pointer-events: none;
 }
 
 /* bg-container보다 z-index가 낮은 canvas 컨테이너 */
@@ -67,8 +68,4 @@
   width: 100%;
   height: 100%;
   outline: none;
-}
-
-.sign-outlet-container {
-  box-sizing: border-box;
 }

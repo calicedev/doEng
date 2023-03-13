@@ -2,45 +2,22 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 import { useEffect, useMemo, useState } from "react"
 
 const useDebounce = function (
-  requestData: AxiosRequestConfig,
-  delay: number = 1000
-): { res: AxiosResponse | undefined; isLoading: boolean; isError: boolean } {
-  const [res, setRes] = useState<AxiosResponse>()
-  const [isLoading, setIsLoading] = useState<boolean>(false)
-  const [isError, setIsError] = useState<boolean>(false)
-
+  value: any,
+  delay: number = 1000,
+): { value: any } {
+  const [debouncedValue, setDebouncedValue] = useState(value)
   useEffect(
     function () {
-      const axiosSource = axios.CancelToken.source()
-      setIsLoading(() => true)
-      setIsError(() => false)
       const timeId = setTimeout(function () {
-        axios({ ...requestData, cancelToken: axiosSource.token })
-          .then((res) => {
-            setRes(res)
-          })
-          .then(() => {
-            setIsLoading(() => false)
-            setIsError(() => false)
-          })
-          .catch((err) => {
-            console.log(err)
-            setIsLoading(() => false)
-            setIsError(() => true)
-          })
-      }, 1000)
-      return () => {
+        setDebouncedValue(() => value)
+      }, delay)
+      return function () {
         clearTimeout(timeId)
-        axiosSource.cancel()
       }
     },
-    [requestData]
+    [value],
   )
-  return {
-    res,
-    isLoading,
-    isError,
-  }
+  return debouncedValue
 }
 
 export default useDebounce
