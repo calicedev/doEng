@@ -9,6 +9,8 @@ import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.entity.member.RefreshToken;
 import com.ssafy.doeng.data.repository.member.AuthRepository;
 import com.ssafy.doeng.data.repository.member.MemberRepository;
+import com.ssafy.doeng.errors.code.ReviewErrorCode;
+import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.jwt.TokenProvider;
 import com.ssafy.doeng.service.member.MemberService;
 import com.ssafy.doeng.service.review.impl.ReviewServiceImpl;
@@ -41,7 +43,7 @@ public class MemberServiceImpl implements MemberService {
     public void signup(RequestSignupDto requestDto) {
         LOGGER.error("[회원가입 service 들어옴]");
         if (memberRepository.existsByMemberId(requestDto.getMemberId())) {
-            throw new RuntimeException("이미 가입되어 있는 유저입니다");
+            throw new ErrorException(ReviewErrorCode.REVIEW_CONFLICT);
         }
         // dto에서 모든 정보를 가져 오는 것을 담당한다.
         Member member = requestDto.toMember(passwordEncoder);
