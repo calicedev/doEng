@@ -24,6 +24,11 @@ interface PropsSignupSecondForm {
   pw2ChangeHandler: () => void
   pw2BlurHandler: () => void
   signupHandler: () => void
+  signupBtnClasses: string
+  signupBtnLoading: boolean
+  signupBtnError: boolean
+  nickDupValid: boolean | null
+  idDupValid: boolean | null
 }
 
 const SignupSecondForm = function ({
@@ -49,6 +54,11 @@ const SignupSecondForm = function ({
   pw2ChangeHandler,
   pw2BlurHandler,
   signupHandler,
+  signupBtnClasses,
+  signupBtnLoading,
+  signupBtnError,
+  nickDupValid,
+  idDupValid,
 }: PropsWithChildren<PropsSignupSecondForm>) {
   return (
     <div className="flex flex-col items-center justify-center">
@@ -107,13 +117,13 @@ const SignupSecondForm = function ({
         maxLength={16}
       />
       <div
-        className={`box-border flex items-center justify-center rounded-full min-h-[45px] max-h-[80px] min-w-[288px] h-[7.1vh] max-w-[700px] w-[43vw] px-5 py-[5px] shadow-xl duration-[0.33s] bg-green-600 border-green-700 border-[4px] cursor-pointer text-3xl font-hopang-black drop-shadow-lg hover:scale-[102%]`}
+        className={`box-border flex items-center justify-center rounded-full min-h-[45px] max-h-[80px] min-w-[288px] h-[7.1vh] max-w-[700px] w-[43vw] px-5 py-[5px] shadow-xl duration-[0.33s] border-[4px] cursor-pointer text-3xl font-hopang-black drop-shadow-lg hover:scale-[102%] ${signupBtnClasses}`}
+        onClick={signupHandler}
       >
         Sign up
       </div>
       <div
         className={`box-border min-h-[20px] max-h-[40px] min-w-[288px] h-[5vh] max-w-[700px] w-[52vw] px-4 pt-2 items-center text-lg sm:text-[1rem] mobile:text-sm duration-[0.44s] font-dolbom-regular`}
-        onClick={signupHandler}
       ></div>
     </div>
   )
