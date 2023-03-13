@@ -13,18 +13,16 @@ import Find from "./components/SignComponents/Find"
 import axios from "axios"
 import TaleDetailPage from "pages/TaleDetailPage"
 import NotFoundPage from "pages/NotFoundPage"
+import Toast from "components/UI/Toast"
 
 function App() {
   // axios.defaults.baseURL(``)
   return (
     <div className="App">
+      <Toast />
       <Routes>
         <Route path={`/`} element={<HomePage />} />
-        <Route path={`/member`} element={<SignPage />}>
-          <Route path={`login`} element={<Login />} />
-          <Route path={`signup`} element={<Signup />} />
-          <Route path={`find`} element={<Find />} />
-        </Route>
+        <Route path={`/member/:type`} element={<SignPage />}></Route>
         <Route path={`/mypage`} element={<MyPage />}>
           <Route path={`progress`} element={<ProgressListPage />} />
           <Route path={`progress/:taleId`} element={<ProgressDetailPage />} />
