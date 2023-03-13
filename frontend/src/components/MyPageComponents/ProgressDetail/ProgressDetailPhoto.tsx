@@ -29,7 +29,7 @@ function ProgressDetailPhoto({ talePhoto }: Photo) {
 
   return (
     <div>
-      <p>학습 앨범</p>
+      <div className=" font-bold">학습 앨범</div>
       <div className="flex justify-between mt-4">
         <IconButton
           icon={<FaChevronLeft />}
