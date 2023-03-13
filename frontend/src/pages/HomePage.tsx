@@ -1,11 +1,18 @@
-import { useRef } from "react"
+import { useRef, useEffect } from "react"
 import Wave from "../components/CanvasComponents/Wave/Wave"
 import { useWidthHeight } from "../hooks/useWidthHwight"
+import { useStoreDispatch } from "hooks/useStoreSelector"
+import { useNavigate } from "react-router-dom"
 
 function HomePage() {
+  const navigate = useNavigate()
+  const dispatch = useStoreDispatch()
   const canvasDivRef = useRef<HTMLDivElement>(null)
   const { width: canvasWidth, height: canvasHeight } =
     useWidthHeight(canvasDivRef)
+  useEffect(function () {
+    navigate("/member/login")
+  }, [])
   return (
     <>
       <div
