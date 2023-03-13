@@ -1,3 +1,4 @@
+import { SpinnerDots } from "components/UI/Spinner"
 import { PropsWithChildren, RefObject } from "react"
 import InputInSignup from "../UI/InputInSignup"
 
@@ -120,7 +121,13 @@ const SignupSecondForm = function ({
         className={`box-border flex items-center justify-center rounded-full min-h-[45px] max-h-[80px] min-w-[288px] h-[7.1vh] max-w-[700px] w-[43vw] px-5 py-[5px] shadow-xl duration-[0.33s] border-[4px] cursor-pointer text-3xl font-hopang-black drop-shadow-lg hover:scale-[102%] ${signupBtnClasses}`}
         onClick={signupHandler}
       >
-        Sign up
+        {signupBtnError ? (
+          `회원가입 에러`
+        ) : signupBtnLoading ? (
+          <SpinnerDots />
+        ) : (
+          `회원 가입`
+        )}
       </div>
       <div
         className={`box-border min-h-[20px] max-h-[40px] min-w-[288px] h-[5vh] max-w-[700px] w-[52vw] px-4 pt-2 items-center text-lg sm:text-[1rem] mobile:text-sm duration-[0.44s] font-dolbom-regular`}
