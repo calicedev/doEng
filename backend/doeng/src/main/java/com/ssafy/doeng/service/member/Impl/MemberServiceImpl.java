@@ -9,7 +9,6 @@ import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.entity.member.RefreshToken;
 import com.ssafy.doeng.data.repository.member.AuthRepository;
 import com.ssafy.doeng.data.repository.member.MemberRepository;
-import com.ssafy.doeng.data.repository.member.RefreshTokenRepository;
 import com.ssafy.doeng.jwt.TokenProvider;
 import com.ssafy.doeng.service.member.MemberService;
 import com.ssafy.doeng.service.review.impl.ReviewServiceImpl;
@@ -36,7 +35,6 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-    private final RefreshTokenRepository refreshTokenRepository;
     private final AuthRepository authRepository;
 
     @Transactional
@@ -65,7 +63,7 @@ public class MemberServiceImpl implements MemberService {
                 .key(authentication.getName())
                 .value(tokenDto.getRefreshToken())
                 .build();
-        refreshTokenRepository.save(refreshToken);
+        authRepository.save(refreshToken);
         // 5. 토큰 발급
         return tokenDto;
     }
@@ -83,7 +81,7 @@ public class MemberServiceImpl implements MemberService {
         Authentication authentication = tokenProvider.getAuthentication(requestDto.getAccessToken());
 
         // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
-        RefreshToken refreshToken = refreshTokenRepository.findByKey(authentication.getName())
+        RefreshToken refreshToken = authRepository.findByKey(authentication.getName())
                 .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
 
         // 4. Refresh Token 일치하는지 검사
@@ -96,7 +94,7 @@ public class MemberServiceImpl implements MemberService {
 
         // 6. 저장소 정보 업데이트
         RefreshToken newRefreshToken = refreshToken.updateValue(tokenDto.getRefreshToken());
-        refreshTokenRepository.save(newRefreshToken);
+        authRepository.save(newRefreshToken);
 
         // 토큰 발급
         return tokenDto;

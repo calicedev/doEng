@@ -1,24 +1,18 @@
 package com.ssafy.doeng.data.entity.member;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
 @Getter
 @NoArgsConstructor
-@Table(name = "refresh_token")
-@Entity
+@RedisHash(value = "RefreshToken", timeToLive = 60)
 public class RefreshToken {
 
     @Id
-    @Column(name = "rt_key")
     private String key;
-
-    @Column(name = "rt_value")
     private String value;
 
     @Builder

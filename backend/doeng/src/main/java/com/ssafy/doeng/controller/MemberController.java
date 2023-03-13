@@ -38,7 +38,7 @@ public class MemberController {
 
     @GetMapping("test")
     public ResponseEntity<String> test() {
-        return ResponseEntity.ok("자동 배포 했습니다 축하드립니다.");
+        return ResponseEntity.ok("auto CI/CD");
     }
 
 
