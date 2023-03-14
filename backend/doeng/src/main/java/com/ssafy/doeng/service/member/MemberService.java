@@ -1,6 +1,7 @@
 package com.ssafy.doeng.service.member;
 
 import com.ssafy.doeng.data.dto.member.TokenDto;
+import com.ssafy.doeng.data.dto.member.request.RequestEmailDto;
 import com.ssafy.doeng.data.dto.member.request.RequestMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
@@ -11,7 +12,7 @@ public interface MemberService {
     void signup(RequestSignupDto requestDto);
     TokenDto login(RequestMemberDto requestDto);
     TokenDto reissue(RequestTokenDto requestDto);
-    void logout();
+    void logout(Long id);
     Member getMemberInfo(Long id);
     void modifyMemberInfo(RequestModifyMemberDto requestDto);
     void MemberWithdrawal();
@@ -21,4 +22,6 @@ public interface MemberService {
     boolean checkNickname(String nickname);
 
     Object getLoginMemberEmail();
+
+    void checkEmailcode(RequestEmailDto requestDto);
 }

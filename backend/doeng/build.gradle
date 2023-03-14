@@ -43,10 +43,12 @@ dependencies {
     runtimeOnly 'io.jsonwebtoken:jjwt-jackson:0.11.5'
     implementation 'javax.xml.bind:jaxb-api:2.3.0'
 
-//    redis
+    // redis
     implementation 'org.springframework.boot:spring-boot-starter-data-redis'
     // lettuce : open source connector
     implementation 'io.lettuce:lettuce-core:6.2.2.RELEASE'
+    // email
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 
 }
 
