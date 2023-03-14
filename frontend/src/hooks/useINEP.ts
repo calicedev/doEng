@@ -1,4 +1,4 @@
-import axios, { AxiosRequestConfig } from "axios"
+import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 import { useEffect, useState, useMemo } from "react"
 import apiRequest from "utils/axios"
 
@@ -19,31 +19,31 @@ const useINEP = function (
         typeName = "이메일"
         requestData = {
           method: `get`,
-          url: `api/check/email/${value}`,
+          url: `/api/member/check/email/${value}`,
         }
       } else if (hookType === "phone") {
         typeName = "폰 번호"
         requestData = {
           method: `get`,
-          url: `api/check/phone/${value}`,
+          url: `/api/member/check/phone/${value}`,
         }
       } else if (hookType === "nick") {
         typeName = "닉네임"
         requestData = {
           method: `get`,
-          url: `api/check/nickname/${value}`,
+          url: `/api/member/check/nickname/${value}`,
         }
       } else if (hookType === "id") {
         typeName = "아이디"
         requestData = {
           method: `get`,
-          url: `api/check/id/${value}`,
+          url: `/api/member/check/id/${value}`,
         }
       } else {
         typeName = `${value}`
         requestData = {
           method: `get`,
-          url: `api/check/${hookType}/${value}`,
+          url: `/api/member/check/${hookType}/${value}`,
         }
       }
       return { typeName, requestData }
@@ -60,8 +60,10 @@ const useINEP = function (
       const axiosSource = axios.CancelToken.source()
       const timeId = setTimeout(function () {
         apiRequest({ ...requestData, cancelToken: axiosSource.token })
-          .then(() => {
-            setDupValid(() => true)
+          .then((res: AxiosResponse) => {
+            setDupValid(() => {
+              return res.data === false
+            })
           })
           .catch(() => {
             setDupValid(() => false)

@@ -138,7 +138,7 @@ const SignupFirstForm = function ({
     EmailRequest(
       {
         method: `post`,
-        url: ``,
+        url: `/api/member/check/email/send`,
         data: {
           email: emailRef.current?.value,
         },

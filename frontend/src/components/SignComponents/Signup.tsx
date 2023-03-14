@@ -224,14 +224,14 @@ function Signup() {
       dispatch(DispatchToast("이메일이 유효하지 않습니다!", false))
       return
     } else if (!emailCertValid) {
-      dispatch(DispatchToast("이메일 인증을 해주세요!", false))
-      return
+      // dispatch(DispatchToast("이메일 인증을 해주세요!", false))
+      // return
     } else if (!phoneValid) {
       dispatch(DispatchToast("핸드폰 번호가 유효하지 않습니다!", false))
       return
     } else if (!phoneCertValid) {
-      dispatch(DispatchToast("핸드폰 인증을 해주세요!", false))
-      return
+      // dispatch(DispatchToast("핸드폰 인증을 해주세요!", false))
+      // return
     } else if (!idValid) {
       dispatch(DispatchToast("아이디가 유효하지 않습니다!", false))
       return
@@ -263,7 +263,7 @@ function Signup() {
       SignupRequest(
         {
           method: `post`,
-          url: ``,
+          url: `/api/member`,
           data: {
             memberId: idInput,
             password: pw1Input,
