@@ -41,7 +41,8 @@ function ProgressDetailPhoto({ talePhoto }: Photo) {
           {talePhoto
             .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
             .map((photo: Scene) => (
-              <div className={`overflow-hidden relative w-32`}>
+              // <div className={`overflow-hidden relative w-32`}>
+              <div className="relative w-32 h-32 overflow-hidden transform hover:rotate-3 hover:-translate-x-1 hover:-translate-y-1 duration-200">
                 <ProgressDetailPhotoCard key={photo.id} photoCard={photo} />
               </div>
             ))}

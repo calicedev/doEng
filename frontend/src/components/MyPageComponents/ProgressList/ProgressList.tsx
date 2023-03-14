@@ -1,5 +1,5 @@
-import React from 'react'
-import dummy from '../DummyData/ProgressList.json'
+import React from "react"
+import dummy from "../DummyData/ProgressList.json"
 
 interface Tale {
   id: number
@@ -19,7 +19,7 @@ function ProgressList({ tale }: TaleProps) {
         className="w-full"
         src={tale.backgroundImage}
         alt="progressBackground"
-      />{' '}
+      />{" "}
       <div>{tale.title}</div>
       <div className="w-full bg-gray-200 rounded-full mb-4 dark:bg-gray-700">
         <div

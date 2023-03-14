@@ -1,5 +1,11 @@
-import React from 'react'
+import Profile from "components/MyPageComponents/Profile/Profile"
+import React from "react"
 
 export default function ProfiliePage() {
-  return <div>ProfiliePage</div>
+  return (
+    <div>
+      <div>ProfiliePage</div>
+      <Profile />
+    </div>
+  )
 }
