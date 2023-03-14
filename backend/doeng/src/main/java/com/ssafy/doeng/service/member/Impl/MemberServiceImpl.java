@@ -6,10 +6,9 @@ import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
 import com.ssafy.doeng.data.dto.member.request.RequestTokenDto;
 import com.ssafy.doeng.data.entity.member.Member;
-import com.ssafy.doeng.data.entity.member.RefreshToken;
 import com.ssafy.doeng.data.repository.member.AuthRepository;
 import com.ssafy.doeng.data.repository.member.MemberRepository;
-import com.ssafy.doeng.errors.code.ReviewErrorCode;
+import com.ssafy.doeng.errors.code.MemberErrorCode;
 import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.jwt.TokenProvider;
 import com.ssafy.doeng.service.member.MemberService;
@@ -19,6 +18,7 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -33,6 +33,7 @@ public class MemberServiceImpl implements MemberService {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(ReviewServiceImpl.class);
 
+    private final RedisTemplate<String, String> redisTemplate;
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
@@ -43,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
     public void signup(RequestSignupDto requestDto) {
         LOGGER.error("[회원가입 service 들어옴]");
         if (memberRepository.existsByMemberId(requestDto.getMemberId())) {
-            throw new ErrorException(ReviewErrorCode.REVIEW_CONFLICT);
+            throw new ErrorException(MemberErrorCode.MEMBER_DUPLICATE);
         }
         // dto에서 모든 정보를 가져 오는 것을 담당한다.
         Member member = requestDto.toMember(passwordEncoder);
@@ -53,19 +54,23 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public TokenDto login(RequestMemberDto requestDto) {
         LOGGER.info("[로그인 service 들어옴]");
+
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
+
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
+        //    customeruservice에서 처리함.
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-        // 4. RefreshToken 저장
-        RefreshToken refreshToken = RefreshToken.builder()
-                .key(authentication.getName())
-                .value(tokenDto.getRefreshToken())
-                .build();
-        authRepository.save(refreshToken);
+
+        // 4. RefreshToken Redis에 저장
+        redisTemplate.opsForValue().set(
+                "token_"+authentication.getName(),
+                tokenDto.getRefreshToken()
+        );
         // 5. 토큰 발급
         return tokenDto;
     }
@@ -76,45 +81,53 @@ public class MemberServiceImpl implements MemberService {
 
         // 1. Refresh Token 검증
         if (!tokenProvider.validateToken(requestDto.getRefreshToken())) {
-            throw new RuntimeException("Refresh Token 이 유효하지 않습니다.");
+            throw new ErrorException(MemberErrorCode.REFRESHTOKEN_NOTVALIDATE);
         }
 
         // 2. Access Token 에서 Member ID 가져오기
         Authentication authentication = tokenProvider.getAuthentication(requestDto.getAccessToken());
 
+        String rt = redisTemplate.opsForValue().get("token_"+authentication.getName());
         // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
-        RefreshToken refreshToken = authRepository.findByKey(authentication.getName())
-                .orElseThrow(() -> new RuntimeException("로그아웃 된 사용자입니다."));
+        if(rt==null || rt==""){
+            throw new RuntimeException("로그아웃 된 사용자입니다.");
+        }
 
         // 4. Refresh Token 일치하는지 검사
-        if (!refreshToken.getValue().equals(requestDto.getRefreshToken())) {
+        if (!rt.equals(requestDto.getRefreshToken())) {
             throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
         }
 
         // 5. 새로운 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
-        // 6. 저장소 정보 업데이트
-        RefreshToken newRefreshToken = refreshToken.updateValue(tokenDto.getRefreshToken());
-        authRepository.save(newRefreshToken);
+        // 6.  정보 업데이트
+        redisTemplate.opsForValue().set(
+                "token_"+authentication.getName(),
+                tokenDto.getRefreshToken()
+        );
 
         // 토큰 발급
         return tokenDto;
     }
 
     @Transactional
-    public void logout() {
+    public void logout(Long id) {
         LOGGER.info("회원 로그아웃 서비스");
-        Optional<Member> member = memberRepository.findByMemberId(SecurityUtil.getCurrentId());
-        member.ifPresent(selectMember -> {
-            authRepository.deleteByKey(selectMember.getMemberId());
-        });
+        Optional<Member> member = memberRepository.findById(id);
+        String memberId = member.get().getMemberId();
+        // 3. Redis 에서 해당 User email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제합니다.
+        if (redisTemplate.opsForValue().get("token_"+memberId) != null) {
+            // Refresh Token 삭제
+            redisTemplate.delete(memberId);
+        }
     }
+
+
     @Transactional(readOnly = true)
     public Member getMemberInfo(Long id) {
         LOGGER.info("회원 정보 서비스 들어옴");
         Optional<Member> member = memberRepository.findById(id);
-
         return member.get();
     }
 

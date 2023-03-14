@@ -3,7 +3,6 @@ package com.ssafy.doeng.controller;
 import com.ssafy.doeng.config.auth.LoginId;
 import com.ssafy.doeng.data.dto.member.TokenDto;
 import com.ssafy.doeng.data.dto.member.request.RequestCheckPasswordDto;
-import com.ssafy.doeng.data.dto.member.request.RequestEmailDto;
 import com.ssafy.doeng.data.dto.member.request.RequestEmailValidateDto;
 import com.ssafy.doeng.data.dto.member.request.RequestMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberDto;
@@ -62,9 +61,9 @@ public class MemberController {
     }
 
     @DeleteMapping("/logout")
-    public void logout() {
+    public void logout(@LoginId Long id) {
         LOGGER.info("[logout] 로그아웃 controller 들어옴");
-        memberService.logout();
+        memberService.logout(id);
     }
 
     @GetMapping
@@ -97,11 +96,11 @@ public class MemberController {
         return ResponseEntity.ok().body("");
     }
 
-    @PostMapping("/check/emailcode")
-    public ResponseEntity<String> CheckEmailcode(@RequestBody RequestEmailDto requestDto){
-        LOGGER.info("[CheckEmailcode] 이메일 인증번호 요청 controller 들어옴");
-        return ResponseEntity.ok().body("");
-    }
+//    @PostMapping("/check/emailcode")
+//    public ResponseEntity<String> CheckEmailcode(@RequestBody RequestEmailDto requestDto){
+//        LOGGER.info("[CheckEmailcode] 이메일 인증번호 요청 controller 들어옴");
+//        return ResponseEntity.ok().body("");
+//    }
 
     @PostMapping("/check/email")
     public ResponseEntity<?> CheckEmail(@RequestBody RequestEmailValidateDto requestDto){

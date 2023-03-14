@@ -11,7 +11,7 @@ public interface MemberService {
     void signup(RequestSignupDto requestDto);
     TokenDto login(RequestMemberDto requestDto);
     TokenDto reissue(RequestTokenDto requestDto);
-    void logout();
+    void logout(Long id);
     Member getMemberInfo(Long id);
     void modifyMemberInfo(RequestModifyMemberDto requestDto);
     void MemberWithdrawal();

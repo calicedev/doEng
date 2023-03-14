@@ -11,7 +11,9 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class RequestEmailDto {
+public class RequestEmailAuthenticationDto {
+    private String memberId;
     private String email;
+
 
 }
