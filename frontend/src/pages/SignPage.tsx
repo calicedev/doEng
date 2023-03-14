@@ -1,17 +1,25 @@
 import Find from "components/SignComponents/Find"
 import Login from "components/SignComponents/Login"
 import Signup from "components/SignComponents/Signup"
-import { useRef } from "react"
-import { Outlet, useParams } from "react-router-dom"
+import { useEffect, useRef } from "react"
+import { Outlet, useNavigate, useParams } from "react-router-dom"
 import Wave from "../components/CanvasComponents/Wave/Wave"
 import { useWidthHeight } from "../hooks/useWidthHwight"
 
 function SignPage() {
+  const navigate = useNavigate()
   const { type } = useParams()
   const canvasDivRef = useRef<HTMLDivElement>(null)
   const { width: canvasWidth, height: canvasHeight } =
     useWidthHeight(canvasDivRef)
-
+  useEffect(
+    function () {
+      if (type !== "login" && type !== "signup" && type !== "find") {
+        navigate("/member/login")
+      }
+    },
+    [type],
+  )
   return (
     <>
       <div

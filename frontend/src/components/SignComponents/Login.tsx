@@ -70,16 +70,16 @@ function Login() {
     navigate("/member/find")
   }
   const [loginBtnClasses, setLoginBtnClasses] = useState<string>(
-    "bg-lime-400 text-black border-lime-600",
+    "bg-lime-400 text-green-900 border-lime-600",
   )
 
   useEffect(
     function () {
       if (loginError) {
         // dispatch(DispatchToast("로그인 실패!", false))
-        setLoginBtnClasses(() => "bg-red-400 text-black border-red-600")
+        setLoginBtnClasses(() => "bg-red-400 text-red-900 border-red-600")
       } else {
-        setLoginBtnClasses(() => "bg-lime-400 text-black border-lime-600")
+        setLoginBtnClasses(() => "bg-lime-400 text-green-900 border-lime-600")
       }
     },
     [loginError],
@@ -135,13 +135,13 @@ function Login() {
           className={`box-border flex flex-row items-center justify-center min-h-[45px] max-h-[80px] min-w-[288px] h-[8vh] max-w-[480px] w-[40vw] gap-4 mt-4`}
         >
           <div
-            className={`box-border flex basis-[50%] items-center justify-center w-full h-full rounded-full font-hopang-white text-3xl cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[-6deg] hover:-skew-y-[-6deg]`}
+            className={`box-border flex basis-[50%] items-center justify-center w-full h-full rounded-full font-hopang-white cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[-6deg] hover:-skew-y-[-6deg] text-sm sm:text-xl mobile:text-lg md:text-2xl lg:text-3xl text-yellow-900`}
             onClick={findIdHandler}
           >
             회원 정보 찾기
           </div>
           <div
-            className={`box-border flex basis-[50%] items-center justify-center w-full h-full rounded-full font-hopang-white text-3xl cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[5deg] hover:-skew-y-[5deg]`}
+            className={`box-border flex basis-[50%] items-center justify-center w-full h-full rounded-full font-hopang-white cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[5deg] hover:-skew-y-[5deg] text-sm sm:text-xl mobile:text-lg md:text-2xl lg:text-3xl text-yellow-900`}
             onClick={goSignupHandler}
           >
             회원 가입

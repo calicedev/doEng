@@ -7,6 +7,7 @@ import axios, { AxiosResponse } from "axios"
 import exampleSlice, { exActions } from "./example-slice"
 import tokenSlice, { tokenActions } from "./tokenSlice"
 import toastSlice, { toastActions } from "./toastSlice"
+import findSlice from "./findSlice"
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
@@ -15,6 +16,7 @@ const rootReducers = combineReducers({
   example: exampleSlice,
   token: tokenSlice,
   toast: toastSlice,
+  find: findSlice,
 })
 
 const persistConfig = {

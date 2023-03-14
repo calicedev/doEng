@@ -18,31 +18,31 @@ const useINEP = function (
       if (hookType === "email") {
         typeName = "이메일"
         requestData = {
-          method: ``,
+          method: `get`,
           url: `api/check/email/${value}`,
         }
       } else if (hookType === "phone") {
         typeName = "폰 번호"
         requestData = {
-          method: ``,
+          method: `get`,
           url: `api/check/phone/${value}`,
         }
       } else if (hookType === "nick") {
         typeName = "닉네임"
         requestData = {
-          method: ``,
+          method: `get`,
           url: `api/check/nickname/${value}`,
         }
       } else if (hookType === "id") {
         typeName = "아이디"
         requestData = {
-          method: ``,
+          method: `get`,
           url: `api/check/id/${value}`,
         }
       } else {
         typeName = `${value}`
         requestData = {
-          method: ``,
+          method: `get`,
           url: `api/check/${hookType}/${value}`,
         }
       }
@@ -51,7 +51,6 @@ const useINEP = function (
     [hookType, value],
   )
 
-  console.log(isValid, `${hookType}이즈밸리드`)
   useEffect(
     function () {
       if (!isValid) {

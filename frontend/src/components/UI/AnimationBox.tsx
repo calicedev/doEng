@@ -24,7 +24,7 @@ const AnimationBox: FC<PropsWithChildren<AnimateBoxProps>> = function ({
     <>
       {isRender && (
         <div
-          className={`${boxClasses} ${animationClasses}`}
+          className={`${animationClasses} ${boxClasses}`}
           onAnimationEnd={animationEndHandler}
         >
           {children}
