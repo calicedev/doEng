@@ -1,12 +1,13 @@
 package com.ssafy.doeng.service.member.Impl;
 
 import com.ssafy.doeng.data.dto.member.TokenDto;
+import com.ssafy.doeng.data.dto.member.request.RequestEmailDto;
 import com.ssafy.doeng.data.dto.member.request.RequestMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
 import com.ssafy.doeng.data.dto.member.request.RequestTokenDto;
+import com.ssafy.doeng.data.dto.member.response.ResponseMailDto;
 import com.ssafy.doeng.data.entity.member.Member;
-import com.ssafy.doeng.data.repository.member.AuthRepository;
 import com.ssafy.doeng.data.repository.member.MemberRepository;
 import com.ssafy.doeng.errors.code.MemberErrorCode;
 import com.ssafy.doeng.errors.exception.ErrorException;
@@ -18,7 +19,10 @@ import java.util.Optional;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
+import org.springframework.mail.SimpleMailMessage;
+import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.core.Authentication;
@@ -38,7 +42,11 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-    private final AuthRepository authRepository;
+
+    @Autowired
+    private JavaMailSender mailSender;
+    private static final String FROM_ADDRESS = "calicedev@naver.com";
+
 
     @Transactional
     public void signup(RequestSignupDto requestDto) {
@@ -167,6 +175,58 @@ public class MemberServiceImpl implements MemberService {
         Optional<Member> tMember = memberRepository.findByMemberId(SecurityUtil.getCurrentId());
         Member member = tMember.get();
         return member.getMemberId();
+    }
+
+    @Override
+    public void checkEmailcode(RequestEmailDto requestDto) {
+        // 1. 이메일이랑 아이디가 맞는 계정인지 확인하는 과정
+        String email = memberRepository.findEmailByMemberId(requestDto.getMemberId());
+        if(!email.equals(requestDto.getEmail())){
+            throw new ErrorException(MemberErrorCode.MEMBER_DUPLICATE);
+        }
+        // 2. 맞으면
+        String str = getCode();
+        ResponseMailDto responseMailDto = new ResponseMailDto();
+        responseMailDto.setAddress(requestDto.getEmail());
+        responseMailDto.setTitle(requestDto.getMemberId()+"님의 인증코드 안내 이메일 입니다.");
+        responseMailDto.setMessage("안녕하세요. 인증코드 이메일 입니다." + "[" + requestDto.getMemberId() + "]" +"님의 인증번호는 "
+                + str + " 입니다.");
+
+        System.out.println("+++++++++"+requestDto.getEmail());
+        // 3. 인증번호 redis에 저장하기
+        redisTemplate.opsForValue().set(
+                "passwordAuth_"+requestDto.getMemberId(),
+                str
+        );
+        // 4. 이메일 보내기
+        mailSend(responseMailDto);
+        System.out.println("여기까지 들어왔음");
+    }
+
+    public String getCode() {
+        char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+
+        String str = "";
+
+        int idx = 0;
+        for (int i = 0; i < 10; i++) {
+            idx = (int) (charSet.length * Math.random());
+            str += charSet[idx];
+        }
+        return str;
+    }
+
+    public void mailSend(ResponseMailDto responseMailDto){
+        System.out.println("이멜 전송 완료!");
+        SimpleMailMessage message = new SimpleMailMessage();
+
+        message.setTo(responseMailDto.getAddress());
+        message.setFrom(MemberServiceImpl.FROM_ADDRESS);
+        message.setSubject(responseMailDto.getTitle());
+        message.setText(responseMailDto.getMessage());
+
+        mailSender.send(message);
     }
 
 //
