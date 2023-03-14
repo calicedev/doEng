@@ -36,6 +36,11 @@ public class MemberController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
     private final MemberService memberService;
 
+    @GetMapping("test")
+    public ResponseEntity<String> test() {
+        return ResponseEntity.ok("auto CI/CD");
+    }
+
 
     @PostMapping
     public ResponseEntity<Void> signup(@RequestBody RequestSignupDto requestDto) {
@@ -57,44 +62,38 @@ public class MemberController {
     }
 
     @DeleteMapping("/logout")
-    public void logout() {
+    public void logout(@LoginId Long id) {
         LOGGER.info("[logout] 로그아웃 controller 들어옴");
-        memberService.logout();
+        memberService.logout(id);
     }
 
     @GetMapping
-    public ResponseEntity<Member> GetMemberInfo(@LoginId Long id){
+    public ResponseEntity<Member> getMemberInfo(@LoginId Long id){
         LOGGER.info("[GetMemberInfo] 회원 정보 조회 controller 들어옴");
         return ResponseEntity.ok(memberService.getMemberInfo(id));
     }
 
     @PatchMapping
-    public void ModifyMemberInfo(@RequestBody RequestModifyMemberDto requestDto){
+    public void modifyMemberInfo(@RequestBody RequestModifyMemberDto requestDto){
         LOGGER.info("[ModifyMemberInfo] 회원 수정 정보 들어옴");
         memberService.modifyMemberInfo(requestDto);
     }
 
     @DeleteMapping
-    public void MemberWithdrawal(){
+    public void memberWithdrawal(){
         LOGGER.info("[MemberWithdrawal] 회원 탈퇴 요청 controller 들어옴");
         memberService.MemberWithdrawal();
     }
 
     @PutMapping("/password")
-    public ResponseEntity<String> ModifyMemberPassword(@RequestBody RequestModifyMemberPasswordDto requestDto){
+    public ResponseEntity<String> modifyMemberPassword(@RequestBody RequestModifyMemberPasswordDto requestDto){
         LOGGER.info("[ModifyMemberPassword] 비밀번호 수정 controller 들어옴");
         return ResponseEntity.ok().body("");
     }
 
     @PostMapping("/check/password")
-    public ResponseEntity<String> CheckPassowrd(@RequestBody RequestCheckPasswordDto requestDto){
+    public ResponseEntity<String> checkPassowrd(@RequestBody RequestCheckPasswordDto requestDto){
         LOGGER.info("[CheckPassowrd] 비밀번호 검증 controller 들어옴");
-        return ResponseEntity.ok().body("");
-    }
-
-    @PostMapping("/check/emailcode")
-    public ResponseEntity<String> CheckEmailcode(@RequestBody RequestEmailDto requestDto){
-        LOGGER.info("[CheckEmailcode] 이메일 인증번호 요청 controller 들어옴");
         return ResponseEntity.ok().body("");
     }
 
@@ -103,6 +102,14 @@ public class MemberController {
         LOGGER.info("[CheckEmail] 이메일 인증 확인 controller 들어옴");
         return ResponseEntity.ok().body("");
     }
+
+    @PostMapping("/check/emailcode")
+    public ResponseEntity<String> checkEmailcode(@RequestBody RequestEmailDto requestDto){
+        LOGGER.info("[CheckEmailcode] 이메일 인증번호 요청 controller 들어옴");
+        memberService.checkEmailcode(requestDto);
+        return ResponseEntity.ok().body("");
+    }
+
 
     @GetMapping("/check/memberId/{memberId}")
     public ResponseEntity<Boolean> CheckMemberId(@PathVariable("memberId") String memberId){

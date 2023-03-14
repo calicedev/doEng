@@ -1,9 +1,10 @@
 package com.ssafy.doeng.data.repository.member;
 
-import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.entity.member.RefreshToken;
-import org.springframework.data.jpa.repository.JpaRepository;
+import java.util.Optional;
+import org.springframework.data.repository.CrudRepository;
 
-public interface AuthRepository extends JpaRepository<RefreshToken, Long> {
+public interface AuthRepository extends CrudRepository<RefreshToken, String> {
     void deleteByKey(String key);
+    Optional<RefreshToken> findByMemberId(String memberId);
 }

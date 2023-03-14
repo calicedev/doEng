@@ -1,34 +1,37 @@
 package com.ssafy.doeng.data.entity.member;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
+import org.springframework.data.annotation.Id;
+import org.springframework.data.redis.core.RedisHash;
 
 @Getter
+@Setter
 @NoArgsConstructor
-@Table(name = "refresh_token")
-@Entity
+@RedisHash(value = "RefreshToken", timeToLive = 60)
 public class RefreshToken {
 
     @Id
-    @Column(name = "rt_key")
-    private String key;
-
-    @Column(name = "rt_value")
-    private String value;
+    private Long memberId;
+    private String refreshToken;
 
     @Builder
-    public RefreshToken(String key, String value) {
-        this.key = key;
-        this.value = value;
+    public RefreshToken(Long memberId, String refreshToken) {
+        this.memberId = memberId;
+        this.refreshToken = refreshToken;
     }
 
     public RefreshToken updateValue(String token) {
-        this.value = token;
+        this.refreshToken = token;
         return this;
+    }
+
+    public static RefreshToken createRefreshToken(Long memberId, String refreshToken) {
+        return RefreshToken.builder()
+                .memberId(memberId)
+                .refreshToken(refreshToken)
+                .build();
     }
 }
