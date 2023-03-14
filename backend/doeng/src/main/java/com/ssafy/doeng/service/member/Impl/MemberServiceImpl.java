@@ -2,6 +2,7 @@ package com.ssafy.doeng.service.member.Impl;
 
 import com.ssafy.doeng.data.dto.member.TokenDto;
 import com.ssafy.doeng.data.dto.member.request.RequestEmailDto;
+import com.ssafy.doeng.data.dto.member.request.RequestEmailValidateDto;
 import com.ssafy.doeng.data.dto.member.request.RequestMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
@@ -14,6 +15,7 @@ import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.jwt.TokenProvider;
 import com.ssafy.doeng.service.member.MemberService;
 import com.ssafy.doeng.service.review.impl.ReviewServiceImpl;
+import com.ssafy.doeng.util.RedisUtil;
 import com.ssafy.doeng.util.SecurityUtil;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +44,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-
+    private final RedisUtil redisUtil;
     @Autowired
     private JavaMailSender mailSender;
     private static final String FROM_ADDRESS = "calicedev@naver.com";
@@ -177,8 +179,7 @@ public class MemberServiceImpl implements MemberService {
         return member.getMemberId();
     }
 
-    @Override
-    public void checkEmailcode(RequestEmailDto requestDto) {
+    public void checkEmailSend(RequestEmailDto requestDto) {
         // 1. 이메일이랑 아이디가 맞는 계정인지 확인하는 과정
         String email = memberRepository.findEmailByMemberId(requestDto.getMemberId());
         if(!email.equals(requestDto.getEmail())){
@@ -194,18 +195,27 @@ public class MemberServiceImpl implements MemberService {
 
         System.out.println("+++++++++"+requestDto.getEmail());
         // 3. 인증번호 redis에 저장하기
-        redisTemplate.opsForValue().set(
-                "passwordAuth_"+requestDto.getMemberId(),
-                str
-        );
+        redisUtil.setDataExpire("emailAuth_"+requestDto.getMemberId(),
+                str,30 * 1L);
         // 4. 이메일 보내기
         mailSend(responseMailDto);
+
         System.out.println("여기까지 들어왔음");
+    }
+
+    @Override
+    public String checkEmailConfirm(RequestEmailValidateDto requestDto) {
+        String code = requestDto.getConfirmCode();
+        String redisCode = redisTemplate.opsForValue().get("pwd  EmailAuth_"+code);
+        if( redisCode!= null && redisCode.equals(code)){
+            return "match";
+        }else{return "mismatch";}
     }
 
     public String getCode() {
         char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
+                'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
         String str = "";
 

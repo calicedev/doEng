@@ -2,6 +2,7 @@ package com.ssafy.doeng.service.member;
 
 import com.ssafy.doeng.data.dto.member.TokenDto;
 import com.ssafy.doeng.data.dto.member.request.RequestEmailDto;
+import com.ssafy.doeng.data.dto.member.request.RequestEmailValidateDto;
 import com.ssafy.doeng.data.dto.member.request.RequestMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
@@ -22,6 +23,7 @@ public interface MemberService {
     boolean checkNickname(String nickname);
 
     Object getLoginMemberEmail();
+    void checkEmailSend(RequestEmailDto requestDto);
 
-    void checkEmailcode(RequestEmailDto requestDto);
+    String checkEmailConfirm(RequestEmailValidateDto requestDto);
 }
