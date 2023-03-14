@@ -193,10 +193,9 @@ public class MemberServiceImpl implements MemberService {
         responseMailDto.setMessage("안녕하세요. 인증코드 이메일 입니다." + "[" + requestDto.getMemberId() + "]" +"님의 인증번호는 "
                 + str + " 입니다.");
 
-        System.out.println("+++++++++"+requestDto.getEmail());
         // 3. 인증번호 redis에 저장하기
-        redisUtil.setDataExpire("emailAuth_"+requestDto.getMemberId(),
-                str,30 * 1L);
+        redisUtil.setDataExpire("emailAuth_"+requestDto.getEmail(),
+                str,60 * 1L);
         // 4. 이메일 보내기
         mailSend(responseMailDto);
 
@@ -206,7 +205,7 @@ public class MemberServiceImpl implements MemberService {
     @Override
     public String checkEmailConfirm(RequestEmailValidateDto requestDto) {
         String code = requestDto.getConfirmCode();
-        String redisCode = redisTemplate.opsForValue().get("pwd  EmailAuth_"+code);
+        String redisCode = redisTemplate.opsForValue().get("emailAuth_"+requestDto.getEmail());
         if( redisCode!= null && redisCode.equals(code)){
             return "match";
         }else{return "mismatch";}

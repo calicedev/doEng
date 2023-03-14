@@ -12,6 +12,7 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class RequestEmailValidateDto {
+    private String email;
     private String confirmCode;
 
 }
