@@ -21,7 +21,7 @@ const SelectEmailOrPhone = function ({
       </div>
       <div className="flex flex-row items-center justify-center min-w-[288px] w-[40vw] max-w-[480px] gap-3">
         <div
-          className="basis-[44%] flex flex-col items-center justify-center min-h-[150px] max-h-[480px] h-[18.8vh] rounded-[23px] bg-yellow-100 cursor-pointer duration-[0.33s] hover:scale-[105%]"
+          className="basis-[44%] flex flex-col items-center justify-center min-h-[150px] max-h-[480px] h-[18.8vh] rounded-[23px] bg-yellow-100 cursor-pointer duration-[0.33s] hover:scale-[105%] my-5"
           onClick={setEmail}
         >
           <IoIosMail className="basis-[70%]" />
@@ -30,7 +30,7 @@ const SelectEmailOrPhone = function ({
           </div>
         </div>
         <div
-          className="basis-[44%] flex flex-col items-center justify-center min-h-[150px] max-h-[480px] h-[18.8vh] rounded-[23px] bg-yellow-100 cursor-pointer duration-[0.33s] hover:scale-[105%]"
+          className="basis-[44%] flex flex-col items-center justify-center min-h-[150px] max-h-[480px] h-[18.8vh] rounded-[23px] bg-yellow-100 cursor-pointer duration-[0.33s] hover:scale-[105%] my-5"
           onClick={setPhone}
         >
           <IoMdPhonePortrait className="basis-[70%]" />

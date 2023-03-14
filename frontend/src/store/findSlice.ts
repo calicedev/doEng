@@ -19,6 +19,11 @@ const findSlice = createSlice({
     certSuccess(state, action) {
       state.isCert = true
     },
+    resetState(state, action) {
+      state.id = ""
+      state.email = ""
+      state.isCert = false
+    },
   },
 })
 
