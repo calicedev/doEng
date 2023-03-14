@@ -10,9 +10,12 @@ function HomePage() {
   const canvasDivRef = useRef<HTMLDivElement>(null)
   const { width: canvasWidth, height: canvasHeight } =
     useWidthHeight(canvasDivRef)
-  useEffect(function () {
-    navigate("/member/login")
-  }, [])
+  useEffect(
+    function () {
+      navigate("/member/login")
+    },
+    [navigate],
+  )
   return (
     <>
       <div

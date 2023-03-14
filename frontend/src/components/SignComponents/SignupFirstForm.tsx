@@ -257,7 +257,7 @@ const SignupFirstForm = function ({
         emailCertClickHandler(false)
       }
     },
-    [emailCertRequestError],
+    [emailCertRequestError, emailCertClickHandler],
   )
   useEffect(
     function () {
@@ -265,7 +265,7 @@ const SignupFirstForm = function ({
         phoneCertClickHandler(false)
       }
     },
-    [phoneCertRequestError],
+    [phoneCertRequestError, phoneCertClickHandler],
   )
 
   return (

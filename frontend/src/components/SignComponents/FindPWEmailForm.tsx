@@ -9,7 +9,7 @@ import useINEP from "../../hooks/useINEP"
 
 interface PropsFindPWEmailForm {}
 
-const FindPWEmailForm = function ({}: PropsWithChildren<PropsFindPWEmailForm>) {
+const FindPWEmailForm = function () {
   const dispatch = useStoreDispatch()
   const idRef = useRef<HTMLInputElement>(null)
 
@@ -30,7 +30,7 @@ const FindPWEmailForm = function ({}: PropsWithChildren<PropsFindPWEmailForm>) {
         clearTimeout(timeId)
       }
     },
-    [idInput],
+    [idInput, dispatch],
   )
 
   return (

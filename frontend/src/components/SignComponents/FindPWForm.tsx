@@ -21,7 +21,7 @@ const FindPWForm = function () {
         dispatch(findActions.resetState({}))
       }
     },
-    [resetOrAuth],
+    [resetOrAuth, dispatch],
   )
 
   const setEmailOrPhone = function (emailOrPhone: boolean) {

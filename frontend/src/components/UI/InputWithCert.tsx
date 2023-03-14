@@ -91,7 +91,7 @@ const InputWithCert = function ({
         clearTimeout(timeId)
       }
     },
-    [inputData],
+    [inputData, dispatch],
   )
 
   const { id, email, isCert } = useStoreSelector((state) => state.find)

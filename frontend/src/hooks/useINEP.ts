@@ -73,7 +73,7 @@ const useINEP = function (
         clearTimeout(timeId)
       }
     },
-    [typeName, requestData],
+    [typeName, requestData, isValid],
   )
 
   return { dupValid }

@@ -49,33 +49,35 @@ const useApi: useApiHook = function () {
     [isError],
   )
 
-  const axiosRequest: axiosFunc = useCallback(async function (
-    requestData,
-    saveDataFunction,
-    failMessage = "알 수 없는 에러!",
-  ): Promise<void> {
-    setIsLoading(() => true)
-    setError(() => false)
-    await apiRequest(requestData)
-      .then((res: AxiosResponse) => {
-        saveDataFunction(res)
-        return res
-      })
-      .then((res: AxiosResponse) => {
-        setIsLoading(() => false)
-        setError(() => false)
-      })
-      .catch((err: AxiosError) => {
-        console.log(err) // 추후 삭제해야함!
-        setIsLoading(() => false)
-        setError(() => true)
-        dispatch(DispatchToast(failMessage, false))
-        setTimeout(function () {
+  const axiosRequest: axiosFunc = useCallback(
+    async function (
+      requestData,
+      saveDataFunction,
+      failMessage = "알 수 없는 에러!",
+    ): Promise<void> {
+      setIsLoading(() => true)
+      setError(() => false)
+      await apiRequest(requestData)
+        .then((res: AxiosResponse) => {
+          saveDataFunction(res)
+          return res
+        })
+        .then((res: AxiosResponse) => {
+          setIsLoading(() => false)
           setError(() => false)
-        }, 3000)
-      })
-  },
-  [])
+        })
+        .catch((err: AxiosError) => {
+          console.log(err) // 추후 삭제해야함!
+          setIsLoading(() => false)
+          setError(() => true)
+          dispatch(DispatchToast(failMessage, false))
+          setTimeout(function () {
+            setError(() => false)
+          }, 3000)
+        })
+    },
+    [dispatch],
+  )
   return { isLoading, isError, btnClasses, axiosRequest }
 }
 

@@ -18,7 +18,7 @@ function SignPage() {
         navigate("/member/login")
       }
     },
-    [type],
+    [type, navigate],
   )
   return (
     <>
