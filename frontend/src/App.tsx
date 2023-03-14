@@ -14,6 +14,8 @@ import axios from "axios"
 import TaleDetailPage from "pages/TaleDetailPage"
 import NotFoundPage from "pages/NotFoundPage"
 import Toast from "components/UI/Toast"
+import ProfileEditPage from "pages/ProfileEditPage"
+import ProfilePasswordEditPage from "pages/ProfilePasswordEditPage"
 
 function App() {
   // axios.defaults.baseURL(``)
@@ -29,6 +31,11 @@ function App() {
           <Route path={`talestore`} element={<TaleStorePage />} />
           <Route path={`talestore/:taleId`} element={<TaleDetailPage />} />
           <Route path={`profile`} element={<ProfiliePage />} />
+          <Route path={`profile/edit`} element={<ProfileEditPage />} />
+          <Route
+            path={`profile/password`}
+            element={<ProfilePasswordEditPage />}
+          />
         </Route>
         <Route path={`*`} element={<NotFoundPage />} />
       </Routes>

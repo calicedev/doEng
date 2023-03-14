@@ -37,13 +37,16 @@ function ProgressDetailPhoto({ talePhoto }: Photo) {
           onClick={() => handlePageChange(currentPage - 1)}
           colorClass={``}
         />
-        <div className={`grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-4`}>
+        <div className={`grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-8`}>
           {talePhoto
             .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
             .map((photo: Scene) => (
               // <div className={`overflow-hidden relative w-32`}>
-              <div className="relative w-32 h-32 overflow-hidden transform hover:rotate-3 hover:-translate-x-1 hover:-translate-y-1 duration-200">
-                <ProgressDetailPhotoCard key={photo.id} photoCard={photo} />
+              <div className=" relative">
+                <div className=" bg-white w-48 h-48 rotate-12 shadow-lg"></div>
+                <div className="absolute top-0 left-0 w-48 h-48 p-5 shadow-lg overflow-hidden transform hover:rotate-3 hover:-translate-x-1 hover:-translate-y-1 duration-200 bg-white">
+                  <ProgressDetailPhotoCard key={photo.id} photoCard={photo} />
+                </div>
               </div>
             ))}
         </div>
