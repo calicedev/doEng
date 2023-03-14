@@ -97,19 +97,19 @@ public class MemberController {
         return ResponseEntity.ok().body("");
     }
 
-    @PostMapping("/check/email")
-    public ResponseEntity<?> CheckEmail(@RequestBody RequestEmailValidateDto requestDto){
-        LOGGER.info("[CheckEmail] 이메일 인증 확인 controller 들어옴");
+
+    @PostMapping("/check/email/send")
+    public ResponseEntity<String> checkEmailSend(@RequestBody RequestEmailDto requestDto){
+        LOGGER.info("[checkEmailSend] 이메일 인증번호 요청 controller 들어옴");
+        memberService.checkEmailSend(requestDto);
         return ResponseEntity.ok().body("");
     }
 
-    @PostMapping("/check/emailcode")
-    public ResponseEntity<String> checkEmailcode(@RequestBody RequestEmailDto requestDto){
-        LOGGER.info("[CheckEmailcode] 이메일 인증번호 요청 controller 들어옴");
-        memberService.checkEmailcode(requestDto);
-        return ResponseEntity.ok().body("");
+    @PostMapping("/check/email/confirm")
+    public ResponseEntity<String> checkEmailConfirm(@RequestBody RequestEmailValidateDto requestDto){
+        LOGGER.info("[checkEmailConfirm] 이메일 인증 확인 controller 들어옴");
+        return ResponseEntity.ok().body(memberService.checkEmailConfirm(requestDto));
     }
-
 
     @GetMapping("/check/memberId/{memberId}")
     public ResponseEntity<Boolean> CheckMemberId(@PathVariable("memberId") String memberId){
