@@ -1,10 +1,14 @@
 package com.ssafy.doeng.service.member.Impl;
 
 import com.ssafy.doeng.data.dto.member.TokenDto;
+import com.ssafy.doeng.data.dto.member.request.RequestCheckPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestEmailDto;
 import com.ssafy.doeng.data.dto.member.request.RequestEmailValidateDto;
+import com.ssafy.doeng.data.dto.member.request.RequestFindIdDto;
 import com.ssafy.doeng.data.dto.member.request.RequestMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberDto;
+import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberPasswordDto;
+import com.ssafy.doeng.data.dto.member.request.RequestResetMemberPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
 import com.ssafy.doeng.data.dto.member.request.RequestTokenDto;
 import com.ssafy.doeng.data.dto.member.response.ResponseMailDto;
@@ -67,12 +71,12 @@ public class MemberServiceImpl implements MemberService {
 
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
-
+        System.out.println("11111111111111111"+authenticationToken);
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         //    customeruservice에서 처리함.
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
+        System.out.println("22222222222222222"+authentication);
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
@@ -195,7 +199,7 @@ public class MemberServiceImpl implements MemberService {
 
         // 3. 인증번호 redis에 저장하기
         redisUtil.setDataExpire("emailAuth_"+requestDto.getEmail(),
-                str,60 * 1L);
+                str,60 * 5L);
         // 4. 이메일 보내기
         mailSend(responseMailDto);
 
@@ -209,6 +213,48 @@ public class MemberServiceImpl implements MemberService {
         if( redisCode!= null && redisCode.equals(code)){
             return "match";
         }else{return "mismatch";}
+    }
+
+    @Override
+    public String checkPassword(Long id, RequestCheckPasswordDto requestDto) {
+        String pwd = memberRepository.findPasswordById(id);
+        // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
+        if(passwordEncoder.matches(requestDto.getPassword(), pwd)){
+            return "success";
+        }else{ return "fail"; }
+
+    }
+
+    @Override
+    public void resetMemberPassword(RequestResetMemberPasswordDto requestDto) {
+        Optional<Member> oMember = memberRepository.findByMemberId(requestDto.getMemberId());
+        if(oMember.isPresent()) {
+            Member member = oMember.get();
+            member.setPassword(requestDto.getPassword());
+            memberRepository.save(member);
+        }
+    }
+
+    @Override
+    public void modifyMemberPassword(Long id, RequestModifyMemberPasswordDto requestDto) {
+        Optional<Member> oMember = memberRepository.findById(id);
+        if(oMember.isPresent() && passwordEncoder.matches(requestDto.getOldPassword(), oMember.get().getPassword())) {
+            Member member = oMember.get();
+            member.setPassword(requestDto.getNewPassword());
+            memberRepository.save(member);
+        }
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        LOGGER.info("이메일 중복 확인 드렁옴");
+        return memberRepository.existsByEmail(email);
+    }
+
+    @Override
+    public String findId(RequestFindIdDto requestDto) {
+        LOGGER.info("아이디 찾기 확인 드렁옴");
+        return(memberRepository.findMemberIdByEmail(requestDto.getEmail()));
     }
 
     public String getCode() {

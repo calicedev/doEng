@@ -12,11 +12,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class RequestCheckPasswordDto {
-    private String memberId;
+
     private String password;
-    private String nickname;
-    private String name;
-    private String email;
-    private String phone;
+
 
 }
