@@ -1,5 +1,6 @@
 import React from "react"
 import dummy from "../DummyData/ProgressList.json"
+import { useNavigate } from "react-router-dom"
 
 interface Tale {
   id: number
@@ -13,8 +14,16 @@ interface TaleProps {
 }
 
 function ProgressList({ tale }: TaleProps) {
+  const navigate = useNavigate()
+
+  const pushProgressListDetail = () => {
+    navigate(`/mypage/progress/${tale.id}`)
+  }
   return (
-    <div className=" border-2 border-orange-300 rounded-lg py-2 px-2">
+    <div
+      className=" border-2 border-orange-300 rounded-lg py-2 px-2 cursor-pointer"
+      onClick={pushProgressListDetail}
+    >
       <img
         className="w-full"
         src={tale.backgroundImage}

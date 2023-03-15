@@ -33,13 +33,13 @@ function ProgressDetailPhotoCard({ photoCard }: PhotoCard) {
   }
   return (
     <div>
-      <img
-        src={photoCard.imageList[0].image}
-        alt="progressPhotoCard"
-        className="cursor-pointer"
+      <div
+        className={`cursor-pointer`}
         onClick={() => handleImageClick(photoCard.imageList[0].image)}
-      />
-      {photoCard.sceneTitle}
+      >
+        <img src={photoCard.imageList[0].image} alt="progressPhotoCard" />
+        {photoCard.sceneTitle}
+      </div>
 
       {isModal && (
         <Modal closeModal={() => setIsModal(false)}>

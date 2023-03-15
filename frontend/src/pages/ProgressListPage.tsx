@@ -1,7 +1,7 @@
-import React from 'react'
-import { Link } from 'react-router-dom'
-import dummy from '../components/MyPageComponents/DummyData/ProgressList.json'
-import ProgressList from '../components/MyPageComponents/ProgressList/ProgressList'
+import React from "react"
+import { Link } from "react-router-dom"
+import dummy from "../components/MyPageComponents/DummyData/ProgressList.json"
+import ProgressList from "../components/MyPageComponents/ProgressList/ProgressList"
 
 interface Tale {
   id: number
@@ -17,9 +17,7 @@ function ProgressListPage() {
       <h1>ProgressListPage</h1>
       <div className="grid grid-cols-5 gap-4">
         {taleList.map((tale: Tale) => (
-          <Link key={tale.id} to={`/mypage/progress/${tale.id}`}>
-            <ProgressList key={tale.id} tale={tale} />
-          </Link>
+          <ProgressList key={tale.id} tale={tale} />
         ))}
       </div>
     </div>
