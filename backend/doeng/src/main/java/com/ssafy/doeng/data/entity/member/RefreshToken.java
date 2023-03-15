@@ -14,12 +14,12 @@ import org.springframework.data.redis.core.RedisHash;
 public class RefreshToken {
 
     @Id
-    private Long memberId;
+    private Long id;
     private String refreshToken;
 
     @Builder
-    public RefreshToken(Long memberId, String refreshToken) {
-        this.memberId = memberId;
+    public RefreshToken(Long id, String refreshToken) {
+        this.id = id;
         this.refreshToken = refreshToken;
     }
 
@@ -28,9 +28,9 @@ public class RefreshToken {
         return this;
     }
 
-    public static RefreshToken createRefreshToken(Long memberId, String refreshToken) {
+    public static RefreshToken createRefreshToken(Long id, String refreshToken) {
         return RefreshToken.builder()
-                .memberId(memberId)
+                .id(id)
                 .refreshToken(refreshToken)
                 .build();
     }

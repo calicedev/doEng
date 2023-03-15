@@ -5,15 +5,14 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
-
 @Getter
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class RequestModifyMemberPasswordDto {
+public class RequestResetMemberPasswordDto {
 
-    private String oldPassword;
-    private String newPassword;
+    private String memberId;
+    private String password;
 
 }

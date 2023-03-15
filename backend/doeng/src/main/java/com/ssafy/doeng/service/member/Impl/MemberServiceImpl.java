@@ -1,9 +1,14 @@
 package com.ssafy.doeng.service.member.Impl;
 
 import com.ssafy.doeng.data.dto.member.TokenDto;
+import com.ssafy.doeng.data.dto.member.request.RequestCheckPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestEmailDto;
+import com.ssafy.doeng.data.dto.member.request.RequestEmailValidateDto;
+import com.ssafy.doeng.data.dto.member.request.RequestFindIdDto;
 import com.ssafy.doeng.data.dto.member.request.RequestMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberDto;
+import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberPasswordDto;
+import com.ssafy.doeng.data.dto.member.request.RequestResetMemberPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
 import com.ssafy.doeng.data.dto.member.request.RequestTokenDto;
 import com.ssafy.doeng.data.dto.member.response.ResponseMailDto;
@@ -14,6 +19,7 @@ import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.jwt.TokenProvider;
 import com.ssafy.doeng.service.member.MemberService;
 import com.ssafy.doeng.service.review.impl.ReviewServiceImpl;
+import com.ssafy.doeng.util.RedisUtil;
 import com.ssafy.doeng.util.SecurityUtil;
 import java.util.Optional;
 import lombok.RequiredArgsConstructor;
@@ -42,7 +48,7 @@ public class MemberServiceImpl implements MemberService {
     private final MemberRepository memberRepository;
     private final PasswordEncoder passwordEncoder;
     private final TokenProvider tokenProvider;
-
+    private final RedisUtil redisUtil;
     @Autowired
     private JavaMailSender mailSender;
     private static final String FROM_ADDRESS = "calicedev@naver.com";
@@ -62,23 +68,18 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public TokenDto login(RequestMemberDto requestDto) {
         LOGGER.info("[로그인 service 들어옴]");
-
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
-
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         //    customeruservice에서 처리함.
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-
-        // 4. RefreshToken Redis에 저장
-        redisTemplate.opsForValue().set(
-                "token_"+authentication.getName(),
-                tokenDto.getRefreshToken()
-        );
+        //3-1. 받아온 memberId로 pk id 조회
+        Long id = memberRepository.findIdByMemberId(authentication.getName());
+        // 4. RefreshToken Redis에 저장 24시간
+        redisUtil.setDataExpire("token_"+id, tokenDto.getRefreshToken(),60 * 60L * 24);
         // 5. 토큰 발급
         return tokenDto;
     }
@@ -95,7 +96,9 @@ public class MemberServiceImpl implements MemberService {
         // 2. Access Token 에서 Member ID 가져오기
         Authentication authentication = tokenProvider.getAuthentication(requestDto.getAccessToken());
 
-        String rt = redisTemplate.opsForValue().get("token_"+authentication.getName());
+        // 2-1. memberId로 id 조회하기
+        String rt = redisTemplate.opsForValue().get("token_"+memberRepository.findIdByMemberId(authentication.getName()));
+
         // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
         if(rt==null || rt==""){
             throw new RuntimeException("로그아웃 된 사용자입니다.");
@@ -121,13 +124,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     public void logout(Long id) {
-        LOGGER.info("회원 로그아웃 서비스");
-        Optional<Member> member = memberRepository.findById(id);
-        String memberId = member.get().getMemberId();
         // 3. Redis 에서 해당 User email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제합니다.
-        if (redisTemplate.opsForValue().get("token_"+memberId) != null) {
+        if (redisTemplate.opsForValue().get("token_"+id) != null) {
             // Refresh Token 삭제
-            redisTemplate.delete(memberId);
+            redisTemplate.delete("token_"+id);
         }
     }
 
@@ -177,8 +177,7 @@ public class MemberServiceImpl implements MemberService {
         return member.getMemberId();
     }
 
-    @Override
-    public void checkEmailcode(RequestEmailDto requestDto) {
+    public void checkEmailSend(RequestEmailDto requestDto) {
         // 1. 이메일이랑 아이디가 맞는 계정인지 확인하는 과정
         String email = memberRepository.findEmailByMemberId(requestDto.getMemberId());
         if(!email.equals(requestDto.getEmail())){
@@ -192,15 +191,64 @@ public class MemberServiceImpl implements MemberService {
         responseMailDto.setMessage("안녕하세요. 인증코드 이메일 입니다." + "[" + requestDto.getMemberId() + "]" +"님의 인증번호는 "
                 + str + " 입니다.");
 
-        System.out.println("+++++++++"+requestDto.getEmail());
         // 3. 인증번호 redis에 저장하기
-        redisTemplate.opsForValue().set(
-                "passwordAuth_"+requestDto.getMemberId(),
-                str
-        );
+        redisUtil.setDataExpire("emailAuth_"+requestDto.getEmail(),
+                str,60 * 5L);
         // 4. 이메일 보내기
         mailSend(responseMailDto);
+
         System.out.println("여기까지 들어왔음");
+    }
+
+    @Override
+    public String checkEmailConfirm(RequestEmailValidateDto requestDto) {
+        String code = requestDto.getConfirmCode();
+        String redisCode = redisTemplate.opsForValue().get("emailAuth_"+requestDto.getEmail());
+        if( redisCode!= null && redisCode.equals(code)){
+            return "match";
+        }else{return "mismatch";}
+    }
+
+    @Override
+    public String checkPassword(Long id, RequestCheckPasswordDto requestDto) {
+        String pwd = memberRepository.findPasswordById(id);
+        // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
+        if(passwordEncoder.matches(requestDto.getPassword(), pwd)){
+            return "success";
+        }else{ return "fail"; }
+
+    }
+
+    @Override
+    public void resetMemberPassword(RequestResetMemberPasswordDto requestDto) {
+        Optional<Member> oMember = memberRepository.findByMemberId(requestDto.getMemberId());
+        if(oMember.isPresent()) {
+            Member member = oMember.get();
+            member.setPassword(requestDto.getPassword());
+            memberRepository.save(member);
+        }
+    }
+
+    @Override
+    public void modifyMemberPassword(Long id, RequestModifyMemberPasswordDto requestDto) {
+        Optional<Member> oMember = memberRepository.findById(id);
+        if(oMember.isPresent() && passwordEncoder.matches(requestDto.getOldPassword(), oMember.get().getPassword())) {
+            Member member = oMember.get();
+            member.setPassword(requestDto.getNewPassword());
+            memberRepository.save(member);
+        }
+    }
+
+    @Override
+    public boolean checkEmail(String email) {
+        LOGGER.info("이메일 중복 확인 드렁옴");
+        return memberRepository.existsByEmail(email);
+    }
+
+    @Override
+    public String findId(RequestFindIdDto requestDto) {
+        LOGGER.info("아이디 찾기 확인 드렁옴");
+        return(memberRepository.findMemberIdByEmail(requestDto.getEmail()));
     }
 
     public String getCode() {
