@@ -11,9 +11,7 @@ import lombok.ToString;
 @AllArgsConstructor
 @NoArgsConstructor
 @ToString
-public class RequestModifyMemberPasswordDto {
-
-    private String oldPassword;
-    private String newPassword;
-
+public class RequestFindIdDto {
+    String name;
+    String email;
 }

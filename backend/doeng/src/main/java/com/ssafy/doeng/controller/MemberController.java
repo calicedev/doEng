@@ -5,9 +5,11 @@ import com.ssafy.doeng.data.dto.member.TokenDto;
 import com.ssafy.doeng.data.dto.member.request.RequestCheckPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestEmailDto;
 import com.ssafy.doeng.data.dto.member.request.RequestEmailValidateDto;
+import com.ssafy.doeng.data.dto.member.request.RequestFindIdDto;
 import com.ssafy.doeng.data.dto.member.request.RequestMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberPasswordDto;
+import com.ssafy.doeng.data.dto.member.request.RequestResetMemberPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
 import com.ssafy.doeng.data.dto.member.request.RequestTokenDto;
 import com.ssafy.doeng.data.entity.member.Member;
@@ -55,6 +57,12 @@ public class MemberController {
         return ResponseEntity.ok(memberService.login(requestDto));
     }
 
+    @PostMapping("/id")
+    public ResponseEntity<String> findId(@RequestBody RequestFindIdDto requestDto) {
+        LOGGER.info("[reissue] findId controller 들어옴");
+        return ResponseEntity.ok(memberService.findId(requestDto));
+    }
+
     @PostMapping("/reissue")
     public ResponseEntity<TokenDto> reissue(@RequestBody RequestTokenDto requestDto) {
         LOGGER.info("[reissue] accessToken 재발급 controller 들어옴");
@@ -86,15 +94,23 @@ public class MemberController {
     }
 
     @PutMapping("/password")
-    public ResponseEntity<String> modifyMemberPassword(@RequestBody RequestModifyMemberPasswordDto requestDto){
+    public ResponseEntity<String> resetMemberPassword(@RequestBody RequestResetMemberPasswordDto requestDto){
+        LOGGER.info("[resetMemberPassword] 비밀번호 리셋 controller 들어옴");
+        memberService.resetMemberPassword(requestDto);
+        return ResponseEntity.ok().body("");
+    }
+
+    @PatchMapping("/password")
+    public ResponseEntity<String> modifyMemberPassword(@LoginId Long id,  @RequestBody RequestModifyMemberPasswordDto requestDto){
         LOGGER.info("[ModifyMemberPassword] 비밀번호 수정 controller 들어옴");
+        memberService.modifyMemberPassword(id,requestDto);
         return ResponseEntity.ok().body("");
     }
 
     @PostMapping("/check/password")
-    public ResponseEntity<String> checkPassowrd(@RequestBody RequestCheckPasswordDto requestDto){
+    public ResponseEntity<String> checkPassword(@LoginId Long id, @RequestBody RequestCheckPasswordDto requestDto){
         LOGGER.info("[CheckPassowrd] 비밀번호 검증 controller 들어옴");
-        return ResponseEntity.ok().body("");
+        return ResponseEntity.ok().body(memberService.checkPassword(id,requestDto));
     }
 
 
@@ -114,6 +130,7 @@ public class MemberController {
     @GetMapping("/check/memberId/{memberId}")
     public ResponseEntity<Boolean> CheckMemberId(@PathVariable("memberId") String memberId){
         LOGGER.info("[CheckMemberId] 아이디 중복체크 controller 들어옴");
+        LOGGER.info("[CheckMemberId] 아이디 중복체크 controller 들어옴");
         return ResponseEntity.ok().body(memberService.checkMemberId(memberId));
     }
 
@@ -121,7 +138,12 @@ public class MemberController {
     public ResponseEntity<Boolean> CheckNickname(@PathVariable("nickname") String nickname){
         LOGGER.info("[CheckNickname] 닉네임 중복제크 controller 들어옴");
         return ResponseEntity.ok().body(memberService.checkNickname(nickname));
+    }
 
+    @GetMapping("/check/email/{email}")
+    public ResponseEntity<Boolean> CheckEmail(@PathVariable("email") String email){
+        LOGGER.info("[CheckEmail] 닉네임 중복제크 controller 들어옴");
+        return ResponseEntity.ok().body(memberService.checkEmail(email));
     }
 
 }
