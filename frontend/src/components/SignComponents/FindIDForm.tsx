@@ -30,8 +30,8 @@ const FindIDForm = function () {
   const findIDHandler = function () {
     axiosRequest(
       {
-        method: ``,
-        url: ``,
+        method: `post`,
+        url: `/api/member/id`,
         data: {
           name: nameInput,
           email: emailInput,

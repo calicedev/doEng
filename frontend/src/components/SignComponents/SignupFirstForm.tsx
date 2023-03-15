@@ -122,12 +122,7 @@ const SignupFirstForm = function ({
       dispatch(DispatchToast("이메일이 유효하지 않습니다.", false))
       return
     } else if (emailDupValid === null) {
-      dispatch(
-        DispatchToast(
-          "이메일 중복 확인 중입니다. 잠시 후 재시도 바랍니다.",
-          false,
-        ),
-      )
+      dispatch(DispatchToast("잠시 후 재시도 바랍니다.", false))
       return
     } else if (emailDupValid === false) {
       dispatch(
@@ -145,7 +140,10 @@ const SignupFirstForm = function ({
       },
       function (res: AxiosResponse) {
         dispatch(
-          DispatchToast("인증 메일을 보냈습니다! 이메일 확인 바랍니다.", true),
+          DispatchToast(
+            "인증 메일을 보냈습니다! 5분 내로 입력 바랍니다.",
+            true,
+          ),
         )
       },
       "요청이 비정상 작동했습니다. 재시도 바랍니다.",
@@ -165,15 +163,19 @@ const SignupFirstForm = function ({
     EmailCertRequest(
       {
         method: `post`,
-        url: ``,
+        url: `/api/member/check/email/confirm`,
         data: {
           confirmCode: emailCertRef.current?.value,
         },
       },
-      function () {
-        emailCertClickHandler(true)
-        dispatch(DispatchToast("이메일 인증 성공!", true))
-        console.log("lock the email")
+      function (res: AxiosResponse) {
+        const val = res.data === "mismatch"
+        emailCertClickHandler(!val)
+        if (!val) {
+          dispatch(DispatchToast("이메일 인증 성공!", true))
+        } else {
+          dispatch(DispatchToast("인증 번호를 확인 해주세요!", false))
+        }
       },
       "요청이 비정상 작동했습니다. 재시도 바랍니다.",
     )
@@ -300,6 +302,7 @@ const SignupFirstForm = function ({
             inputBlur={emailBlurHandler}
             maxLength={50}
             tabIndex={lockEmailTabIndex}
+            dupValid={emailDupValid}
           >
             <div
               className={`border-[2.8px] basis-[16%] h-full rounded-full lg:p-2 font-hopang-black text-lg lg:text-2xl flex items-center justify-center cursor-pointer shadow-md hover:scale-105 duration-[0.33s] ${emailClasses}`}
@@ -364,6 +367,7 @@ const SignupFirstForm = function ({
             inputBlur={phoneBlurHandler}
             maxLength={50}
             tabIndex={lockPhoneTabIndex}
+            dupValid={phoneDupValid}
           >
             <div
               className={`border-[2.8px] basis-[16%] h-full rounded-full lg:p-2 font-hopang-black text-lg lg:text-2xl flex items-center justify-center cursor-pointer shadow-md hover:scale-105 duration-[0.33s] ${phoneClasses}`}

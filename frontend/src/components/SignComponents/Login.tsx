@@ -50,7 +50,7 @@ function Login() {
     loginRequest(
       {
         method: "post",
-        url: ``,
+        url: `/api/member/login`,
         data: {
           memberId: `${idInput}`,
           password: `${passwordInput}`,

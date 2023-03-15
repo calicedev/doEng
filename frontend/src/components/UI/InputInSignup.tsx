@@ -13,6 +13,7 @@ interface Props {
   inputBlur?: () => void
   maxLength?: number
   tabIndex?: number
+  dupValid?: boolean | null
 }
 
 const InputInSignup = function ({
@@ -29,6 +30,7 @@ const InputInSignup = function ({
   maxLength = 50,
   tabIndex = 0,
   children,
+  dupValid = true,
 }: PropsWithChildren<Props>) {
   const [bgClasses, setBgClasses] = useState<string>("bg-white")
   const [textClasses, setTextClasses] = useState<string>("text-black")
@@ -41,14 +43,18 @@ const InputInSignup = function ({
         setBgClasses(() => `bg-white`)
         setTextClasses(() => `text-black`)
         setBorderClasses(() => `border-black-500 border-[4px]`)
-      } else if (isValid === true) {
+      } else if (isValid === true && dupValid === true) {
         setBgClasses(() => `bg-blue-200`)
         setTextClasses(() => `text-blue-900`)
         setBorderClasses(() => `border-blue-500 border-[4px]`)
-      } else if (isValid === false) {
+      } else if (isValid === false || dupValid === false) {
         setBgClasses(() => `bg-red-200`)
         setTextClasses(() => `text-red-900`)
         setBorderClasses(() => `border-red-500 border-[4px]`)
+      } else {
+        setBgClasses(() => `bg-white`)
+        setTextClasses(() => `text-black`)
+        setBorderClasses(() => `border-black-500 border-[4px]`)
       }
     },
     [isValid],
