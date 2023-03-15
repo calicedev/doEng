@@ -10,6 +10,7 @@ import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestResetMemberPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
+import com.ssafy.doeng.data.dto.member.request.RequestSignupEmailDto;
 import com.ssafy.doeng.data.dto.member.request.RequestTokenDto;
 import com.ssafy.doeng.data.dto.member.response.ResponseMailDto;
 import com.ssafy.doeng.data.entity.member.Member;
@@ -190,6 +191,25 @@ public class MemberServiceImpl implements MemberService {
         responseMailDto.setTitle(requestDto.getMemberId()+"님의 인증코드 안내 이메일 입니다.");
         responseMailDto.setMessage("안녕하세요. 인증코드 이메일 입니다." + "[" + requestDto.getMemberId() + "]" +"님의 인증번호는 "
                 + str + " 입니다.");
+
+        // 3. 인증번호 redis에 저장하기
+        redisUtil.setDataExpire("emailAuth_"+requestDto.getEmail(),
+                str,60 * 5L);
+        // 4. 이메일 보내기
+        mailSend(responseMailDto);
+
+        System.out.println("여기까지 들어왔음");
+    }
+
+
+    public void checkSignUpEmailSend(RequestSignupEmailDto requestDto) {
+
+        // 2. 맞으면
+        String str = getCode();
+        ResponseMailDto responseMailDto = new ResponseMailDto();
+        responseMailDto.setAddress(requestDto.getEmail());
+        responseMailDto.setTitle("인증코드 안내 이메일 입니다.");
+        responseMailDto.setMessage("안녕하세요. 인증코드 이메일 입니다."  +"당신의 인증번호는 " + str + " 입니다.");
 
         // 3. 인증번호 redis에 저장하기
         redisUtil.setDataExpire("emailAuth_"+requestDto.getEmail(),

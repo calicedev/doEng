@@ -11,6 +11,7 @@ import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestResetMemberPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
+import com.ssafy.doeng.data.dto.member.request.RequestSignupEmailDto;
 import com.ssafy.doeng.data.dto.member.request.RequestTokenDto;
 import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.service.member.MemberService;
@@ -118,6 +119,13 @@ public class MemberController {
     public ResponseEntity<String> checkEmailSend(@RequestBody RequestEmailDto requestDto){
         LOGGER.info("[checkEmailSend] 이메일 인증번호 요청 controller 들어옴");
         memberService.checkEmailSend(requestDto);
+        return ResponseEntity.ok().body("");
+    }
+
+    @PostMapping("/check/signup-email/send")
+    public ResponseEntity<String> checkSignupEmailSend(@RequestBody RequestSignupEmailDto requestDto){
+        LOGGER.info("[checkEmailSend] 이메일 인증번호 요청 controller 들어옴");
+        memberService.checkSignUpEmailSend(requestDto);
         return ResponseEntity.ok().body("");
     }
 
