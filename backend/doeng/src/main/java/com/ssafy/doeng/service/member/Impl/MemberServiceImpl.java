@@ -68,23 +68,18 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public TokenDto login(RequestMemberDto requestDto) {
         LOGGER.info("[로그인 service 들어옴]");
-
         // 1. Login ID/PW 를 기반으로 AuthenticationToken 생성
         UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
-        System.out.println("11111111111111111"+authenticationToken);
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         //    customeruservice에서 처리함.
         Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-        System.out.println("22222222222222222"+authentication);
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-
-        // 4. RefreshToken Redis에 저장
-        redisTemplate.opsForValue().set(
-                "token_"+authentication.getName(),
-                tokenDto.getRefreshToken()
-        );
+        //3-1. 받아온 memberId로 pk id 조회
+        Long id = memberRepository.findIdByMemberId(authentication.getName());
+        // 4. RefreshToken Redis에 저장 24시간
+        redisUtil.setDataExpire("token_"+id, tokenDto.getRefreshToken(),60 * 60L * 24);
         // 5. 토큰 발급
         return tokenDto;
     }
@@ -101,7 +96,9 @@ public class MemberServiceImpl implements MemberService {
         // 2. Access Token 에서 Member ID 가져오기
         Authentication authentication = tokenProvider.getAuthentication(requestDto.getAccessToken());
 
-        String rt = redisTemplate.opsForValue().get("token_"+authentication.getName());
+        // 2-1. memberId로 id 조회하기
+        String rt = redisTemplate.opsForValue().get("token_"+memberRepository.findIdByMemberId(authentication.getName()));
+
         // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
         if(rt==null || rt==""){
             throw new RuntimeException("로그아웃 된 사용자입니다.");
@@ -127,13 +124,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     public void logout(Long id) {
-        LOGGER.info("회원 로그아웃 서비스");
-        Optional<Member> member = memberRepository.findById(id);
-        String memberId = member.get().getMemberId();
         // 3. Redis 에서 해당 User email 로 저장된 Refresh Token 이 있는지 여부를 확인 후 있을 경우 삭제합니다.
-        if (redisTemplate.opsForValue().get("token_"+memberId) != null) {
+        if (redisTemplate.opsForValue().get("token_"+id) != null) {
             // Refresh Token 삭제
-            redisTemplate.delete(memberId);
+            redisTemplate.delete("token_"+id);
         }
     }
 
@@ -259,8 +253,7 @@ public class MemberServiceImpl implements MemberService {
 
     public String getCode() {
         char[] charSet = new char[] { '0', '1', '2', '3', '4', '5', '6', '7', '8', '9', 'A', 'B', 'C', 'D', 'E', 'F',
-                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S',
-                'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
+                'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R', 'S', 'T', 'U', 'V', 'W', 'X', 'Y', 'Z' };
 
         String str = "";
 

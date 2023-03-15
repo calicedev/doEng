@@ -49,6 +49,8 @@ dependencies {
     implementation 'io.lettuce:lettuce-core:6.2.2.RELEASE'
     // email
     implementation 'org.springframework.boot:spring-boot-starter-mail'
+    // s3
+    implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
 
 }
 

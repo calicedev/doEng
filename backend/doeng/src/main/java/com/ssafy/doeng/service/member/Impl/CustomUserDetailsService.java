@@ -23,7 +23,6 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     @Transactional
     public UserDetails loadUserByUsername(String memberId) throws ErrorException {
-        System.out.println("여기에 들어옵니다!");
         return memberRepository.findByMemberId(memberId)
                 .map(this::createUserDetails)
                 .orElseThrow(() -> new ErrorException(MemberErrorCode.MEMBERID_NOTEXIST));
