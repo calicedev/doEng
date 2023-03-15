@@ -77,6 +77,7 @@ const SignupSecondForm = function ({
         inputChange={nickChangeHandler}
         inputBlur={nickBlurHandler}
         maxLength={16}
+        dupValid={nickDupValid}
       />
       <InputInSignup
         inputRef={idRef}
@@ -90,6 +91,7 @@ const SignupSecondForm = function ({
         inputChange={idChangeHandler}
         inputBlur={idBlurHandler}
         maxLength={16}
+        dupValid={idDupValid}
       />
       <InputInSignup
         inputRef={pw1Ref}

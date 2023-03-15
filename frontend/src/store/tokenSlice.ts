@@ -22,6 +22,9 @@ const tokenSlice = createSlice({
       state.refreshToken = null
       state.expiration = null
     },
+    setRefreshToken(state, action) {
+      state.refreshToken = action.payload.refreshToken
+    },
   },
 })
 

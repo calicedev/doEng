@@ -26,15 +26,15 @@ const getLabelTextNPlaceHolder = function (hookType: string): ReturnLabelText {
     return {
       labelText: "Phone",
       placeholder: "핸드폰 번호를 입력해주세요.",
-      authURL: `/api/check/phone/`,
-      certURL: `/api/member/check/phonecode`,
+      authURL: `/api/member/check/phone/send`,
+      certURL: `/api/member/check/phone/confirm`,
     }
   } else if (hookType === "email") {
     return {
       labelText: "Email",
       placeholder: "이메일을 입력해주세요.",
-      authURL: `/api/check/email/`,
-      certURL: `/api/member/check/emailcode`,
+      authURL: `/api/member/check/email/send`,
+      certURL: `/api/member/check/email/confirm`,
     }
   } else {
     return {
@@ -55,6 +55,8 @@ const InputWithCert = function ({
   const certInputRef = useRef<HTMLInputElement>(null)
   const { inputData, isValid, validMessage, onChangeHandler, onBlurHandler } =
     useInput(inputRef, emailValidation, 50)
+  const certOnChange = function () {}
+  const certOnBlur = function () {}
 
   const { labelText, placeholder, authURL, certURL } =
     getLabelTextNPlaceHolder(hookType)
@@ -124,10 +126,11 @@ const InputWithCert = function ({
     authReqAxios(
       {
         method: `post`,
+        baseURL: `https://j8a601.p.ssafy.io`,
         url: `${authURL}`,
         data: {
           memberId: `${id}`,
-          memberEmail: `${inputData}`,
+          email: `${inputData}`,
         },
       },
       function () {
@@ -141,7 +144,10 @@ const InputWithCert = function ({
       {
         method: `post`,
         url: `${certURL}`,
-        data: {},
+        data: {
+          email: `${email}`,
+          confirmCode: `${certInputRef.current?.value}`,
+        },
       },
       function () {
         setCertMessage("인증 성공!")
@@ -202,8 +208,8 @@ const InputWithCert = function ({
           ref={certInputRef}
           id={`find-cert-${htmlId}`}
           type={`text`}
-          onChange={onChangeHandler}
-          onBlur={onBlurHandler}
+          onChange={certOnChange}
+          onBlur={certOnBlur}
           placeholder={`인증 번호를 입력해주세요.`}
           className={`box-border w-full h-full flex items-center basis-[60%] text-sm sm:text-xl mobile:text-lg px-3 rounded-[8px] font-jalnan duration-[0.44s] ${
             isCert ? `bg-blue-200` : `bg-white`

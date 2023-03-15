@@ -110,9 +110,20 @@ function Signup() {
     if (pw2Ref.current.value.length > 16) {
       return
     } else {
-      setpw2Input(() => (pw2Ref.current ? pw2Ref.current.value : ""))
+      setpw2Input(() => (pw2Ref.current?.value ? pw2Ref.current.value : ""))
+      if (!pw1Valid) {
+        return
+      }
+      if (
+        !pw2Touched &&
+        pw2Input.trim().length > 7 &&
+        pw1Input === pw2Ref.current.value
+      ) {
+        setPw2Touched(() => true)
+        setPw2Valid(() => pw1Input === pw2Ref.current?.value)
+      }
       if (pw2Touched === true) {
-        setPw2Valid(() => pw1Input === pw2Input)
+        setPw2Valid(() => pw1Input === pw2Ref.current?.value)
       }
     }
   }
@@ -230,8 +241,8 @@ function Signup() {
       dispatch(DispatchToast("핸드폰 번호가 유효하지 않습니다!", false))
       return
     } else if (!phoneCertValid) {
-      dispatch(DispatchToast("핸드폰 인증을 해주세요!", false))
-      return
+      // dispatch(DispatchToast("핸드폰 인증을 해주세요!", false))
+      // return
     } else if (!idValid) {
       dispatch(DispatchToast("아이디가 유효하지 않습니다!", false))
       return
@@ -259,26 +270,25 @@ function Signup() {
       )
     } else if (nickDupValid === false) {
       dispatch(DispatchToast("닉네임이 중복되었습니다!", false))
-    } else {
-      SignupRequest(
-        {
-          method: `post`,
-          url: ``,
-          data: {
-            memberId: idInput,
-            password: pw1Input,
-            nickname: nickInput,
-            name: nameInput,
-            email: emailInput,
-            phone: phoneInput,
-          },
-        },
-        function (res) {
-          console.log("회원가입 성공 시")
-          navigate("member/login")
-        },
-      )
     }
+    SignupRequest(
+      {
+        method: `post`,
+        url: `/api/member`,
+        data: {
+          memberId: idInput,
+          password: pw1Input,
+          nickname: nickInput,
+          name: nameInput,
+          email: emailInput,
+          phone: phoneInput,
+        },
+      },
+      function (res) {
+        console.log("회원가입 성공 시")
+        navigate("/member/login")
+      },
+    )
   }
 
   const pushLoginHandler = function () {

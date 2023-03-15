@@ -9,13 +9,13 @@ module.exports = {
     "./src/**/**/**/**/**/*.{js,jsx,ts,tsx}",
     "./node_modules/tw-elements/dist/js/**/*.js",
   ],
-  safelist: [
-    {
-      pattern:
-        /bg-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pinkrose|primary|secondary|tertiaty)-(50|100|200|300|400|500|600|700|800|900)/,
-      variants: ["hover", "active", "group-hover", "group-active"],
-    },
-  ],
+  // safelist: [
+  //   {
+  //     pattern:
+  //       /bg-(slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pinkrose|primary|secondary|tertiaty)-(50|100|200|300|400|500|600|700|800|900)/,
+  //     variants: ["hover", "active", "group-hover", "group-active"],
+  //   },
+  // ],
   theme: {
     extend: {
       screens: {
