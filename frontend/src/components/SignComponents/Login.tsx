@@ -5,11 +5,13 @@ import InputWithValidation from "../UI/InputWithValidation"
 import LogoImg from "../../assets/images/doEngLogo.png"
 import { useNavigate } from "react-router-dom"
 import useApi from "../../hooks/useApi"
-import { AxiosRequestConfig } from "axios"
+import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import { DispatchToast } from "store"
 import { SpinnerDots } from "components/UI/Spinner"
 import Toast from "components/UI/Toast"
+import { findActions } from "store/findSlice"
+import apiRequest from "utils/axios"
 
 function Login() {
   const dispatch = useStoreDispatch()
@@ -85,6 +87,23 @@ function Login() {
     [loginError],
   )
 
+  useEffect(function () {
+    dispatch(findActions.resetState({}))
+  }, [])
+
+  const testAxios = function () {
+    apiRequest({
+      method: `get`,
+      url: `/api/member`,
+    })
+      .then((res: AxiosResponse) => {
+        console.log("res")
+      })
+      .catch((err: AxiosError) => {
+        console.log(err)
+      })
+  }
+
   return (
     <>
       <form
@@ -148,6 +167,9 @@ function Login() {
           </div>
         </div>
       </form>
+      <div className="cursor-pointer" onClick={testAxios}>
+        눌러보삼삼
+      </div>
     </>
   )
 }

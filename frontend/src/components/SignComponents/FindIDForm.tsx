@@ -39,7 +39,7 @@ const FindIDForm = function () {
       },
       function (res) {
         setSuccess(() => true)
-        setUserId(() => res.data.memberId)
+        setUserId(() => res.data)
       },
       "올바른 값을 입력해주세요!",
     )
@@ -62,7 +62,7 @@ const FindIDForm = function () {
         inputType={`email`}
         placeHolder={`이메일을 입력해주세요.`}
         inputChange={emailChangeHandler}
-        maxLength={16}
+        maxLength={50}
       />
       {isSuccess && (
         <div className={`font-dolbom-regular text-[1.3rem]`}>

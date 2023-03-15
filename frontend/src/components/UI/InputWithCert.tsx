@@ -26,14 +26,14 @@ const getLabelTextNPlaceHolder = function (hookType: string): ReturnLabelText {
     return {
       labelText: "Phone",
       placeholder: "핸드폰 번호를 입력해주세요.",
-      authURL: `/api/check/phone/`,
+      authURL: `/api/member/check/phone/send`,
       certURL: `/api/member/check/phone/confirm`,
     }
   } else if (hookType === "email") {
     return {
       labelText: "Email",
       placeholder: "이메일을 입력해주세요.",
-      authURL: `/api/check/email/`,
+      authURL: `/api/member/check/email/send`,
       certURL: `/api/member/check/email/confirm`,
     }
   } else {
@@ -126,10 +126,11 @@ const InputWithCert = function ({
     authReqAxios(
       {
         method: `post`,
+        baseURL: `https://j8a601.p.ssafy.io`,
         url: `${authURL}`,
         data: {
           memberId: `${id}`,
-          memberEmail: `${inputData}`,
+          email: `${inputData}`,
         },
       },
       function () {

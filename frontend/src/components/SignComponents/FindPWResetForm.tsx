@@ -96,7 +96,7 @@ const FindPWResetForm = function () {
     } else {
       axiosRequest(
         {
-          method: `patch`,
+          method: `put`,
           url: `/api/member/password`,
           data: {
             memberId: `${id}`,

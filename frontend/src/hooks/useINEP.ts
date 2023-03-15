@@ -40,7 +40,7 @@ const useINEP = function (
         typeName = "아이디"
         requestData = {
           method: `get`,
-          url: `/api/member/check/memberId/${value}`,
+          url: `/api/member/check/memberId/${value}`, // member-id로 변경 예정
         }
       } else {
         typeName = `${value}`

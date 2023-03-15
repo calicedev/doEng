@@ -133,10 +133,12 @@ const SignupFirstForm = function ({
     EmailRequest(
       {
         method: `post`,
-        url: `/api/member/check/email/send`,
+        baseURL: `https://j8a601.p.ssafy.io`,
+        url: `/api/member/check/signup-email/send`,
         data: {
           email: emailRef.current?.value,
         },
+        timeout: 5000,
       },
       function (res: AxiosResponse) {
         dispatch(
@@ -163,8 +165,10 @@ const SignupFirstForm = function ({
     EmailCertRequest(
       {
         method: `post`,
+        baseURL: `https://j8a601.p.ssafy.io`,
         url: `/api/member/check/email/confirm`,
         data: {
+          email: emailRef.current?.value,
           confirmCode: emailCertRef.current?.value,
         },
       },

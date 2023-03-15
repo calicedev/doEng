@@ -286,7 +286,7 @@ function Signup() {
       },
       function (res) {
         console.log("회원가입 성공 시")
-        navigate("member/login")
+        navigate("/member/login")
       },
     )
   }

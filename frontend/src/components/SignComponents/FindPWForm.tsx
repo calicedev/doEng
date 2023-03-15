@@ -15,14 +15,14 @@ const FindPWForm = function () {
   const { id, email, isCert } = useStoreSelector((state) => state.find)
   const [resetOrAuth, setResetOrAuth] = useState<boolean>(false)
 
-  useEffect(
-    function () {
-      if (resetOrAuth === false) {
-        dispatch(findActions.resetState({}))
-      }
-    },
-    [resetOrAuth, dispatch],
-  )
+  // useEffect(
+  //   function () {
+  //     if (resetOrAuth === false) {
+  //       dispatch(findActions.resetState({}))
+  //     }
+  //   },
+  //   [resetOrAuth, dispatch],
+  // )
 
   const setEmailOrPhone = function (emailOrPhone: boolean) {
     setFindByEmailOrPhone(emailOrPhone)
@@ -38,7 +38,6 @@ const FindPWForm = function () {
       return
     }
     setResetOrAuth(() => true)
-    setResetOrAuth((val) => !val)
   }
 
   return (

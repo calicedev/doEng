@@ -19,8 +19,12 @@ apiRequest.interceptors.request.use(
   (config) => {
     const state = store.getState() // 리덕스 상태 가져오기
     const accessToken = state.token.accessToken // 리덕스 accessToken 읽기
+    const refreshToken = state.token.refreshToken
     if (accessToken) {
-      config.headers.Authorization = `Bearer ${accessToken}` // 리덕스에 accessToken이 있을 경우 Authorization 헤더 추가
+      config.headers.common[`accessToken`] = `Bearer ${accessToken}` // 리덕스에 accessToken이 있을 경우 Authorization 헤더 추가
+    }
+    if (refreshToken) {
+      config.headers.common[`refreshToken`] = `Bearer ${refreshToken}`
     }
     return config
   },
@@ -33,6 +37,8 @@ apiRequest.interceptors.request.use(
 apiRequest.interceptors.response.use(
   (response) => {
     console.log("response", response)
+    console.log("accessToken: ", response.headers[`accessToken`])
+    console.log("refreshToken: ", response.headers[`refreshToken`])
     return response
   },
   async (error) => {
@@ -47,9 +53,21 @@ apiRequest.interceptors.response.use(
       await axios
         .request(config)
         .then((res) => {
-          const newAccessToken = res.data.accessToken
-          store.dispatch(tokenActions.setAccessToken(newAccessToken)) // 리덕스 accessToken 갱신
-          originalConfig.headers.Authorization = `Bearer ${newAccessToken}`
+          const newAccessToken = res.headers["accessToken"]
+          const newRefreshToken = res.headers["refreshToken"]
+          store.dispatch(
+            tokenActions.setAccessToken({ accessToken: newAccessToken }),
+          ) // 리덕스 accessToken 갱신
+          store.dispatch(
+            tokenActions.setRefreshToken({ refreshToken: newRefreshToken }),
+          )
+          originalConfig.headers.common[
+            "accessToken"
+          ] = `Bearer ${newAccessToken}`
+          originalConfig.headers.common[
+            "refreshToken"
+          ] = `Bearer ${newRefreshToken}`
+          // originalConfig.headers.Authorization = `Bearer ${newAccessToken}`
           return apiRequest(originalConfig) // 기존 요청 새로운 token으로 재시도
         })
         .catch((err) => {
