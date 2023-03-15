@@ -5,7 +5,6 @@ import { Outlet } from "react-router-dom"
 export default function ProfiliePage() {
   return (
     <div>
-      <div>ProfiliePage</div>
       <Profile />
       <Outlet />
     </div>
