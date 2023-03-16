@@ -9,7 +9,7 @@ import lombok.*;
 @Builder
 public class TokenDto {
     private String grantType;
-    private String accessToken;
-    private String refreshToken;
+    private String accesstoken;
+    private String refreshtoken;
     private Long accessTokenExpiresIn;
 }

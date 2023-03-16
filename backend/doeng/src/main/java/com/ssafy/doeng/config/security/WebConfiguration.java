@@ -20,6 +20,7 @@ public class WebConfiguration implements WebMvcConfigurer {
     public void addCorsMappings(CorsRegistry registry) {
         registry.addMapping("/**") // 주석임
                 .allowedOriginPatterns("*")
+                .exposedHeaders("refreshtoken","accesstoken")
                 .allowedMethods("GET", "POST", "PUT", "DELETE", "OPTIONS", "PATCH", "HEAD")
                 .allowCredentials(true)
                 .maxAge(1800);

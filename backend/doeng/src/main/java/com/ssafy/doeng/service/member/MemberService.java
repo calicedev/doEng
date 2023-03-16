@@ -43,4 +43,6 @@ public interface MemberService {
     String findId(RequestFindIdDto requestDto);
 
     void checkSignUpEmailSend(RequestSignupEmailDto requestDto);
+
+    boolean checkPhone(String phone);
 }

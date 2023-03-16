@@ -36,6 +36,7 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.ObjectUtils;
 
 @RequiredArgsConstructor
 @Transactional
@@ -80,7 +81,7 @@ public class MemberServiceImpl implements MemberService {
         //3-1. 받아온 memberId로 pk id 조회
         Long id = memberRepository.findIdByMemberId(authentication.getName());
         // 4. RefreshToken Redis에 저장 24시간
-        redisUtil.setDataExpire("token_"+id, tokenDto.getRefreshToken(),60 * 60L * 24);
+        redisUtil.setDataExpire("token_"+id, tokenDto.getRefreshtoken(),60 * 60L * 24);
         // 5. 토큰 발급
         return tokenDto;
     }
@@ -89,24 +90,27 @@ public class MemberServiceImpl implements MemberService {
     public TokenDto reissue(RequestTokenDto requestDto) {
         LOGGER.info("[accessToken 재발급 들어옴]");
 
+
         // 1. Refresh Token 검증
-        if (!tokenProvider.validateToken(requestDto.getRefreshToken())) {
+        if (!tokenProvider.validateToken(requestDto.getRefreshtoken())) {
             throw new ErrorException(MemberErrorCode.REFRESHTOKEN_NOTVALIDATE);
         }
 
         // 2. Access Token 에서 Member ID 가져오기
-        Authentication authentication = tokenProvider.getAuthentication(requestDto.getAccessToken());
+        // 이때 accesstoken이 조작되었으면 getAuthentication 단계에서 throw 던저버린다.
+        Authentication authentication = tokenProvider.getAuthentication(requestDto.getAccesstoken());
 
         // 2-1. memberId로 id 조회하기
         String rt = redisTemplate.opsForValue().get("token_"+memberRepository.findIdByMemberId(authentication.getName()));
 
         // 3. 저장소에서 Member ID 를 기반으로 Refresh Token 값 가져옴
-        if(rt==null || rt==""){
-            throw new RuntimeException("로그아웃 된 사용자입니다.");
+        if(ObjectUtils.isEmpty(rt)){
+            throw new ErrorException(MemberErrorCode.REFRESHTOKEN_BADREQUEST);
         }
 
+        LOGGER.info("[5]");
         // 4. Refresh Token 일치하는지 검사
-        if (!rt.equals(requestDto.getRefreshToken())) {
+        if (!rt.equals(requestDto.getRefreshtoken())) {
             throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
         }
 
@@ -116,7 +120,7 @@ public class MemberServiceImpl implements MemberService {
         // 6.  정보 업데이트
         redisTemplate.opsForValue().set(
                 "token_"+authentication.getName(),
-                tokenDto.getRefreshToken()
+                tokenDto.getRefreshtoken()
         );
 
         // 토큰 발급
@@ -221,6 +225,13 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
+    public boolean checkPhone(String phone) {
+        LOGGER.info("핸드폰 중복 확인 드렁옴");
+        return memberRepository.existsByPhone(phone);
+
+    }
+
+    @Override
     public String checkEmailConfirm(RequestEmailValidateDto requestDto) {
         String code = requestDto.getConfirmCode();
         String redisCode = redisTemplate.opsForValue().get("emailAuth_"+requestDto.getEmail());
@@ -244,7 +255,7 @@ public class MemberServiceImpl implements MemberService {
         Optional<Member> oMember = memberRepository.findByMemberId(requestDto.getMemberId());
         if(oMember.isPresent()) {
             Member member = oMember.get();
-            member.setPassword(requestDto.getPassword());
+            member.setPassword(passwordEncoder.encode(requestDto.getPassword()));
             memberRepository.save(member);
         }
     }
@@ -254,7 +265,7 @@ public class MemberServiceImpl implements MemberService {
         Optional<Member> oMember = memberRepository.findById(id);
         if(oMember.isPresent() && passwordEncoder.matches(requestDto.getOldPassword(), oMember.get().getPassword())) {
             Member member = oMember.get();
-            member.setPassword(requestDto.getNewPassword());
+            member.setPassword(passwordEncoder.encode(requestDto.getNewPassword()));
             memberRepository.save(member);
         }
     }

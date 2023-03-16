@@ -18,6 +18,7 @@ import com.ssafy.doeng.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -53,9 +54,13 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody RequestMemberDto requestDto) {
+    public ResponseEntity login(@RequestBody RequestMemberDto requestDto) {
         LOGGER.info("[login] 로그인 controller 들어옴");
-        return ResponseEntity.ok(memberService.login(requestDto));
+        TokenDto tokenDto = memberService.login(requestDto);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("accesstoken", tokenDto.getAccesstoken());
+        headers.set("refreshtoken", tokenDto.getRefreshtoken());
+        return new ResponseEntity<>("",headers,HttpStatus.OK);
     }
 
     @PostMapping("/id")
@@ -140,6 +145,13 @@ public class MemberController {
         LOGGER.info("[CheckMemberId] 아이디 중복체크 controller 들어옴");
         LOGGER.info("[CheckMemberId] 아이디 중복체크 controller 들어옴");
         return ResponseEntity.ok().body(memberService.checkMemberId(memberId));
+    }
+
+    @GetMapping("/check/phone/{phone}")
+    public ResponseEntity<Boolean> CheckPhone(@PathVariable("phone") String phone){
+        LOGGER.info("[CheckMemberId] 아이디 중복체크 controller 들어옴");
+        LOGGER.info("[CheckMemberId] 아이디 중복체크 controller 들어옴");
+        return ResponseEntity.ok().body(memberService.checkPhone(phone));
     }
 
     @GetMapping("/check/nickname/{nickname}")
