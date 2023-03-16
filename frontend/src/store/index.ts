@@ -7,6 +7,7 @@ import axios, { AxiosResponse } from "axios"
 import exampleSlice, { exActions } from "./example-slice"
 import tokenSlice, { tokenActions } from "./tokenSlice"
 import toastSlice, { toastActions } from "./toastSlice"
+import userSlice, { userActions } from "./userSlice"
 import findSlice from "./findSlice"
 
 export type AppDispatch = typeof store.dispatch
@@ -17,6 +18,7 @@ const rootReducers = combineReducers({
   token: tokenSlice,
   toast: toastSlice,
   find: findSlice,
+  user: userSlice,
 })
 
 const persistConfig = {

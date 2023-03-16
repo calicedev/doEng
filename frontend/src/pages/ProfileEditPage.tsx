@@ -1,10 +1,11 @@
-import ProfileEdit from "components/MyPageComponents/ProfileEdit/ProfileEdit"
+import ProfileEditForm from "components/MyPageComponents/ProfileEdit/ProfileEditForm"
+import ProfileHeader from "components/MyPageComponents/common/ProfileHeader"
 
 function ProfileEditPage() {
   return (
-    <div>
-      <div>회원정보 수정페이지</div>
-      <ProfileEdit />
+    <div className="p-10">
+      <ProfileHeader path="edit" />
+      <ProfileEditForm />
     </div>
   )
 }

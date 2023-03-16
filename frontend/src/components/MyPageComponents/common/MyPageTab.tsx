@@ -13,7 +13,7 @@ export default function MyPageTab() {
   const activeClass = "bg-orange-500 text-white"
   // NavLink 비활성 시 tailwind Class
   const inactiveClass =
-    "bg-yellow-50 text-orange-500 border-orange-400 border-b-2"
+    "bg-white bg-opacity-80 text-orange-500 border-orange-400 border-b-2"
 
   return (
     <div className={`flex sticky left-0 top-0 w-full`}>

@@ -41,7 +41,7 @@ const IconButton: FC<PropsWithChildren<Props>> = function ({
   let labelSizeClass = ""
   switch (size) {
     case "small":
-      iconSizeClass = "text-xl"
+      iconSizeClass = "text-2xl"
       labelSizeClass = "text-base"
       break
     case "medium":
