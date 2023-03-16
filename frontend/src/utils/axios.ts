@@ -8,8 +8,8 @@ https://yamoo9.github.io/axios/guide/api.html#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%
 */
 
 const apiRequest = axios.create({
-  // baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
-  baseURL: "http://70.12.246.176:8200", // 서버 주소
+  baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
+  // baseURL: "http://70.12.246.176:8200", // 서버 주소
   withCredentials: true, // 쿠키 사용을 위해 설정
   timeout: 3000,
 })
@@ -72,16 +72,14 @@ apiRequest.interceptors.response.use(
         })
         .catch((err) => {
           store.dispatch(DispatchToast("다시 로그인 해주세요.", false))
-          // alert("다시 로그인 해주세요.")
+          return
         })
     } else if (response.status === 403) {
       store.dispatch(DispatchToast("다시 로그인 해주세요.", false))
-      // alert("다시 로그인 해주세요.")
     } else if (response.status >= 500) {
       store.dispatch(
         DispatchToast("서버와의 통신에 문제가 발생하였습니다.", false),
       )
-      // alert("서버와의 통신에 문제가 발생하였습니다.")
     }
     return Promise.reject(error)
   },

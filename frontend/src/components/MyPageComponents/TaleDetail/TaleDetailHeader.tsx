@@ -16,9 +16,9 @@ const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({
   purchased,
 }) {
   return (
-    <div className={`flex flex-col items-center`}>
+    <div className={`flex flex-col items-center gap-2 min-w-[200px] w-[20%]`}>
       <div
-        className={`overflow-hidden relative w-[200px] rounded drop-shadow-md`}
+        className={`overflow-hidden relative w-full rounded drop-shadow-md`}
         style={{ paddingBottom: "133.33%" }}
       >
         <img
@@ -27,8 +27,8 @@ const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({
           className={`absolute top-0 left-0 w-full h-full object-cover`}
         />
       </div>
-      <p>{title}</p>
-      <div className="flex gap-2 text-xl items-center">
+      <p className={`font-bold text-xl`}>{title}</p>
+      <div className={`flex gap-2 text-xl items-center`}>
         <StarRating rating={score} /> {score}
       </div>
       {purchased ? (

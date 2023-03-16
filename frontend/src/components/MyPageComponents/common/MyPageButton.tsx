@@ -11,11 +11,17 @@ const MyPageButton: FC<ButtonProps> = ({
   children,
   ...rest
 }) => {
-  // Set background color based on the color prop
-  const bgColor = `bg-${color}-500 hover:bg-${color}-600`
+  // 배경색 관련 Tailwind Class 할당
+  const colorClass = {
+    orange: "bg-orange-500 hover:bg-orange-700",
+    lime: "bg-lime-500 hover:bg-lime-700",
+    yellow: "bg-yellow-500 hover:bg-yellow-700",
+    gray: "bg-gray-500 hover:bg-gray-700",
+    red: "bg-red-500 hover:bg-red-700",
+  }[color]
 
-  // Set text size based on the size prop
-  const textSize = {
+  // 사이즈 관련 Tailwind Class 할당
+  const sizeClass = {
     small: "text-sm px-2 py-1",
     medium: "text-base px-3 py-1",
     large: "text-lg px-4 py-2",
@@ -23,7 +29,7 @@ const MyPageButton: FC<ButtonProps> = ({
 
   return (
     <button
-      className={`rounded ${textSize} ${bgColor} text-white font-bold focus:outline-none`}
+      className={`rounded ${colorClass} ${sizeClass} text-white font-bold focus:outline-none`}
       {...rest}
     >
       {children}
