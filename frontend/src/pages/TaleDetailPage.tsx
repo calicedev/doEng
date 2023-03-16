@@ -38,7 +38,7 @@ const TaleDetailPage = function () {
       },
       "책 정보를 불러오지 못했습니다",
     )
-  }, [])
+  }, [axiosRequest, taleId])
 
   // ["준비물1", "준비물2", "준비물3"] ->  "준비물1, 준비물2, 준비물3"
   const materialList = useMemo(() => {
@@ -65,7 +65,7 @@ const TaleDetailPage = function () {
   }
 
   return (
-    <div className="flex gap-10 p-4 overflow-y-auto">
+    <div className="flex flex-col items-center sm:flex-row sm:items-stretch gap-10 p-6 overflow-y-auto">
       <TaleDetailHeader
         backgroundImage={taleDetail.backgroundImage}
         title={taleDetail.title}
@@ -95,8 +95,8 @@ const TitleContent: FC<PropsWithChildren<Props>> = function ({
   children,
 }) {
   return (
-    <div className="flex flex-col">
-      <div className="font-bold text-lg">{title}</div>
+    <div className="flex flex-col gap-2 font-medium">
+      <div className="font-bold text-xl">{title}</div>
       {children}
     </div>
   )
@@ -106,7 +106,7 @@ export default TaleDetailPage
 
 const exData = {
   id: 1,
-  title: "기여운 강아지",
+  title: "기여운 강아지가 가방에 들어가는 이야기",
   backgroundImage:
     "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDZfMTE3/MDAxNjA0NjIzMDcyMTIx.dnBY_69oDFP8FcsQRrUEN-ndhP6LeSO9XC-1jaXATi4g._cIMEdFaQO5rIwq6R_hqSdSXM1CGmDsIl4QGDPcPvWYg.PNG.skyzzang011/2.png?type=w800",
   description:

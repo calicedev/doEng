@@ -29,8 +29,8 @@ const MyReview = function ({ review, getReviews }: PropsWithChildren<Props>) {
   const { taleId } = useParams() as { taleId: string } // 참조: https://velog.io/@euji42/Typescript-useParams-%ED%83%80%EC%9E%85-oi26j7va
 
   const [isUpdating, setIsUpdating] = useState(false)
-  const [score, setScore] = useState(0)
-  const [content, setContent] = useState("")
+  const [score, setScore] = useState(review ? review.score : 0)
+  const [content, setContent] = useState(review ? review.content : "")
   const { isLoading, isError, axiosRequest } = useApi()
 
   // 리뷰 작성하기
@@ -52,7 +52,8 @@ const MyReview = function ({ review, getReviews }: PropsWithChildren<Props>) {
     )
   }
 
-  const updateReview = (reviewId: number, taleId: string) => {
+  // 리뷰 수정하기
+  const updateReview = (reviewId: number) => {
     const data = {
       score,
       content,
@@ -70,7 +71,8 @@ const MyReview = function ({ review, getReviews }: PropsWithChildren<Props>) {
     )
   }
 
-  const deleteReview = (reviewId: number, taleId: string) => {
+  // 리뷰 삭제하기
+  const deleteReview = (reviewId: number) => {
     axiosRequest(
       {
         method: "delete",
@@ -83,53 +85,65 @@ const MyReview = function ({ review, getReviews }: PropsWithChildren<Props>) {
     )
   }
 
+  // 리뷰 수정 취소
+  const cancelUpdating = () => {
+    setScore(review ? review.score : 0)
+    setContent(review ? review.content : "")
+    setIsUpdating(false)
+  }
+
+  const containerClass = `flex flex-col gap-2`
+  const innerClass = `flex justify-between gap-6 text-lg`
+  const inputClass = `flex-1 rounded px-3`
   return (
     <>
       {!review ? (
-        <div>
-          <InputStarRating />
-          <div className="flex justify-between gap-5">
-            <input type="text" className={`flex-1 rounded`} />
-            <MyPageButton color={`orange`} onClick={() => createReview(taleId)}>
-              작성
-            </MyPageButton>
+        <div className={`${containerClass}`}>
+          <InputStarRating size={`large`} rating={score} setRating={setScore} />
+          <div className={`${innerClass}`}>
+            <input value={content} type="text" className={`${inputClass}`} />
+            <MyPageButton
+              text="작성"
+              color={`orange`}
+              onClick={() => createReview(taleId)}
+            />
           </div>
         </div>
       ) : isUpdating ? (
-        <div>
-          <InputStarRating />
-          <div className="flex justify-between gap-5">
-            <input type="text" className={`flex-1 rounded`} />
-            <MyPageButton color={`gray`} onClick={() => setIsUpdating(false)}>
-              취소
-            </MyPageButton>
+        <div className={`${containerClass}`}>
+          <InputStarRating size={`large`} rating={score} setRating={setScore} />
+          <div className={`${innerClass}`}>
+            <input
+              value={content}
+              type="text"
+              className={`${inputClass}`}
+              onChange={(e) => setContent(e.target.value)}
+            />
+            <MyPageButton text="취소" color={`gray`} onClick={cancelUpdating} />
             <MyPageButton
+              text="수정"
               color={`orange`}
-              onClick={() => updateReview(review.id, taleId)}
-            >
-              수정
-            </MyPageButton>
+              onClick={() => updateReview(review.id)}
+            />
           </div>
         </div>
       ) : (
-        <div>
-          <StarRating rating={review.score} size={`medium`} />
-          <div className="flex justify-between">
-            <p>{review.content}</p>
-            <div className="flex gap-4">
-              <IconButton
-                icon={<BsFillPencilFill />}
-                size={`small`}
-                onClick={() => {
-                  setIsUpdating(true)
-                }}
-              />
-              <IconButton
-                icon={<BsFillTrash3Fill />}
-                size={`small`}
-                onClick={() => deleteReview(review.id, taleId)}
-              />
-            </div>
+        <div className={`${containerClass}`}>
+          <StarRating rating={review.score} size={`large`} />
+          <div className={`${innerClass}`}>
+            <p className={`flex-1`}>{review.content}</p>
+            <IconButton
+              icon={<BsFillPencilFill />}
+              size={`small`}
+              onClick={() => {
+                setIsUpdating(true)
+              }}
+            />
+            <IconButton
+              icon={<BsFillTrash3Fill />}
+              size={`small`}
+              onClick={() => deleteReview(review.id)}
+            />
           </div>
         </div>
       )}
