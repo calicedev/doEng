@@ -34,14 +34,25 @@ function Profile() {
           </MyPageButton>
           {isModal && (
             <Modal closeModal={() => setIsModal(false)}>
-              회원 탈퇴 하시겠습니까?
-              <MyPageButton color={`orange`} onClick={pushHomePage}>
-                {" "}
-                예{" "}
-              </MyPageButton>
-              <MyPageButton color={`orange`} onClick={closeModal}>
-                아니오
-              </MyPageButton>
+              <div className={` h-52 w-96 p-4 bg-yellow-100`}>
+                <div className={`text-2xl font-bold text-center mt-4 mb-10`}>
+                  회원 탈퇴 하시겠습니까?
+                </div>
+                <div className={`flex flex-row`}>
+                  <div className={`basis-1/4`}></div>
+                  <div className={`basis-1/4`}>
+                    <MyPageButton color={`orange`} onClick={pushHomePage}>
+                      {" "}
+                      예{" "}
+                    </MyPageButton>
+                  </div>
+                  <div className={`basis-1/4`}>
+                    <MyPageButton color={`orange`} onClick={closeModal}>
+                      아니오
+                    </MyPageButton>
+                  </div>
+                </div>
+              </div>
             </Modal>
           )}
         </div>
