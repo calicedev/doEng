@@ -67,9 +67,15 @@ const useApi: useApiHook = function () {
           setError(() => false)
         })
         .catch((err: AxiosError) => {
-          console.log(err) // 추후 삭제해야함!
           setIsLoading(() => false)
           setError(() => true)
+          if (
+            !err.response?.status ||
+            err.response?.status === 403 ||
+            err.response?.status >= 500
+          ) {
+            return
+          }
           dispatch(DispatchToast(failMessage, false))
           setTimeout(function () {
             setError(() => false)

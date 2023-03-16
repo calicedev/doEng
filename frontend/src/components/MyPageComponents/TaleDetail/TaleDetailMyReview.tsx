@@ -6,6 +6,7 @@ import MyPageButton from "components/MyPageComponents/common/MyPageButton"
 import { BsFillPencilFill, BsFillTrash3Fill } from "react-icons/bs"
 import axios from "utils/axios"
 import { useParams } from "react-router-dom"
+import useApi from "hooks/useApi"
 
 interface Review {
   id: number
@@ -21,43 +22,34 @@ interface Props {
     score: number
     content: string
   } | null
-  setReviews: (myReview: Review, reviewList: Array<Review>) => void
+  getReviews: () => void
 }
 
-const MyReview: FC<PropsWithChildren<Props>> = function ({
-  review,
-  setReviews,
-}) {
+const MyReview = function ({ review, getReviews }: PropsWithChildren<Props>) {
+  const { taleId } = useParams() as { taleId: string } // 참조: https://velog.io/@euji42/Typescript-useParams-%ED%83%80%EC%9E%85-oi26j7va
+
   const [isUpdating, setIsUpdating] = useState(false)
   const [score, setScore] = useState(0)
   const [content, setContent] = useState("")
+  const { isLoading, isError, axiosRequest } = useApi()
 
-  const { taleId } = useParams() as { taleId: string } // 참조: https://velog.io/@euji42/Typescript-useParams-%ED%83%80%EC%9E%85-oi26j7va
-
-  const getReviews = (taleId: string) => {
-    axios({ url: `/api/mypage/review/${taleId}/review-list`, method: "get" })
-      .then((res) => {
-        const myReview = res.data.myReview
-        const reviewList = res.data.reviewList
-        setReviews(myReview, reviewList)
-      })
-      .catch((err) => {
-        alert(err.response.msg)
-      })
-  }
-
+  // 리뷰 작성하기
   const createReview = (taleId: string) => {
     const data = {
       score,
       content,
     }
-    axios({ url: `/api/mypage/review/${taleId}`, method: "post", data })
-      .then((res) => {
-        getReviews(taleId)
-      })
-      .catch((err) => {
-        alert(err.response.msg)
-      })
+    axiosRequest(
+      {
+        method: "post",
+        url: `/api/mypage/review/${taleId}`,
+        data,
+      },
+      (res) => {
+        getReviews()
+      },
+      "리뷰 작성에 실패했습니다.",
+    )
   }
 
   const updateReview = (reviewId: number, taleId: string) => {
@@ -65,23 +57,30 @@ const MyReview: FC<PropsWithChildren<Props>> = function ({
       score,
       content,
     }
-    axios({ url: `/api/mypage/review/${reviewId}`, method: "put", data })
-      .then((res) => {
-        getReviews(taleId)
-      })
-      .catch((err) => {
-        alert(err.response.msg)
-      })
+    axiosRequest(
+      {
+        method: "put",
+        url: `/api/mypage/review/${reviewId}`,
+        data,
+      },
+      (res) => {
+        getReviews()
+      },
+      "리뷰 수정에 실패했습니다.",
+    )
   }
 
   const deleteReview = (reviewId: number, taleId: string) => {
-    axios({ url: `/api/mypage/review/${reviewId}`, method: "delete" })
-      .then((res) => {
-        getReviews(taleId)
-      })
-      .catch((err) => {
-        alert(err.response.msg)
-      })
+    axiosRequest(
+      {
+        method: "delete",
+        url: `/api/mypage/review/${reviewId}`,
+      },
+      (res) => {
+        getReviews()
+      },
+      "리뷰 삭제에 실패했습니다.",
+    )
   }
 
   return (
