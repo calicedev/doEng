@@ -15,23 +15,23 @@ public class RefreshToken {
 
     @Id
     private Long id;
-    private String refreshToken;
+    private String refreshtoken;
 
     @Builder
-    public RefreshToken(Long id, String refreshToken) {
+    public RefreshToken(Long id, String refreshtoken) {
         this.id = id;
-        this.refreshToken = refreshToken;
+        this.refreshtoken = refreshtoken;
     }
 
     public RefreshToken updateValue(String token) {
-        this.refreshToken = token;
+        this.refreshtoken = token;
         return this;
     }
 
-    public static RefreshToken createRefreshToken(Long id, String refreshToken) {
+    public static RefreshToken createRefreshToken(Long id, String refreshtoken) {
         return RefreshToken.builder()
                 .id(id)
-                .refreshToken(refreshToken)
+                .refreshtoken(refreshtoken)
                 .build();
     }
 }

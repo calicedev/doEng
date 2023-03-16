@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="Gradle: io.netty:netty-resolver-dns-classes-macos:4.1.89.Final">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver-dns-classes-macos/4.1.89.Final/e025471ae349967739477ec2ca644b81da9325f/netty-resolver-dns-classes-macos-4.1.89.Final.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/io.netty/netty-resolver-dns-classes-macos/4.1.89.Final/9e4efa1c9bcdcd2b4bdda644fc7c6d4179a12082/netty-resolver-dns-classes-macos-4.1.89.Final-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>

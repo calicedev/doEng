@@ -14,6 +14,6 @@ import lombok.ToString;
 @NoArgsConstructor
 @ToString
 public class ResponseTokenDto {
-    private String accessToken;
+    private String accesstoken;
     private String tokenType;
 }

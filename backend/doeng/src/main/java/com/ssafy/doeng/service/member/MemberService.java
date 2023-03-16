@@ -10,6 +10,7 @@ import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestResetMemberPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
+import com.ssafy.doeng.data.dto.member.request.RequestSignupEmailDto;
 import com.ssafy.doeng.data.dto.member.request.RequestTokenDto;
 import com.ssafy.doeng.data.entity.member.Member;
 
@@ -26,7 +27,6 @@ public interface MemberService {
 
     boolean checkNickname(String nickname);
 
-    Object getLoginMemberEmail();
     void checkEmailSend(RequestEmailDto requestDto);
 
     String checkEmailConfirm(RequestEmailValidateDto requestDto);
@@ -40,4 +40,8 @@ public interface MemberService {
     boolean checkEmail(String email);
 
     String findId(RequestFindIdDto requestDto);
+
+    void checkSignUpEmailSend(RequestSignupEmailDto requestDto);
+
+    boolean checkPhone(String phone);
 }

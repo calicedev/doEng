@@ -11,12 +11,14 @@ import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestModifyMemberPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestResetMemberPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
+import com.ssafy.doeng.data.dto.member.request.RequestSignupEmailDto;
 import com.ssafy.doeng.data.dto.member.request.RequestTokenDto;
 import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -26,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -52,9 +55,13 @@ public class MemberController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<TokenDto> login(@RequestBody RequestMemberDto requestDto) {
+    public ResponseEntity login(@RequestBody RequestMemberDto requestDto) {
         LOGGER.info("[login] 로그인 controller 들어옴");
-        return ResponseEntity.ok(memberService.login(requestDto));
+        TokenDto tokenDto = memberService.login(requestDto);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("accesstoken", tokenDto.getAccesstoken());
+        headers.set("refreshtoken", tokenDto.getRefreshtoken());
+        return new ResponseEntity<>("",headers,HttpStatus.OK);
     }
 
     @PostMapping("/id")
@@ -64,8 +71,11 @@ public class MemberController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(@RequestBody RequestTokenDto requestDto) {
+    public ResponseEntity<TokenDto> reissue(@RequestHeader("accesstoken") String accesstoken, @RequestHeader("refreshtoken") String refreshtoken) {
         LOGGER.info("[reissue] accessToken 재발급 controller 들어옴");
+        RequestTokenDto requestDto = new RequestTokenDto();
+        requestDto.setAccesstoken(accesstoken);
+        requestDto.setRefreshtoken(refreshtoken);
         return ResponseEntity.ok(memberService.reissue(requestDto));
     }
 
@@ -121,6 +131,13 @@ public class MemberController {
         return ResponseEntity.ok().body("");
     }
 
+    @PostMapping("/check/signup-email/send")
+    public ResponseEntity<String> checkSignupEmailSend(@RequestBody RequestSignupEmailDto requestDto){
+        LOGGER.info("[checkEmailSend] 이메일 인증번호 요청 controller 들어옴");
+        memberService.checkSignUpEmailSend(requestDto);
+        return ResponseEntity.ok().body("");
+    }
+
     @PostMapping("/check/email/confirm")
     public ResponseEntity<String> checkEmailConfirm(@RequestBody RequestEmailValidateDto requestDto){
         LOGGER.info("[checkEmailConfirm] 이메일 인증 확인 controller 들어옴");
@@ -132,6 +149,13 @@ public class MemberController {
         LOGGER.info("[CheckMemberId] 아이디 중복체크 controller 들어옴");
         LOGGER.info("[CheckMemberId] 아이디 중복체크 controller 들어옴");
         return ResponseEntity.ok().body(memberService.checkMemberId(memberId));
+    }
+
+    @GetMapping("/check/phone/{phone}")
+    public ResponseEntity<Boolean> CheckPhone(@PathVariable("phone") String phone){
+        LOGGER.info("[CheckMemberId] 아이디 중복체크 controller 들어옴");
+        LOGGER.info("[CheckMemberId] 아이디 중복체크 controller 들어옴");
+        return ResponseEntity.ok().body(memberService.checkPhone(phone));
     }
 
     @GetMapping("/check/nickname/{nickname}")

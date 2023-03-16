@@ -1,6 +1,5 @@
 package com.ssafy.doeng.jwt;
 
-import com.ssafy.doeng.jwt.TokenProvider;
 import java.io.IOException;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
@@ -22,6 +21,7 @@ public class JwtFilter extends OncePerRequestFilter {
 
     // 실제 필터링 로직은 doFilterInternal 에 들어감
     // JWT 토큰의 인증 정보를 현재 쓰레드의 SecurityContext 에 저장하는 역할 수행
+    // 나 같은 경우는 이 SecurityContext에 들어있는 정보를 꺼내서 annotation 적용 시킨 것.
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws IOException, ServletException {
 
