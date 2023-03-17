@@ -16,10 +16,12 @@ const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({
   purchased,
 }) {
   return (
-    <div className={`flex flex-col items-center`}>
+    <div
+      className={`flex flex-col items-center gap-4 min-w-[250px] w-[80%] sm:w-[27%]`}
+    >
       <div
-        className={`overflow-hidden relative w-[200px] rounded drop-shadow-md`}
-        style={{ paddingBottom: "133.33%" }}
+        className={`overflow-hidden relative w-[80%] rounded drop-shadow-md`}
+        style={{ paddingBottom: "110%" }}
       >
         <img
           src={backgroundImage}
@@ -27,14 +29,14 @@ const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({
           className={`absolute top-0 left-0 w-full h-full object-cover`}
         />
       </div>
-      <p>{title}</p>
-      <div className="flex gap-2 text-xl items-center">
-        <StarRating rating={score} /> {score}
+      <p className={`font-bold text-2xl text-center`}>{title}</p>
+      <div className={`flex gap-2 text-xl items-center`}>
+        <StarRating rating={score} size="medium" /> {score}
       </div>
       {purchased ? (
-        <MyPageButton disabled={true}>구매완료</MyPageButton>
+        <MyPageButton disabled={true} text="구매완료" />
       ) : (
-        <MyPageButton disabled={true}>구매하기</MyPageButton>
+        <MyPageButton disabled={true} text="구매하기" />
       )}
     </div>
   )

@@ -1,27 +1,50 @@
 import React, { FC, PropsWithChildren, MouseEvent, useState } from "react"
 import { FaStar } from "react-icons/fa"
 
-const InputStarRating = () => {
-  const [rating, setRating] = useState(0)
+/*
+1~5점의 별점을 마우스로 클릭하여 입력할 수 있는 컴포넌트
+*/
+
+interface Props {
+  rating: number
+  setRating: Function
+  size?: "small" | "medium" | "large" // 별 사이즈 조절
+}
+
+const InputStarRating = ({
+  rating,
+  setRating,
+  size = "small",
+}: PropsWithChildren<Props>) => {
   const [isClicked, setIsClicked] = useState(false)
 
+  // 마우스가 별 위에 올라왔을 때
   const handleMouseEnter = (index: number) => {
     if (isClicked) return
     setRating(index + 1)
   }
 
+  // 마우스가 별 밖으로 나갔을 때
   const handleMouseLeave = () => {
     if (isClicked) return
     setRating(0)
   }
 
+  // 별을 클릭 했을 때
   const handleStarClick = (index: number) => {
     setRating(index + 1)
     setIsClicked(true)
   }
 
+  // 사이즈 관련 Tailwind Class 할당
+  const sizeClass = {
+    small: "text-lg gap-1",
+    medium: "text-2xl gap-2",
+    large: "text-3xl gap-3",
+  }[size]
+
   return (
-    <div className="flex gap-1">
+    <div className={`flex gap-1 ${sizeClass}`}>
       {[...Array(5)].map((_, index) => (
         <Star
           key={index}
@@ -42,12 +65,12 @@ interface StarProps {
   onMouseLeave: (e: MouseEvent<HTMLElement>) => void
 }
 
-const Star: React.FC<StarProps> = ({
+const Star = ({
   filled,
   onClick,
   onMouseEnter,
   onMouseLeave,
-}) => {
+}: PropsWithChildren<StarProps>) => {
   const colorClass = filled ? "text-yellow-400" : "text-gray-300"
 
   return (

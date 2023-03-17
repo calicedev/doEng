@@ -1,12 +1,12 @@
 import Profile from "components/MyPageComponents/Profile/Profile"
+import ProfileHeader from "components/MyPageComponents/common/ProfileHeader"
 import React from "react"
-import { Outlet } from "react-router-dom"
 
 export default function ProfiliePage() {
   return (
-    <div>
+    <div className="p-10">
+      <ProfileHeader path="profile" />
       <Profile />
-      <Outlet />
     </div>
   )
 }

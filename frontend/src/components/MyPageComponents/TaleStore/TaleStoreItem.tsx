@@ -15,7 +15,7 @@ interface Props {
   tale: Tale
 }
 
-const TaleStoreItem: FC<PropsWithChildren<Props>> = function ({ tale }) {
+const TaleStoreItem = function ({ tale }: PropsWithChildren<Props>) {
   const navigate = useNavigate()
 
   const toTaleDetail = () => {
@@ -25,7 +25,7 @@ const TaleStoreItem: FC<PropsWithChildren<Props>> = function ({ tale }) {
   return (
     <div
       onClick={toTaleDetail}
-      className={`flex flex-col items-center gap-2 relative p-3 cursor-pointer`}
+      className={`flex flex-col items-center gap-2 relative p-3 min-w-[180px] cursor-pointer ease-in-out duration-300 hover:scale-110`}
     >
       {tale.purchased && (
         <img
@@ -35,7 +35,7 @@ const TaleStoreItem: FC<PropsWithChildren<Props>> = function ({ tale }) {
         />
       )}
       <div
-        className={`overflow-hidden relative z-0 w-full rounded drop-shadow-md`}
+        className={`overflow-hidden relative z-0 w-full rounded drop-shadow-lg`}
         style={{ paddingBottom: "133.33%" }}
       >
         <img
