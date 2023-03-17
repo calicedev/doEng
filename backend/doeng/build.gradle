@@ -52,9 +52,9 @@ dependencies {
     implementation group: 'org.springframework.cloud', name: 'spring-cloud-starter-aws', version: '2.2.6.RELEASE'
 
     //Oauth
-    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
-    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.2'
-    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+//    implementation 'org.springframework.boot:spring-boot-starter-oauth2-client'
+//    implementation 'jakarta.xml.bind:jakarta.xml.bind-api:2.3.2'
+//    developmentOnly 'org.springframework.boot:spring-boot-devtools'
 }
 
 tasks.named('test') {
