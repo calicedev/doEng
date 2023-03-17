@@ -11,7 +11,7 @@ const apiRequest = axios.create({
   baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
   // baseURL: "http://70.12.246.176:8200", // 서버 주소
   withCredentials: true, // 쿠키 사용을 위해 설정
-  timeout: 10000,
+  timeout: 10000, // 10초까지만 대기
 })
 
 // request 인터셉터
@@ -66,24 +66,26 @@ apiRequest.interceptors.response.use(
       // access Token 재발급
       const config: AxiosRequestConfig = {
         method: `post`,
-        // baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
-        baseURL: "http://70.12.246.176:8200", // 서버 주소
+        baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
+        // baseURL: "http://70.12.246.176:8200", // 서버 주소
         url: `/api/member/reissue`,
         headers: {
           accesstoken: accessToken,
           refreshtoken: refreshToken,
         },
-        data: {
-          accesstoken: accessToken,
-          refreshtoken: refreshToken,
-        },
+        // data: { // some issue, 잠시 body에 담았음
+        //   accesstoken: accessToken,
+        //   refreshtoken: refreshToken,
+        // },
       } // accessToken 재발급 관련 설정
       await axios(config)
         .then((res) => {
+          console.log("인터셉터 응답:")
+          console.log(res)
           const newAccessToken =
             res.headers["accesstoken"] || res.data.accesstoken
-          const newRefreshToken =
-            res.headers["refreshtoken"] || res.data.refreshtoken
+          // const newRefreshToken =
+          //   res.headers["refreshtoken"] || res.data.refreshtoken
           if (newAccessToken) {
             store.dispatch(
               tokenActions.setAccessToken({ accessToken: newAccessToken }),
@@ -91,21 +93,22 @@ apiRequest.interceptors.response.use(
             originalConfig.headers.common["accesstoken"] = `${newAccessToken}`
             originalConfig.headers.Authorization = `Bearer ${newAccessToken}`
           }
-          if (newRefreshToken) {
-            store.dispatch(
-              tokenActions.setRefreshToken({ refreshToken: newRefreshToken }),
-            )
-            originalConfig.headers.common["refreshtoken"] = `${newRefreshToken}`
-          }
+          // if (newRefreshToken) {
+          //   store.dispatch(
+          //     tokenActions.setRefreshToken({ refreshToken: newRefreshToken }),
+          //   )
+          //   originalConfig.headers.common["refreshtoken"] = `${newRefreshToken}`
+          // }
           return apiRequest(originalConfig) // 기존 요청 새로운 token으로 재시도
         })
         .catch((err) => {
           console.log("토큰 재발급 에러 : ", err)
           store.dispatch(DispatchToast("다시 로그인 해주세요.", false))
-          return
+          return Promise.reject(err)
         })
     } else if (response.status === 403) {
       store.dispatch(DispatchToast("다시 로그인 해주세요.", false))
+      store.dispatch(tokenActions.deleteTokens({}))
     } else if (response.status >= 500) {
       store.dispatch(
         DispatchToast("서버와의 통신에 문제가 발생하였습니다.", false),

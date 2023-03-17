@@ -96,9 +96,8 @@ function Login() {
     apiRequest({
       method: `get`,
       url: `/api/member`,
-      // data: {
-      //   accesstoken: accessToken,
-      //   refreshtoken: refreshToken,s
+      // headers: {
+      //   isItWork: "asdf",
       // },
     })
       .then((res: AxiosResponse) => {
@@ -173,7 +172,7 @@ function Login() {
         </div>
       </form>
       <div className="cursor-pointer" onClick={testAxios}>
-        눌러보삼삼
+        api 테스트용
       </div>
     </>
   )
