@@ -13,13 +13,10 @@ interface Tale {
 function ProgressListPage() {
   const { taleList }: { taleList: Tale[] } = dummy
   return (
-    <div>
-      <h1>ProgressListPage</h1>
-      <div className="grid grid-cols-5 gap-4">
-        {taleList.map((tale: Tale) => (
-          <ProgressList key={tale.id} tale={tale} />
-        ))}
-      </div>
+    <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-8 p-8">
+      {taleList.map((tale: Tale) => (
+        <ProgressList key={tale.id} tale={tale} />
+      ))}
     </div>
   )
 }

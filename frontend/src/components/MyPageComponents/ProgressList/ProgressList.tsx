@@ -21,16 +21,21 @@ function ProgressList({ tale }: TaleProps) {
   }
   return (
     <div
-      className=" border-2 border-orange-300 rounded-lg py-2 px-2 cursor-pointer"
+      className=" border-[3px] border-orange-300 bg-white rounded-lg flex flex-col items-center gap-2 relative p-3 min-w-[180px] cursor-pointer ease-in-out duration-300 hover:scale-110"
       onClick={pushProgressListDetail}
     >
-      <img
-        className="w-full"
-        src={tale.backgroundImage}
-        alt="progressBackground"
-      />{" "}
+      <div
+        className={`overflow-hidden relative z-0 w-full rounded drop-shadow-lg`}
+        style={{ paddingBottom: "133.33%" }}
+      >
+        <img
+          className="absolute top-0 left-0 w-full h-full object-cover"
+          src={tale.backgroundImage}
+          alt="progressBackground"
+        />{" "}
+      </div>
       <div>{tale.title}</div>
-      <div className="w-full bg-gray-200 rounded-full mb-4 dark:bg-gray-700">
+      <div className="w-full bg-gray-200 rounded-full mb-0.5 dark:bg-gray-700">
         <div
           className="bg-green-600 rounded-full dark:bg-green-500"
           style={{ width: `${tale.progress}%` }}
