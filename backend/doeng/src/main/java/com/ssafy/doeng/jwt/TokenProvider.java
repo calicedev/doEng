@@ -44,7 +44,6 @@ public class TokenProvider {
 
     //토큰 만들기
     public TokenDto generateTokenDto(Authentication authentication) {
-        System.out.println("2");
         // 권한들 가져오기
         String authorities = authentication.getAuthorities().stream()
                 .map(GrantedAuthority::getAuthority)

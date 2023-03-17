@@ -27,7 +27,6 @@ public interface MemberService {
 
     boolean checkNickname(String nickname);
 
-    Object getLoginMemberEmail();
     void checkEmailSend(RequestEmailDto requestDto);
 
     String checkEmailConfirm(RequestEmailValidateDto requestDto);

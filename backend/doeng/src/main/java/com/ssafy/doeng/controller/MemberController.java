@@ -28,6 +28,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -70,8 +71,11 @@ public class MemberController {
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(@RequestBody RequestTokenDto requestDto) {
+    public ResponseEntity<TokenDto> reissue(@RequestHeader("accesstoken") String accesstoken, @RequestHeader("refreshtoken") String refreshtoken) {
         LOGGER.info("[reissue] accessToken 재발급 controller 들어옴");
+        RequestTokenDto requestDto = new RequestTokenDto();
+        requestDto.setAccesstoken(accesstoken);
+        requestDto.setRefreshtoken(refreshtoken);
         return ResponseEntity.ok(memberService.reissue(requestDto));
     }
 

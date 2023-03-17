@@ -13,12 +13,12 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.Date;
 import java.util.Optional;
+import java.util.UUID;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
-
 @Slf4j
 @RequiredArgsConstructor
 @Service
@@ -38,7 +38,9 @@ public class AwsS3Service {
     }
 
     private FileDto upload(File uploadFile, String dirName) {
-        String fileName = dirName + "/" + uploadFile.getName();
+        String origName = uploadFile.getName();
+        final String ext = origName.substring(origName.lastIndexOf('.'));
+        String fileName = dirName + "/" + getUuid() + ext;
         String uploadImageUrl = putS3(uploadFile, fileName);
         removeNewFile(uploadFile);
 
@@ -147,5 +149,7 @@ public class AwsS3Service {
 
         return preSignedURL;
     }
-
+    private static String getUuid() {
+        return UUID.randomUUID().toString().replaceAll("-", "");
+    }
 }
