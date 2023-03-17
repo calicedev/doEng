@@ -6,6 +6,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Setter
 @Getter
@@ -16,6 +17,6 @@ public class RequestTaleInfoDto {
     private String title;
     private String description;
     private int price;
-    private String backgroundImage;
-    private String mainImage;
+    private MultipartFile backgroundImage;
+    private MultipartFile mainImage;
 }
