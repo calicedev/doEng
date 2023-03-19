@@ -37,6 +37,9 @@ interface TaleProps {
 
 function ProgressDetail({ tale }: TaleProps) {
   const navigate = useNavigate()
+  const toTaleDetail = () => {
+    navigate(`/mypage/talestore/${tale.id}`)
+  }
 
   return (
     <div>
@@ -44,14 +47,7 @@ function ProgressDetail({ tale }: TaleProps) {
         <img src={tale.backgroundImage} alt="progressDetailBackground" />
         {tale.title}
         <div>
-          <MyPageButton
-            color={`orange`}
-            onClick={() => {
-              navigate(`/mypage/talestore/${tale.id}`)
-            }}
-          >
-            책 상세
-          </MyPageButton>
+          <MyPageButton text="책 상세" onClick={toTaleDetail} />
         </div>
       </div>
     </div>

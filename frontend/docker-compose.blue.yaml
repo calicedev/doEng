@@ -1,0 +1,11 @@
+version: "3.6"
+
+services:
+  react:
+    build: .
+    image: react-docker-image-blue
+    container_name: react-docker-blue
+    ports:
+      - "3000:3000"
+    # stdin_open: true # docker run -i
+    # tty: true        # docker run -t

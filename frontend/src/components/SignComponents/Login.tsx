@@ -91,16 +91,21 @@ function Login() {
     dispatch(findActions.resetState({}))
   }, [])
 
+  const { accessToken, refreshToken } = useStoreSelector((state) => state.token)
   const testAxios = function () {
     apiRequest({
       method: `get`,
       url: `/api/member`,
+      // data: {
+      //   accesstoken: accessToken,
+      //   refreshtoken: refreshToken,s
+      // },
     })
       .then((res: AxiosResponse) => {
-        console.log("res")
+        // console.log("res")
       })
       .catch((err: AxiosError) => {
-        console.log(err)
+        // console.log(err)
       })
   }
 

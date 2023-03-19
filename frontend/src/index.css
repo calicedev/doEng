@@ -13,8 +13,17 @@ body {
   box-sizing: border-box;
   outline: none;
 }
-body::-webkit-scrollbar {
-  display: none;
+
+*::-webkit-scrollbar {
+  width: 10px;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #ff9633;
+  border-radius: 10px;
+}
+*::-webkit-scrollbar-track {
+  background-color: #ffffff00;
+  border-radius: 10px;
 }
 
 .App {
