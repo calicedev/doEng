@@ -112,7 +112,9 @@ apiRequest.interceptors.response.use(
           return Promise.reject(err)
         })
     } else if (response.status === 403) {
-      store.dispatch(DispatchToast("다시 로그인 해주세요.", false))
+      store.dispatch(
+        DispatchToast("토큰이 만료되었습니다. 다시 로그인 해주세요.", false),
+      )
       store.dispatch(tokenActions.deleteTokens({}))
     } else if (response.status >= 500) {
       store.dispatch(
