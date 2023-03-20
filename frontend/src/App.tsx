@@ -38,6 +38,7 @@ function App() {
         <Route path={`/`} element={<HomePage />} />
         <Route path={`/member`} element={<SignPage />}>
           <Route path={``} element={<Login />} />
+          <Route path={`login`} element={<Login />} />
           <Route path={`signup`} element={<Signup />} />
           <Route path={`find`} element={<Find />} />
         </Route>

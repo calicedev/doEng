@@ -12,8 +12,10 @@ import { SpinnerDots } from "components/UI/Spinner"
 import Toast from "components/UI/Toast"
 import { findActions } from "store/findSlice"
 import apiRequest from "utils/axios"
+import { useLogin } from "hooks/queries/useUserData"
 
 function Login() {
+  const { mutate: LoginMutate } = useLogin()
   const dispatch = useStoreDispatch()
   const navigate = useNavigate()
   const idInputRef = useRef<HTMLInputElement>(null)
@@ -49,21 +51,29 @@ function Login() {
       dispatch(DispatchToast("비밀번호가 유효하지 않습니다.", false))
       return
     }
-    loginRequest(
-      {
-        method: "post",
-        url: `/api/member/login`,
-        data: {
-          memberId: `${idInput}`,
-          password: `${passwordInput}`,
-        },
+    LoginMutate({
+      method: "post",
+      url: `/api/auth/login`,
+      data: {
+        memberId: `${idInput}`,
+        password: `${passwordInput}`,
       },
-      function () {
-        dispatch(DispatchToast("로그인 성공!", true))
-        navigate("/")
-      },
-      "로그인 실패!",
-    )
+    })
+    // loginRequest(
+    //   {
+    //     method: "post",
+    //     url: `/api/member/login`,
+    //     data: {
+    //       memberId: `${idInput}`,
+    //       password: `${passwordInput}`,
+    //     },
+    //   },
+    //   function () {
+    //     dispatch(DispatchToast("로그인 성공!", true))
+    //     navigate("/")
+    //   },
+    //   "로그인 실패!",
+    // )
   }
   const goSignupHandler = function () {
     navigate("/member/signup")

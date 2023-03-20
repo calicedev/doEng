@@ -1,6 +1,8 @@
 import React, { useState, useEffect } from "react"
 import TaleStoreItem from "components/MyPageComponents/TaleStore/TaleStoreItem"
 import useApi from "hooks/useApi"
+import { useGetUserData } from "hooks/queries/useUserData"
+import apiRequest from "utils/axios"
 
 interface Tale {
   id: number
@@ -12,21 +14,33 @@ interface Tale {
 ////////////////////////////////////////////////////////////////
 // react query 사용해보기
 const TaleStoreList = function () {
+  const {
+    isLoading: queryLoading,
+    error: queryError,
+    data: queryData,
+  } = useGetUserData()
+  console.log(queryLoading, queryError)
+  console.log(queryData)
+
+  // apiRequest({ method: `get`, url: `/api/member` })
+  //   .then((res) => console.log("성공임"))
+  //   .catch(() => console.log("에러임"))
+
   const [taleList, setTaleList] = useState<Tale[]>(exData.taleList)
   const { isLoading, isError, axiosRequest } = useApi()
   // 마운트 시 책 리스트 정보 받아오기
-  useEffect(() => {
-    axiosRequest(
-      {
-        method: "get",
-        url: "/api/mypage/tale-list",
-      },
-      (res) => {
-        setTaleList(res.data)
-      },
-      "책 정보를 불러오지 못했습니다",
-    )
-  }, [axiosRequest])
+  // useEffect(() => {
+  //   axiosRequest(
+  //     {
+  //       method: "get",
+  //       url: "/api/mypage/tale-list",
+  //     },
+  //     (res) => {
+  //       setTaleList(res.data)
+  //     },
+  //     "책 정보를 불러오지 못했습니다",
+  //   )
+  // }, [axiosRequest])
 
   return (
     <>
@@ -63,14 +77,14 @@ const exData = {
       purchased: false,
     },
     {
-      id: 1,
+      id: 3,
       title: "백설공주",
       backgroundImage: "http://image.yes24.com/goods/62494205/XL",
       score: 3.8,
       purchased: true,
     },
     {
-      id: 2,
+      id: 4,
       title: "신데렐라",
       backgroundImage:
         "https://cdn.imweb.me/upload/S20210128257d7c0c29db4/ba5c87dbaa546.png",
@@ -78,14 +92,14 @@ const exData = {
       purchased: false,
     },
     {
-      id: 1,
+      id: 5,
       title: "백설공주",
       backgroundImage: "http://image.yes24.com/goods/62494205/XL",
       score: 3.8,
       purchased: true,
     },
     {
-      id: 2,
+      id: 6,
       title: "신데렐라",
       backgroundImage:
         "https://cdn.imweb.me/upload/S20210128257d7c0c29db4/ba5c87dbaa546.png",
@@ -93,14 +107,14 @@ const exData = {
       purchased: false,
     },
     {
-      id: 1,
+      id: 7,
       title: "백설공주",
       backgroundImage: "http://image.yes24.com/goods/62494205/XL",
       score: 3.8,
       purchased: true,
     },
     {
-      id: 2,
+      id: 8,
       title: "신데렐라",
       backgroundImage:
         "https://cdn.imweb.me/upload/S20210128257d7c0c29db4/ba5c87dbaa546.png",

@@ -6,6 +6,12 @@ import { tokenActions } from "store/tokenSlice"
 서버에 요청을 날리는 axios instance
 https://yamoo9.github.io/axios/guide/api.html#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%83%9D%EC%84%B1
 */
+const interceptorRequest = axios.create({
+  baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
+  // baseURL: "http://70.12.246.176:8200", // 서버 주소
+  withCredentials: true, // 쿠키 사용을 위해 설정
+  timeout: 10000, // 10초까지만 대기
+})
 
 const apiRequest = axios.create({
   baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
@@ -52,8 +58,8 @@ apiRequest.interceptors.response.use(
     return res
   },
   async (error) => {
+    console.log("error", error)
     console.log(`errorStatusCode: ${error.response.status}`)
-    console.log(error)
 
     const state = store.getState() // 리덕스 상태 가져오기
     const accessToken = state.token.accessToken // 리덕스 accessToken 읽기
@@ -68,19 +74,18 @@ apiRequest.interceptors.response.use(
         method: `post`,
         baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
         // baseURL: "http://70.12.246.176:8200", // 서버 주소
-        url: `/api/member/reissue`,
-        headers: {
-          accesstoken: accessToken,
-          refreshtoken: refreshToken,
-        },
-        // data: { // some issue, 잠시 body에 담았음
-        //   accesstoken: accessToken,
-        //   refreshtoken: refreshToken,
-        // },
+        url: `/api/auth/reissue`,
       } // accessToken 재발급 관련 설정
-      await axios(config)
+      if (accessToken) {
+        interceptorRequest.defaults.headers.common[`accesstoken`] = accessToken
+      }
+      if (refreshToken) {
+        interceptorRequest.defaults.headers.common[`refreshtoken`] =
+          refreshToken
+      }
+      await interceptorRequest(config)
         .then((res) => {
-          console.log("인터셉터 응답:")
+          console.log("토큰 재발급 응답:")
           console.log(res)
           const newAccessToken =
             res.headers["accesstoken"] || res.data.accesstoken
