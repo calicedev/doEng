@@ -3,16 +3,15 @@ import { createSlice } from "@reduxjs/toolkit"
 const initialState = {
   isLoading: false,
   isError: false,
-  reviewList: [],
-  ex: "example",
+  isLogin: false,
 }
 
 const userSlice = createSlice({
   name: "example",
   initialState,
   reducers: {
-    changeEx(state, action) {
-      state.ex = action.payload.exval
+    setLogin(state, action) {
+      state.isLogin = true
     },
     setLoading(state, action) {
       state.isLoading = true

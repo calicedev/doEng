@@ -29,7 +29,7 @@ const ReviewList = function ({ reviewList }: PropsWithChildren<Props>) {
         className={`overflow-y-auto flex flex-col gap-5 max-h-[400px] sm:h-auto`}
       >
         {reviewList.map((review) => (
-          <ReviewItem key={review.id} review={review} />
+          <ReviewItem key={`review-${review.id}`} review={review} />
         ))}
       </div>
     </div>

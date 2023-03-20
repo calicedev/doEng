@@ -19,7 +19,7 @@ interface Review {
   score: number
   content: string
 }
-
+// React Query 작업 /////////////////////////////////
 const TaleDetailPage = function () {
   const { taleId } = useParams()
 

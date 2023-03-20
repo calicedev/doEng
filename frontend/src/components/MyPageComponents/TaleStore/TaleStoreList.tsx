@@ -9,11 +9,11 @@ interface Tale {
   score: number
   purchased: boolean
 }
-
+////////////////////////////////////////////////////////////////
+// react query 사용해보기
 const TaleStoreList = function () {
   const [taleList, setTaleList] = useState<Tale[]>(exData.taleList)
   const { isLoading, isError, axiosRequest } = useApi()
-
   // 마운트 시 책 리스트 정보 받아오기
   useEffect(() => {
     axiosRequest(
@@ -35,7 +35,7 @@ const TaleStoreList = function () {
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
           {taleList.map((tale: Tale) => (
-            <TaleStoreItem key={tale.id} tale={tale} />
+            <TaleStoreItem key={`tale-${tale.id}`} tale={tale} />
           ))}
         </div>
       )}
