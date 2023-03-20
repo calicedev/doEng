@@ -143,7 +143,7 @@ public class InfoServiceImpl implements InfoService {
         MultipartFile image = requestWordInfoDto.getImage();
         FileDto imageDto;
         try {
-            imageDto = awsS3Service.upload(image, "tale");
+            imageDto = awsS3Service.upload(image, "word");
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -152,7 +152,7 @@ public class InfoServiceImpl implements InfoService {
         MultipartFile voice = requestWordInfoDto.getVoice();
         FileDto voiceDto;
         try {
-            voiceDto = awsS3Service.upload(voice, "tale");
+            voiceDto = awsS3Service.upload(voice, "word");
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
