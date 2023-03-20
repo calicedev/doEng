@@ -12,7 +12,7 @@ function Find() {
     setIDorPW((val) => !val)
   }
   const goLogin = function () {
-    navigate("/member/login")
+    navigate("/member")
   }
 
   return (

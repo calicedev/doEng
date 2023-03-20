@@ -91,23 +91,6 @@ function Login() {
     dispatch(findActions.resetState({}))
   }, [])
 
-  const { accessToken, refreshToken } = useStoreSelector((state) => state.token)
-  const testAxios = function () {
-    apiRequest({
-      method: `get`,
-      url: `/api/member`,
-      // headers: {
-      //   isItWork: "asdf",
-      // },
-    })
-      .then((res: AxiosResponse) => {
-        // console.log("res")
-      })
-      .catch((err: AxiosError) => {
-        // console.log(err)
-      })
-  }
-
   return (
     <>
       <form
@@ -158,22 +141,19 @@ function Login() {
           className={`box-border flex flex-row items-center justify-center min-h-[45px] max-h-[80px] min-w-[288px] h-[8vh] max-w-[480px] w-[40vw] gap-4 mt-4`}
         >
           <div
-            className={`box-border flex basis-[50%] items-center justify-center w-full h-full rounded-full font-hopang-white cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[-6deg] hover:-skew-y-[-6deg] text-sm sm:text-xl mobile:text-lg md:text-2xl lg:text-3xl text-yellow-900`}
+            className={`box-border flex basis-[50%] items-center justify-center w-full h-full rounded-full font-hopang-white cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[-6deg] hover:-skew-y-[-6deg] text-sm sm:text-xl mobile:text-lg md:text-2xl lg:text-3xl text-black`}
             onClick={findIdHandler}
           >
             회원 정보 찾기
           </div>
           <div
-            className={`box-border flex basis-[50%] items-center justify-center w-full h-full rounded-full font-hopang-white cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[5deg] hover:-skew-y-[5deg] text-sm sm:text-xl mobile:text-lg md:text-2xl lg:text-3xl text-yellow-900`}
+            className={`box-border flex basis-[50%] items-center justify-center w-full h-full rounded-full font-hopang-white cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[5deg] hover:-skew-y-[5deg] text-sm sm:text-xl mobile:text-lg md:text-2xl lg:text-3xl text-black`}
             onClick={goSignupHandler}
           >
             회원 가입
           </div>
         </div>
       </form>
-      <div className="cursor-pointer" onClick={testAxios}>
-        api 테스트용
-      </div>
     </>
   )
 }
