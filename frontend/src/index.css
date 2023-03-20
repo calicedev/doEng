@@ -26,6 +26,15 @@ body {
   border-radius: 10px;
 }
 
+body::-webkit-scrollbar {
+  display: none;
+}
+
+#overlay-root::-webkit-scrollbar,
+#backdrop-root::-webkit-scrollbar {
+  display: none;
+}
+
 .App {
   display: flex;
   justify-content: center;
