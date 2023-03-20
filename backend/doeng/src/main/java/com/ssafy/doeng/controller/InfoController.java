@@ -25,6 +25,7 @@ public class InfoController {
     @PostMapping("/tale")
     public ResponseEntity<String> postTale(RequestTaleInfoDto requestTaleInfoDto) {
         infoService.saveTale(requestTaleInfoDto);
+        LOGGER.info("[InfoController] tale 저장");
         return ResponseEntity.ok().body("tale 저장 완료");
     }
 
