@@ -291,7 +291,7 @@ const SignupFirstForm = function ({
         inputBlur={nameBlurHandler}
         maxLength={8}
       />
-      <div className={`${lockEmailClasses}`} tabIndex={lockEmailTabIndex}>
+      <div className={`${lockEmailClasses}`}>
         <div className={`flex flex-row items-center justify-center gap-4`}>
           <InputInSignup
             inputRef={emailRef}
@@ -324,7 +324,7 @@ const SignupFirstForm = function ({
             </div>
           </InputInSignup>
         </div>
-        <div className={`${lockEmailClasses}`} tabIndex={lockEmailTabIndex}>
+        <div className={`${lockEmailClasses}`}>
           <InputInSignup
             inputRef={emailCertRef}
             labelText={`code`}
@@ -357,7 +357,7 @@ const SignupFirstForm = function ({
         </div>
       </div>
       <div>
-        <div className={`${lockPhoneClasses}`} tabIndex={lockPhoneTabIndex}>
+        <div className={`${lockPhoneClasses}`}>
           <InputInSignup
             inputRef={phoneRef}
             labelText={`phone`}
@@ -373,7 +373,7 @@ const SignupFirstForm = function ({
             tabIndex={lockPhoneTabIndex}
             dupValid={phoneDupValid}
           >
-            <div
+            {/* <div
               className={`border-[2.8px] basis-[16%] h-full rounded-full lg:p-2 font-hopang-black text-lg lg:text-2xl flex items-center justify-center cursor-pointer shadow-md hover:scale-105 duration-[0.33s] ${phoneClasses}`}
               onClick={phoneReqHandler}
             >
@@ -386,10 +386,10 @@ const SignupFirstForm = function ({
               ) : (
                 "요청"
               )}
-            </div>
+            </div> */}
           </InputInSignup>
         </div>
-        <div className={`${lockPhoneClasses}`} tabIndex={lockPhoneTabIndex}>
+        {/* <div className={`${lockPhoneClasses}`} tabIndex={lockPhoneTabIndex}>
           <InputInSignup
             inputRef={phoneCertRef}
             labelText={`code`}
@@ -419,7 +419,7 @@ const SignupFirstForm = function ({
               )}
             </div>
           </InputInSignup>
-        </div>
+        </div> */}
       </div>
     </div>
   )

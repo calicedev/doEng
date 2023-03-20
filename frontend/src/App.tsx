@@ -16,6 +16,18 @@ import NotFoundPage from "pages/NotFoundPage"
 import Toast from "components/UI/Toast"
 import ProfileEditPage from "pages/ProfileEditPage"
 import ProfilePwdEditPage from "pages/ProfilePwdEditPage"
+import ProtectedRoute from "components/UI/ProtectedRoute"
+
+// // ProtectedRoute 사용법
+// const TestApp = function () {
+//   return (
+//     <div>
+//       <Route element={<ProtectedRoute />}> // 보호 할 라우트 정의
+//         <Route path={``} element={<SignPage />} /> // 네스티드
+//       </Route>
+//     </div>
+//   )
+// }
 
 function App() {
   // axios.defaults.baseURL(``)
@@ -24,7 +36,12 @@ function App() {
       <Toast />
       <Routes>
         <Route path={`/`} element={<HomePage />} />
-        <Route path={`/member/:type`} element={<SignPage />}></Route>
+        <Route path={`/member`} element={<SignPage />}>
+          <Route path={``} element={<Login />} />
+          <Route path={`login`} element={<Login />} />
+          <Route path={`signup`} element={<Signup />} />
+          <Route path={`find`} element={<Find />} />
+        </Route>
         <Route path={`/mypage`} element={<MyPage />}>
           <Route path={`progress`} element={<ProgressListPage />} />
           <Route path={`progress/:taleId`} element={<ProgressDetailPage />} />
@@ -33,6 +50,9 @@ function App() {
           <Route path={`profile`} element={<ProfiliePage />} />
           <Route path={`profile/edit`} element={<ProfileEditPage />} />
           <Route path={`profile/password`} element={<ProfilePwdEditPage />} />
+        </Route>
+        <Route element={<ProtectedRoute />}>
+          <Route path={`test`} element={<div>테스트용입니다.</div>} />
         </Route>
         <Route path={`*`} element={<NotFoundPage />} />
       </Routes>

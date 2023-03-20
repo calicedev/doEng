@@ -3,8 +3,11 @@ import { useRef, useState, useEffect } from "react"
 import InputInFind from "components/UI/InputInFind"
 import useApi from "hooks/useApi"
 import { SpinnerDots } from "components/UI/Spinner"
+import { useStoreDispatch } from "hooks/useStoreSelector"
+import { findActions } from "store/findSlice"
 
 const FindIDForm = function () {
+  const dispatch = useStoreDispatch()
   const [nameRef, emailRef] = [useRef(null), useRef(null)]
   const { inputData: nameInput, onChangeHandler: nameChangeHandler } =
     useInput(nameRef)
@@ -27,6 +30,11 @@ const FindIDForm = function () {
     },
     [isError],
   )
+
+  useEffect(function () {
+    dispatch(findActions.resetState({}))
+  }, [])
+
   const findIDHandler = function () {
     axiosRequest(
       {

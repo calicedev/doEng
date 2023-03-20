@@ -7,19 +7,20 @@ import Wave from "../components/CanvasComponents/Wave/Wave"
 import { useWidthHeight } from "../hooks/useWidthHwight"
 
 function SignPage() {
-  const navigate = useNavigate()
-  const { type } = useParams()
+  // const navigate = useNavigate()
+  const a = useParams()
+  console.log(a)
   const canvasDivRef = useRef<HTMLDivElement>(null)
   const { width: canvasWidth, height: canvasHeight } =
     useWidthHeight(canvasDivRef)
-  useEffect(
-    function () {
-      if (type !== "login" && type !== "signup" && type !== "find") {
-        navigate("/member/login")
-      }
-    },
-    [type, navigate],
-  )
+  // useEffect(
+  //   function () {
+  //     if (type !== "login" && type !== "signup" && type !== "find") {
+  //       navigate("/member/login")
+  //     }
+  //   },
+  //   [type, navigate],
+  // )
   return (
     <>
       <div
@@ -31,13 +32,14 @@ function SignPage() {
         <div
           className={`box-border lg:h-full h-full w-full rounded-[25px] flex items-center justify-center flex-row`}
         >
-          {type === "login" ? (
+          {<Outlet /> || <div>ㅎㅇ</div>}
+          {/* {type === "login" ? (
             <Login />
           ) : type === "signup" ? (
             <Signup />
           ) : type === "find" ? (
             <Find />
-          ) : null}
+          ) : null} */}
         </div>
       </div>
     </>

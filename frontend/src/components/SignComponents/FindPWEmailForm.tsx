@@ -21,6 +21,7 @@ const FindPWEmailForm = function () {
     onBlurHandler: idBlurHandler,
   } = useInput(idRef, idValidation, 16)
   const { id, email, isCert } = useStoreSelector((state) => state.find)
+  const { dupValid } = useINEP(idInput, `email`, idValid)
   useEffect(
     function () {
       const timeId = setTimeout(function () {

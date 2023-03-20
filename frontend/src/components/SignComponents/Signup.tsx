@@ -21,8 +21,10 @@ import Toast from "components/UI/Toast"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import { DispatchToast } from "store"
 import useINEP from "hooks/useINEP"
+import { usePostUserData } from "hooks/queries/useUserData"
 
 function Signup() {
+  const { mutate: LoginMutate } = usePostUserData()
   const dispatch = useStoreDispatch()
   const navigate = useNavigate()
   const [step, setStep] = useState<boolean>(true)
@@ -271,28 +273,40 @@ function Signup() {
     } else if (nickDupValid === false) {
       dispatch(DispatchToast("닉네임이 중복되었습니다!", false))
     }
-    SignupRequest(
-      {
-        method: `post`,
-        url: `/api/member`,
-        data: {
-          memberId: idInput,
-          password: pw1Input,
-          nickname: nickInput,
-          name: nameInput,
-          email: emailInput,
-          phone: phoneInput,
-        },
+    LoginMutate({
+      method: `post`,
+      url: `/api/auth`,
+      data: {
+        memberId: idInput,
+        password: pw1Input,
+        nickname: nickInput,
+        name: nameInput,
+        email: emailInput,
+        phone: phoneInput,
       },
-      function (res) {
-        console.log("회원가입 성공 시")
-        navigate("/member/login")
-      },
-    )
+    })
+    // SignupRequest(
+    //   {
+    //     method: `post`,
+    //     url: `/api/member`,
+    //     data: {
+    //       memberId: idInput,
+    //       password: pw1Input,
+    //       nickname: nickInput,
+    //       name: nameInput,
+    //       email: emailInput,
+    //       phone: phoneInput,
+    //     },
+    //   },
+    //   function (res) {
+    //     console.log("회원가입 성공 시")
+    //     navigate("/member")
+    //   },
+    // )
   }
 
   const pushLoginHandler = function () {
-    navigate("/member/login")
+    navigate("/member")
   }
   const pushFindHandler = function () {
     navigate("/member/find")
