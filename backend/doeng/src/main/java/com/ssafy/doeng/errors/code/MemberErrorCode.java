@@ -17,6 +17,7 @@ public enum MemberErrorCode implements ErrorCode{
     MEMBERID_NOTEXIST(HttpStatus.UNAUTHORIZED, "memberId를 데이터베이스에서 찾을 수 없습니다."),
     REFRESHTOKEN_NOTVALIDATE(HttpStatus.UNAUTHORIZED, "RefreshToken 이 유효하지 않습니다."),
     NO_PERMISSION_TOKEN(HttpStatus.UNAUTHORIZED, "권한 정보가 없는 토큰입니다."),
+    ACCESSTOKEN_NOTVALIDATE(HttpStatus.UNAUTHORIZED, "만료된 Access토큰입니다."),
     REFRESHTOKEN_BADREQUEST(HttpStatus.BAD_REQUEST, "잘못된 요청입니다. (로그아웃 되었음)" ),
     NOMATCH_TOKEN(HttpStatus.BAD_REQUEST,"토큰의 유저 정보가 일치하지 않습니다.");
 
