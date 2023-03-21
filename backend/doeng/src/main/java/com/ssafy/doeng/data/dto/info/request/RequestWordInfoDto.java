@@ -7,6 +7,7 @@ import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.web.multipart.MultipartFile;
 
 @Setter
 @Getter
@@ -16,6 +17,6 @@ import lombok.Setter;
 public class RequestWordInfoDto {
     private String engWord;
     private String korWord;
-    private String image;
-    private String voice;
+    private MultipartFile image;
+    private MultipartFile voice;
 }
