@@ -14,7 +14,7 @@ import org.springframework.web.method.support.ModelAndViewContainer;
 
 @Component
 @RequiredArgsConstructor
-public class LoginIdArgumentResolver implements HandlerMethodArgumentResolver {
+class LoginIdArgumentResolver implements HandlerMethodArgumentResolver {
 
     private final MemberRepository memberRepository;
 
@@ -26,8 +26,7 @@ public class LoginIdArgumentResolver implements HandlerMethodArgumentResolver {
 
     @Override
     public Object resolveArgument(MethodParameter parameter, ModelAndViewContainer mavContainer,
-            NativeWebRequest webRequest, WebDataBinderFactory binderFactory)
-            throws Exception {
+            NativeWebRequest webRequest, WebDataBinderFactory binderFactory) {
         Optional<Member> tMember = memberRepository.findByMemberId(SecurityUtil.getCurrentId());
         Member member = tMember.get();
         return member.getId();
