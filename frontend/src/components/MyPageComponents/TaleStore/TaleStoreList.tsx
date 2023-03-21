@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react"
 import TaleStoreItem from "components/MyPageComponents/TaleStore/TaleStoreItem"
 import useApi from "hooks/useApi"
-import { useGetUserData } from "hooks/queries/useUserData"
+import { useUserQuery } from "hooks/queries/user"
 import apiRequest from "utils/axios"
 
 interface Tale {
@@ -18,7 +18,7 @@ const TaleStoreList = function () {
     isLoading: queryLoading,
     error: queryError,
     data: queryData,
-  } = useGetUserData()
+  } = useUserQuery()
   console.log(queryLoading, queryError)
   console.log(queryData)
 

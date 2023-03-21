@@ -17,6 +17,8 @@ import Toast from "components/UI/Toast"
 import ProfileEditPage from "pages/ProfileEditPage"
 import ProfilePwdEditPage from "pages/ProfilePwdEditPage"
 import ProtectedRoute from "components/UI/ProtectedRoute"
+import PlayTalePage from "pages/PlayTalePage"
+import PlayTaleList from "components/PlayTaleComponents/PlayTaleList"
 
 // // ProtectedRoute 사용법
 // const TestApp = function () {
@@ -43,6 +45,7 @@ function App() {
           <Route path={`find`} element={<Find />} />
         </Route>
         <Route path={`/mypage`} element={<MyPage />}>
+          <Route path={``} element={<ProgressListPage />} />
           <Route path={`progress`} element={<ProgressListPage />} />
           <Route path={`progress/:taleId`} element={<ProgressDetailPage />} />
           <Route path={`talestore`} element={<TaleStorePage />} />
@@ -51,9 +54,11 @@ function App() {
           <Route path={`profile/edit`} element={<ProfileEditPage />} />
           <Route path={`profile/password`} element={<ProfilePwdEditPage />} />
         </Route>
-        <Route element={<ProtectedRoute />}>
-          <Route path={`test`} element={<div>테스트용입니다.</div>} />
+        {/* <Route element={<ProtectedRoute />}> */}
+        <Route path={`playtale`} element={<PlayTalePage />}>
+          <Route path={``} element={<PlayTaleList />} />
         </Route>
+        {/* </Route> */}
         <Route path={`*`} element={<NotFoundPage />} />
       </Routes>
     </div>
