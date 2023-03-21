@@ -21,7 +21,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 public class GlobalExceptionHandler extends ResponseEntityExceptionHandler {
 
     private final ErrorResponseService responseService;
-    
+
     @ExceptionHandler(ErrorException.class)
     public ResponseEntity<Object> handleCustomException(final ErrorException e) {
         final ErrorCode errorCode = e.getErrorCode();

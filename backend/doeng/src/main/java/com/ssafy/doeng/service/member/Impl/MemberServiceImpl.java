@@ -109,10 +109,9 @@ public class MemberServiceImpl implements MemberService {
             throw new ErrorException(MemberErrorCode.REFRESHTOKEN_BADREQUEST);
         }
 
-        LOGGER.info("[5]");
         // 4. Refresh Token 일치하는지 검사
         if (!rt.equals(requestDto.getRefreshtoken())) {
-            throw new RuntimeException("토큰의 유저 정보가 일치하지 않습니다.");
+            throw new ErrorException(MemberErrorCode.NOMATCH_TOKEN);
         }
 
         // 5. 새로운 토큰 생성
@@ -283,6 +282,8 @@ public class MemberServiceImpl implements MemberService {
             Member member = oMember.get();
             member.setPassword(passwordEncoder.encode(requestDto.getNewPassword()));
             memberRepository.save(member);
+        }else{
+            throw new ErrorException(MemberErrorCode.MEMBER_WRONG_PASSWORD);
         }
         LOGGER.info("[resetMemberPassword] 수정 비밀번호 나감");
     }
