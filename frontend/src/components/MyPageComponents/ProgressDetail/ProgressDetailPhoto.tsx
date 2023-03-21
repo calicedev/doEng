@@ -28,34 +28,36 @@ function ProgressDetailPhoto({ talePhoto }: Photo) {
   }
 
   return (
-    <div>
-      <div className=" font-bold">학습 앨범</div>
-      <div className="flex justify-between mt-4">
-        <IconButton
-          icon={<FaChevronLeft />}
-          disabled={currentPage === 0}
-          onClick={() => handlePageChange(currentPage - 1)}
-          colorClass={``}
-        />
-        <div className={`grid grid-cols-3 md:grid-cols-3 lg:grid-cols-3 gap-8`}>
+    <div className="h-full">
+      <div className={`basis-1/5 font-bold pb-[5%] pt-5`}>학습 앨범</div>
+      <div className={`h-[70%]`}>
+        <div className={` flex flex-row h-full w-full`}>
+          <IconButton
+            icon={<FaChevronLeft />}
+            disabled={currentPage === 0}
+            onClick={() => handlePageChange(currentPage - 1)}
+            colorClass={``}
+          />
+
           {talePhoto
             .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
             .map((photo: Scene) => (
               // <div className={`overflow-hidden relative w-32`}>
-              <div className=" relative">
-                <div className=" bg-white w-48 h-48 rotate-12 shadow-lg"></div>
-                <div className="absolute top-0 left-0 w-48 h-48 p-5 shadow-lg overflow-hidden transform hover:rotate-3 hover:-translate-x-1 hover:-translate-y-1 duration-200 bg-white">
+              <div className=" relative h-full w-[25%] mr-5 ml-5">
+                <div className=" bg-white w-full h-full rotate-12 shadow-lg"></div>
+                <div className="absolute top-0 left-0 w-full h-full p-5 shadow-lg overflow-hidden transform hover:rotate-3 hover:-translate-x-1 hover:-translate-y-1 duration-200 bg-white">
                   <ProgressDetailPhotoCard key={photo.id} photoCard={photo} />
                 </div>
               </div>
             ))}
+
+          <IconButton
+            icon={<FaChevronRight />}
+            disabled={currentPage === totalPages - 1}
+            onClick={() => handlePageChange(currentPage + 1)}
+            colorClass={``}
+          />
         </div>
-        <IconButton
-          icon={<FaChevronRight />}
-          disabled={currentPage === totalPages - 1}
-          onClick={() => handlePageChange(currentPage + 1)}
-          colorClass={``}
-        />
       </div>
     </div>
   )
