@@ -8,8 +8,6 @@ import { useWidthHeight } from "../hooks/useWidthHwight"
 
 function SignPage() {
   // const navigate = useNavigate()
-  const a = useParams()
-  console.log(a)
   const canvasDivRef = useRef<HTMLDivElement>(null)
   const { width: canvasWidth, height: canvasHeight } =
     useWidthHeight(canvasDivRef)

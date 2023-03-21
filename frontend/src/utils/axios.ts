@@ -42,8 +42,9 @@ apiRequest.interceptors.request.use(
 // response 인터셉터
 apiRequest.interceptors.response.use(
   (res: AxiosResponse) => {
-    const newAccessToken = res.headers["accesstoken"] || res.data.accesstoken
-    const newRefreshToken = res.headers["refreshtoken"] || res.data.refreshtoken
+    const newAccessToken = res.headers["accesstoken"] || res.data?.accesstoken
+    const newRefreshToken =
+      res.headers["refreshtoken"] || res.data?.refreshtoken
     if (newAccessToken) {
       store.dispatch(
         tokenActions.setAccessToken({ accessToken: newAccessToken }),
@@ -54,7 +55,7 @@ apiRequest.interceptors.response.use(
         tokenActions.setRefreshToken({ refreshToken: newRefreshToken }),
       )
     }
-    console.log("response", res)
+    // console.log("response", res)
     return res
   },
   async (error) => {
@@ -88,14 +89,14 @@ apiRequest.interceptors.response.use(
           console.log("토큰 재발급 응답:")
           console.log(res)
           const newAccessToken =
-            res.headers["accesstoken"] || res.data.accesstoken
+            res.headers["accesstoken"] || res.data?.accesstoken
           // const newRefreshToken =
-          //   res.headers["refreshtoken"] || res.data.refreshtoken
+          //   res.headers["refreshtoken"] || res.data?.refreshtoken
           if (newAccessToken) {
             store.dispatch(
               tokenActions.setAccessToken({ accessToken: newAccessToken }),
             ) // 리덕스 accessToken 갱신
-            originalConfig.headers.common["accesstoken"] = `${newAccessToken}`
+            // originalConfig.headers.common["accesstoken"] = `${newAccessToken}`
             originalConfig.headers.Authorization = `Bearer ${newAccessToken}`
           }
           // if (newRefreshToken) {
@@ -108,7 +109,7 @@ apiRequest.interceptors.response.use(
         })
         .catch((err) => {
           console.log("토큰 재발급 에러 : ", err)
-          store.dispatch(DispatchToast("다시 로그인 해주세요.", false))
+          // store.dispatch(DispatchToast("다시 로그인 해주세요.", false))
           return Promise.reject(err)
         })
     } else if (response.status === 403) {

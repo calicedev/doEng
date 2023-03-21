@@ -5,19 +5,22 @@ import InputWithValidation from "../UI/InputWithValidation"
 import LogoImg from "../../assets/images/doEngLogo.png"
 import { useNavigate } from "react-router-dom"
 import useApi from "../../hooks/useApi"
-import { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
+import axios, { AxiosError, AxiosRequestConfig, AxiosResponse } from "axios"
 import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import { DispatchToast } from "store"
 import { SpinnerDots } from "components/UI/Spinner"
 import Toast from "components/UI/Toast"
 import { findActions } from "store/findSlice"
 import apiRequest from "utils/axios"
-import { useLogin } from "hooks/queries/useUserData"
+import { useUserMutation } from "hooks/queries/user"
+import { useMutation, useQueryClient } from "react-query"
 
 function Login() {
-  const { mutate: LoginMutate } = useLogin()
   const dispatch = useStoreDispatch()
   const navigate = useNavigate()
+  const { mutate: LoginMutate, mutateAsync: LoginMutateAsync } =
+    useUserMutation()
+
   const idInputRef = useRef<HTMLInputElement>(null)
   const passwordRef = useRef<HTMLInputElement>(null)
 
@@ -51,7 +54,24 @@ function Login() {
       dispatch(DispatchToast("비밀번호가 유효하지 않습니다.", false))
       return
     }
-    LoginMutate({
+
+    // apiRequest({
+    //   method: `post`,
+    //   baseURL: `https://j8a601.p.ssafy.io`,
+    //   url: `/api/auth/login`,
+    //   data: { memberId: `${idInput}`, password: `${passwordInput}` },
+    // })
+    //   .then((res) => {
+    //     console.log(res)
+    //     queryClient.invalidateQueries(`user`)
+    //     dispatch(DispatchToast("성공", true))
+    //   })
+    //   .catch((err) => {
+    //     console.log(err, "여깁니다")
+    //     dispatch(DispatchToast("실패", false))
+    //   })
+
+    LoginMutateAsync({
       method: "post",
       url: `/api/auth/login`,
       data: {
@@ -59,13 +79,31 @@ function Login() {
         password: `${passwordInput}`,
       },
     })
+      .then((res) => {
+        navigate(`/playtale`)
+        // if (res.data) {로그인 시켜주고 Home으로 push}
+        // else { dispatch(DispatchToast("아이디 비밀번호를 확인 해주세요!", false)) }
+      })
+      .catch((err) => {
+        // dispatch(DispatchToast("아이디 비밀번호를 확인 해주세요!", false))
+        console.log(err, "여기가 에러에요!!!!!!!")
+      })
+
+    // LoginMutate({
+    //   method: "post",
+    //   url: `/api/auth/login`,
+    //   data: {
+    //     memberId: `${idInput}`,
+    //     password: `${passwordInput}`,
+    //   },
+    // })
     // loginRequest(
     //   {
     //     method: "post",
     //     url: `/api/member/login`,
     //     data: {
-    //       memberId: `${idInput}`,
-    //       password: `${passwordInput}`,
+    // memberId: `${idInput}`,
+    // password: `${passwordInput}`,
     //     },
     //   },
     //   function () {

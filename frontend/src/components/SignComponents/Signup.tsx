@@ -21,10 +21,10 @@ import Toast from "components/UI/Toast"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import { DispatchToast } from "store"
 import useINEP from "hooks/useINEP"
-import { usePostUserData } from "hooks/queries/useUserData"
+import { useUserMutation } from "hooks/queries/user"
 
 function Signup() {
-  const { mutate: LoginMutate } = usePostUserData()
+  const { mutate: SignupMutate } = useUserMutation()
   const dispatch = useStoreDispatch()
   const navigate = useNavigate()
   const [step, setStep] = useState<boolean>(true)
@@ -273,7 +273,7 @@ function Signup() {
     } else if (nickDupValid === false) {
       dispatch(DispatchToast("닉네임이 중복되었습니다!", false))
     }
-    LoginMutate({
+    SignupMutate({
       method: `post`,
       url: `/api/auth`,
       data: {
