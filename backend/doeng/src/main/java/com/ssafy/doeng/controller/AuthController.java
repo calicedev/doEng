@@ -74,5 +74,54 @@ public class AuthController {
         return ResponseEntity.ok(memberService.reissue(requestDto));
     }
 
+    @PostMapping("/id")
+    public ResponseEntity<String> findId(@RequestBody RequestFindIdDto requestDto) {
+        LOGGER.info("[reissue] findId controller 들어옴");
+        return ResponseEntity.ok(memberService.findId(requestDto));
+    }
 
+    @PutMapping("/password")
+    public ResponseEntity resetMemberPassword(@RequestBody RequestResetMemberPasswordDto requestDto){
+        LOGGER.info("[resetMemberPassword] 비밀번호 리셋 controller 들어옴");
+        memberService.resetMemberPassword(requestDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+
+    @PostMapping("/check/signup-email/send")
+    public ResponseEntity checkSignupEmailSend(@RequestBody RequestSignupEmailDto requestDto){
+        LOGGER.info("[checkEmailSend] 이메일 인증번호 요청 controller 들어옴");
+        memberService.checkSignUpEmailSend(requestDto);
+        return new ResponseEntity(HttpStatus.OK);
+    }
+
+    @PostMapping("/check/email/confirm")
+    public ResponseEntity<String> checkEmailConfirm(@RequestBody RequestEmailValidateDto requestDto){
+        LOGGER.info("[checkEmailConfirm] 이메일 인증 확인 controller 들어옴");
+        return ResponseEntity.ok().body(memberService.checkEmailConfirm(requestDto));
+    }
+    @GetMapping("/check/memberId/{memberId}")
+    public ResponseEntity<Boolean> CheckMemberId(@PathVariable("memberId") String memberId){
+        LOGGER.info("[CheckMemberId] 아이디 중복체크 controller 들어옴");
+        return ResponseEntity.ok().body(memberService.checkMemberId(memberId));
+    }
+
+    @GetMapping("/check/phone/{phone}")
+    public ResponseEntity<Boolean> CheckPhone(@PathVariable("phone") String phone){
+        LOGGER.info("[CheckMemberId] 핸드폰 중복체크 controller 들어옴");
+        return ResponseEntity.ok().body(memberService.checkPhone(phone));
+    }
+
+
+    @GetMapping("/check/nickname/{nickname}")
+    public ResponseEntity<Boolean> CheckNickname(@PathVariable("nickname") String nickname){
+        LOGGER.info("[CheckNickname] 닉네임 중복제크 controller 들어옴");
+        return ResponseEntity.ok().body(memberService.checkNickname(nickname));
+    }
+
+    @GetMapping("/check/email/{email}")
+    public ResponseEntity<Boolean> CheckEmail(@PathVariable("email") String email){
+        LOGGER.info("[CheckEmail] 닉네임 중복제크 controller 들어옴");
+        return ResponseEntity.ok().body(memberService.checkEmail(email));
+    }
 }
