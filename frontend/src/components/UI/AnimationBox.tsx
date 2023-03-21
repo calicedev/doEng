@@ -2,14 +2,14 @@ import { FC, PropsWithChildren, memo } from "react"
 import { useAnimate } from "../../hooks/useAnimate"
 
 type AnimateBoxProps = {
-  isOpened: boolean
+  isOpened?: boolean
   appearClassName?: string
   disappearClassName?: string
   boxClasses?: string
 }
 
 const AnimationBox: FC<PropsWithChildren<AnimateBoxProps>> = function ({
-  isOpened,
+  isOpened = true,
   children,
   appearClassName,
   disappearClassName,

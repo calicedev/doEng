@@ -134,7 +134,7 @@ const SignupFirstForm = function ({
       {
         method: `post`,
         baseURL: `https://j8a601.p.ssafy.io`,
-        url: `/api/member/check/signup-email/send`,
+        url: `/api/auth/check/signup-email/send`,
         data: {
           email: emailRef.current?.value,
         },
@@ -166,7 +166,7 @@ const SignupFirstForm = function ({
       {
         method: `post`,
         baseURL: `https://j8a601.p.ssafy.io`,
-        url: `/api/member/check/email/confirm`,
+        url: `/api/auth/check/email/confirm`,
         data: {
           email: emailRef.current?.value,
           confirmCode: emailCertRef.current?.value,

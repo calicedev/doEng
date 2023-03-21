@@ -22,31 +22,31 @@ const useINEP = function (
         typeName = "이메일"
         requestData = {
           method: `get`,
-          url: `/api/member/check/email/${value}`,
+          url: `/api/auth/check/email/${value}`,
         }
       } else if (hookType === "phone") {
         typeName = "폰 번호"
         requestData = {
           method: `get`,
-          url: `/api/member/check/phone/${value}`,
+          url: `/api/auth/check/phone/${value}`,
         }
       } else if (hookType === "nick") {
         typeName = "닉네임"
         requestData = {
           method: `get`,
-          url: `/api/member/check/nickname/${value}`,
+          url: `/api/auth/check/nickname/${value}`,
         }
       } else if (hookType === "id") {
         typeName = "아이디"
         requestData = {
           method: `get`,
-          url: `/api/member/check/memberId/${value}`, // member-id로 변경 예정
+          url: `/api/auth/check/memberId/${value}`, // auth-id로 변경 예정
         }
       } else {
         typeName = `${value}`
         requestData = {
           method: `get`,
-          url: `/api/member/check/${hookType}/${value}`,
+          url: `/api/auth/check/${hookType}/${value}`,
         }
       }
       return { typeName, requestData }

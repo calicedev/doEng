@@ -74,8 +74,15 @@ module.exports = {
           200: "#ff1256",
         },
       },
+      backgroundImage: {
+        "tale-nav-logo": "url('/src/assets/images/TaleNavLogo.png')",
+        "tale-nav-logo-container":
+          "url('/src/assets/images/TaleNavLogoContainer.png')",
+      },
       // animate-[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction]
       animation: {
+        "salangsalang-left": "salang-salang-left 5s 1.8s both infinite",
+        "appear-top-nav": "appear-top-nav 0.66s 0.11s both",
         "appear-from-left-super-slow":
           "appear-from-left 2.22s ease-in-out both",
         "disappear-to-left-super-slow":
@@ -292,6 +299,17 @@ module.exports = {
           "50%": { transform: "rotate(10.0deg)" },
           "60%": { transform: "rotate(0.0deg)" },
           "100%": { transform: "rotate(0.0deg)" },
+        },
+        "appear-top-nav": {
+          "0%": { transform: "translate(0, -150%)" },
+          "50%": { transform: "translate(0, 10%)" },
+          "75%": { transform: "translate(0, -8%)" },
+          "100%": { transform: "translate(0, 0)" },
+        },
+        "salang-salang-left": {
+          "0%": { transform: "skew(-20deg, 20deg) translate(0,0)" },
+          "50%": { transform: "skew(-5deg, 5deg) translate(5%, 0)" },
+          "100%": { transform: "skew(-20deg, 20deg) translate(0,0)" },
         },
       },
     },

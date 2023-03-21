@@ -39,30 +39,28 @@ function ProgressDetailPage() {
   const { taleList }: { taleList: DummyData[] } = dummy
 
   return (
-    <div>
-      <div className="flex flex-col md:flex-row items-center">
-        <div className="md:w-1/3 p-10 ">
+    <div className="h-full flex flex-nowrap">
+      <div className=" basis-1/3 p-10 place-self-center">
+        {taleList.map((tale: DummyData) =>
+          taleId == tale.id ? (
+            <ProgressDetail key={tale.id} tale={tale} />
+          ) : null,
+        )}
+      </div>
+      <div className={`flex flex-col basis-2/3`}>
+        <div className=" basis-1/2">
           {taleList.map((tale: DummyData) =>
             taleId == tale.id ? (
-              <ProgressDetail key={tale.id} tale={tale} />
+              <ProgressDetailPhoto key={tale.id} talePhoto={tale.sceneList} />
             ) : null,
           )}
         </div>
-        <div className="md:w-2/3 md:flex md:flex-col md:justify-between p-10">
-          <div className="mb-4 pb-32 pl-10 pr-10">
-            {taleList.map((tale: DummyData) =>
-              taleId == tale.id ? (
-                <ProgressDetailPhoto key={tale.id} talePhoto={tale.sceneList} />
-              ) : null,
-            )}
-          </div>
-          <div className="pl-10">
-            {taleList.map((tale: DummyData) =>
-              taleId == tale.id ? (
-                <ProgressDetailTest key={tale.id} taleTest={tale.testResult} />
-              ) : null,
-            )}
-          </div>
+        <div className="basis-1/2 place-self-center pt-[10%]">
+          {taleList.map((tale: DummyData) =>
+            taleId == tale.id ? (
+              <ProgressDetailTest key={tale.id} taleTest={tale.testResult} />
+            ) : null,
+          )}
         </div>
       </div>
     </div>
