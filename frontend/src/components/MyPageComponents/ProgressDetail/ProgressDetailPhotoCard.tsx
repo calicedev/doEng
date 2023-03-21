@@ -32,12 +32,16 @@ function ProgressDetailPhotoCard({ photoCard }: PhotoCard) {
     setIsModal(true)
   }
   return (
-    <div>
+    <>
       <div
         className={`cursor-pointer`}
         onClick={() => handleImageClick(photoCard.imageList[0].image)}
       >
-        <img src={photoCard.imageList[0].image} alt="progressPhotoCard" />
+        <img
+          src={photoCard.imageList[0].image}
+          alt="progressPhotoCard"
+          className="w-full"
+        />
         {photoCard.sceneTitle}
       </div>
 
@@ -80,7 +84,7 @@ function ProgressDetailPhotoCard({ photoCard }: PhotoCard) {
           </div>
         </Modal>
       )}
-    </div>
+    </>
   )
 }
 

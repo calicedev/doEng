@@ -31,36 +31,36 @@ function ProgressDetailTest({ taleTest }: TaleProps) {
   const totalTests: number = taleTest.testCount
   return (
     <div>
-      <table className="table-auto border-collapse border-spacing-20 border-black border-4">
+      <table className="table-auto border-collapse border-spacing-20 border-orange-400 border-4">
         <thead>
           <tr>
-            <th>Result</th>
+            <th className="bg-orange-200">Result</th>
             {[...Array(taleTest.testCount)].map((_, i) => (
               <th
                 key={i}
-                className="border border-collapse border-black px-4 py-2"
+                className=" bg-orange-200 border-4 border-collapse border-orange-400 px-4 py-2"
               >
                 {i + 1}회
               </th>
             ))}
-            <th>정답률</th>
+            <th className="bg-orange-200">정답률</th>
           </tr>
         </thead>
         <tbody>
           {taleTest.wordList.map((word) => (
             <tr key={word.engWord}>
-              <td className="border border-collapse border-black px-4 py-2">
+              <td className="border-4 border-collapse border-orange-400 px-4 py-2">
                 {word.engWord}
               </td>
               {word.correctList.map((correct, i) => (
                 <td
                   key={i}
-                  className="border border-collapse border-black px-4 py-2"
+                  className="border-4 border-collapse border-orange-400 px-4 py-2"
                 >
                   {correct.toString()}
                 </td>
               ))}
-              <td className="border border-collapse border-black px-4 py-2">
+              <td className="border-4 border-collapse border-orange-400 px-4 py-2">
                 {(
                   (wordTrueCounts[taleTest.wordList.indexOf(word)] /
                     totalTests) *
@@ -71,13 +71,13 @@ function ProgressDetailTest({ taleTest }: TaleProps) {
             </tr>
           ))}
           <tr>
-            <td className="border border-collapse border-black px-4 py-2">
+            <td className="border-4 border-collapse border-orange-400 px-4 py-2">
               점수
             </td>
             {testTrueCounts.map((count, i) => (
               <td
                 key={i}
-                className="border border-collapse border-black px-4 py-2"
+                className="border-4 border-collapse border-orange-400 px-4 py-2"
               >
                 {count}
               </td>

@@ -45,8 +45,10 @@ function ProgressDetail({ tale }: TaleProps) {
     <div>
       <div>
         <img src={tale.backgroundImage} alt="progressDetailBackground" />
-        {tale.title}
-        <div>
+        <div className={`font-bold text-xl grid place-content-center p-3`}>
+          {tale.title}
+        </div>
+        <div className={`grid place-content-center p-2`}>
           <MyPageButton text="책 상세" onClick={toTaleDetail} />
         </div>
       </div>
