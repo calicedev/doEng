@@ -14,7 +14,7 @@ else
 fi
 
 # 이전 컨테이너 종료(--rmi 포함)
-docker-compose -p react-$CURRENT_VERSION -f docker-compose.$CURRENT_VERSION.yaml down --rmi
+docker-compose -p react-$CURRENT_VERSION -f docker-compose.$CURRENT_VERSION.yaml down --rmi all
 # 새 컨테이너 시작
 docker-compose -p react-$NEW_VERSION -f docker-compose.$NEW_VERSION.yaml up -d
 
