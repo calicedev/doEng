@@ -6,6 +6,6 @@ services:
     image: react-docker-image-green
     container_name: react-docker-green
     ports:
-      - "3001:3001"
+      - "9000:9000"
     # stdin_open: true # docker run -i
     # tty: true        # docker run -t
