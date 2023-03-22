@@ -308,8 +308,20 @@ module.exports = {
         },
         "salang-salang-left": {
           "0%": { transform: "skew(-20deg, 20deg) translate(0,0)" },
-          "50%": { transform: "skew(-5deg, 5deg) translate(5%, 0)" },
+          "50%": { transform: "skew(-5deg, 5deg) translate(8%, 0)" },
           "100%": { transform: "skew(-20deg, 20deg) translate(0,0)" },
+        },
+        "appear-from-bottom-with-bounce": {
+          "0%": { transform: "translate(0, 120%)" },
+          "50%": { transform: "translate(0, -10%)" },
+          "75%": { transform: "translate(0, 8%)" },
+          "100%": { transform: "translate(0, 0)" },
+        },
+        "appear-from-bottom-with-bounce-second": {
+          "0%": { transform: "translate(0, 1000%)" },
+          "50%": { transform: "translate(0, -20%)" },
+          "75%": { transform: "translate(0, 20%)" },
+          "100%": { transform: "translate(0, 0)" },
         },
       },
     },

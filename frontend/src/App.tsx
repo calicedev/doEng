@@ -19,6 +19,8 @@ import ProfilePwdEditPage from "pages/ProfilePwdEditPage"
 import ProtectedRoute from "components/UI/ProtectedRoute"
 import PlayTalePage from "pages/PlayTalePage"
 import PlayTaleList from "components/PlayTaleComponents/PlayTaleList"
+import InteractionComp from "components/PlayTaleComponents/InteractionComp"
+import SceneParent from "components/PlayTaleComponents/SceneParent"
 
 // // ProtectedRoute 사용법
 // const TestApp = function () {
@@ -57,6 +59,7 @@ function App() {
         {/* <Route element={<ProtectedRoute />}> */}
         <Route path={`playtale`} element={<PlayTalePage />}>
           <Route path={``} element={<PlayTaleList />} />
+          <Route path={`:taleId/:sceneOrder`} element={<SceneParent />}></Route>
         </Route>
         {/* </Route> */}
         <Route path={`*`} element={<NotFoundPage />} />
