@@ -1,0 +1,11 @@
+version: '3.6'
+
+services:
+  react:
+    build: .
+    image: doeng-springboot-image-green
+    container_name: doeng-springboot-blue
+    ports:
+      - '8200:8200'
+    # stdin_open: true # docker run -i
+    # tty: true        # docker run -t
