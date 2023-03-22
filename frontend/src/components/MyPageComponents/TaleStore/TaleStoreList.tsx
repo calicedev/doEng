@@ -3,6 +3,8 @@ import TaleStoreItem from "components/MyPageComponents/TaleStore/TaleStoreItem"
 import useApi from "hooks/useApi"
 import { useUserQuery } from "hooks/queries/user"
 import apiRequest from "utils/axios"
+import { useQuery } from "react-query"
+import { DispatchToast } from "store"
 
 interface Tale {
   id: number
@@ -21,6 +23,14 @@ const TaleStoreList = function () {
   } = useUserQuery()
   console.log(queryLoading, queryError)
   console.log(queryData)
+  // const a = useQuery("user", function () {
+  //   return apiRequest({
+  //     method: `get`,
+  //     url: `/api/member`,
+  //   }).then((res) => res.data)
+  // }, {onSuccess: function(data) {
+  //   dispatch(DispatchToast("asdfasdf", true)),
+  // }, onError: function(err) {}})
 
   // apiRequest({ method: `get`, url: `/api/member` })
   //   .then((res) => console.log("성공임"))
