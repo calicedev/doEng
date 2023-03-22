@@ -4,8 +4,6 @@
 pwd
 EXIST_BLUE=$(docker-compose -p react-blue -f docker-compose.blue.yaml ps | grep Up)
 
-docker-compose -p react-$NEW_VERSION -f docker-compose.$NEW_VERSION.yaml up -d
-
 # Set the new version to deploy
 if [ -n "$EXIST_BLUE" ]; then
   CURRENT_VERSION="blue"
