@@ -24,7 +24,7 @@ import useINEP from "hooks/useINEP"
 import { useUserMutation } from "hooks/queries/user"
 
 function Signup() {
-  const { mutate: SignupMutate } = useUserMutation()
+  const { mutateAsync: SignupMutate } = useUserMutation()
   const dispatch = useStoreDispatch()
   const navigate = useNavigate()
   const [step, setStep] = useState<boolean>(true)
@@ -284,6 +284,8 @@ function Signup() {
         email: emailInput,
         phone: phoneInput,
       },
+    }).then(() => {
+      navigate(`/member`)
     })
     // SignupRequest(
     //   {

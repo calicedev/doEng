@@ -10,77 +10,90 @@ import React, {
   FC,
   PropsWithChildren,
 } from "react"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import axios from "utils/axios"
+import { useQuery } from "react-query"
+import apiRequest from "utils/axios"
+import { SpinnerDots } from "components/UI/Spinner"
 
-interface Review {
+export interface TaleDetailMaterial {
   id: number
-  memberId: string
+  name: string
+}
+export interface TaleDetailReview {
+  id: number
+  userId: string
   score: number
   content: string
 }
+
+export interface TaleDetailTaleList {
+  id: number
+  title: string
+  backgroundImage: string
+  description: string
+  score: number
+  price: number
+  purchased: boolean
+  materialList: TaleDetailMaterial[]
+  myReview: TaleDetailReview
+  reviewList: TaleDetailReview[]
+}
+
 // React Query 작업 /////////////////////////////////
 const TaleDetailPage = function () {
+  const navigate = useNavigate()
   const { taleId } = useParams()
 
-  const [taleDetail, setTaleDetail] = useState(exData)
-  const { isLoading, isError, axiosRequest } = useApi()
-
-  // 마운트 시 책 리스트 정보 받아오기
-  useEffect(() => {
-    axiosRequest(
-      {
+  const {
+    isLoading: taleLoading,
+    error: taleError,
+    data: taleDetail,
+  } = useQuery<TaleDetailTaleList>(
+    [`tale`, taleId],
+    async function () {
+      return apiRequest({
         method: "get",
         url: `/api/mypage/tale-list/${taleId}`,
-      },
-      (res) => {
-        setTaleDetail(res.data)
-      },
-      "책 정보를 불러오지 못했습니다",
-    )
-  }, [axiosRequest, taleId])
+      }).then((res) => res.data)
+    },
+    {
+      onSuccess: function () {},
+      onError: function () {},
+    },
+  )
 
   // ["준비물1", "준비물2", "준비물3"] ->  "준비물1, 준비물2, 준비물3"
   const materialList = useMemo(() => {
-    return taleDetail.materialList
-      .reduce((acc, cur) => acc + ", " + cur.name, "")
+    return taleDetail?.materialList
+      .reduce(
+        (acc: string, cur: TaleDetailMaterial) => acc + ", " + cur?.name,
+        "",
+      )
       .slice(1)
-  }, [taleDetail.materialList])
+  }, [taleDetail?.materialList])
+  // const materialList = taleDetail?.materialList[0].name
 
-  // 리뷰 가져오기
-  const getReviews = () => {
-    axiosRequest(
-      {
-        method: "get",
-        url: `/api/mypage/review/${taleId}/review-list`,
-      },
-      (res) => {
-        const newTaleDetail = { ...taleDetail }
-        newTaleDetail.myReview = res.data.myReview
-        newTaleDetail.reviewList = res.data.reviewList
-        setTaleDetail(newTaleDetail)
-      },
-      "리뷰 정보를 불러오지 못했습니다",
-    )
+  if (taleLoading) {
+    return <SpinnerDots />
+  }
+
+  if (!taleDetail) {
+    return <div>새로고침 바랍니다</div>
   }
 
   return (
     <div className="flex flex-col items-center sm:flex-row sm:items-stretch gap-10 p-6 overflow-y-auto">
-      <TaleDetailHeader
-        backgroundImage={taleDetail.backgroundImage}
-        title={taleDetail.title}
-        score={taleDetail.score}
-        purchased={taleDetail.purchased}
-      />
+      <TaleDetailHeader />
       <div className="flex-1 flex flex-col gap-5">
-        <TitleContent title={`줄거리`}>{taleDetail.description}</TitleContent>
+        <TitleContent title={`줄거리`}>{taleDetail?.description}</TitleContent>
         <TitleContent title={`준비물`}>{materialList}</TitleContent>
-        {taleDetail.purchased && (
+        {taleDetail?.purchased && (
           <TitleContent title={`내 리뷰`}>
-            <MyReview review={taleDetail.myReview} getReviews={getReviews} />
+            <MyReview review={taleDetail?.myReview} />
           </TitleContent>
         )}
-        <ReviewList reviewList={taleDetail.reviewList} />
+        <ReviewList reviewList={taleDetail?.reviewList} />
       </div>
     </div>
   )
