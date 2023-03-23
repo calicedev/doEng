@@ -31,9 +31,11 @@ if [ -n "$EXIST_AFTER" ]; then
 
     # 이전 도커 컴포즈 종료 및 삭제(--rmi 포함)
     docker-compose -p doeng-frontend-$CURRENT_VERSION -f docker-compose.$CURRENT_VERSION.yaml down --rmi all
-fi
 
-echo The new docker-compose failed to start
+else
+    docker-compose -p doeng-frontend-$NEW_VERSION -f docker-compose.$NEW_VERSION.yaml down --rmi all
+    echo The new docker-compose failed to start
+fi
 
 #
 
