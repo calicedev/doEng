@@ -15,7 +15,12 @@ import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupEmailDto;
 import com.ssafy.doeng.data.dto.member.request.RequestTokenDto;
 import com.ssafy.doeng.data.entity.member.Member;
+import com.ssafy.doeng.googleLogin.GetSocialOAuthRes;
+import com.ssafy.doeng.googleLogin.OAuthService;
+import com.ssafy.doeng.googleLogin.SocialLoginType;
 import com.ssafy.doeng.service.member.MemberService;
+import java.io.IOException;
+import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -31,6 +36,7 @@ import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 
@@ -41,6 +47,7 @@ public class AuthController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
     private final MemberService memberService;
+    private final OAuthService oAuthService;
 
     @GetMapping("test")
     public ResponseEntity<String> test() {
@@ -124,4 +131,25 @@ public class AuthController {
         LOGGER.info("[CheckEmail] 닉네임 중복제크 controller 들어옴");
         return ResponseEntity.ok().body(memberService.checkEmail(email));
     }
+
+
+    //oauth
+    @GetMapping("/login/{socialLoginType}") //GOOGLE이 들어올 것이다.
+    public String socialLoginRedirect(@PathVariable(name = "socialLoginType") String SocialLoginPath, HttpServletResponse response) throws IOException {
+        SocialLoginType socialLoginType = SocialLoginType.valueOf(SocialLoginPath.toUpperCase());
+
+        return oAuthService.request(socialLoginType);
+    }
+
+
+    @GetMapping("login/code/{socialLoginType}/callback")
+    public GetSocialOAuthRes callback(
+            @PathVariable(name = "socialLoginType") String socialLoginPath,
+            @RequestParam(name = "code") String code, HttpServletResponse response) throws IOException {
+        System.out.println(">> 소셜 로그인 API 서버로부터 받은 code :" + code);
+        SocialLoginType socialLoginType = SocialLoginType.valueOf(socialLoginPath.toUpperCase());
+        return oAuthService.oAuthLogin(socialLoginType, code);
+    }
+
+
 }

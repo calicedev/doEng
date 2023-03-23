@@ -1,6 +1,7 @@
 package com.ssafy.doeng.data.repository.member;
 
 import com.ssafy.doeng.data.entity.member.Member;
+import java.util.Collection;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -29,5 +30,7 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     Long findIdByMemberId(String memberId);
 
     boolean existsByPhone(String phone);
+
+    Optional<Member> findByEmail(String username);
 }
 

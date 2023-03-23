@@ -11,11 +11,17 @@ import io.jsonwebtoken.SignatureAlgorithm;
 import io.jsonwebtoken.UnsupportedJwtException;
 import io.jsonwebtoken.io.Decoders;
 import io.jsonwebtoken.security.Keys;
+import java.io.UnsupportedEncodingException;
 import java.security.Key;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Date;
+import java.util.List;
 import java.util.stream.Collectors;
+import javax.crypto.spec.SecretKeySpec;
+import javax.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -31,7 +37,7 @@ public class TokenProvider {
     //토큰의 생성 토큰의 유효성 검증 해주는 애들
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 30 * 1;            // 30분
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 60 * 5;            // 30분
     //private static final long ACCESS_TOKEN_EXPIRE_TIME = 10;            // 3초
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 1000 * 60 * 60 * 24 * 7;  // 7일
 
@@ -123,4 +129,5 @@ public class TokenProvider {
             return e.getClaims();
         }
     }
+
 }

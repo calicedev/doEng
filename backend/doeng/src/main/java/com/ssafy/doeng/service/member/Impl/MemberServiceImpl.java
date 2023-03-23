@@ -68,6 +68,7 @@ public class MemberServiceImpl implements MemberService {
         LOGGER.error("[signup]  회원가입 service 나감");
     }
 
+
     @Transactional
     public TokenDto login(RequestMemberDto requestDto) {
         LOGGER.info("[login] 로그인 service 들어옴");
@@ -151,11 +152,15 @@ public class MemberServiceImpl implements MemberService {
     @Transactional
     public void modifyMemberInfo(RequestModifyMemberDto requestDto) {
         LOGGER.info("[modifyMemberInfo] 회원 정보 수정 서비스 들어옴");
+        LOGGER.info(requestDto.getName());
+        LOGGER.info(requestDto.getNickname());
+
         Optional<Member> tMember = memberRepository.findByMemberId(SecurityUtil.getCurrentId());
         Member member = tMember.get();
         if(requestDto.getNickname()!=null || requestDto.getNickname()!=""){
             member.setNickname(requestDto.getNickname());
-        } else if(requestDto.getName()!=null || requestDto.getName()!=""){
+        }
+        if(requestDto.getName()!=null || requestDto.getName()!=""){
             member.setName(requestDto.getName());
         }
         memberRepository.save(member);
