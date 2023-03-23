@@ -33,7 +33,6 @@ if [ -n "$EXIST_AFTER" ]; then
     docker-compose -p doeng-backend-$CURRENT_VERSION -f docker-compose.$CURRENT_VERSION.yaml down --rmi all
 else
     docker-compose -p doeng-backend-$NEW_VERSION -f docker-compose.$NEW_VERSION.yaml down --rmi all
+    echo The new docker-compose failed to start
 fi
-
-echo The new docker-compose failed to start
 
