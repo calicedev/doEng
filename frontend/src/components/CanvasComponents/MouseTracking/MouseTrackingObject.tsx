@@ -1,13 +1,19 @@
 export const a: number = 1
 
-interface MTOInterface {
-  setting: () => void
-  draw: (ctx: CanvasRenderingContext2D, color: string) => void
+export interface MTOInterface {
+  draw: (ctx: CanvasRenderingContext2D) => void
 }
 
-class MTO implements MTOInterface {
-  mx: number
-  my: number
+let mouse = {
+  x: -300,
+  y: -300,
+}
+window.addEventListener("mousemove", function (event) {
+  mouse.x = event.x
+  mouse.y = event.y
+})
+
+export class MTO implements MTOInterface {
   bx: number
   by: number
   directionX: number
@@ -15,34 +21,29 @@ class MTO implements MTOInterface {
   canvasWidth: number
   canvasHeight: number
   size: number
+  color: string
 
-  constructor(canvasWidth: number, canvasHeight: number) {
+  constructor(canvasWidth: number, canvasHeight: number, color: string) {
     this.canvasWidth = canvasWidth
     this.canvasHeight = canvasHeight
-    this.mx = 0
-    this.my = 0
-    this.directionX = 0
-    this.directionY = 0
+    mouse.x = -500
+    mouse.y = -500
+    this.directionX = Math.random() * 0.2 - 0.1
+    this.directionY = Math.random() * 0.2 - 0.1
     this.size = 0
-    this.bx = 0
-    this.by = 0
+    this.bx = Math.random() * (canvasWidth - 50 * 2 - 50 * 2) + 50 * 2
+    this.by = Math.random() * (canvasHeight - 50 * 2 - 50 * 2) + 50 * 2
+    this.color = color
   }
 
-  setting() {
-    window.addEventListener("mousemove", (event) => {
-      this.mx = event.x
-      this.my = event.y
-    })
-  }
-
-  draw(ctx: CanvasRenderingContext2D, color: string) {
+  draw(ctx: CanvasRenderingContext2D) {
+    ctx.moveTo(mouse.x, mouse.y)
     ctx.beginPath()
     ctx.arc(this.bx, this.by, this.size, 0, Math.PI * 2, false)
-    ctx.fillStyle = color
+    ctx.closePath()
+    ctx.fillStyle = this.color
     ctx.fill()
-  }
 
-  update(ctx: CanvasRenderingContext2D, color: string) {
     if (
       this.bx + this.size * 2 > this.canvasWidth ||
       this.bx - this.size * 2 < 0
@@ -55,36 +56,32 @@ class MTO implements MTOInterface {
     ) {
       this.directionY = -this.directionY
     }
+
     this.bx += this.directionX
     this.by += this.directionY
-    let mouseRadius: number = 50
+
     if (
-      this.mx - this.bx < mouseRadius &&
-      this.mx - this.bx > -mouseRadius &&
-      this.my - this.by < mouseRadius &&
-      this.my - this.by > -mouseRadius
+      mouse.x - this.bx < 50 &&
+      mouse.x - this.bx > -50 &&
+      mouse.y - this.by < 50 &&
+      mouse.y - this.by > -50
     ) {
-      if (this.size < maxSize) {
-        this.size += 3
-        this.mx -= 1.5
+      if (this.size < 50) {
+        this.size += 10
+        this.bx -= Math.random() * 3
+        this.by += Math.random() * 3
       }
-    } else if (this.size > minSize) {
-      this.size -= 0.1
+    } else if (this.size > 0) {
+      this.size -= 0.2
     }
-    if (this.size < 0) {
+    if (this.size <= 0) {
       this.size = 0
     }
-    this.draw(ctx, color)
-  }
-
-  init() {
-    let MTOArr: MTO[] = []
-    let size: number = 0
-    let x: number =
-      Math.random() * (innerWidth - size * 2 - size * 2) + size * 2
-    let y: number =
-      Math.random() * (innerHeight - size * 2 - size * 2) + size * 2
-    let directionX: number = Math.random() * 0.2 - 0.1
-    let directionY: number = Math.random() * 0.2 - 0.1
+    if (this.bx > this.canvasWidth || this.bx < -10) {
+      this.bx = Math.random() * (this.canvasWidth - 50 * 2 - 50 * 2) + 50 * 2
+    }
+    if (this.by > this.canvasHeight || this.by < -10) {
+      this.by = Math.random() * (this.canvasHeight - 50 * 2 - 50 * 2) + 50 * 2
+    }
   }
 }
