@@ -14,12 +14,12 @@ else
 fi
 
 # 새 도커 컴포즈 시작
-docker-compose -p react-$NEW_VERSION -f docker-compose.$NEW_VERSION.yaml up -d
+docker-compose -p doeng-frontend-$NEW_VERSION -f docker-compose.$NEW_VERSION.yaml up -d
 
 sleep 10
 
 # Check the new version
-EXIST_AFTER=$(docker-compose -p react-$NEW_VERSION -f docker-compose.$NEW_VERSION.yaml ps | grep Up)
+EXIST_AFTER=$(docker-compose -p doeng-frontend-$NEW_VERSION -f docker-compose.$NEW_VERSION.yaml ps | grep Up)
 
 # Switch traffic to the new version
 if [ -n "$EXIST_AFTER" ]; then
@@ -30,7 +30,7 @@ if [ -n "$EXIST_AFTER" ]; then
     docker exec doeng-nginx nginx -s reload
 
     # 이전 도커 컴포즈 종료 및 삭제(--rmi 포함)
-    docker-compose -p react-$CURRENT_VERSION -f docker-compose.$CURRENT_VERSION.yaml down --rmi all
+    docker-compose -p doeng-frontend-$CURRENT_VERSION -f docker-compose.$CURRENT_VERSION.yaml down --rmi all
 fi
 
 echo The new docker-compose failed to start
