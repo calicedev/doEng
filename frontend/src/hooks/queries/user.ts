@@ -44,8 +44,8 @@ const useUserMutation = function () {
       return apiRequest(request)
     },
     {
-      onSuccess: function () {
-        queryClient.invalidateQueries(`user`)
+      onSuccess: async function () {
+        await queryClient.invalidateQueries(`user`)
       },
       onError: function () {},
     },
