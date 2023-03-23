@@ -13,7 +13,6 @@ const PlayTalePage = function () {
           </div>
         </AnimationBox> */}
       </div>
-      <TaleNavigator />
       <div className="box-border h-full w-full flex items-center justify-center">
         <Outlet />
       </div>

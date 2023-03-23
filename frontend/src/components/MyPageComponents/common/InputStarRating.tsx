@@ -1,4 +1,4 @@
-import React, { FC, PropsWithChildren, MouseEvent, useState } from "react"
+import React, { FC, PropsWithChildren, MouseEvent, useState, memo } from "react"
 import { FaStar } from "react-icons/fa"
 
 /*

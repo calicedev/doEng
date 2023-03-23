@@ -23,6 +23,11 @@ import PlayTaleList from "components/PlayTaleComponents/PlayTaleList"
 import InteractionComp from "components/PlayTaleComponents/InteractionComp"
 import SceneParent from "components/PlayTaleComponents/SceneParent"
 
+import { useEffect } from "react"
+import { useStoreDispatch } from "hooks/useStoreSelector"
+import { toastActions } from "store/toastSlice"
+import PayBridgePage from "pages/PayBridgePage"
+
 // // ProtectedRoute 사용법
 // const TestApp = function () {
 //   return (
@@ -36,6 +41,10 @@ import SceneParent from "components/PlayTaleComponents/SceneParent"
 
 function App() {
   // axios.defaults.baseURL(``)
+  const dispatch = useStoreDispatch()
+  useEffect(function () {
+    dispatch(toastActions.toastOff({}))
+  }, [])
   return (
     <div className="App">
       <Toast />
@@ -58,12 +67,30 @@ function App() {
           <Route path={`profile/edit`} element={<ProfileEditPage />} />
           <Route path={`profile/password`} element={<ProfilePwdEditPage />} />
         </Route>
-        {/* <Route element={<ProtectedRoute />}> */}
-        <Route path={`playtale`} element={<PlayTalePage />}>
-          <Route path={``} element={<PlayTaleList />} />
-          <Route path={`:taleId/:sceneOrder`} element={<SceneParent />}></Route>
+        <Route element={<ProtectedRoute />}>
+          <Route path={`playtale`} element={<PlayTalePage />}>
+            <Route path={``} element={<PlayTaleList />} />
+            <Route
+              path={`:taleId/:sceneOrder`}
+              element={<SceneParent />}
+            ></Route>
+          </Route>
         </Route>
-        {/* </Route> */}
+        <Route path={`pay`} element={<ProtectedRoute />}>
+          <Route path=":isSuccess" element={<PayBridgePage />} />
+          {/* <Route
+            path={`success/:taleId`}
+            element={
+              <div>
+                결제 되셨구요 엘리턴트는 바꾸셔야 합니다. pg_token? 옵니다.
+              </div>
+            }
+          />
+          <Route
+            path={`fail/:taleId`}
+            element={<div>결제 안되셨구요 엘리턴트는 바꾸셔야 합니다.</div>}
+          /> */}
+        </Route>
         <Route path={`*`} element={<NotFoundPage />} />
       </Routes>
     </div>

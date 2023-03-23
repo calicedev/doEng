@@ -1,4 +1,5 @@
 import { useWidthHeight } from "hooks/useWidthHwight"
+import { TaleDetailReview } from "pages/TaleDetailPage"
 import React, {
   FC,
   PropsWithChildren,
@@ -9,15 +10,8 @@ import React, {
 } from "react"
 import StarRating from "../common/StarRating"
 
-interface Review {
-  id: number
-  memberId: string
-  score: number
-  content: string
-}
-
 interface Props {
-  reviewList: Review[]
+  reviewList: TaleDetailReview[]
 }
 
 const ReviewList = function ({ reviewList }: PropsWithChildren<Props>) {
@@ -41,14 +35,14 @@ export default ReviewList
 /**/
 
 interface ItemProps {
-  review: Review
+  review: TaleDetailReview
 }
 
 const ReviewItem = function ({ review }: PropsWithChildren<ItemProps>) {
   return (
     <div className={`flex flex-col text-base`}>
       <div className={`flex gap-3 items-center text-lg font-semibold`}>
-        {review.memberId}
+        {review.userId}
         <StarRating rating={review.score} />
       </div>
       <p>{review.content}</p>

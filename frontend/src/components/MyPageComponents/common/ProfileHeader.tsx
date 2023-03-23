@@ -31,18 +31,28 @@ const Profile = function ({ path }: PropsWithChildren<Props>) {
   }[path]
 
   const buttons = {
-    profile: [
-      <MyPageButton text="탈퇴" color="red" onClick={() => setIsModal(true)} />,
-      <MyPageButton text="수정" onClick={toProfileEdit} />,
-    ],
-    edit: [
-      <MyPageButton text="취소" color="gray" onClick={toProfile} />,
-      <MyPageButton text="비밀번호 수정" onClick={toProfilePwdEdit} />,
-    ],
-    password: [
-      <MyPageButton text="취소" color="gray" onClick={toProfile} />,
-      <MyPageButton text="회원 정보 수정" onClick={toProfileEdit} />,
-    ],
+    profile: (
+      <>
+        <MyPageButton
+          text="탈퇴"
+          color="red"
+          onClick={() => setIsModal(true)}
+        />
+        <MyPageButton text="수정" onClick={toProfileEdit} />
+      </>
+    ),
+    edit: (
+      <>
+        <MyPageButton text="취소" color="gray" onClick={toProfile} />
+        <MyPageButton text="비밀번호 수정" onClick={toProfilePwdEdit} />
+      </>
+    ),
+    password: (
+      <>
+        <MyPageButton text="취소" color="gray" onClick={toProfile} />
+        <MyPageButton text="회원 정보 수정" onClick={toProfileEdit} />
+      </>
+    ),
   }[path]
 
   return (
