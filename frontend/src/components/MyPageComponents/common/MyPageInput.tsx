@@ -13,20 +13,21 @@ interface Props {
     | "nickname"
     | "email"
     | "phone"
-    | "originalPwd"
+    | "oldPwd"
     | "newPwd"
+    | "confirmNewPwd"
     | "confirmPwd"
   value?: string
   disabled?: boolean
   isValid?: boolean | null
   validMessage?: string
-  onChange?: () => void
+  onChange?: (value: string) => void
   ref?: RefObject<HTMLInputElement>
 }
 
 const MyPageInput = function ({
   type,
-  value,
+  value = "",
   disabled = false,
   isValid = null,
   validMessage = "",
@@ -39,9 +40,10 @@ const MyPageInput = function ({
     nickname: "닉네임",
     email: "이메일",
     phone: "핸드폰 번호",
-    originalPwd: "현재 비밀번호",
+    oldPwd: "현재 비밀번호",
     newPwd: "새 비밀번호",
-    confirmPwd: "새 비밀번호 확인",
+    confirmNewPwd: "새 비밀번호 확인",
+    confirmPwd: "비밀번호 확인",
   }[type]
 
   const placeholder = {
@@ -50,9 +52,10 @@ const MyPageInput = function ({
     nickname: "닉네임을 입력하세요",
     email: "이메일을 입력하세요",
     phone: "핸드폰 번호를 입력하세요",
-    originalPwd: "현재 비밀번호를 입력하세요",
+    oldPwd: "현재 비밀번호를 입력하세요",
     newPwd: "새 비밀번호를 입력하세요",
-    confirmPwd: "새 비밀번호 확인을 확인해주세요",
+    confirmNewPwd: "새 비밀번호 확인을 확인해주세요",
+    confirmPwd: "비밀번호를 입력하세요",
   }[type]
 
   const inputType = {
@@ -61,10 +64,19 @@ const MyPageInput = function ({
     nickname: "text",
     email: "text",
     phone: "text",
-    originalPwd: "password",
+    oldPwd: "password",
     newPwd: "password",
+    confirmNewPwd: "password",
     confirmPwd: "password",
   }[type]
+
+  const [inputValue, setInputValue] = useState(value)
+
+  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newValue = event.target.value // get the new value of the input field from the event object
+    setInputValue(newValue) // update the state variable with the new value
+    onChange(newValue) // call the onChange prop with the new value
+  }
 
   return (
     <div className={`flex-1 flex flex-col gap-1`}>
@@ -75,10 +87,10 @@ const MyPageInput = function ({
         ref={ref}
         id={`mypage-input-${type}`}
         type={inputType}
-        value={value}
+        value={inputValue}
         placeholder={placeholder}
         disabled={disabled}
-        onChange={onChange}
+        onChange={handleInputChange}
         className={`py-1 px-2 bg-white rounded shadow-xl text-lg `}
       />
     </div>

@@ -5,14 +5,7 @@ import { useNavigate } from "react-router-dom"
 import MyPageInput from "../common/MyPageInput"
 import { useUserQuery } from "hooks/queries/user"
 import { useUserMutation } from "hooks/queries/user"
-import {
-  idValidation,
-  passwordValidation,
-  emailValidation,
-  nicknameValidation,
-  nameValidation,
-  phoneValidation,
-} from "utils/validation"
+import { nicknameValidation, nameValidation } from "utils/validation"
 import useINEP from "hooks/useINEP"
 
 import { useStoreDispatch } from "hooks/useStoreSelector"
@@ -94,6 +87,13 @@ function ProfileEditForm() {
   return (
     <div className="flex flex-col gap-10 p-10">
       <div className="flex gap-10">
+        <MyPageInput
+          ref={nameRef}
+          type="id"
+          value={profileName}
+          onChange={nameChangeHandler}
+        />
+
         <input ref={nameRef} type="text" onChange={nameChangeHandler} />
         <div onClick={profileEditHandler}>바꿔바꿔</div>
         <input ref={nickRef} type="text" onChange={nickChangeHandler} />

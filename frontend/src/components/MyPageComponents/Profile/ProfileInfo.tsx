@@ -23,10 +23,8 @@ function ProfileInfo() {
   const {
     isLoading: queryLoading,
     error: queryError,
-    data: queryData,
+    data: user,
   } = useUserQuery()
-
-  const user = queryData
 
   return (
     <div className="flex flex-col gap-10 p-10">
