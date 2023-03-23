@@ -2,6 +2,8 @@ version: '3.6'
 
 services:
   react:
+    environment:
+      - PORT=8200
     build: .
     image: doeng-springboot-image-blue
     container_name: doeng-springboot-blue
