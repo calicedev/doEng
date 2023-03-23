@@ -25,8 +25,8 @@ EXIST_AFTER=$(docker-compose -p doeng-backend-$NEW_VERSION -f docker-compose.$NE
 if [ -n "$EXIST_AFTER" ]; then
 
     # nginx.config 변경
-    rm /etc/nginx/sites-enabled/doeng-backend-$CURRENT_VERSION.conf
-    ln -s /etc/nginx/sites-available/doeng-backend-$NEW_VERSION.conf /etc/nginx/sites-enabled/doeng-backend-$NEW_VERSION.conf
+    rm /etc/nginx/sites-enabled/doeng-back-$CURRENT_VERSION.conf
+    ln -s /etc/nginx/sites-available/doeng-back-$NEW_VERSION.conf /etc/nginx/sites-enabled/doeng-back-$NEW_VERSION.conf
     docker exec doeng-nginx nginx -s reload
 
     # 이전 도커 컴포즈 종료 및 삭제(--rmi 포함)

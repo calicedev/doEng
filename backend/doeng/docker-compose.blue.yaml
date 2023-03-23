@@ -3,7 +3,7 @@ version: '3.6'
 services:
   react:
     build: .
-    image: doeng-springboot-image-green
+    image: doeng-springboot-image-blue
     container_name: doeng-springboot-blue
     ports:
       - '8200:8200'
