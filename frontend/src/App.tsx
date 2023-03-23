@@ -8,12 +8,13 @@ import MyPage from "./pages/MyPage"
 import TaleStorePage from "./pages/TaleStorePage"
 import ProgressListPage from "./pages/ProgressListPage"
 import ProgressDetailPage from "pages/ProgressDetailPage"
-import ProfiliePage from "pages/ProfiliePage"
+import ProfilePage from "pages/ProfilePage"
 import Find from "./components/SignComponents/Find"
 import axios from "axios"
 import TaleDetailPage from "pages/TaleDetailPage"
 import NotFoundPage from "pages/NotFoundPage"
 import Toast from "components/UI/Toast"
+import ProfileInfo from "components/MyPageComponents/Profile/ProfileInfo"
 import ProfileEditPage from "pages/ProfileEditPage"
 import ProfilePwdEditPage from "pages/ProfilePwdEditPage"
 import ProtectedRoute from "components/UI/ProtectedRoute"
@@ -50,7 +51,8 @@ function App() {
           <Route path={`progress/:taleId`} element={<ProgressDetailPage />} />
           <Route path={`talestore`} element={<TaleStorePage />} />
           <Route path={`talestore/:taleId`} element={<TaleDetailPage />} />
-          <Route path={`profile`} element={<ProfiliePage />} />
+          <Route path={`profile`} element={<ProfilePage />} />
+          <Route path={`profile/info`} element={<ProfileInfo />} />
           <Route path={`profile/edit`} element={<ProfileEditPage />} />
           <Route path={`profile/password`} element={<ProfilePwdEditPage />} />
         </Route>
