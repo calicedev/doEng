@@ -5,10 +5,12 @@ import com.ssafy.doeng.data.entity.member.Member;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
 @Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
 public class RequestMemberDto {
@@ -28,4 +30,5 @@ public class RequestMemberDto {
     public UsernamePasswordAuthenticationToken toAuthentication() {
         return new UsernamePasswordAuthenticationToken(memberId, password);
     }
+
 }
