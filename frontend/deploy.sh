@@ -2,7 +2,7 @@
 
 # Get the current active version
 pwd
-EXIST_BLUE=$(docker-compose -p react-blue -f docker-compose.blue.yaml ps | grep Up)
+EXIST_BLUE=$(docker-compose -p doeng-frontend-blue -f docker-compose.blue.yaml ps | grep Up)
 
 # Set the new version to deploy
 if [ -n "$EXIST_BLUE" ]; then
