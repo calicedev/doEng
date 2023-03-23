@@ -14,6 +14,10 @@ const TaleNavigator = function () {
   const pushMyPage = function () {
     navigate(`/mypage/progress`)
   }
+  interface navItem {
+    alt: string
+    src: string
+  }
   return (
     <div className="box-border fixed top-0 left-0 w-full h-[13.3%] flex flex-row justify-between py-3 px-5">
       <AnimationBox appearClassName="animate-appear-top-nav">
@@ -54,6 +58,7 @@ const TaleNavigator = function () {
             className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
             alt="my-page"
             src={MyPage}
+            onClick={pushMyPage}
           />
         </AnimationBox>
       </div>

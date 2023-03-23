@@ -24,7 +24,7 @@ import useINEP from "hooks/useINEP"
 import { useUserMutation } from "hooks/queries/user"
 
 function Signup() {
-  const { mutate: SignupMutate } = useUserMutation()
+  const { mutateAsync: SignupMutate } = useUserMutation()
   const dispatch = useStoreDispatch()
   const navigate = useNavigate()
   const [step, setStep] = useState<boolean>(true)
@@ -59,6 +59,7 @@ function Signup() {
     onChangeHandler: nameChangeHandler,
     onBlurHandler: nameBlurHandler,
   } = useInput(nameRef, nameValidation, 8)
+
   const {
     inputData: emailInput,
     isValid: emailValid,
@@ -249,7 +250,7 @@ function Signup() {
       dispatch(DispatchToast("아이디가 유효하지 않습니다!", false))
       return
     } else if (!nickValid) {
-      dispatch(DispatchToast("닉네입이 유효하지 않습니다!", false))
+      dispatch(DispatchToast("닉네임이 유효하지 않습니다!", false))
       return
     } else if (!pw1Valid) {
       dispatch(DispatchToast("비밀번호가 유효하지 않습니다!", false))
@@ -284,6 +285,8 @@ function Signup() {
         email: emailInput,
         phone: phoneInput,
       },
+    }).then(() => {
+      navigate(`/member`)
     })
     // SignupRequest(
     //   {

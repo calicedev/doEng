@@ -16,8 +16,6 @@ interface Props {
     | "originalPwd"
     | "newPwd"
     | "confirmPwd"
-  value?: string
-  disabled?: boolean
   isValid?: boolean | null
   validMessage?: string
   onChange?: () => void
@@ -26,8 +24,6 @@ interface Props {
 
 const MyPageInput = function ({
   type,
-  value,
-  disabled = false,
   isValid = null,
   validMessage = "",
   onChange = () => {},
@@ -75,9 +71,7 @@ const MyPageInput = function ({
         ref={ref}
         id={`mypage-input-${type}`}
         type={inputType}
-        value={value}
         placeholder={placeholder}
-        disabled={disabled}
         onChange={onChange}
         className={`py-1 px-2 bg-white rounded shadow-xl text-lg `}
       />

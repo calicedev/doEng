@@ -24,7 +24,7 @@ interface Props {
   ref?: RefObject<HTMLInputElement>
 }
 
-const MyPageInput = function ({
+const ProfileInput = function ({
   type,
   value,
   disabled = false,
@@ -85,4 +85,4 @@ const MyPageInput = function ({
   )
 }
 
-export default MyPageInput
+export default ProfileInput

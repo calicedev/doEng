@@ -4,85 +4,112 @@ import StarRating from "../common/StarRating"
 import InputStarRating from "../common/InputStarRating"
 import MyPageButton from "components/MyPageComponents/common/MyPageButton"
 import { BsFillPencilFill, BsFillTrash3Fill } from "react-icons/bs"
-import axios from "utils/axios"
-import { useParams } from "react-router-dom"
-import useApi from "hooks/useApi"
+import { useNavigate, useParams } from "react-router-dom"
+import { TaleDetailReview } from "pages/TaleDetailPage"
+import { useMutation, useQuery, useQueryClient } from "react-query"
+import apiRequest from "utils/axios"
+import { DispatchToast } from "store"
+import { useStoreDispatch } from "hooks/useStoreSelector"
 
-interface Review {
-  id: number
-  memberId: string
-  score: number
-  content: string
-}
+// interface Review {
+//   id: number
+//   memberId: string
+//   score: number
+//   content: string
+// }
 
 interface Props {
-  review: {
-    id: number
-    memberId: string
-    score: number
-    content: string
-  } | null
-  getReviews: () => void
+  review: TaleDetailReview
 }
 
-const MyReview = function ({ review, getReviews }: PropsWithChildren<Props>) {
+const MyReview = function ({ review }: PropsWithChildren<Props>) {
+  const navigate = useNavigate()
+  const dispatch = useStoreDispatch()
+  const queryClient = useQueryClient()
   const { taleId } = useParams() as { taleId: string } // 참조: https://velog.io/@euji42/Typescript-useParams-%ED%83%80%EC%9E%85-oi26j7va
+  // if (!taleId) {
+  //   navigate(-1)
+  //   return <div>부적절한 접근입니다.</div>
+  // }
+  console.log(review)
 
   const [isUpdating, setIsUpdating] = useState(false)
   const [score, setScore] = useState(review ? review.score : 0)
   const [content, setContent] = useState(review ? review.content : "")
-  const { isLoading, isError, axiosRequest } = useApi()
-
-  // 리뷰 작성하기
-  const createReview = (taleId: string) => {
-    const data = {
-      score,
-      content,
-    }
-    axiosRequest(
-      {
-        method: "post",
+  const {} = useQuery([`review`, parseInt(taleId)], function () {
+    return apiRequest({}).then((res) => res.data)
+  })
+  const { mutate: postReview } = useMutation(
+    function () {
+      return apiRequest({
+        method: `post`,
         url: `/api/mypage/review/${taleId}`,
-        data,
+        data: {
+          score,
+          content,
+        },
+      })
+    },
+    {
+      onSuccess: function () {
+        queryClient.invalidateQueries([`tale`, parseInt(taleId)])
       },
-      (res) => {
-        getReviews()
+      onError: function () {
+        dispatch(DispatchToast("리뷰 작성 실패! 재시도 바랍니다.", false))
       },
-      "리뷰 작성에 실패했습니다.",
-    )
+    },
+  )
+  const { mutate: putReview } = useMutation(
+    function () {
+      return apiRequest({
+        method: `put`,
+        url: `/api/mypage/review/${taleId}`,
+        data: {
+          score,
+          content,
+        },
+      })
+    },
+    {
+      onSuccess: function () {
+        queryClient.invalidateQueries([`tale`, parseInt(taleId)])
+      },
+      onError: function () {
+        dispatch(DispatchToast("리뷰 수정 실패! 재시도 바랍니다.", false))
+      },
+    },
+  )
+  const { mutate: delReview } = useMutation(
+    function () {
+      return apiRequest({
+        method: `delete`,
+        url: `/api/mypage/review/${taleId}`,
+        data: {
+          score,
+          content,
+        },
+      })
+    },
+    {
+      onSuccess: function () {
+        queryClient.invalidateQueries([`tale`, parseInt(taleId)])
+      },
+      onError: function () {
+        dispatch(DispatchToast("리뷰 삭제 실패! 재시도 바랍니다.", false))
+      },
+    },
+  )
+
+  const createReview = function () {
+    postReview()
   }
 
-  // 리뷰 수정하기
-  const updateReview = (reviewId: number) => {
-    const data = {
-      score,
-      content,
-    }
-    axiosRequest(
-      {
-        method: "put",
-        url: `/api/mypage/review/${reviewId}`,
-        data,
-      },
-      (res) => {
-        getReviews()
-      },
-      "리뷰 수정에 실패했습니다.",
-    )
+  const updateReview = function () {
+    putReview()
   }
 
-  // 리뷰 삭제하기
-  const deleteReview = (reviewId: number) => {
-    axiosRequest(
-      {
-        method: "delete",
-        url: `/api/mypage/review/${reviewId}`,
-      },
-      (res) => {
-        getReviews()
-      },
-      "리뷰 삭제에 실패했습니다.",
-    )
+  const deleteReview = function () {
+    delReview()
   }
 
   // 리뷰 수정 취소
@@ -102,11 +129,7 @@ const MyReview = function ({ review, getReviews }: PropsWithChildren<Props>) {
           <InputStarRating size={`large`} rating={score} setRating={setScore} />
           <div className={`${innerClass}`}>
             <input value={content} type="text" className={`${inputClass}`} />
-            <MyPageButton
-              text="작성"
-              color={`orange`}
-              onClick={() => createReview(taleId)}
-            />
+            <MyPageButton text="작성" color={`orange`} onClick={createReview} />
           </div>
         </div>
       ) : isUpdating ? (
@@ -120,11 +143,7 @@ const MyReview = function ({ review, getReviews }: PropsWithChildren<Props>) {
               onChange={(e) => setContent(e.target.value)}
             />
             <MyPageButton text="취소" color={`gray`} onClick={cancelUpdating} />
-            <MyPageButton
-              text="수정"
-              color={`orange`}
-              onClick={() => updateReview(review.id)}
-            />
+            <MyPageButton text="수정" color={`orange`} onClick={updateReview} />
           </div>
         </div>
       ) : (
@@ -142,7 +161,7 @@ const MyReview = function ({ review, getReviews }: PropsWithChildren<Props>) {
             <IconButton
               icon={<BsFillTrash3Fill />}
               size={`small`}
-              onClick={() => deleteReview(review.id)}
+              onClick={deleteReview}
             />
           </div>
         </div>

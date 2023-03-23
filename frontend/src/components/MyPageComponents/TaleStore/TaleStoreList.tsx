@@ -3,6 +3,7 @@ import TaleStoreItem from "components/MyPageComponents/TaleStore/TaleStoreItem"
 import useApi from "hooks/useApi"
 import { useUserQuery } from "hooks/queries/user"
 import apiRequest from "utils/axios"
+import { useTaleStoreList } from "hooks/queries/tale"
 
 interface Tale {
   id: number
@@ -15,40 +16,21 @@ interface Tale {
 // react query 사용해보기
 const TaleStoreList = function () {
   const {
-    isLoading: queryLoading,
-    error: queryError,
-    data: queryData,
-  } = useUserQuery()
-  console.log(queryLoading, queryError)
-  console.log(queryData)
-
-  // apiRequest({ method: `get`, url: `/api/member` })
-  //   .then((res) => console.log("성공임"))
-  //   .catch(() => console.log("에러임"))
-
-  const [taleList, setTaleList] = useState<Tale[]>(exData.taleList)
-  const { isLoading, isError, axiosRequest } = useApi()
-  // 마운트 시 책 리스트 정보 받아오기
-  // useEffect(() => {
-  //   axiosRequest(
-  //     {
-  //       method: "get",
-  //       url: "/api/mypage/tale-list",
-  //     },
-  //     (res) => {
-  //       setTaleList(res.data)
-  //     },
-  //     "책 정보를 불러오지 못했습니다",
-  //   )
-  // }, [axiosRequest])
+    isLoading: taleLoading,
+    error: taleError,
+    data: tale,
+  } = useTaleStoreList()
+  if (!tale) {
+    return <div>잘못된 접근입니다.</div>
+  }
 
   return (
     <>
-      {isLoading ? (
+      {taleLoading ? (
         <div>로딩 중</div>
       ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {taleList.map((tale: Tale) => (
+          {tale?.map((tale: Tale) => (
             <TaleStoreItem key={`tale-${tale.id}`} tale={tale} />
           ))}
         </div>

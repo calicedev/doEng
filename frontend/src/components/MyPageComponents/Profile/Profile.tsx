@@ -1,36 +1,42 @@
-import dummy from "components/MyPageComponents/DummyData/Profile.json"
-import MyPageButton from "components/MyPageComponents/common/MyPageButton"
+import { useState, useRef, useEffect } from "react"
+import { useInput } from "hooks/useInput"
 import { useNavigate } from "react-router-dom"
-import React, { useState } from "react"
-import Modal from "components/UI/Modal"
-import MyPageInput from "../common/MyPageInput"
-import { useSelector } from "react-redux"
+import { useUserQuery } from "hooks/queries/user"
+import { useUserMutation } from "hooks/queries/user"
+import { passwordValidation } from "utils/validation"
+import useINEP from "hooks/useINEP"
+import { useStoreDispatch } from "hooks/useStoreSelector"
 
 function Profile() {
-  // const user = useSelector((state) => state.user)
-  const user = exData
+  const { mutate: ProfileMutate } = useUserMutation()
+  const [passwordRef] = [useRef<HTMLInputElement>(null)]
+
+  const {
+    inputData: passwordInput,
+    isValid: passwordValid,
+    validMessage: passwordValidMessage,
+    onChangeHandler: passwordChangeHandler,
+    onBlurHandler: passwordBlurHandler,
+  } = useInput(passwordRef, passwordValidation)
+
+  const profileHandler = function () {
+    ProfileMutate({
+      method: `post`,
+      url: `/api/member/check/password`,
+      data: {
+        password: passwordInput,
+      },
+    })
+  }
 
   return (
     <div className="flex flex-col gap-10 p-10">
       <div className="flex gap-10">
-        <MyPageInput type="name" value={user.name} />
-        <MyPageInput type="nickname" value={user.nickname} />
+        <input ref={passwordRef} type="text" onChange={passwordChangeHandler} />
+        <div onClick={profileHandler}>입력완료오오!!!</div>
       </div>
-      <MyPageInput type="id" value={user.memberId} />
-      <MyPageInput type="email" value={user.email} />
-      <MyPageInput type="phone" value={user.phone} />
     </div>
   )
 }
 
 export default Profile
-
-const exData = {
-  id: 1,
-  memberId: "doeng1",
-  email: "abcd@gmail.com",
-  nickname: "두잉",
-  name: "홍길동",
-  phone: "010-8832-2029",
-  createdAt: "2017-09-11",
-}
