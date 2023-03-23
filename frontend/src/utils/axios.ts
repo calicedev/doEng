@@ -7,15 +7,15 @@ import { tokenActions } from "store/tokenSlice"
 https://yamoo9.github.io/axios/guide/api.html#%EC%9D%B8%EC%8A%A4%ED%84%B4%EC%8A%A4-%EC%83%9D%EC%84%B1
 */
 const interceptorRequest = axios.create({
-  baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
-  // baseURL: "http://70.12.246.176:8200", // 서버 주소
+  // baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
+  baseURL: "http://70.12.246.176:8200", // 서버 주소
   withCredentials: true, // 쿠키 사용을 위해 설정
   timeout: 10000, // 10초까지만 대기
 })
 
 const apiRequest = axios.create({
-  baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
-  // baseURL: "http://70.12.246.176:8200", // 서버 주소
+  // baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
+  baseURL: "http://70.12.246.176:8200", // 서버 주소
   withCredentials: true, // 쿠키 사용을 위해 설정
   timeout: 10000, // 10초까지만 대기
 })
@@ -73,8 +73,8 @@ apiRequest.interceptors.response.use(
       // access Token 재발급
       const config: AxiosRequestConfig = {
         method: `post`,
-        baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
-        // baseURL: "http://70.12.246.176:8200", // 서버 주소
+        // baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
+        baseURL: "http://70.12.246.176:8200", // 서버 주소
         url: `/api/auth/reissue`,
       } // accessToken 재발급 관련 설정
       if (accessToken) {

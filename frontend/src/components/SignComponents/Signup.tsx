@@ -59,6 +59,7 @@ function Signup() {
     onChangeHandler: nameChangeHandler,
     onBlurHandler: nameBlurHandler,
   } = useInput(nameRef, nameValidation, 8)
+
   const {
     inputData: emailInput,
     isValid: emailValid,
@@ -249,7 +250,7 @@ function Signup() {
       dispatch(DispatchToast("아이디가 유효하지 않습니다!", false))
       return
     } else if (!nickValid) {
-      dispatch(DispatchToast("닉네입이 유효하지 않습니다!", false))
+      dispatch(DispatchToast("닉네임이 유효하지 않습니다!", false))
       return
     } else if (!pw1Valid) {
       dispatch(DispatchToast("비밀번호가 유효하지 않습니다!", false))
