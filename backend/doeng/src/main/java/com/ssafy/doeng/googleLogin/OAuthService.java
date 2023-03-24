@@ -98,7 +98,7 @@ public class OAuthService {
                     TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
                     //액세스 토큰과 Authorization, 이외 정보들이 담긴 자바 객체를 다시 전송한다.
-                    return new GetSocialOAuthRes(tokenDto,username, oAuthToken.getAccess_token(), oAuthToken.getToken_type());
+                    return new GetSocialOAuthRes(tokenDto, username, oAuthToken.getAccess_token(), oAuthToken.getToken_type());
                 } else {
                     throw new IllegalArgumentException("계정이 존재하지 않습니다.");
                 }

@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -24,13 +25,15 @@ public class InfoController {
     private final InfoService infoService;
     @PostMapping("/tale")
     public ResponseEntity<String> postTale(RequestTaleInfoDto requestTaleInfoDto) {
+        LOGGER.info("[InfoController] tale 들어옴");
         infoService.saveTale(requestTaleInfoDto);
         LOGGER.info("[InfoController] tale 저장");
         return ResponseEntity.ok().body("tale 저장 완료");
     }
 
     @PostMapping("/scene")
-    public ResponseEntity<String> postScene(RequestSceneInfoDto requestSceneInfoDto) {
+    public ResponseEntity<String> postScene( RequestSceneInfoDto requestSceneInfoDto) {
+        LOGGER.info("scene 저장");
         infoService.saveScene(requestSceneInfoDto);
         return ResponseEntity.ok().body("scene 저장 완료");
     }

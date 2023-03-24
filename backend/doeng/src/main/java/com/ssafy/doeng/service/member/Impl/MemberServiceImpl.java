@@ -83,7 +83,8 @@ public class MemberServiceImpl implements MemberService {
         //3-1. 받아온 memberId로 pk id 조회
         Long id = memberRepository.findIdByMemberId(authentication.getName());
         // 4. RefreshToken Redis에 저장 24시간
-        redisUtil.setDataExpire("token_"+id, tokenDto.getRefreshtoken(),60 * 60L * 24);
+        ;
+        redisUtil.setDataExpire("token_"+id, tokenDto.getRefreshtoken(),1000 * 60 * 60L * 24 * 7);
         // 5. 토큰 발급
         LOGGER.info("[login] 로그인 service 나감");
         return tokenDto;
@@ -281,7 +282,10 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public void modifyMemberPassword(Long id, RequestModifyMemberPasswordDto requestDto) {
-        LOGGER.info("[resetMemberPassword] 수정 비밀번호 들어옴");
+        System.out.println("____________________________여기____________________");
+        System.out.println(requestDto.getNewPassword());
+        System.out.println(requestDto.getOldPassword());
+        LOGGER.info("[modifyMemberPassword] 수정 비밀번호 들어옴");
         Optional<Member> oMember = memberRepository.findById(id);
         if(oMember.isPresent() && passwordEncoder.matches(requestDto.getOldPassword(), oMember.get().getPassword())) {
             Member member = oMember.get();
@@ -290,7 +294,7 @@ public class MemberServiceImpl implements MemberService {
         }else{
             throw new ErrorException(MemberErrorCode.MEMBER_WRONG_PASSWORD);
         }
-        LOGGER.info("[resetMemberPassword] 수정 비밀번호 나감");
+        LOGGER.info("[modifyMemberPassword] 수정 비밀번호 나감");
     }
 
     @Override

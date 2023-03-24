@@ -40,6 +40,7 @@ import com.ssafy.doeng.errors.code.PaymentErrorCode;
 import com.ssafy.doeng.errors.code.TaleErrorCode;
 import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.service.Common;
+import com.ssafy.doeng.service.aws.AwsS3Service;
 import com.ssafy.doeng.service.tale.TaleService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -73,6 +74,8 @@ public class TaleServiceImpl implements TaleService {
     private final TestRepository testRepository;
     private final MaterialRepository materialRepository;
 
+    private final AwsS3Service awsS3Service;
+
     @Override
     public List<ResponseMainTaleDto> getTaleList(long memberId) {
         //// 에러처리 확실히 하기!
@@ -84,7 +87,7 @@ public class TaleServiceImpl implements TaleService {
         List<ResponseMainTaleDto> responseDto = taleList.stream().map(
                 tale -> (ResponseMainTaleDto.builder()
                         .id(tale.getId())
-                        .backgroundImage(tale.getBackgroundImage())
+                        .backgroundImage(awsS3Service.getTemporaryUrl(tale.getBackgroundImage()))
                         .title(tale.getTitle())
                         .purchased(purchasedIdSet.contains(tale.getId()))
                         .build())
@@ -117,7 +120,7 @@ public class TaleServiceImpl implements TaleService {
                 .sceneOrder(getOrder(progresses))
                 .taleDone(progresses.size() == tale.getScenes().size())
                 .sceneCount(tale.getScenes().size())
-                .mainImage("메인 이미지 위치")
+                .mainImage(awsS3Service.getTemporaryUrl(tale.getMainImage()))
                 .build();
 
         LOGGER.info("[TaleServiceImpl] getTaleList 종료");
@@ -257,7 +260,7 @@ public class TaleServiceImpl implements TaleService {
         LOGGER.info("[TaleServiceImpl] makeImageList 시작");
         List<ResponseProgressImageDto> returnDtoList = pictures.stream().map(picture -> ResponseProgressImageDto.builder()
                 .id(picture.getId())
-                .image(picture.getImage())
+                .image(awsS3Service.getTemporaryUrl(picture.getImage()))
                 .build()
         ).collect(Collectors.toList());
         LOGGER.info("[TaleServiceImpl] makeImageList 종료");

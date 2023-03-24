@@ -50,4 +50,15 @@ public class Member extends BaseEntity {
     @Enumerated(EnumType.STRING)
     private Authority authority;
 
+    @Builder(builderClassName = "OAuth2Register", builderMethodName = "oauth2Register")
+    public Member(String memberId, String password, String email, String name ){
+        this.memberId = memberId;
+        this.password = password;
+        this.email = email;
+        this.name = name;
+        this.nickname = name;
+        this.phone = "010-0000-0000";
+
+    }
+
 }

@@ -142,7 +142,7 @@ public class AuthController {
     }
 
 
-    @GetMapping("login/code/{socialLoginType}/callback")
+    @GetMapping("/login/code/{socialLoginType}/callback")
     public GetSocialOAuthRes callback(
             @PathVariable(name = "socialLoginType") String socialLoginPath,
             @RequestParam(name = "code") String code, HttpServletResponse response) throws IOException {
