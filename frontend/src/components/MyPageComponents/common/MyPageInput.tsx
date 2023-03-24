@@ -16,22 +16,20 @@ interface Props {
     | "originalPwd"
     | "newPwd"
     | "confirmPwd"
-  value?: string
   disabled?: boolean
   isValid?: boolean | null
   validMessage?: string
   onChange?: () => void
-  ref?: RefObject<HTMLInputElement>
+  inputRef?: RefObject<HTMLInputElement>
 }
 
 const MyPageInput = function ({
   type,
-  value,
   disabled = false,
   isValid = null,
   validMessage = "",
   onChange = () => {},
-  ref,
+  inputRef,
 }: PropsWithChildren<Props>) {
   const label = {
     id: "아이디",
@@ -72,10 +70,9 @@ const MyPageInput = function ({
         {label}
       </label>
       <input
-        ref={ref}
+        ref={inputRef}
         id={`mypage-input-${type}`}
         type={inputType}
-        value={value}
         placeholder={placeholder}
         disabled={disabled}
         onChange={onChange}

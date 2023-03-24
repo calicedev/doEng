@@ -16,6 +16,7 @@ import { useUserMutation } from "hooks/queries/user"
 import { useMutation, useQueryClient } from "react-query"
 
 function Login() {
+  const queryClient = useQueryClient()
   const dispatch = useStoreDispatch()
   const navigate = useNavigate()
   const { mutate: LoginMutate, mutateAsync: LoginMutateAsync } =
@@ -55,39 +56,39 @@ function Login() {
       return
     }
 
-    // apiRequest({
-    //   method: `post`,
-    //   baseURL: `https://j8a601.p.ssafy.io`,
-    //   url: `/api/auth/login`,
-    //   data: { memberId: `${idInput}`, password: `${passwordInput}` },
-    // })
-    //   .then((res) => {
-    //     console.log(res)
-    //     queryClient.invalidateQueries(`user`)
-    //     dispatch(DispatchToast("성공", true))
-    //   })
-    //   .catch((err) => {
-    //     console.log(err, "여깁니다")
-    //     dispatch(DispatchToast("실패", false))
-    //   })
-
-    LoginMutateAsync({
-      method: "post",
+    apiRequest({
+      method: `post`,
+      baseURL: `https://j8a601.p.ssafy.io`,
       url: `/api/auth/login`,
-      data: {
-        memberId: `${idInput}`,
-        password: `${passwordInput}`,
-      },
+      data: { memberId: `${idInput}`, password: `${passwordInput}` },
     })
       .then((res) => {
-        navigate(`/playtale`)
-        // if (res.data) {로그인 시켜주고 Home으로 push}
-        // else { dispatch(DispatchToast("아이디 비밀번호를 확인 해주세요!", false)) }
+        console.log(res)
+        queryClient.invalidateQueries([`user`])
+        // dispatch(DispatchToast("성공", true))
       })
       .catch((err) => {
-        // dispatch(DispatchToast("아이디 비밀번호를 확인 해주세요!", false))
-        console.log(err, "여기가 에러에요!!!!!!!")
+        console.log(err, "여깁니다")
+        // dispatch(DispatchToast("실패", false))
       })
+
+    // LoginMutateAsync({
+    //   method: "post",
+    //   url: `/api/auth/login`,
+    //   data: {
+    //     memberId: `${idInput}`,
+    //     password: `${passwordInput}`,
+    //   },
+    // })
+    //   .then((res) => {
+    //     navigate(`/playtale`)
+    //     // if (res.data) {로그인 시켜주고 Home으로 push}
+    //     // else { dispatch(DispatchToast("아이디 비밀번호를 확인 해주세요!", false)) }
+    //   })
+    //   .catch((err) => {
+    //     // dispatch(DispatchToast("아이디 비밀번호를 확인 해주세요!", false))
+    //     console.log(err, "여기가 에러에요!!!!!!!")
+    //   })
 
     // LoginMutate({
     //   method: "post",
