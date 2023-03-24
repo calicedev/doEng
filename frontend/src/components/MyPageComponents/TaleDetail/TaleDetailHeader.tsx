@@ -1,6 +1,6 @@
 import axios, { AxiosProxyConfig } from "axios"
+import { useStoreTaleDetail } from "hooks/queries/queries"
 import { useUserQuery } from "hooks/queries/user"
-import { TaleDetailTaleList } from "pages/TaleDetailPage"
 import React, { FC, PropsWithChildren, MouseEvent, ReactNode } from "react"
 import { useQuery } from "react-query"
 import { useNavigate, useParams } from "react-router-dom"
@@ -12,17 +12,12 @@ interface Props {}
 
 const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({}) {
   const navigate = useNavigate()
-  const { taleId } = useParams()
+  const { taleId } = useParams() as { taleId: string }
   const {
     isLoading: taleLoading,
     error: taleError,
     data: taleDetail,
-  } = useQuery<TaleDetailTaleList>([`tale`, taleId], async function () {
-    return apiRequest({
-      method: "get",
-      url: `/api/mypage/tale-list/${taleId}`,
-    }).then((res) => res.data)
-  })
+  } = useStoreTaleDetail(parseInt(taleId))
 
   const tryPayment = function (event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault()

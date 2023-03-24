@@ -15,61 +15,23 @@ import axios from "utils/axios"
 import { useQuery } from "react-query"
 import apiRequest from "utils/axios"
 import { SpinnerDots } from "components/UI/Spinner"
-
-export interface TaleDetailMaterial {
-  id: number
-  name: string
-}
-export interface TaleDetailReview {
-  id: number
-  userId: string
-  score: number
-  content: string
-}
-
-export interface TaleDetailTaleList {
-  id: number
-  title: string
-  backgroundImage: string
-  description: string
-  score: number
-  price: number
-  purchased: boolean
-  materialList: TaleDetailMaterial[]
-  myReview: TaleDetailReview
-  reviewList: TaleDetailReview[]
-}
+import { useStoreTaleDetail } from "hooks/queries/queries"
 
 // React Query 작업 /////////////////////////////////
 const TaleDetailPage = function () {
   const navigate = useNavigate()
-  const { taleId } = useParams()
+  const { taleId } = useParams() as { taleId: string }
 
   const {
     isLoading: taleLoading,
     error: taleError,
     data: taleDetail,
-  } = useQuery<TaleDetailTaleList>(
-    [`tale`, taleId],
-    async function () {
-      return apiRequest({
-        method: "get",
-        url: `/api/mypage/tale-list/${taleId}`,
-      }).then((res) => res.data)
-    },
-    {
-      onSuccess: function () {},
-      onError: function () {},
-    },
-  )
+  } = useStoreTaleDetail(parseInt(taleId))
 
   // ["준비물1", "준비물2", "준비물3"] ->  "준비물1, 준비물2, 준비물3"
   const materialList = useMemo(() => {
     return taleDetail?.materialList
-      .reduce(
-        (acc: string, cur: TaleDetailMaterial) => acc + ", " + cur?.name,
-        "",
-      )
+      .reduce((acc: string, cur) => acc + ", " + cur?.name, "")
       .slice(1)
   }, [taleDetail?.materialList])
   // const materialList = taleDetail?.materialList[0].name

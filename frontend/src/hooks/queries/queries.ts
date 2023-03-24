@@ -7,6 +7,13 @@ export interface ID {
   id: number | string
 }
 
+export interface Word extends ID {
+  image: string
+  engWord: string
+  korWord: string
+  voice: string
+}
+
 // 유저 정보
 export interface User extends ID {
   memberId: string
@@ -24,12 +31,7 @@ export interface PlayTale extends ID {
   score: number
   purchased: boolean
 }
-export interface Word extends ID {
-  image: string
-  engWord: string
-  korWord: string
-  voice: string
-}
+
 export interface PlayWord extends ID, Word {
   correct: boolean
 }
@@ -49,7 +51,7 @@ export interface Script {
 export interface Scene extends ID {
   image: string
   sceneOrder: string
-  interactiveType: boolean
+  interactiveType: number
   backgroundMusic: string
   scriptList: Script[]
   word: Word
@@ -105,6 +107,11 @@ export interface StoreTaleDetail extends PlayTale {
   reviewList: Review[]
 }
 
+export interface ReviewAPIForm {
+  myReview: Review
+  reviewList: Review[]
+}
+
 export const useUserData = function () {
   return useQuery<User>(queryKeys.user(), function () {
     return apiRequest({
@@ -154,11 +161,11 @@ export const useStoreTaleDetail = function (taleId: number) {
 }
 
 export const useReviewList = function (taleId: number) {
-  return useQuery<Review[]>(queryKeys.reviewList(taleId), function () {
+  return useQuery<ReviewAPIForm>(queryKeys.reviewList(taleId), function () {
     return apiRequest({
       method: `get`,
       url: `/api/mypage/review/${taleId}/review-list`,
-    })
+    }).then((res) => res.data)
   })
 }
 
@@ -167,7 +174,7 @@ export const usePlayTaleList = function () {
     return apiRequest({
       method: `get`,
       url: `/api/tale/list`,
-    }).then((res) => res.data[`taleList`])
+    }).then((res) => res.data)
   })
 }
 
@@ -176,7 +183,7 @@ export const usePlayTaleDetail = function (taleId: number) {
     return apiRequest({
       method: `get`,
       url: `/api/tale/${taleId}/detail`,
-    })
+    }).then((res) => res.data)
   })
 }
 

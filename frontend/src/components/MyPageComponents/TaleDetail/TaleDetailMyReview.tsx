@@ -5,11 +5,11 @@ import InputStarRating from "../common/InputStarRating"
 import MyPageButton from "components/MyPageComponents/common/MyPageButton"
 import { BsFillPencilFill, BsFillTrash3Fill } from "react-icons/bs"
 import { useNavigate, useParams } from "react-router-dom"
-import { TaleDetailReview } from "pages/TaleDetailPage"
 import { useMutation, useQuery, useQueryClient } from "react-query"
 import apiRequest from "utils/axios"
 import { DispatchToast } from "store"
 import { useStoreDispatch } from "hooks/useStoreSelector"
+import { Review } from "hooks/queries/queries"
 
 // interface Review {
 //   id: number
@@ -19,7 +19,7 @@ import { useStoreDispatch } from "hooks/useStoreSelector"
 // }
 
 interface Props {
-  review: TaleDetailReview
+  review: Review
 }
 
 const MyReview = function ({ review }: PropsWithChildren<Props>) {
@@ -31,14 +31,11 @@ const MyReview = function ({ review }: PropsWithChildren<Props>) {
   //   navigate(-1)
   //   return <div>부적절한 접근입니다.</div>
   // }
-  console.log(review)
 
   const [isUpdating, setIsUpdating] = useState(false)
   const [score, setScore] = useState(review ? review.score : 0)
   const [content, setContent] = useState(review ? review.content : "")
-  const {} = useQuery([`review`, parseInt(taleId)], function () {
-    return apiRequest({}).then((res) => res.data)
-  })
+
   const { mutate: postReview } = useMutation(
     function () {
       return apiRequest({
