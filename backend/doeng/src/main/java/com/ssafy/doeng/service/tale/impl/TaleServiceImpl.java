@@ -6,6 +6,7 @@ import com.ssafy.doeng.data.dto.review.response.ResponseReviewDto;
 import com.ssafy.doeng.data.dto.review.vo.ReviewSum;
 import com.ssafy.doeng.data.dto.scene.response.ResponseProgressSceneDto;
 import com.ssafy.doeng.data.dto.tale.request.RequestTaleDetailDto;
+import com.ssafy.doeng.data.dto.tale.request.RequestTalePaymentDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDetailDto;
@@ -352,5 +353,19 @@ public class TaleServiceImpl implements TaleService {
             score = Math.round((sum / reviewSum.get().getCount()) * 10) / 10.0;
         }
         return score;
+    }
+
+    public void postTalePayment(RequestTalePaymentDto requestDto) {
+        LOGGER.info("[TaleServiceImpl] 결제 저장 service 들어옴");
+        Member member = common.getMember(requestDto.getMemberId());
+        Tale tale = common.getTale(requestDto.getTaleId());
+
+        Payment payment = Payment.builder()
+                .tale(tale)
+                .member(member)
+                .build();
+
+        paymentRepository.save(payment);
+        LOGGER.info("[TaleServiceImpl] 결제 저장 완료");
     }
 }
