@@ -1,6 +1,7 @@
 package com.ssafy.doeng.service.tale;
 
 import com.ssafy.doeng.data.dto.tale.request.RequestTaleDetailDto;
+import com.ssafy.doeng.data.dto.tale.request.RequestTalePaymentDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDetailDto;
@@ -23,4 +24,6 @@ public interface TaleService {
     ResponsePaymentTaleListDto getPaymentTaleList(long memberId, Pageable pageable);
 
     ResponsePaymentTaleDetailDto getPaymentTaleDetail(long memberId, long taleId);
+
+    void postTalePayment(RequestTalePaymentDto requestDto);
 }
