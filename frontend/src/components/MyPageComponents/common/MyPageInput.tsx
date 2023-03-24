@@ -13,26 +13,23 @@ interface Props {
     | "nickname"
     | "email"
     | "phone"
-    | "oldPwd"
+    | "originalPwd"
     | "newPwd"
-    | "confirmNewPwd"
     | "confirmPwd"
-  value?: string
   disabled?: boolean
   isValid?: boolean | null
   validMessage?: string
-  onChange?: (value: string) => void
-  ref?: RefObject<HTMLInputElement>
+  onChange?: () => void
+  inputRef?: RefObject<HTMLInputElement>
 }
 
 const MyPageInput = function ({
   type,
-  value = "",
   disabled = false,
   isValid = null,
   validMessage = "",
   onChange = () => {},
-  ref,
+  inputRef,
 }: PropsWithChildren<Props>) {
   const label = {
     id: "아이디",
@@ -40,10 +37,9 @@ const MyPageInput = function ({
     nickname: "닉네임",
     email: "이메일",
     phone: "핸드폰 번호",
-    oldPwd: "현재 비밀번호",
+    originalPwd: "현재 비밀번호",
     newPwd: "새 비밀번호",
-    confirmNewPwd: "새 비밀번호 확인",
-    confirmPwd: "비밀번호 확인",
+    confirmPwd: "새 비밀번호 확인",
   }[type]
 
   const placeholder = {
@@ -52,10 +48,9 @@ const MyPageInput = function ({
     nickname: "닉네임을 입력하세요",
     email: "이메일을 입력하세요",
     phone: "핸드폰 번호를 입력하세요",
-    oldPwd: "현재 비밀번호를 입력하세요",
+    originalPwd: "현재 비밀번호를 입력하세요",
     newPwd: "새 비밀번호를 입력하세요",
-    confirmNewPwd: "새 비밀번호 확인을 확인해주세요",
-    confirmPwd: "비밀번호를 입력하세요",
+    confirmPwd: "새 비밀번호 확인을 확인해주세요",
   }[type]
 
   const inputType = {
@@ -64,19 +59,10 @@ const MyPageInput = function ({
     nickname: "text",
     email: "text",
     phone: "text",
-    oldPwd: "password",
+    originalPwd: "password",
     newPwd: "password",
-    confirmNewPwd: "password",
     confirmPwd: "password",
   }[type]
-
-  const [inputValue, setInputValue] = useState(value)
-
-  const handleInputChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newValue = event.target.value // get the new value of the input field from the event object
-    setInputValue(newValue) // update the state variable with the new value
-    onChange(newValue) // call the onChange prop with the new value
-  }
 
   return (
     <div className={`flex-1 flex flex-col gap-1`}>
@@ -84,13 +70,12 @@ const MyPageInput = function ({
         {label}
       </label>
       <input
-        ref={ref}
+        ref={inputRef}
         id={`mypage-input-${type}`}
         type={inputType}
-        value={inputValue}
         placeholder={placeholder}
         disabled={disabled}
-        onChange={handleInputChange}
+        onChange={onChange}
         className={`py-1 px-2 bg-white rounded shadow-xl text-lg `}
       />
     </div>

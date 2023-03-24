@@ -1,11 +1,12 @@
 import dummy from "components/MyPageComponents/DummyData/Profile.json"
 import MyPageButton from "components/MyPageComponents/common/MyPageButton"
 import { useNavigate } from "react-router-dom"
-import React, { useState } from "react"
+import React, { useState, useRef, useEffect } from "react"
 import Modal from "components/UI/Modal"
 import MyPageInput from "../common/MyPageInput"
 import { useSelector } from "react-redux"
 import { useUserQuery } from "hooks/queries/user"
+import { useInput } from "hooks/useInput"
 
 interface userData {
   id: number
@@ -19,6 +20,19 @@ interface userData {
 
 function ProfileInfo() {
   // const user = useSelector((state) => state.user)
+  const [nameRef, nickRef, idRef, emailRef, phoneRef] = [
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+    useRef<HTMLInputElement>(null),
+  ]
+
+  const { setFirstData: idFirstData } = useInput(idRef)
+  const { setFirstData: nameFirstData } = useInput(nameRef)
+  const { setFirstData: nickFirstData } = useInput(nickRef)
+  const { setFirstData: emailFirstData } = useInput(emailRef)
+  const { setFirstData: phoneFirstData } = useInput(phoneRef)
 
   const {
     isLoading: queryLoading,
@@ -26,15 +40,26 @@ function ProfileInfo() {
     data: user,
   } = useUserQuery()
 
+  useEffect(
+    function () {
+      idFirstData(user?.memberId || "")
+      nameFirstData(user?.name || "")
+      nickFirstData(user?.nickname || "")
+      emailFirstData(user?.email || "")
+      phoneFirstData(user?.phone || "")
+    },
+    [user?.name, user?.nickname, user?.memberId, user?.email, user?.phone],
+  )
+
   return (
     <div className="flex flex-col gap-10 p-10">
       <div className="flex gap-10">
-        <MyPageInput type="name" value={user?.name || ""} />
-        <MyPageInput type="nickname" value={user?.nickname || ""} />
+        <MyPageInput type="name" inputRef={nameRef} disabled={true} />
+        <MyPageInput type="nickname" inputRef={nickRef} disabled={true} />
       </div>
-      <MyPageInput type="id" value={user?.memberId || ""} />
-      <MyPageInput type="email" value={user?.email || ""} />
-      <MyPageInput type="phone" value={user?.phone || ""} />
+      <MyPageInput type="id" inputRef={idRef} disabled={true} />
+      <MyPageInput type="email" inputRef={emailRef} disabled={true} />
+      <MyPageInput type="phone" inputRef={phoneRef} disabled={true} />
     </div>
   )
 }

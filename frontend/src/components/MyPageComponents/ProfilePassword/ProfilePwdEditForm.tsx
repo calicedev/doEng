@@ -54,10 +54,10 @@ function ProfilePwdEditForm() {
 
   return (
     <div className="flex flex-col gap-10 p-10">
-      {/* <MyPageInput type="originalPwd" value={""} />
-      <MyPageInput type="newPwd" value={""} />
-      <MyPageInput type="confirmPwd" value={""} /> */}
-      <input
+      <MyPageInput type="originalPwd" inputRef={oldPasswordRef} />
+      <MyPageInput type="newPwd" inputRef={newPassword1Ref} />
+      <MyPageInput type="confirmPwd" inputRef={newPassword2Ref} />
+      {/* <input
         ref={oldPasswordRef}
         type="password"
         onChange={oldPasswordChangeHandler}
@@ -66,7 +66,7 @@ function ProfilePwdEditForm() {
         ref={newPassword2Ref}
         type="password"
         onChange={newPassword2ChangeHandler}
-      />
+      /> */}
       <div onClick={ProfilePwdEditHandler}>바꿔바꿔</div>
     </div>
   )
