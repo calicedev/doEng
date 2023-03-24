@@ -1,17 +1,6 @@
-import React, { useState, useEffect } from "react"
 import TaleStoreItem from "components/MyPageComponents/TaleStore/TaleStoreItem"
-import useApi from "hooks/useApi"
-import { useUserQuery } from "hooks/queries/user"
-import apiRequest from "utils/axios"
-import { useTaleStoreList } from "hooks/queries/tale"
+import { useStoreTaleList } from "hooks/queries/queries"
 
-interface Tale {
-  id: number
-  title: string
-  backgroundImage: string
-  score: number
-  purchased: boolean
-}
 ////////////////////////////////////////////////////////////////
 // react query 사용해보기
 const TaleStoreList = function () {
@@ -19,7 +8,8 @@ const TaleStoreList = function () {
     isLoading: taleLoading,
     error: taleError,
     data: tale,
-  } = useTaleStoreList()
+  } = useStoreTaleList()
+
   if (!tale) {
     return <div>잘못된 접근입니다.</div>
   }
@@ -28,12 +18,14 @@ const TaleStoreList = function () {
     <>
       {taleLoading ? (
         <div>로딩 중</div>
-      ) : (
+      ) : tale ? (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {tale?.map((tale: Tale) => (
+          {tale?.map((tale) => (
             <TaleStoreItem key={`tale-${tale.id}`} tale={tale} />
           ))}
         </div>
+      ) : (
+        <div>잘못된 접근입니다.</div>
       )}
     </>
   )

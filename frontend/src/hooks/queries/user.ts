@@ -10,6 +10,7 @@ import {
 import { useNavigate } from "react-router-dom"
 import { DispatchToast } from "store"
 import apiRequest from "utils/axios"
+import { queryKeys } from "./queryKeys"
 
 interface userData {
   id: number
@@ -47,6 +48,7 @@ const useUserQuery = function () {
 }
 
 // 기본 mutate 선언. 필요 시 useMutation 직접 선언해서 쓰면 된다.
+// 키를 추가로 받아서 invalidate를 해주면 된다.
 const useUserMutation = function () {
   const queryClient = useQueryClient()
   return useMutation(
@@ -55,7 +57,7 @@ const useUserMutation = function () {
     },
     {
       onSuccess: async function () {
-        await queryClient.invalidateQueries(`user`)
+        await queryClient.invalidateQueries(queryKeys.user())
       },
       onError: function (err) {
         console.log(err)

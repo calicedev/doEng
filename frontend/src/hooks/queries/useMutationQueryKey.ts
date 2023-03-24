@@ -10,7 +10,7 @@ const useMutationQueryKey = function (queryKey: string | any[]) {
     },
     {
       onSuccess: function () {
-        queryClient.invalidateQueries(queryKey)
+        queryClient.invalidateQueries()
       },
     },
   )

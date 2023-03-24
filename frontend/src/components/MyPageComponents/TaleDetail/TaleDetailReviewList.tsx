@@ -1,5 +1,5 @@
+import { Review } from "hooks/queries/queries"
 import { useWidthHeight } from "hooks/useWidthHwight"
-import { TaleDetailReview } from "pages/TaleDetailPage"
 import React, {
   FC,
   PropsWithChildren,
@@ -11,7 +11,7 @@ import React, {
 import StarRating from "../common/StarRating"
 
 interface Props {
-  reviewList: TaleDetailReview[]
+  reviewList: Review[]
 }
 
 const ReviewList = function ({ reviewList }: PropsWithChildren<Props>) {
@@ -35,7 +35,7 @@ export default ReviewList
 /**/
 
 interface ItemProps {
-  review: TaleDetailReview
+  review: Review
 }
 
 const ReviewItem = function ({ review }: PropsWithChildren<ItemProps>) {

@@ -1,4 +1,3 @@
-import { TaleDetailTaleList } from "pages/TaleDetailPage"
 import { useQuery, useMutation, useQueryClient } from "react-query"
 import apiRequest from "utils/axios"
 

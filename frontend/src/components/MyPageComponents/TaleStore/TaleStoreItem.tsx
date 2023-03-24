@@ -2,17 +2,10 @@ import React, { FC, PropsWithChildren } from "react"
 import checkImg from "assets/images/checkPurchased.png"
 import StarRating from "../common/StarRating"
 import { useNavigate } from "react-router-dom"
-
-interface Tale {
-  id: number
-  title: string
-  backgroundImage: string
-  score: number
-  purchased: boolean
-}
+import { StoreTale } from "hooks/queries/queries"
 
 interface Props {
-  tale: Tale
+  tale: StoreTale
 }
 
 const TaleStoreItem = function ({ tale }: PropsWithChildren<Props>) {
