@@ -56,7 +56,7 @@ function Login() {
       return
     }
 
-    apiRequest({
+    axios({
       method: `post`,
       baseURL: `https://j8a601.p.ssafy.io`,
       url: `/api/auth/login`,
@@ -64,12 +64,14 @@ function Login() {
     })
       .then((res) => {
         console.log(res)
-        queryClient.invalidateQueries([`user`])
+        queryClient.invalidateQueries(["user"])
+        navigate(`/`)
+
         // dispatch(DispatchToast("성공", true))
       })
       .catch((err) => {
         console.log(err, "여깁니다")
-        // dispatch(DispatchToast("실패", false))
+        dispatch(DispatchToast("로그인 실패", false))
       })
 
     // LoginMutateAsync({
