@@ -14,6 +14,7 @@ import { findActions } from "store/findSlice"
 import apiRequest from "utils/axios"
 import { useUserMutation } from "hooks/queries/user"
 import { useMutation, useQueryClient } from "react-query"
+import { tokenActions } from "store/tokenSlice"
 
 function Login() {
   const queryClient = useQueryClient()
@@ -63,14 +64,22 @@ function Login() {
       data: { memberId: `${idInput}`, password: `${passwordInput}` },
     })
       .then((res) => {
-        console.log(res)
+        dispatch(
+          tokenActions.setAccessToken({
+            accessToken: res.headers[`accesstoken`],
+          }),
+        )
+        dispatch(
+          tokenActions.setRefreshToken({
+            refreshToken: res.headers[`refreshtoken`],
+          }),
+        )
         queryClient.invalidateQueries(["user"])
         navigate(`/`)
 
         // dispatch(DispatchToast("성공", true))
       })
       .catch((err) => {
-        console.log(err, "여깁니다")
         dispatch(DispatchToast("로그인 실패", false))
       })
 
