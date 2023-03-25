@@ -7,8 +7,10 @@ import { useWidthHeight } from "hooks/useWidthHwight"
 import PlayTaleListItem from "./PlayTaleListItem"
 import { useTaleStoreList } from "hooks/queries/tale"
 import LoadingComp from "components/UI/LoadingComp"
-import { useQuery } from "react-query"
 import apiRequest from "utils/axios"
+import { useQuery } from "@tanstack/react-query"
+import { queryKeys } from "hooks/queries/queryKeys"
+import { usePlayTaleList } from "hooks/queries/queries"
 
 interface Tale {
   id: number
@@ -22,17 +24,8 @@ const PlayTaleList = function () {
   const imgRef = useRef<HTMLImageElement>(null)
   const { width, height } = useWidthHeight(imgRef)
 
-  const {
-    isLoading,
-    error,
-    data: TaleStoreList,
-  } = useQuery<Tale[]>([`test`], function () {
-    return apiRequest({
-      method: `get`,
-      url: `/api/tale/list`,
-    }).then((res) => res.data)
-  })
-  console.log(TaleStoreList)
+  const { isLoading, error, data: TaleStoreList } = usePlayTaleList()
+
   if (!TaleStoreList) {
     return <LoadingComp />
   }

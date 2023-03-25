@@ -1,15 +1,8 @@
 import AnimationBox from "components/UI/AnimationBox"
-
-interface Tale {
-  backgroundImage: string
-  id: number
-  purchased: boolean
-  score: number
-  title: string
-}
+import { PlayTale } from "hooks/queries/queries"
 
 interface PropsPlayTaleItem {
-  tale: Tale
+  tale: PlayTale
 }
 
 const PlayTaleListItem = function ({ tale }: PropsPlayTaleItem) {

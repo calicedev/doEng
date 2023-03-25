@@ -1,4 +1,4 @@
-import { useQueryClient } from "react-query"
+import { useQueryClient } from "@tanstack/react-query"
 
 const keyGuide = [
   `대분류: user || scene`, // scene의 경우, [scene, taleId, sceneOrder] 형태의 key

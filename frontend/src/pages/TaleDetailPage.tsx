@@ -12,10 +12,10 @@ import React, {
 } from "react"
 import { useNavigate, useParams } from "react-router-dom"
 import axios from "utils/axios"
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 import apiRequest from "utils/axios"
 import { SpinnerDots } from "components/UI/Spinner"
-import { useStoreTaleDetail } from "hooks/queries/queries"
+import { Material, useStoreTaleDetail } from "hooks/queries/queries"
 
 // React Query 작업 /////////////////////////////////
 const TaleDetailPage = function () {
@@ -31,7 +31,7 @@ const TaleDetailPage = function () {
   // ["준비물1", "준비물2", "준비물3"] ->  "준비물1, 준비물2, 준비물3"
   const materialList = useMemo(() => {
     return taleDetail?.materialList
-      .reduce((acc: string, cur) => acc + ", " + cur?.name, "")
+      .reduce((acc: string, cur: Material) => acc + ", " + cur?.name, "")
       .slice(1)
   }, [taleDetail?.materialList])
   // const materialList = taleDetail?.materialList[0].name

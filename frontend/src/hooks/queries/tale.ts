@@ -1,5 +1,6 @@
-import { useQuery, useMutation, useQueryClient } from "react-query"
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query"
 import apiRequest from "utils/axios"
+import { queryKeys } from "./queryKeys"
 
 interface Tale {
   id: number
@@ -11,7 +12,7 @@ interface Tale {
 
 const useTaleStoreList = function () {
   return useQuery<Tale[]>(
-    `taleStoreList`,
+    queryKeys.storeList(),
     function () {
       return apiRequest({
         method: "get",

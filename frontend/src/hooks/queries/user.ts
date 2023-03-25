@@ -6,7 +6,7 @@ import {
   useQueryClient,
   UseQueryResult,
   UseMutationResult,
-} from "react-query"
+} from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
 import { DispatchToast } from "store"
 import apiRequest from "utils/axios"
@@ -39,7 +39,7 @@ type userMutation = {
 
 // userdata를 사용하는 unique Key
 const useUserQuery = function () {
-  return useQuery<userData>("user", function () {
+  return useQuery<userData>(["user"], function () {
     return apiRequest({
       method: `get`,
       url: `/api/member`,

@@ -8,9 +8,9 @@ import store from "./store"
 import { PersistGate } from "redux-persist/integration/react"
 import { persistStore } from "redux-persist"
 import { BrowserRouter } from "react-router-dom"
-import { QueryClient } from "react-query"
-import { QueryClientProvider } from "react-query"
-import { ReactQueryDevtools } from "react-query/devtools"
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query"
+
+import { ReactQueryDevtools } from "@tanstack/react-query-devtools"
 
 const persistor = persistStore(store)
 const queryClient = new QueryClient({

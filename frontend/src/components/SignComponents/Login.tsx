@@ -13,7 +13,7 @@ import Toast from "components/UI/Toast"
 import { findActions } from "store/findSlice"
 import apiRequest from "utils/axios"
 import { useUserMutation } from "hooks/queries/user"
-import { useMutation, useQueryClient } from "react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { tokenActions } from "store/tokenSlice"
 
 function Login() {
