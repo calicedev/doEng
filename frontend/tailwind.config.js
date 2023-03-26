@@ -82,6 +82,7 @@ module.exports = {
       // animate-[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction]
       animation: {
         "salangsalang-left": "salang-salang-left 5s 1.8s both infinite",
+        "salangsalang-right": "salang-salang-right 5s 1.8s both infinite",
         "appear-top-nav": "appear-top-nav 0.66s 0.11s both",
         "appear-from-left-super-slow":
           "appear-from-left 2.22s ease-in-out both",
@@ -308,13 +309,36 @@ module.exports = {
         },
         "salang-salang-left": {
           "0%": { transform: "skew(-20deg, 20deg) translate(0,0)" },
-          "50%": { transform: "skew(-5deg, 5deg) translate(8%, 0)" },
+          "50%": { transform: "skew(-5deg, 5deg) translate(-20%, 0)" },
           "100%": { transform: "skew(-20deg, 20deg) translate(0,0)" },
+        },
+        "salang-salang-right": {
+          "0%": { transform: "skew(20deg, -20deg) translate(0,0)" },
+          "50%": { transform: "skew(5deg, -5deg) translate(20%, 0)" },
+          "100%": { transform: "skew(20deg, -20deg) translate(0,0)" },
         },
         "appear-from-bottom-with-bounce": {
           "0%": { transform: "translate(0, 120%)" },
           "50%": { transform: "translate(0, -10%)" },
           "75%": { transform: "translate(0, 8%)" },
+          "100%": { transform: "translate(0, 0)" },
+        },
+        "appear-from-top-with-bounce": {
+          "0%": { transform: "translate(0, -120%)" },
+          "50%": { transform: "translate(0, 10%)" },
+          "75%": { transform: "translate(0, -8%)" },
+          "100%": { transform: "translate(0, 0)" },
+        },
+        "appear-from-left-with-bounce": {
+          "0%": { transform: "translate(-120%, 0)" },
+          "50%": { transform: "translate(10%, 0)" },
+          "75%": { transform: "translate(-8%, 0)" },
+          "100%": { transform: "translate(0, 0)" },
+        },
+        "appear-from-right-with-bounce": {
+          "0%": { transform: "translate(120%, 0)" },
+          "50%": { transform: "translate(-10%, 0)" },
+          "75%": { transform: "translate(8%, 0)" },
           "100%": { transform: "translate(0, 0)" },
         },
         "appear-from-bottom-with-bounce-second": {
