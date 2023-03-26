@@ -9,6 +9,7 @@ const TaleStoreList = function () {
     error: taleError,
     data: tale,
   } = useStoreTaleList()
+  console.log(tale)
 
   if (!tale) {
     return <div>잘못된 접근입니다.</div>

@@ -1,41 +1,13 @@
-import React from "react"
+import React, { PropsWithChildren } from "react"
 import MyPageButton from "components/MyPageComponents/common/MyPageButton"
 import { useNavigate } from "react-router-dom"
+import { ProgressTaleDetail } from "hooks/queries/queries"
 
-interface SceneImage {
-  id: number
-  image: string
+interface Props {
+  tale: ProgressTaleDetail
 }
 
-interface Scene {
-  id: number
-  sceneTitle: string
-  imageList: SceneImage[]
-}
-
-interface Word {
-  engWord: string
-  correctList: boolean[]
-}
-
-interface TestResult {
-  testCount: number
-  wordList: Word[]
-}
-
-interface DummyData {
-  id: number | string
-  title: string
-  backgroundImage: string
-  sceneList: Scene[]
-  testResult: TestResult
-}
-
-interface TaleProps {
-  tale: DummyData
-}
-
-function ProgressDetail({ tale }: TaleProps) {
+function ProgressDetail({ tale }: PropsWithChildren<Props>) {
   const navigate = useNavigate()
   const toTaleDetail = () => {
     navigate(`/mypage/talestore/${tale.id}`)

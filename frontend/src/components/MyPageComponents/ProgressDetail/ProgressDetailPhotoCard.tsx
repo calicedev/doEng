@@ -1,28 +1,20 @@
 import Modal from "components/UI/Modal"
-import React, { useState } from "react"
+import React, { useState, PropsWithChildren } from "react"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import IconButton from "components/UI/IconButton"
+import { ProgressScene, ProgressImage } from "hooks/queries/queries"
 
-interface SceneImage {
-  id: number
-  image: string
+interface Props {
+  photoCard: ProgressScene
 }
 
-interface Scene {
-  id: number
-  sceneTitle: string
-  imageList: SceneImage[]
-}
-
-interface PhotoCard {
-  photoCard: Scene
-}
-
-function ProgressDetailPhotoCard({ photoCard }: PhotoCard) {
+function ProgressDetailPhotoCard({ photoCard }: PropsWithChildren<Props>) {
   const [isModal, setIsModal] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
   const pageSize = 3
-  const totalPages = Math.ceil(photoCard.imageList.length / pageSize)
+  const totalPages = photoCard.imageList
+    ? Math.ceil(photoCard.imageList.length / pageSize)
+    : 1
 
   const handlePageChange = (page: number) => {
     setCurrentPage(page)
@@ -38,7 +30,7 @@ function ProgressDetailPhotoCard({ photoCard }: PhotoCard) {
         onClick={() => handleImageClick(photoCard.imageList[0].image)}
       >
         <img
-          src={photoCard.imageList[0].image}
+          src={photoCard.imageList && photoCard.imageList[0].image}
           alt="progressPhotoCard"
           className="w-full"
         />
@@ -58,7 +50,7 @@ function ProgressDetailPhotoCard({ photoCard }: PhotoCard) {
             >
               {photoCard.imageList
                 .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
-                .map((image: SceneImage) => (
+                .map((image: ProgressImage) => (
                   <div
                     className={`overflow-hidden relative w-[400px]`}
                     style={{ paddingBottom: "100.33%" }}

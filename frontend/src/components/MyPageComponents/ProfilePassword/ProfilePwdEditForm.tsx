@@ -8,9 +8,10 @@ import { useUserMutation } from "hooks/queries/user"
 import { passwordValidation } from "utils/validation"
 import useINEP from "hooks/useINEP"
 import { useStoreDispatch } from "hooks/useStoreSelector"
+import axios from "axios"
 
 function ProfilePwdEditForm() {
-  const { mutate: ProfilePwdEditMutate } = useUserMutation()
+  const { mutateAsync: ProfilePwdEditMutate } = useUserMutation()
   const [oldPasswordRef, newPassword1Ref, newPassword2Ref] = [
     useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null),
@@ -50,23 +51,33 @@ function ProfilePwdEditForm() {
         newPassword: newPassword2Input,
       },
     })
+      .then((res) => {
+        console.log(res)
+        console.log("성공이당")
+      })
+      .catch((err) => {
+        console.log(err)
+      })
   }
 
   return (
     <div className="flex flex-col gap-10 p-10">
-      <MyPageInput type="originalPwd" inputRef={oldPasswordRef} />
-      <MyPageInput type="newPwd" inputRef={newPassword1Ref} />
-      <MyPageInput type="confirmPwd" inputRef={newPassword2Ref} />
-      {/* <input
-        ref={oldPasswordRef}
-        type="password"
+      <MyPageInput
+        type="originalPwd"
+        inputRef={oldPasswordRef}
         onChange={oldPasswordChangeHandler}
       />
-      <input
-        ref={newPassword2Ref}
-        type="password"
+      <MyPageInput
+        type="newPwd"
+        inputRef={newPassword1Ref}
+        onChange={newPassword1ChangeHandler}
+      />
+      <MyPageInput
+        type="confirmPwd"
+        inputRef={newPassword2Ref}
         onChange={newPassword2ChangeHandler}
-      /> */}
+      />
+
       <div onClick={ProfilePwdEditHandler}>바꿔바꿔</div>
     </div>
   )

@@ -1,22 +1,14 @@
-import React from "react"
+import React, { PropsWithChildren } from "react"
+import { ProgressTestResult, WordList } from "hooks/queries/queries"
 
-interface Word {
-  engWord: string
-  correctList: boolean[]
+interface Props {
+  taleTest: ProgressTestResult
 }
 
-interface TestResult {
-  testCount: number
-  wordList: Word[]
-}
-
-interface TaleProps {
-  taleTest: TestResult
-}
-
-function ProgressDetailTest({ taleTest }: TaleProps) {
+function ProgressDetailTest({ taleTest }: PropsWithChildren<Props>) {
   const wordTrueCounts: number[] = taleTest.wordList.map(
-    (word: Word) => word.correctList.filter((value: boolean) => value).length,
+    (word: WordList) =>
+      word.correctList.filter((value: boolean) => value).length,
   )
 
   const testTrueCounts: number[] = taleTest.wordList[0].correctList.map(
