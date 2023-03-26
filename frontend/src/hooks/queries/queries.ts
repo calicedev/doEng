@@ -4,7 +4,7 @@ import apiRequest from "utils/axios"
 import { queryKeys } from "./queryKeys"
 
 export interface ID {
-  id: number | string
+  id: number
 }
 
 export interface Word extends ID {

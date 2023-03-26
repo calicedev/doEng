@@ -1,8 +1,9 @@
 import AnimationBox from "components/UI/AnimationBox"
 import { PlayTale } from "hooks/queries/queries"
 import { useNavigate } from "react-router-dom"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import Modal from "components/UI/Modal"
+import PlayTaleDetail from "./PlayTaleDetail"
 
 interface PropsPlayTaleItem {
   tale: PlayTale
@@ -17,18 +18,32 @@ const PlayTaleListItem = function ({ tale }: PropsPlayTaleItem) {
   const closeModal = function () {
     setIsModal(() => false)
   }
+  const [lockDown, setLockDown] = useState<boolean>(tale.purchased)
+  const [lockDownClasses, setLockDownClasses] = useState<string>("")
+  useEffect(
+    function () {
+      if (tale.purchased) {
+        setLockDownClasses(() => "bg-white")
+      } else {
+        setLockDownClasses(() => "lock-down-box bg-black")
+      }
+    },
+    [tale.purchased],
+  )
   return (
     <>
       {isModal && (
         <Modal closeModal={closeModal}>
-          <div>모달 하이용</div>
+          <PlayTaleDetail taleId={tale.id} closeModal={closeModal} />
         </Modal>
       )}
-      <AnimationBox boxClasses="basis-[24%] h-[50%] flex flex-col bg-lime-300 items-center rounded-[13px] border-[3px] border-black shadow-lg flex items-center justify-center">
+      <AnimationBox
+        boxClasses={`basis-[24%] h-[50%] flex flex-col items-center rounded-[13px] border-[3px] border-black shadow-lg flex items-center justify-center ${lockDownClasses}`}
+      >
         <img
           alt={`이미지aaa`}
           src={tale.backgroundImage}
-          className="w-full cursor-pointer rounded-[13px]"
+          className={`w-full cursor-pointer rounded-[13px]`}
           onClick={clickHandler}
         />
       </AnimationBox>

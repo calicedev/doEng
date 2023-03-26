@@ -56,9 +56,7 @@ const PlayTaleList = function () {
         className="w-full h-[48%] flex flex-row overflow-y-scroll flex-wrap gap-[1%] px-30% absolute top-[38%] pl-[25.25%] pr-[24%]"
         // style={{ width: `${width}px` }}
       >
-        {PlayTaleList.filter(
-          (val) => val.purchased === true /*이거 true임*/,
-        ).map((tale) => {
+        {PlayTaleList.map((tale) => {
           return <PlayTaleListItem tale={tale} key={`play-tale-${tale.id}`} />
         })}
       </div>
