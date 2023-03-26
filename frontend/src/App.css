@@ -10,6 +10,12 @@
 9. color/font(글꼴)
 10. animation
 */
+.bg-vegis {
+  user-select: none;
+  pointer-events: none;
+  z-index: -10;
+}
+
 .lock-down-box {
   -webkit-user-select: none;
   -moz-user-select: none;

@@ -1,7 +1,7 @@
 import AnimationBox from "components/UI/AnimationBox"
 import TaleNavigator from "components/UI/TaleNavigator"
-import PanDDaegi from "../../assets/images/PanDDaegi.png"
-import DDuGGung from "../../assets/images/PanDDuGGung.png"
+import Background from "../../assets/images/Background.png"
+import BookStand from "../../assets/images/BookStand.png"
 import { useRef } from "react"
 import { useWidthHeight } from "hooks/useWidthHwight"
 import PlayTaleListItem from "./PlayTaleListItem"
@@ -11,6 +11,7 @@ import apiRequest from "utils/axios"
 import { useQuery } from "@tanstack/react-query"
 import { queryKeys } from "hooks/queries/queryKeys"
 import { usePlayTaleList } from "hooks/queries/queries"
+import SuperHeroLanding from "./SuperHeroLanding"
 
 interface Tale {
   id: number
@@ -24,42 +25,44 @@ const PlayTaleList = function () {
   const imgRef = useRef<HTMLImageElement>(null)
   const { width, height } = useWidthHeight(imgRef)
 
-  const { isLoading, error, data: TaleStoreList } = usePlayTaleList()
+  const { isLoading, error, data: PlayTaleList } = usePlayTaleList()
 
-  if (!TaleStoreList) {
+  console.log(PlayTaleList)
+  if (!PlayTaleList) {
     return <LoadingComp />
   }
   return (
     <>
       <TaleNavigator />
-      <div className="canvas-under-bg-container h-full w-full flex items-center justify-center">
+      <img
+        alt="배경"
+        src={Background}
+        className="canvas-under-bg-container bg-vegis absolute -z-[60] h-full w-full"
+      />
+      <SuperHeroLanding>
         <AnimationBox
-          boxClasses="h-full w-full flex items-center justify-center"
-          appearClassName="animate-[appear-from-bottom-with-bounce_0.66s_0.44s_both]"
+          boxClasses="bg-vegis absolute w-full h-full px-[9.9%] py-[5.1%]"
+          appearClassName="animate-[appear-from-bottom-with-bounce_0.33s_both]"
         >
-          <img ref={imgRef} alt="bg" src={PanDDaegi} className="h-[90%]" />
+          <img
+            ref={imgRef}
+            alt="책장"
+            src={BookStand}
+            className="w-full h-full"
+          />
         </AnimationBox>
-      </div>
-      {/* <div className="canvas-under-bg-container w-full relative top-0">
-        <AnimationBox
-          boxClasses="h-full w-full flex items-center justify-center"
-          appearClassName="animate-[appear-from-bottom-with-bounce-second_0.66s_0.44s_both]"
-        >
-        <img alt="dg" src={DDuGGung} className="" />
-      </AnimationBox>
-      </div> */}
+      </SuperHeroLanding>
       <div
-        className="py-[6.9%] px-[9.9%]"
-        style={{ width: `${width}px`, height: `${height}px` }}
+        className="w-full h-[48%] flex flex-row overflow-y-scroll flex-wrap gap-[1%] px-30% absolute top-[38%] pl-[25.25%] pr-[24%]"
+        // style={{ width: `${width}px` }}
       >
-        <div className="w-full h-full flex flex-row overflow-y-scroll flex-wrap gap-[1%]">
-          {TaleStoreList.filter(
-            (val) => val.purchased === false /*이거 true임*/,
-          ).map((tale) => {
-            return <PlayTaleListItem tale={tale} />
-          })}
-        </div>
+        {PlayTaleList.filter(
+          (val) => val.purchased === true /*이거 true임*/,
+        ).map((tale) => {
+          return <PlayTaleListItem tale={tale} key={`play-tale-${tale.id}`} />
+        })}
       </div>
+      {/* </div> */}
     </>
   )
 }

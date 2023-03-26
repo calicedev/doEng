@@ -6,7 +6,7 @@ const PlayTalePage = function () {
   const { taleId, sceneOrder } = useParams()
   return (
     <>
-      <div className="canvas-under-bg-container w-full h-full bg-lime-100">
+      <div className="canvas-under-bg-container w-full h-full">
         {/* <AnimationBox boxClasses="fixed top-[50%] left-[30%]">
           <div className=" h-auto w-auto bg-red-700 -skew-x-[20deg] skew-y-[20deg] animate-salangsalang-left">
             ㅎㅇ
