@@ -7,7 +7,10 @@ import PlayTaleDetail from "./PlayTaleDetail"
 
 interface PropsPlayTaleItem {
   tale: PlayTale
+  animationOrder: number
 }
+
+const animationOrders = {}
 
 const PlayTaleListItem = function ({ tale }: PropsPlayTaleItem) {
   const navigate = useNavigate()
@@ -33,12 +36,16 @@ const PlayTaleListItem = function ({ tale }: PropsPlayTaleItem) {
   return (
     <>
       {isModal && (
-        <Modal closeModal={closeModal}>
+        <Modal
+          closeModal={closeModal}
+          parentClasses={`h-[90%] w-[90%] flex items-center justify-center`}
+        >
           <PlayTaleDetail taleId={tale.id} closeModal={closeModal} />
         </Modal>
       )}
       <AnimationBox
         boxClasses={`basis-[24%] h-[50%] flex flex-col items-center rounded-[13px] border-[3px] border-black shadow-lg flex items-center justify-center ${lockDownClasses}`}
+        appearClassName={`animate-[ppyong_0.22s_0.44s_both]`}
       >
         <img
           alt={`이미지aaa`}

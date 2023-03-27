@@ -16,58 +16,58 @@ const SuperHeroLanding = function ({ children }: PropsWithChildren) {
     <div className="canvas-under-bg-container h-full w-full flex items-center justify-center">
       <AnimationBox
         boxClasses="bg-vegis absolute top-0 left-0 w-[36%]"
-        appearClassName="animate-[appear-from-left-with-bounce_0.33s_both]"
+        appearClassName="animate-[appear-from-left-with-bounce_0.33s_0.11s_both]"
       >
         <img alt="좌상단" src={LeftTreeLeaves} className="w-full" />
       </AnimationBox>
       <AnimationBox
         boxClasses="bg-vegis absolute left-0 w-[20%]"
-        appearClassName="animate-[appear-from-left-with-bounce_0.33s_both]"
+        appearClassName="animate-[appear-from-left-with-bounce_0.33s_0.22s_both]"
       >
         <img alt="좌나무" src={LeftWood} className="w-full" />
       </AnimationBox>
       <AnimationBox
         boxClasses="bg-vegis absolute right-0 top-0 w-[39.5%]"
-        appearClassName="animate-[appear-from-right-with-bounce_0.33s_both]"
+        appearClassName="animate-[appear-from-right-with-bounce_0.33s_0.11s_both]"
       >
         <img alt="우상단" src={RightTreeLeaves} className="w-full scale-110" />
       </AnimationBox>
       <AnimationBox
-        boxClasses="bg-vegis absolute right-0 w-[20%]"
-        appearClassName="animate-[appear-from-right-with-bounce_0.33s_both]"
+        boxClasses="bg-vegis absolute right-0 w-[22.5%]"
+        appearClassName="animate-[appear-from-right-with-bounce_0.33s_0.22s_both]"
       >
         <img alt="우나무" src={RightWood} className="w-full" />
       </AnimationBox>
       {children}
       <AnimationBox
         boxClasses="bg-vegis absolute right-0 bottom-0 w-[20%]"
-        appearClassName="animate-[appear-from-right-with-bounce_0.33s_both]"
+        appearClassName="animate-[appear-from-right-with-bounce_0.33s_0.33s_both]"
       >
         <img
           alt="우잎"
           src={RightLeaf}
-          className="w-full animate-salangsalang-right"
+          className="w-full animate-salangsalang-right-leaf"
         />
       </AnimationBox>
       <AnimationBox
         boxClasses="bg-vegis absolute right-0 bottom-0 w-[28%]"
-        appearClassName="animate-[appear-from-right-with-bounce_0.33s_0.9s_both]"
+        appearClassName="animate-[appear-from-right-with-bounce_0.33s_0.44s_both]"
       >
         <img alt="우하단" src={RightBottom} className="w-full" />
       </AnimationBox>
       <AnimationBox
         boxClasses="bg-vegis absolute left-0 bottom-0 w-[20%]"
-        appearClassName="animate-[appear-from-left-with-bounce_0.33s_both]"
+        appearClassName="animate-[appear-from-left-with-bounce_0.33s_0.33s_both]"
       >
         <img
           alt="좌잎"
           src={LeftLeaf}
-          className="w-full animate-salangsalang-left"
+          className="w-full animate-salangsalang-left-leaf"
         />
       </AnimationBox>
       <AnimationBox
         boxClasses="bg-vegis absolute left-0 bottom-0 w-[28%]"
-        appearClassName="animate-[appear-from-left-with-bounce_0.33s_0.9s_both]"
+        appearClassName="animate-[appear-from-left-with-bounce_0.33s_0.44s_both]"
       >
         <img alt="좌하단" src={LeftBottom} className="w-full" />
       </AnimationBox>
