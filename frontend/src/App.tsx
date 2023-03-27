@@ -29,6 +29,7 @@ import { toastActions } from "store/toastSlice"
 import PayBridgePage from "pages/PayBridgePage"
 import MyPasswordPage from "pages/MyPasswordPage"
 import GoogleLoginLoadingPage from "pages/GoogleLoginLoadingPage"
+import WordCollectionPage from "pages/WordCollectionPage"
 
 // // ProtectedRoute 사용법
 // const TestApp = function () {
@@ -73,6 +74,7 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path={`playtale`} element={<PlayTalePage />}>
             <Route path={``} element={<PlayTaleList />} />
+            <Route path={`word/collect`} element={<WordCollectionPage />} />
             <Route
               path={`:taleId/:sceneOrder`}
               element={<SceneParent />}
