@@ -28,7 +28,7 @@ import { useStoreDispatch } from "hooks/useStoreSelector"
 import { toastActions } from "store/toastSlice"
 import PayBridgePage from "pages/PayBridgePage"
 import MyPasswordPage from "pages/MyPasswordPage"
-import GoogleLoginLoadingPage from "pages/GoogleLoginLoadingPage.tsx"
+import GoogleLoginLoadingPage from "pages/GoogleLoginLoadingPage"
 
 // // ProtectedRoute 사용법
 // const TestApp = function () {

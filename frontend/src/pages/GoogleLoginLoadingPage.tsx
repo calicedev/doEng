@@ -13,7 +13,7 @@ const GoogleLoginLoadingPage = function () {
       if (code) {
         apiRequest({
           method: `get`,
-          baseURL: `http://localhost:8200`,
+          // baseURL: `http://localhost:8200`,
           url: `/api/auth/login/code/GOOGLE/callback`,
           params: {
             code,
