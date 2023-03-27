@@ -26,19 +26,39 @@ function ProgressDetailPage() {
   return (
     <div className="h-full flex flex-nowrap">
       <div className=" basis-1/3 p-10 place-self-center">
-        {progressDetailData && <ProgressDetail tale={progressDetailData} />}
+        {progressDetailLoading ? (
+          <>
+            <div>로딩중입니다</div>
+          </>
+        ) : progressDetailData ? (
+          <ProgressDetail tale={progressDetailData} />
+        ) : (
+          <div>진행중인 동화가 존재하지 않습니다</div>
+        )}
       </div>
       <div className={`flex flex-col basis-2/3`}>
         <div className=" basis-1/2">
-          {progressDetailData && (
+          {progressDetailLoading ? (
+            <>
+              <div>로딩중입니다</div>
+            </>
+          ) : progressDetailData?.sceneList ? (
             <ProgressDetailPhoto talePhoto={progressDetailData.sceneList} />
+          ) : (
+            <div>사진이 존재하지 않습니다</div>
           )}
         </div>
-        {/* <div className="basis-1/2 place-self-center pt-[10%]">
-          {progressDetailData && (
+        <div className="basis-1/2 place-self-center pt-[10%]">
+          {progressDetailLoading ? (
+            <>
+              <div>로딩중입니다</div>
+            </>
+          ) : progressDetailData?.testResult ? (
             <ProgressDetailTest taleTest={progressDetailData.testResult} />
+          ) : (
+            <div>테스트 결과가 존재하지 않습니다</div>
           )}
-        </div> */}
+        </div>
       </div>
     </div>
   )

@@ -5,14 +5,26 @@ import { useUserQuery } from "hooks/queries/user"
 import { useUserMutation } from "hooks/queries/user"
 import { passwordValidation } from "utils/validation"
 import useINEP from "hooks/useINEP"
-import { useStoreDispatch } from "hooks/useStoreSelector"
+import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import MyPageInput from "../common/MyPageInput"
+import { passwordActions } from "store/passwordSlice"
 
-function Profile() {
+function ProfilePassword() {
+  const dispatch = useStoreDispatch()
   const navigate = useNavigate()
   const { mutate: ProfileMutate, mutateAsync: ProfileMutateAsync } =
     useUserMutation()
   const [passwordRef] = [useRef<HTMLInputElement>(null)]
+  const { isCert } = useStoreSelector((state) => state.password)
+
+  useEffect(
+    function () {
+      if (isCert) {
+        navigate(`progress`)
+      }
+    },
+    [isCert],
+  )
 
   const {
     inputData: passwordInput,
@@ -22,16 +34,6 @@ function Profile() {
     onBlurHandler: passwordBlurHandler,
   } = useInput(passwordRef, passwordValidation)
 
-  const profileHandler = function () {
-    ProfileMutate({
-      method: `post`,
-      url: `/api/member/check/password`,
-      data: {
-        password: `${passwordInput}`,
-      },
-    })
-  }
-
   const profileAsyncHandler = function () {
     ProfileMutateAsync({
       method: `post`,
@@ -40,7 +42,8 @@ function Profile() {
         password: passwordInput,
       },
     }).then((res) => {
-      navigate(`info`)
+      dispatch(passwordActions.rightPassword({}))
+      navigate(`progress`)
     })
   }
 
@@ -59,4 +62,4 @@ function Profile() {
   )
 }
 
-export default Profile
+export default ProfilePassword

@@ -6,12 +6,12 @@ interface Props {
 }
 
 function ProgressDetailTest({ taleTest }: PropsWithChildren<Props>) {
-  const wordTrueCounts: number[] = taleTest.wordList.map(
+  const wordTrueCounts: number[] = taleTest.wordList?.map(
     (word: WordList) =>
-      word.correctList.filter((value: boolean) => value).length,
+      word.correctList?.filter((value: boolean) => value).length,
   )
 
-  const testTrueCounts: number[] = taleTest.wordList[0].correctList.map(
+  const testTrueCounts: number[] = taleTest.wordList[0]?.correctList?.map(
     (_, i) =>
       taleTest.wordList.reduce(
         (acc, word) => acc + (word.correctList[i] ? 1 : 0),
@@ -35,7 +35,9 @@ function ProgressDetailTest({ taleTest }: PropsWithChildren<Props>) {
                 {i + 1}회
               </th>
             ))}
-            <th className="bg-orange-200">정답률</th>
+            <th className="bg-orange-200  border-orange-400 border-4">
+              정답률
+            </th>
           </tr>
         </thead>
         <tbody>
@@ -66,7 +68,7 @@ function ProgressDetailTest({ taleTest }: PropsWithChildren<Props>) {
             <td className="border-4 border-collapse border-orange-400 px-4 py-2">
               점수
             </td>
-            {testTrueCounts.map((count, i) => (
+            {testTrueCounts?.map((count, i) => (
               <td
                 key={i}
                 className="border-4 border-collapse border-orange-400 px-4 py-2"

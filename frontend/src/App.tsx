@@ -27,6 +27,7 @@ import { useEffect } from "react"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import { toastActions } from "store/toastSlice"
 import PayBridgePage from "pages/PayBridgePage"
+import MyPasswordPage from "pages/MyPasswordPage"
 
 // // ProtectedRoute 사용법
 // const TestApp = function () {
@@ -57,7 +58,7 @@ function App() {
           <Route path={`find`} element={<Find />} />
         </Route>
         <Route path={`/mypage`} element={<MyPage />}>
-          <Route path={``} element={<ProgressListPage />} />
+          <Route path={``} element={<MyPasswordPage />} />
           <Route path={`progress`} element={<ProgressListPage />} />
           <Route path={`progress/:taleId`} element={<ProgressDetailPage />} />
           <Route path={`talestore`} element={<TaleStorePage />} />
