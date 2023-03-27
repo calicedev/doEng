@@ -1,10 +1,26 @@
-import React from "react"
-import { Outlet } from "react-router-dom"
+import React, { useEffect } from "react"
+import { Outlet, useNavigate } from "react-router-dom"
 import BackgroundImg from "assets/images/MyPageBackground.png"
 import MyPageNavigation from "components/MyPageComponents/common/MyPageNavigation"
 import MyPageTab from "components/MyPageComponents/common/MyPageTab"
+import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
+import { passwordActions } from "store/passwordSlice"
 
 function MyPage() {
+  const { isCert } = useStoreSelector((state) => state.password)
+  const navigate = useNavigate()
+  const dispatch = useStoreDispatch()
+  useEffect(function () {
+    dispatch(passwordActions.wrongPassword({}))
+  }, [])
+  useEffect(
+    function () {
+      if (!isCert) {
+        navigate(`/mypage`)
+      }
+    },
+    [isCert],
+  )
   return (
     <div
       className="flex flex-col gap-2 w-full h-full p-5 bg-cover bg-center bg-no-repeat "
