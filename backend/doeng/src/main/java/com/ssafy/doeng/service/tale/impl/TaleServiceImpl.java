@@ -149,8 +149,8 @@ public class TaleServiceImpl implements TaleService {
                         .id(word.getId())
                         .engWord(word.getEngWord())
                         .korWord(word.getKorWord())
-                        .image(word.getImage())
-                        .voice(word.getVoice())
+                        .image(awsS3Service.getTemporaryUrl(word.getImage()))
+                        .voice(awsS3Service.getTemporaryUrl(word.getVoice()))
                         .correct(correctIdList.contains(word.getId()))
                         .build()
         ).collect(Collectors.toList());
@@ -173,7 +173,7 @@ public class TaleServiceImpl implements TaleService {
             ResponseProgressTaleDto progressTaleDto = ResponseProgressTaleDto.builder()
                     .id(t.getId())
                     .title(t.getTitle())
-                    .backgroundImage(t.getBackgroundImage())
+                    .backgroundImage(awsS3Service.getTemporaryUrl(t.getBackgroundImage()))
                     .progress(progress)
                     .build();
             taleList.add(progressTaleDto);
@@ -205,7 +205,7 @@ public class TaleServiceImpl implements TaleService {
         var progressTaleDetailDto = ResponseProgressTaleDetailDto.builder()
                 .id(tale.getId())
                 .title(tale.getTitle())
-                .backgroundImage(tale.getBackgroundImage())
+                .backgroundImage(awsS3Service.getTemporaryUrl(tale.getBackgroundImage()))
                 .sceneList(makeSceneList(scenes))
                 .testResult(maxCount == 0 ? null : makeTest(testList, maxCount))
                 .build();
@@ -260,7 +260,7 @@ public class TaleServiceImpl implements TaleService {
         LOGGER.info("[TaleServiceImpl] makeImageList 시작");
         List<ResponseProgressImageDto> returnDtoList = pictures.stream().map(picture -> ResponseProgressImageDto.builder()
                 .id(picture.getId())
-                .image(picture.getImage())
+                .image(awsS3Service.getTemporaryUrl(picture.getImage()))
                 .build()
         ).collect(Collectors.toList());
         LOGGER.info("[TaleServiceImpl] makeImageList 종료");
@@ -279,7 +279,7 @@ public class TaleServiceImpl implements TaleService {
             ResponsePaymentTaleDto paymentTaleDto = ResponsePaymentTaleDto.builder()
                     .id(t.getId())
                     .title(t.getTitle())
-                    .backgroundImage(t.getBackgroundImage())
+                    .backgroundImage(awsS3Service.getTemporaryUrl(t.getBackgroundImage()))
                     .score(score)
                     .purchased(isPurchased)
                     .build();
@@ -334,7 +334,7 @@ public class TaleServiceImpl implements TaleService {
         var responsePaymentTaleDetailDto = ResponsePaymentTaleDetailDto.builder()
                 .id(tale.getId())
                 .title(tale.getTitle())
-                .backgroundImage(tale.getBackgroundImage())
+                .backgroundImage(awsS3Service.getTemporaryUrl(tale.getBackgroundImage()))
                 .description(tale.getDescription())
                 .score(getReviewSum(taleId))
                 .price(tale.getPrice())
