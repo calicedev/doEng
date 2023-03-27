@@ -51,14 +51,19 @@ function Login() {
     apiRequest({
       method: `get`,
       url: `/api/auth/login/GOOGLE`,
-    }).then((res) => {
-      apiRequest({
-        method: ``,
-        url: ``,
-      })
-      console.log(res)
-      window.location.href = res.data
     })
+      .then((res) => {
+        // apiRequest({
+        //   method: ``,
+        //   url: ``,
+        // })
+        console.log(res)
+        window.location.href = res.data
+      })
+      .catch((err) => {
+        console.log(err)
+        dispatch(DispatchToast("재시도 부탁드립니다!", false))
+      })
   }
 
   const loginHandler = function (e: FormEvent) {

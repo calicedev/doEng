@@ -18,9 +18,14 @@ const GoogleLoginLoadingPage = function () {
           params: {
             code,
           },
-        }).then((res) => {
-          console.log(res)
         })
+          .then((res) => {
+            console.log(res)
+            navigate("/mypage")
+          })
+          .catch((err) => {
+            console.log(err)
+          })
       }
     },
     [searchParams],
