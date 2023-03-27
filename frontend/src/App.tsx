@@ -55,6 +55,7 @@ function App() {
           <Route path={`login`} element={<Login />} />
           <Route path={`signup`} element={<Signup />} />
           <Route path={`find`} element={<Find />} />
+          <Route path={`google`} element={<Find />} />
         </Route>
         <Route path={`/mypage`} element={<MyPage />}>
           <Route path={``} element={<ProgressListPage />} />
