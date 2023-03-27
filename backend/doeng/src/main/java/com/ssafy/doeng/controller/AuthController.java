@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/api/auth")
+@RequestMapping("/auth")
 public class AuthController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
