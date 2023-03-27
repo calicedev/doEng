@@ -74,6 +74,10 @@ function App() {
           <Route path={`playtale`} element={<PlayTalePage />}>
             <Route path={``} element={<PlayTaleList />} />
             <Route
+              path={`:taleId/test`}
+              element={<div>App.tsx에서 변경 바람</div>}
+            ></Route>
+            <Route
               path={`:taleId/:sceneOrder`}
               element={<SceneParent />}
             ></Route>

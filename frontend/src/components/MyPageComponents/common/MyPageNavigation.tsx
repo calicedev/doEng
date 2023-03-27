@@ -4,6 +4,10 @@ import IconButton from "components/UI/IconButton"
 import { TbArrowBigLeftFilled } from "react-icons/tb"
 import { HiUserCircle } from "react-icons/hi"
 import { useNavigate } from "react-router-dom"
+import { useStoreDispatch } from "hooks/useStoreSelector"
+import { useUserData, useUserMutation } from "hooks/queries/queries"
+import { tokenActions } from "store/tokenSlice"
+import { DispatchToast } from "store"
 
 /*
 마이페이지(/mypage) 상단에 나오는 네비게이션 바
@@ -11,6 +15,23 @@ import { useNavigate } from "react-router-dom"
 
 export default function MyPageNavigation() {
   const navigate = useNavigate()
+  const dispatch = useStoreDispatch()
+  const { mutateAsync: logoutFunc } = useUserMutation()
+  const logoutHandler = function () {
+    logoutFunc({
+      method: `delete`,
+      url: `/api/member/logout`,
+    })
+      .then((res) => {
+        console.log(res)
+        dispatch(tokenActions.deleteTokens({}))
+        dispatch(DispatchToast("로그아웃 성공!", true))
+      })
+      .catch((err) => {
+        console.log(err)
+        dispatch(DispatchToast("로그아웃에 실패하셨습니다.", false))
+      })
+  }
 
   return (
     <div className="flex justify-between items-center">
@@ -26,7 +47,7 @@ export default function MyPageNavigation() {
           icon={<HiUserCircle />}
           colorClass={`text-yellow-100`}
           label="로그아웃"
-          onClick={(e) => navigate("/join/login")}
+          onClick={logoutHandler}
         />
       </div>
     </div>

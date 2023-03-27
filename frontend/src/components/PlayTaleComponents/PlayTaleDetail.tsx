@@ -51,10 +51,16 @@ const PlayTaleDetailCompo = function ({
   const [customWidth, setCustomWidth] = useState<number>(height * 0.73)
   useEffect(
     function () {
-      setCustomWidth(() => height * 0.73)
+      setCustomWidth(() => height * 0.57)
     },
     [height],
   )
+  const onRestartHandler = function () {
+    navigate(`${taleId}/1`)
+  }
+  const onContinueHandler = function () {
+    navigate(`${taleId}/${PlayTaleDetailData?.sceneOrder}`)
+  }
   return (
     <>
       <div
@@ -69,23 +75,45 @@ const PlayTaleDetailCompo = function ({
           className={`absolute top-[7%] right-[5%] min-w-[50px] min-h-[50px] max-w-[80px] max-h-[80px] cursor-pointer hover:scale-110 duration-[0.33s]`}
         />
         <div
-          className="basis-[51%] h-full flex flex-col items-end justify-center pt-[6%] pb-[8%] bg-red-300 bg-opacity-60"
+          className="h-full flex flex-col items-center justify-center pt-[5%] pb-[11%] bg-opacity-60 pr-[1.7%]"
           style={{ width: `${customWidth}px` }}
         >
-          <div className="basis-[10%]">{PlayTaleDetailData?.title}</div>
+          <div className="basis-[10%] font-hopang-black text-[3.3rem]">
+            {PlayTaleDetailData?.title}
+          </div>
           <img
             alt="메인 이미지"
             src={PlayTaleDetailData?.mainImage}
             className="basis-[50%]"
           />
-          <div className="basis-[20%]">진행도</div>
-          <div className="basis-[20%] flex flex-row items=center justify-center">
-            <div>버튼1</div>
-            <div>버튼2</div>
+          <div className="basis-[8.9%] flex items-center justify-center">
+            진행도
+          </div>
+          <div className="basis-[10%] w-full flex flex-row items-center justify-center gap-5 px-[8%] pb-[2%]">
+            <div
+              className="basis-[44%] w-[44%] flex items-center justify-center rounded-full cursor-pointer bg-lime-300 h-full border-[5px] border-lime-500 shadow-lg duration-[0.33s] hover:scale-[107%] font-jalnan text-[1.1rem] md:text-[1.4rem] lg:text-[1.6rem]"
+              onClick={onContinueHandler}
+            >
+              Continue
+            </div>
+            <div
+              className="basis-[44%] w-[44%] flex items-center justify-center rounded-full cursor-pointer bg-lime-300 h-full border-[5px] border-lime-500 shadow-lg duration-[0.33s] hover:scale-[107%] font-jalnan text-[1.1rem] md:text-[1.4rem] lg:text-[1.6rem]"
+              onClick={onRestartHandler}
+            >
+              Restart
+            </div>
           </div>
         </div>
-        <div className="basis-[49%] w-full h-full flex items-center justify-center">
-          우하하
+        <div
+          className="h-full flex flex-col items-center justify-center pt-[5%] pb-[11%] bg-opacity-60 pl-[1.7%] bg-red-300 bg-contain bg-no-repeat bg-clip-content bg-right"
+          // bg-play-detail-right-osolgil
+          style={{ width: `${customWidth}px` }}
+        >
+          <img
+            alt="오솔길"
+            src={DetailRightBackground}
+            className="w-full h-full object-cover object-bottom"
+          />
         </div>
       </div>
     </>
