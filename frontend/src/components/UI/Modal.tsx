@@ -1,12 +1,17 @@
-import { PropsWithChildren, MouseEvent } from 'react'
-import ReactDOM from 'react-dom'
-import { ImCross } from 'react-icons/im'
+import { PropsWithChildren, MouseEvent } from "react"
+import ReactDOM from "react-dom"
+import { ImCross } from "react-icons/im"
 
 interface Props {
   closeModal: () => void
+  parentClasses?: string
 }
 
-function Modal({ closeModal, children }: PropsWithChildren<Props>) {
+function Modal({
+  closeModal,
+  parentClasses,
+  children,
+}: PropsWithChildren<Props>) {
   return (
     <>
       {ReactDOM.createPortal(
@@ -15,10 +20,15 @@ function Modal({ closeModal, children }: PropsWithChildren<Props>) {
             onClick={closeModal}
             className={`flex justify-center items-center absolute z-50 top-0 right-0 bg-black bg-opacity-50 w-full h-full`}
           >
-            <div onClick={(e) => e.stopPropagation()}>{children}</div>
+            <div
+              className={`${parentClasses}`}
+              onClick={(e) => e.stopPropagation()}
+            >
+              {children}
+            </div>
           </div>
         </>,
-        document.getElementById('overlay-root')!,
+        document.getElementById("overlay-root")!,
       )}
     </>
   )

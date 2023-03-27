@@ -78,10 +78,21 @@ module.exports = {
         "tale-nav-logo": "url('/src/assets/images/TaleNavLogo.png')",
         "tale-nav-logo-container":
           "url('/src/assets/images/TaleNavLogoContainer.png')",
+        "play-detail-open-book": `url("/src/assets/images/DetailBackground.png")`,
+        "play-detail-right-osolgil": `url("/src/assets/images/DetailRightBackground.png")`,
       },
       // animate-[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction]
       animation: {
-        "salangsalang-left": "salang-salang-left 5s 1.8s both infinite",
+        "ppyong-super-fast": "ppyong 0.11s both",
+        "ppyong-fast": "ppyong 0.33s both",
+        "ppyong-base": "ppyong 0.66s both",
+        "ppyong-normal": "ppyong 0.99s both",
+        "ppyong-slow": "ppyong 1.44s both",
+        "ppyong-super-slow": "ppyong 2.22s both",
+        "salangsalang-left": "salang-salang-left 5s both infinite",
+        "salangsalang-left-leaf": "salang-salang-left 6s both infinite",
+        "salangsalang-right": "salang-salang-right 5s both infinite",
+        "salangsalang-right-leaf": "salang-salang-right 7s both infinite",
         "appear-top-nav": "appear-top-nav 0.66s 0.11s both",
         "appear-from-left-super-slow":
           "appear-from-left 2.22s ease-in-out both",
@@ -308,8 +319,13 @@ module.exports = {
         },
         "salang-salang-left": {
           "0%": { transform: "skew(-20deg, 20deg) translate(0,0)" },
-          "50%": { transform: "skew(-5deg, 5deg) translate(8%, 0)" },
+          "50%": { transform: "skew(-5deg, 5deg) translate(-23%, 0)" },
           "100%": { transform: "skew(-20deg, 20deg) translate(0,0)" },
+        },
+        "salang-salang-right": {
+          "0%": { transform: "skew(20deg, -20deg) translate(0,0)" },
+          "50%": { transform: "skew(5deg, -5deg) translate(23%, 0)" },
+          "100%": { transform: "skew(20deg, -20deg) translate(0,0)" },
         },
         "appear-from-bottom-with-bounce": {
           "0%": { transform: "translate(0, 120%)" },
@@ -317,11 +333,34 @@ module.exports = {
           "75%": { transform: "translate(0, 8%)" },
           "100%": { transform: "translate(0, 0)" },
         },
+        "appear-from-top-with-bounce": {
+          "0%": { transform: "translate(0, -120%)" },
+          "50%": { transform: "translate(0, 10%)" },
+          "75%": { transform: "translate(0, -8%)" },
+          "100%": { transform: "translate(0, 0)" },
+        },
+        "appear-from-left-with-bounce": {
+          "0%": { transform: "translate(-120%, 0)" },
+          "50%": { transform: "translate(10%, 0)" },
+          "75%": { transform: "translate(-8%, 0)" },
+          "100%": { transform: "translate(0, 0)" },
+        },
+        "appear-from-right-with-bounce": {
+          "0%": { transform: "translate(120%, 0)" },
+          "50%": { transform: "translate(-10%, 0)" },
+          "75%": { transform: "translate(8%, 0)" },
+          "100%": { transform: "translate(0, 0)" },
+        },
         "appear-from-bottom-with-bounce-second": {
           "0%": { transform: "translate(0, 1000%)" },
           "50%": { transform: "translate(0, -20%)" },
           "75%": { transform: "translate(0, 20%)" },
           "100%": { transform: "translate(0, 0)" },
+        },
+        ppyong: {
+          "0%": { transform: "scale(0%)" },
+          "95%": { transform: "scale(107%)" },
+          "100%": { transform: "scale(100%)" },
         },
       },
     },

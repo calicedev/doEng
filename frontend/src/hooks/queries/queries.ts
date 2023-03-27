@@ -1,10 +1,10 @@
 import axios from "axios"
-import { useQuery } from "react-query"
+import { useQuery } from "@tanstack/react-query"
 import apiRequest from "utils/axios"
 import { queryKeys } from "./queryKeys"
 
 export interface ID {
-  id: number | string
+  id: number
 }
 
 export interface Word extends ID {
@@ -84,11 +84,15 @@ export interface ProgressTestResult {
     correctList: boolean[]
   }[]
 }
+export interface WordList {
+  engWord: string
+  correctList: boolean[]
+}
 export interface ProgressTaleDetail extends ID {
   title: string
   backgroundImage: string
   sceneList: ProgressScene[]
-  testResult: ProgressTestResult[]
+  testResult: ProgressTestResult
 }
 export interface Material extends ID {
   name: string

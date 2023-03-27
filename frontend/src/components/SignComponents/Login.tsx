@@ -13,7 +13,7 @@ import Toast from "components/UI/Toast"
 import { findActions } from "store/findSlice"
 import apiRequest from "utils/axios"
 import { useUserMutation } from "hooks/queries/user"
-import { useMutation, useQueryClient } from "react-query"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { tokenActions } from "store/tokenSlice"
 
 function Login() {
@@ -46,6 +46,20 @@ function Login() {
     isError: loginError,
     axiosRequest: loginRequest,
   } = useApi()
+
+  const googleLoginHandler = function () {
+    apiRequest({
+      method: `get`,
+      url: `/api/auth/login/GOOGLE`,
+    }).then((res) => {
+      apiRequest({
+        method: ``,
+        url: ``,
+      })
+      console.log(res)
+      window.location.href = res.data
+    })
+  }
 
   const loginHandler = function (e: FormEvent) {
     e.preventDefault()
@@ -211,6 +225,12 @@ function Login() {
             onClick={goSignupHandler}
           >
             회원 가입
+          </div>
+          <div
+            className={`box-border flex basis-[50%] items-center justify-center w-full h-full rounded-full font-hopang-white cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[5deg] hover:-skew-y-[5deg] text-sm sm:text-xl mobile:text-lg md:text-2xl lg:text-3xl text-black`}
+            onClick={googleLoginHandler}
+          >
+            구글 로그인
           </div>
         </div>
       </form>

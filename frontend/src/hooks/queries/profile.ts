@@ -6,7 +6,7 @@ import {
   useQueryClient,
   UseQueryResult,
   UseMutationResult,
-} from "react-query"
+} from "@tanstack/react-query"
 import { useNavigate } from "react-router-dom"
 import { DispatchToast } from "store"
 import apiRequest from "utils/axios"
