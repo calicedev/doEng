@@ -36,7 +36,10 @@ function ProgressDetailPhoto({ talePhoto }: PropsWithChildren<Props>) {
               <div className=" relative h-full w-[25%] mr-5 ml-5">
                 <div className=" bg-white w-full h-full rotate-12 shadow-lg"></div>
                 <div className="absolute top-0 left-0 w-full h-full p-5 shadow-lg overflow-hidden transform hover:rotate-3 hover:-translate-x-1 hover:-translate-y-1 duration-200 bg-white">
-                  <ProgressDetailPhotoCard key={photo.id} photoCard={photo} />
+                  <ProgressDetailPhotoCard
+                    key={photo.sceneTitle}
+                    photoCard={photo}
+                  />
                 </div>
               </div>
             ))}
