@@ -66,23 +66,7 @@ public class OAuthService {
                 String username = googleUser.getEmail();
                 if (memberRepository.findByEmail(username).isEmpty()) {
 
-                    //멤버생성
-                    RequestSignupDto requestDto =new RequestSignupDto();
-                    requestDto.setMemberId(googleUser.email);
-                    requestDto.setEmail(googleUser.email);
-                    requestDto.setName(googleUser.name);
-                    requestDto.setNickname(googleUser.name);
-                    requestDto.setPassword("11111");
-                    requestDto.setPhone(UUID.randomUUID().toString());
-                    Member member = new Member();
-                    member.setMemberId(requestDto.getMemberId());
-                    member.setPassword(passwordEncoder.encode(requestDto.getPassword()));
-                    member.setEmail(requestDto.getEmail());
-                    member.setPhone(requestDto.getPhone());
-                    member.setName(requestDto.getName());
-                    member.setAuthority(Authority.ROLE_USER);
-                    member.setNickname(requestDto.getNickname());
-                    memberRepository.save(member);
+
                 }
 
                 if (username != null) {
