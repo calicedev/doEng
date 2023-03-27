@@ -1,4 +1,4 @@
-import { useUserQuery } from "hooks/queries/user"
+import { useUserData } from "hooks/queries/queries"
 import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import SignPage from "pages/SignPage"
 import { PropsWithChildren, useEffect } from "react"
@@ -9,7 +9,7 @@ import { SpinnerDots } from "./Spinner"
 interface Props {}
 
 const ProtectedRoute = function ({ children }: PropsWithChildren<Props>) {
-  const { isLoading, data } = useUserQuery()
+  const { isLoading, data } = useUserData()
   const dispatch = useStoreDispatch()
   useEffect(
     function () {

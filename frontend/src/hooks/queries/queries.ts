@@ -1,5 +1,5 @@
-import axios from "axios"
-import { useQuery } from "@tanstack/react-query"
+import axios, { AxiosRequestConfig } from "axios"
+import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import apiRequest from "utils/axios"
 import { queryKeys } from "./queryKeys"
 
@@ -228,4 +228,18 @@ export const useWordTestResult = function (taleId: number) {
       url: `/api/word-test/${taleId}`,
     }).then((res) => res.data)
   })
+}
+
+export const useUserMutation = function () {
+  const queryClient = useQueryClient()
+  return useMutation(
+    function (request: AxiosRequestConfig) {
+      return apiRequest(request)
+    },
+    {
+      onSuccess() {
+        queryClient.invalidateQueries(queryKeys.user())
+      },
+    },
+  )
 }

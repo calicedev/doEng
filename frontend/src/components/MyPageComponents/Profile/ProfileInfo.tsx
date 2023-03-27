@@ -5,7 +5,7 @@ import React, { useState, useRef, useEffect } from "react"
 import Modal from "components/UI/Modal"
 import MyPageInput from "../common/MyPageInput"
 import { useSelector } from "react-redux"
-import { useUserQuery } from "hooks/queries/user"
+import { useUserData } from "hooks/queries/queries"
 import { useInput } from "hooks/useInput"
 
 interface userData {
@@ -38,7 +38,7 @@ function ProfileInfo() {
     isLoading: queryLoading,
     error: queryError,
     data: user,
-  } = useUserQuery()
+  } = useUserData()
 
   useEffect(
     function () {

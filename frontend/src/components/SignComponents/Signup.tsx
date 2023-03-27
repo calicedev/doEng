@@ -12,7 +12,7 @@ import {
   phoneValidation,
 } from "../../utils/validation"
 import useApi from "../../hooks/useApi"
-import axios from "axios"
+import axios, { AxiosRequestConfig } from "axios"
 import AnimationBox from "components/UI/AnimationBox"
 import SignupSecondForm from "./SignupSecondForm"
 import { FaArrowLeft, FaArrowRight } from "react-icons/fa"
@@ -21,10 +21,22 @@ import Toast from "components/UI/Toast"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import { DispatchToast } from "store"
 import useINEP from "hooks/useINEP"
-import { useUserMutation } from "hooks/queries/user"
+import { useMutation, useQueryClient } from "@tanstack/react-query"
+import apiRequest from "utils/axios"
+import { queryKeys } from "hooks/queries/queryKeys"
 
 function Signup() {
-  const { mutateAsync: SignupMutate } = useUserMutation()
+  const queryClient = useQueryClient()
+  const { mutateAsync: SignupMutate } = useMutation(
+    function (request: AxiosRequestConfig) {
+      return apiRequest(request)
+    },
+    {
+      onSuccess: function () {
+        queryClient.invalidateQueries(queryKeys.user())
+      },
+    },
+  )
   const dispatch = useStoreDispatch()
   const navigate = useNavigate()
   const [step, setStep] = useState<boolean>(true)
