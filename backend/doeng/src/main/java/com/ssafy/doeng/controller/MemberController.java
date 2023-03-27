@@ -60,6 +60,7 @@ public class MemberController {
         return ResponseEntity.ok(memberService.getMemberInfo(id));
     }
 
+
     @PatchMapping
     public ResponseEntity modifyMemberInfo(@RequestBody RequestModifyMemberDto requestDto){
         LOGGER.info("[ModifyMemberInfo] 회원 수정 정보 들어옴");
@@ -97,7 +98,10 @@ public class MemberController {
         return new ResponseEntity(HttpStatus.OK);
     }
 
-
+    @GetMapping("/ai")
+    public ResponseEntity<Long> ai(@LoginId Long id){
+        return ResponseEntity.ok(id);
+    }
 
 
 }
