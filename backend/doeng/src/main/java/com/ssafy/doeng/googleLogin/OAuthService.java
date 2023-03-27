@@ -3,6 +3,7 @@ package com.ssafy.doeng.googleLogin;
 import com.ssafy.doeng.data.dto.member.TokenDto;
 import com.ssafy.doeng.data.dto.member.request.RequestMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
+import com.ssafy.doeng.data.entity.member.Authority;
 import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.repository.member.MemberRepository;
 import com.ssafy.doeng.errors.code.MemberErrorCode;
@@ -66,39 +67,43 @@ public class OAuthService {
 
                     //멤버생성
                     RequestSignupDto requestDto =new RequestSignupDto();
-                    requestDto.setMemberId(googleUser.name);
+                    requestDto.setMemberId(googleUser.email);
                     requestDto.setEmail(googleUser.email);
                     requestDto.setName(googleUser.name);
                     requestDto.setNickname(googleUser.name);
-                    requestDto.setPassword(UUID.randomUUID().toString());
+                    requestDto.setPassword("11111");
                     requestDto.setPhone(UUID.randomUUID().toString());
                     Member member = new Member();
                     member.setMemberId(requestDto.getMemberId());
-                    member.setPassword(requestDto.getPassword());
+                    member.setPassword(passwordEncoder.encode(requestDto.getPassword()));
                     member.setEmail(requestDto.getEmail());
                     member.setPhone(requestDto.getPhone());
                     member.setName(requestDto.getName());
+                    member.setAuthority(Authority.ROLE_USER);
                     member.setNickname(requestDto.getNickname());
                     memberRepository.save(member);
                 }
 
                 if (username != null) {
+                    System.out.println("1+++++++++++++++++++++");
                     Member member = memberRepository.findByEmail(username).orElseThrow(
                             () -> new ErrorException(MemberErrorCode.MEMBER_DUPLICATE));
                     //서버에 user가 존재하면 앞으로 회원 인가 처리를 위한 jwtToken을 발급한다.
                     RequestMemberDto requestDto = new RequestMemberDto();
                     requestDto.setMemberId(member.getMemberId());
-                    requestDto.setPassword(member.getPassword());
+                    requestDto.setPassword("11111");
+                    System.out.println("2+++++++++++++++++++++");
                     UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
+                    System.out.println("3+++++++++++++++++++++");
                     // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
                     //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
                     //    customeruservice에서 처리함.
                     Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
                     // 3. 인증 정보를 기반으로 JWT 토큰 생성
+                    System.out.println("4+++++++++++++++++++++");
                     TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-
                     //액세스 토큰과 Authorization, 이외 정보들이 담긴 자바 객체를 다시 전송한다.
-                    return new GetSocialOAuthRes(tokenDto,username, oAuthToken.getAccess_token(), oAuthToken.getToken_type());
+                    return new GetSocialOAuthRes(tokenDto, username, oAuthToken.getAccess_token(), oAuthToken.getToken_type());
                 } else {
                     throw new IllegalArgumentException("계정이 존재하지 않습니다.");
                 }

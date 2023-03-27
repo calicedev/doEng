@@ -6,7 +6,6 @@ import com.ssafy.doeng.data.dto.review.response.ResponseReviewDto;
 import com.ssafy.doeng.data.dto.review.vo.ReviewSum;
 import com.ssafy.doeng.data.dto.scene.response.ResponseProgressSceneDto;
 import com.ssafy.doeng.data.dto.tale.request.RequestTaleDetailDto;
-import com.ssafy.doeng.data.dto.tale.request.RequestTalePaymentDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseMainTaleDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDetailDto;
@@ -41,6 +40,7 @@ import com.ssafy.doeng.errors.code.PaymentErrorCode;
 import com.ssafy.doeng.errors.code.TaleErrorCode;
 import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.service.Common;
+import com.ssafy.doeng.service.aws.AwsS3Service;
 import com.ssafy.doeng.service.tale.TaleService;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
@@ -74,6 +74,8 @@ public class TaleServiceImpl implements TaleService {
     private final TestRepository testRepository;
     private final MaterialRepository materialRepository;
 
+    private final AwsS3Service awsS3Service;
+
     @Override
     public List<ResponseMainTaleDto> getTaleList(long memberId) {
         //// 에러처리 확실히 하기!
@@ -85,7 +87,7 @@ public class TaleServiceImpl implements TaleService {
         List<ResponseMainTaleDto> responseDto = taleList.stream().map(
                 tale -> (ResponseMainTaleDto.builder()
                         .id(tale.getId())
-                        .backgroundImage(tale.getBackgroundImage())
+                        .backgroundImage(awsS3Service.getTemporaryUrl(tale.getBackgroundImage()))
                         .title(tale.getTitle())
                         .purchased(purchasedIdSet.contains(tale.getId()))
                         .build())
@@ -118,7 +120,7 @@ public class TaleServiceImpl implements TaleService {
                 .sceneOrder(getOrder(progresses))
                 .taleDone(progresses.size() == tale.getScenes().size())
                 .sceneCount(tale.getScenes().size())
-                .mainImage("메인 이미지 위치")
+                .mainImage(awsS3Service.getTemporaryUrl(tale.getMainImage()))
                 .build();
 
         LOGGER.info("[TaleServiceImpl] getTaleList 종료");
@@ -353,19 +355,5 @@ public class TaleServiceImpl implements TaleService {
             score = Math.round((sum / reviewSum.get().getCount()) * 10) / 10.0;
         }
         return score;
-    }
-
-    public void postTalePayment(RequestTalePaymentDto requestDto) {
-        LOGGER.info("[TaleServiceImpl] 결제 저장 service 들어옴");
-        Member member = common.getMember(requestDto.getMemberId());
-        Tale tale = common.getTale(requestDto.getTaleId());
-
-        Payment payment = Payment.builder()
-                .tale(tale)
-                .member(member)
-                .build();
-
-        paymentRepository.save(payment);
-        LOGGER.info("[TaleServiceImpl] 결제 저장 완료");
     }
 }

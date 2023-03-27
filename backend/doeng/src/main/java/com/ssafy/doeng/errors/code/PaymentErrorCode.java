@@ -7,7 +7,7 @@ import org.springframework.http.HttpStatus;
 @Getter
 @RequiredArgsConstructor
 public enum PaymentErrorCode implements ErrorCode {
-    PAYMENT_UNAUTHORIZED(HttpStatus.FORBIDDEN, "구매하지 않은 동화입니다."),
+    PAYMENT_UNAUTHORIZED(HttpStatus.UNAUTHORIZED, "구매하지 않은 동화입니다."),
     ;
 
     private final HttpStatus httpStatus;

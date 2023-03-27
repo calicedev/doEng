@@ -42,7 +42,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequiredArgsConstructor
-@RequestMapping("/auth")
+@RequestMapping("/api/auth")
 public class AuthController {
 
     private static final Logger LOGGER = LoggerFactory.getLogger(MemberController.class);
@@ -137,18 +137,23 @@ public class AuthController {
     @GetMapping("/login/{socialLoginType}") //GOOGLE이 들어올 것이다.
     public String socialLoginRedirect(@PathVariable(name = "socialLoginType") String SocialLoginPath, HttpServletResponse response) throws IOException {
         SocialLoginType socialLoginType = SocialLoginType.valueOf(SocialLoginPath.toUpperCase());
-
+        System.out.println("여기1");
         return oAuthService.request(socialLoginType);
     }
 
 
-    @GetMapping("login/code/{socialLoginType}/callback")
-    public GetSocialOAuthRes callback(
+    @GetMapping("/login/code/{socialLoginType}/callback")
+    public ResponseEntity callback(
             @PathVariable(name = "socialLoginType") String socialLoginPath,
             @RequestParam(name = "code") String code, HttpServletResponse response) throws IOException {
         System.out.println(">> 소셜 로그인 API 서버로부터 받은 code :" + code);
+        System.out.println(">> 소셜 로그인 API 서버로부터 받은 code :" + socialLoginPath);
         SocialLoginType socialLoginType = SocialLoginType.valueOf(socialLoginPath.toUpperCase());
-        return oAuthService.oAuthLogin(socialLoginType, code);
+        GetSocialOAuthRes a = oAuthService.oAuthLogin(socialLoginType, code);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("accesstoken", a.getJwtToken().getAccesstoken());
+        headers.set("refreshtoken", a.getJwtToken().getRefreshtoken());
+        return new ResponseEntity<>("",headers,HttpStatus.OK);
     }
 
 
