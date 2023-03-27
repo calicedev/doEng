@@ -54,13 +54,13 @@ public class InfoServiceImpl implements InfoService {
         FileDto backImageDto;
         FileDto mainImageDto;
         try {
-            backImageDto = awsS3Service.upload(backImage, "tale");
+            backImageDto = awsS3Service.upload(backImage, "tale/1");
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
         try {
-            mainImageDto = awsS3Service.upload(mainImage, "tale");
+            mainImageDto = awsS3Service.upload(mainImage, "tale/1");
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -86,7 +86,7 @@ public class InfoServiceImpl implements InfoService {
         MultipartFile image = requestSceneInfoDto.getImage();
         FileDto imageDto;
         try {
-            imageDto = awsS3Service.upload(image, "tale");
+            imageDto = awsS3Service.upload(image, "tale/1");
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -94,8 +94,12 @@ public class InfoServiceImpl implements InfoService {
 
         Tale tale = taleRepository.findById(requestSceneInfoDto.getTaleId())
                 .orElseThrow(() -> new ErrorException(TaleErrorCode.TALE_NOT_FOUND));
-        Word word = wordRepository.findById(requestSceneInfoDto.getWordId())
-                .orElseThrow(() -> new RuntimeException("단어를 찾을 수 없습니다."));
+        Word word = null;
+        if(requestSceneInfoDto.getWordId()!=0){
+            word = wordRepository.findById(requestSceneInfoDto.getWordId())
+                    .orElseThrow(() -> new RuntimeException("단어를 찾을 수 없습니다."));
+        }
+
         Scene scene = Scene.builder()
                 .tale(tale)
                 .word(word)

@@ -27,7 +27,7 @@ public class GoogleOauth implements SocialOauth {
     @Value("102010842807-o1qoah69al8s2eojt7vm0nm6smalu1sr.apps.googleusercontent.com")
     private String GOOGLE_SNS_CLIENT_ID;
 
-    @Value("http://localhost:8200/api/auth/login/code/GOOGLE/callback")
+    @Value("https://j8a601.p.ssafy.io/member/google")
     private String GOOGLE_SNS_CALLBACK_URL;
 
     @Value("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")
@@ -89,15 +89,23 @@ public class GoogleOauth implements SocialOauth {
     }
 
     public ResponseEntity<String> requestUserInfo(GoogleOAuthToken oAuthToken) {
-        String GOOGLE_USERINFO_REQUEST_URL = "https://www.googleapis.com/oauth2/v1/userinfo";
+        String GOOGLE_USERINFO_REQUEST_URL="https://www.googleapis.com/oauth2/v1/userinfo";
 
         //header에 accessToken을 담는다.
         HttpHeaders headers = new HttpHeaders();
-        headers.add("Authorization", "Bearer " + oAuthToken.getAccess_token());
+        headers.set("Authorization","Bearer "+oAuthToken.getAccess_token());
+        System.out.println("Authorization: " + "Bearer "+oAuthToken.getAccess_token());
 
         //HttpEntity를 하나 생성해 헤더를 담아서 restTemplate으로 구글과 통신하게 된다.
-        HttpEntity<MultiValueMap<String, String>> request = new HttpEntity(headers);
-        ResponseEntity<String> response = restTemplate.exchange(GOOGLE_USERINFO_REQUEST_URL, HttpMethod.GET, request, String.class);
+        HttpEntity request = new HttpEntity(headers);
+
+        ResponseEntity<String> response = restTemplate.exchange(
+                GOOGLE_USERINFO_REQUEST_URL,
+                HttpMethod.GET,
+                request,
+                String.class
+        );
+
         System.out.println("response.getBody() = " + response.getBody());
         return response;
     }

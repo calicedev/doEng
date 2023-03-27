@@ -83,7 +83,8 @@ public class MemberServiceImpl implements MemberService {
         //3-1. 받아온 memberId로 pk id 조회
         Long id = memberRepository.findIdByMemberId(authentication.getName());
         // 4. RefreshToken Redis에 저장 24시간
-        redisUtil.setDataExpire("token_"+id, tokenDto.getRefreshtoken(),60 * 60L * 24);
+        ;
+        redisUtil.setDataExpire("token_"+id, tokenDto.getRefreshtoken(),60 * 60L * 24 * 7);
         // 5. 토큰 발급
         LOGGER.info("[login] 로그인 service 나감");
         return tokenDto;

@@ -1,5 +1,7 @@
 package com.ssafy.doeng.data.dto.info.request;
 
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.Null;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
