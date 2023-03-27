@@ -2,7 +2,7 @@ import MyPageButton from "components/MyPageComponents/common/MyPageButton"
 import { useNavigate, useLocation } from "react-router-dom"
 import React, { useState, useMemo, PropsWithChildren } from "react"
 import useApi from "hooks/useApi"
-import { useUserMutation } from "hooks/queries/user"
+import { useUserMutation } from "hooks/queries/queries"
 
 interface Props {
   closeModal: () => void

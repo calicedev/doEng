@@ -1,6 +1,5 @@
 import axios, { AxiosProxyConfig } from "axios"
 import { useStoreTaleDetail } from "hooks/queries/queries"
-import { useUserQuery } from "hooks/queries/user"
 import React, { FC, PropsWithChildren, MouseEvent, ReactNode } from "react"
 import { useQuery } from "@tanstack/react-query"
 import { useNavigate, useParams } from "react-router-dom"

@@ -3,8 +3,7 @@ import MyPageButton from "components/MyPageComponents/common/MyPageButton"
 import { useInput } from "hooks/useInput"
 import { useNavigate } from "react-router-dom"
 import MyPageInput from "../common/MyPageInput"
-import { useUserQuery } from "hooks/queries/user"
-import { useUserMutation } from "hooks/queries/user"
+import { useUserMutation, useUserData } from "hooks/queries/queries"
 import { nicknameValidation, nameValidation } from "utils/validation"
 import useINEP from "hooks/useINEP"
 
@@ -17,7 +16,7 @@ function ProfileEditForm() {
     isLoading: queryLoading,
     error: queryError,
     data: user,
-  } = useUserQuery()
+  } = useUserData()
 
   const dispatch = useStoreDispatch()
 
