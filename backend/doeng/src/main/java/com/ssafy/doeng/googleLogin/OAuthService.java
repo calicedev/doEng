@@ -9,6 +9,7 @@ import com.ssafy.doeng.data.repository.member.MemberRepository;
 import com.ssafy.doeng.errors.code.MemberErrorCode;
 import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.jwt.TokenProvider;
+import com.ssafy.doeng.util.RedisUtil;
 import java.io.IOException;
 import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
@@ -30,7 +31,7 @@ public class OAuthService {
     private final PasswordEncoder passwordEncoder;
 
     private final AuthenticationManagerBuilder authenticationManagerBuilder;
-
+    private final RedisUtil redisUtil;
     public String  request(SocialLoginType socialLoginType) throws IOException {
         String redirectURL;
         switch (socialLoginType) {
@@ -103,6 +104,7 @@ public class OAuthService {
                     System.out.println("4+++++++++++++++++++++");
                     TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
                     //액세스 토큰과 Authorization, 이외 정보들이 담긴 자바 객체를 다시 전송한다.
+                    redisUtil.setDataExpire("token_"+member.getId(), tokenDto.getRefreshtoken(),60 * 60L * 24 * 7);
                     return new GetSocialOAuthRes(tokenDto, username, oAuthToken.getAccess_token(), oAuthToken.getToken_type());
                 } else {
                     throw new IllegalArgumentException("계정이 존재하지 않습니다.");
