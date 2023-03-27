@@ -9,8 +9,11 @@ import { passwordValidation } from "utils/validation"
 import useINEP from "hooks/useINEP"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import axios from "axios"
+import { DispatchToast } from "store"
 
 function ProfilePwdEditForm() {
+  const dispatch = useStoreDispatch()
+
   const { mutateAsync: ProfilePwdEditMutate } = useUserMutation()
   const [oldPasswordRef, newPassword1Ref, newPassword2Ref] = [
     useRef<HTMLInputElement>(null),
@@ -43,6 +46,29 @@ function ProfilePwdEditForm() {
   } = useInput(newPassword2Ref, passwordValidation)
 
   const ProfilePwdEditHandler = function () {
+    if (!oldPasswordValid) {
+      dispatch(DispatchToast("현재 비밀번호가 유효하지 않습니다", false))
+      return
+    } else if (!newPassword1Valid) {
+      dispatch(DispatchToast("새 비밀번호가 유효하지 않습니다", false))
+      return
+    } else if (!newPassword2Valid) {
+      dispatch(DispatchToast("새 비밀번호를 다시 확인해주세요", false))
+      return
+    } else if (oldPasswordInput === newPassword1Input) {
+      dispatch(
+        DispatchToast("새 비밀번호는 현재 비밀번호와 달라야합니다", false),
+      )
+      return
+    } else if (oldPasswordInput === newPassword2Input) {
+      dispatch(
+        DispatchToast("새 비밀번호는 현재 비밀번호와 달라야합니다", false),
+      )
+      return
+    } else if (newPassword1Input !== newPassword2Input) {
+      dispatch(DispatchToast("새 비밀번호가 일치하지 않습니다", false))
+      return
+    }
     ProfilePwdEditMutate({
       method: `patch`,
       url: `/api/member/password`,

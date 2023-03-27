@@ -43,7 +43,10 @@ function ProgressDetailPage() {
               <div>로딩중입니다</div>
             </>
           ) : progressDetailData?.sceneList ? (
-            <ProgressDetailPhoto talePhoto={progressDetailData.sceneList} />
+            <ProgressDetailPhoto
+              key={progressDetailData.id}
+              talePhoto={progressDetailData.sceneList}
+            />
           ) : (
             <div>사진이 존재하지 않습니다</div>
           )}

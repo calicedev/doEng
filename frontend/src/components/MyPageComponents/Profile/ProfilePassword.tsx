@@ -17,15 +17,6 @@ function ProfilePassword() {
   const [passwordRef] = [useRef<HTMLInputElement>(null)]
   const { isCert } = useStoreSelector((state) => state.password)
 
-  useEffect(
-    function () {
-      if (isCert) {
-        navigate(`progress`)
-      }
-    },
-    [isCert],
-  )
-
   const {
     inputData: passwordInput,
     isValid: passwordValid,
