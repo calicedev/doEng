@@ -1,11 +1,10 @@
-import { SpinnerDots } from "components/UI/Spinner"
-import { useStoreDispatch } from "hooks/useStoreSelector"
+import { SpinnerDots } from "../components/UI/Spinner"
+// import { useStoreDispatch } from "../hooks/useStoreSelector"
 import { useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
-import apiRequest from "utils/axios"
+import apiRequest from "../utils/axios"
 
 const GoogleLoginLoadingPage = function () {
-  const dispatch = useStoreDispatch()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   useEffect(

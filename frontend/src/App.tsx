@@ -28,6 +28,7 @@ import { useStoreDispatch } from "hooks/useStoreSelector"
 import { toastActions } from "store/toastSlice"
 import PayBridgePage from "pages/PayBridgePage"
 import MyPasswordPage from "pages/MyPasswordPage"
+import GoogleLoginLoadingPage from "pages/GoogleLoginLoadingPage.tsx"
 
 // // ProtectedRoute 사용법
 // const TestApp = function () {
@@ -56,7 +57,7 @@ function App() {
           <Route path={`login`} element={<Login />} />
           <Route path={`signup`} element={<Signup />} />
           <Route path={`find`} element={<Find />} />
-          <Route path={`google`} element={<Find />} />
+          <Route path={`google`} element={<GoogleLoginLoadingPage />} />
         </Route>
         <Route path={`/mypage`} element={<MyPage />}>
           <Route path={``} element={<MyPasswordPage />} />
