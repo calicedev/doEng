@@ -338,5 +338,11 @@ public class MemberServiceImpl implements MemberService {
         LOGGER.info("[mailSend] 이메일 전송 서비스 나감");
     }
 
+    @Transactional
+    public String checkEmailDuplicate(String email){
+        String nicknameDuplicate = memberRepository.findMemberIdByEmail(email);
+        return nicknameDuplicate;
+    }
+
 
 }

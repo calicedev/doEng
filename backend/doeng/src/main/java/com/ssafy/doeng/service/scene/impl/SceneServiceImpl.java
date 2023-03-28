@@ -15,6 +15,7 @@ import com.ssafy.doeng.errors.code.SceneErrorCode;
 import com.ssafy.doeng.errors.code.TaleErrorCode;
 import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.service.Common;
+import com.ssafy.doeng.service.aws.AwsS3Service;
 import com.ssafy.doeng.service.scene.SceneService;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,7 +34,7 @@ public class SceneServiceImpl implements SceneService {
     final private Common common;
     private final TaleRepository taleRepository;
     private final SceneRepository sceneRepository;
-
+    private final AwsS3Service awsS3Service;
     @Override
     @Transactional(readOnly = true)
     public ResopnseSceneListDto getSceneListByTale(long taleId, long memberId) {
@@ -73,7 +74,7 @@ public class SceneServiceImpl implements SceneService {
         }
         List<ResponseScriptDto> returnDto = scripts.stream().map(
                 script -> ResponseScriptDto.builder()
-                        .voice(script.getVoice())
+                        .voice(awsS3Service.getTemporaryUrl(script.getVoice()))
                         .content(script.getContent())
                         .scriptOrder(script.getScriptOrder())
                         .build()
@@ -91,10 +92,10 @@ public class SceneServiceImpl implements SceneService {
         LOGGER.info("[SceneServiceImpl] wordToDto wordId : {}", word.getId());
         var returnDto = ResponseWordDto.builder()
                 .id(word.getId())
-                .image(word.getImage())
+                .image(awsS3Service.getTemporaryUrl(word.getImage()))
                 .engWord(word.getEngWord())
                 .korWord(word.getKorWord())
-                .voice(word.getVoice())
+                .voice(awsS3Service.getTemporaryUrl(word.getVoice()))
                 .build();
         LOGGER.info("[SceneServiceImpl] wordToDto 종료");
         return returnDto;
@@ -113,10 +114,10 @@ public class SceneServiceImpl implements SceneService {
 
         var responseDto = ResopnseSceneDto.builder()
                 .id(scene.getId())
-                .image(scene.getImage())
+                .image(awsS3Service.getTemporaryUrl(scene.getImage()))
                 .sceneOrder(scene.getSceneOrder())
                 .interactiveType(scene.getInteractiveType())
-                .backgroundMusic(scene.getBackgroundMusic())
+                .backgroundMusic(awsS3Service.getTemporaryUrl(scene.getBackgroundMusic()))
                 .scriptList(makeScriptList(scene.getScripts()))
                 .word(wordToDto(scene.getWord()))
                 .build();

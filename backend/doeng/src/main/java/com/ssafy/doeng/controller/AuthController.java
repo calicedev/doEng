@@ -20,6 +20,8 @@ import com.ssafy.doeng.googleLogin.OAuthService;
 import com.ssafy.doeng.googleLogin.SocialLoginType;
 import com.ssafy.doeng.service.member.MemberService;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
@@ -51,7 +53,7 @@ public class AuthController {
 
     @GetMapping("test")
     public ResponseEntity<String> test() {
-        return ResponseEntity.ok("auto CI/CD");
+        return ResponseEntity.ok("test");
     }
 
 
@@ -59,7 +61,7 @@ public class AuthController {
     public ResponseEntity<Void> signup(@RequestBody RequestSignupDto requestDto) {
         LOGGER.info("[signup] 회원가입 controller 들어옴");
         memberService.signup(requestDto);
-        return ResponseEntity.status(HttpStatus.OK).build();
+        return new ResponseEntity(HttpStatus.OK);
     }
 
     @PostMapping("/login")
@@ -69,16 +71,20 @@ public class AuthController {
         HttpHeaders headers = new HttpHeaders();
         headers.set("accesstoken", tokenDto.getAccesstoken());
         headers.set("refreshtoken", tokenDto.getRefreshtoken());
-        return new ResponseEntity<>("",headers,HttpStatus.OK);
+        return new ResponseEntity(headers, HttpStatus.OK);
     }
 
     @PostMapping("/reissue")
-    public ResponseEntity<TokenDto> reissue(@RequestHeader("accesstoken") String accesstoken, @RequestHeader("refreshtoken") String refreshtoken) {
+    public ResponseEntity reissue(@RequestHeader("accesstoken") String accesstoken, @RequestHeader("refreshtoken") String refreshtoken) {
         LOGGER.info("[reissue] accessToken 재발급 controller 들어옴");
         RequestTokenDto requestDto = new RequestTokenDto();
         requestDto.setAccesstoken(accesstoken);
         requestDto.setRefreshtoken(refreshtoken);
-        return ResponseEntity.ok(memberService.reissue(requestDto));
+        TokenDto a = memberService.reissue(requestDto);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("accesstoken", a.getAccesstoken());
+        headers.set("refreshtoken", a.getRefreshtoken());
+        return new ResponseEntity<>("",headers,HttpStatus.OK);
     }
 
     @PostMapping("/id")
@@ -133,6 +139,7 @@ public class AuthController {
     }
 
 
+
     //oauth
     @GetMapping("/login/{socialLoginType}") //GOOGLE이 들어올 것이다.
     public String socialLoginRedirect(@PathVariable(name = "socialLoginType") String SocialLoginPath, HttpServletResponse response) throws IOException {
@@ -146,8 +153,6 @@ public class AuthController {
     public ResponseEntity callback(
             @PathVariable(name = "socialLoginType") String socialLoginPath,
             @RequestParam(name = "code") String code, HttpServletResponse response) throws IOException {
-        System.out.println(">> 소셜 로그인 API 서버로부터 받은 code :" + code);
-        System.out.println(">> 소셜 로그인 API 서버로부터 받은 code :" + socialLoginPath);
         SocialLoginType socialLoginType = SocialLoginType.valueOf(socialLoginPath.toUpperCase());
         GetSocialOAuthRes a = oAuthService.oAuthLogin(socialLoginType, code);
         HttpHeaders headers = new HttpHeaders();
