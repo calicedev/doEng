@@ -3,18 +3,24 @@ import {
   useSceneDetail,
   usePlayTaleDetail,
 } from "hooks/queries/queries"
-import React, { useState, useRef, useEffect } from "react"
+import React, { useState, useRef, useEffect, PropsWithChildren } from "react"
 import { queryKeys } from "hooks/queries/queryKeys"
+import { useParams } from "react-router-dom"
 
-interface taleId {
+interface TaleSceneProps {
   taleId: number
+  sceneOrder: number
+  changeScene: () => void
 }
 
-function TaleScene() {
-  const { data } = usePlayTaleDetail(1)
+function TaleScene({
+  taleId,
+  sceneOrder,
+  changeScene,
+}: PropsWithChildren<TaleSceneProps>) {
+  const { data } = usePlayTaleDetail(taleId)
   const maxlength = data?.sceneCount
 
-  const [sceneOrder, setSceneOrder] = useState(1)
   const {
     isLoading: sceneDetailLoading,
     error: sceneDetailError,
@@ -49,7 +55,7 @@ function TaleScene() {
     if (scriptListAudio) {
       scriptListAudio.addEventListener("ended", () => {
         if (maxlength && sceneOrder < maxlength) {
-          setSceneOrder((oldVal) => oldVal + 1)
+          changeScene()
         }
       })
     }

@@ -76,9 +76,9 @@ function App() {
           <Route path={`playtale`} element={<PlayTalePage />}>
             <Route path={``} element={<PlayTaleList />} />
             <Route path={`word/collect`} element={<WordCollectionPage />} />
-            <Route path={`scene`} element={<PlayScenePage />} />
+            <Route path={`scene/:taleId`} element={<SceneParent />} />
             <Route
-              path={`:taleId/test`}
+              path={`word-test/:taleId`}
               element={<div>App.tsx에서 변경 바람</div>}
             ></Route>
             <Route

@@ -4,7 +4,7 @@ function PlayScenePage() {
   return (
     <div>
       씬 진행 페이지
-      <TaleScene />
+      {/* <TaleScene /> */}
     </div>
   )
 }
