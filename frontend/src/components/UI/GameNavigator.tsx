@@ -1,5 +1,6 @@
-import TaleNavLogo from "../../assets/images/TaleNavLogo.png"
+import GoHome from "../../assets/images/GoHome.png"
 import Tutorial from "../../assets/images/TaleNav1Tutorial.png"
+import Pause from "../../assets/images/Pause.png"
 import Cards from "../../assets/images/TaleNav2Cards.png"
 import MyPage from "../../assets/images/TaleNav3MyPage.png"
 // import TaleNavLogoContainer from "../../assets/images/TaleNavLogoContainer.png"
@@ -11,8 +12,8 @@ const GameNavigator = function () {
   const pushHome = function () {
     navigate(`/`)
   }
-  const pushMyPage = function () {
-    navigate(`/mypage/progress`)
+  const paushHandler = function () {
+    console.log("멈춰!")
   }
   interface navItem {
     alt: string
@@ -22,10 +23,10 @@ const GameNavigator = function () {
     <div className="box-border fixed top-0 left-0 w-full h-[13.3%] flex flex-row justify-between py-3 px-5">
       <AnimationBox appearClassName="animate-appear-top-nav">
         <div
-          className={`flex justify-center items-center w-auto h-full bg-tale-nav-logo-container bg-contain bg-no-repeat py-2 cursor-pointer hover:scale-[103%] duration-[0.22s]`}
+          className={`flex justify-center items-center w-auto h-full py-2 cursor-pointer hover:scale-[103%] duration-[0.22s]`}
           onClick={pushHome}
         >
-          <img alt={`nav-logo`} src={TaleNavLogo} className="h-full" />
+          <img alt={`nav-logo`} src={GoHome} className="h-full" />
         </div>
       </AnimationBox>
 
@@ -46,19 +47,9 @@ const GameNavigator = function () {
         >
           <img
             className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
-            alt="cards"
-            src={Cards}
-          />
-        </AnimationBox>
-        <AnimationBox
-          boxClasses="h-[90%]"
-          appearClassName="animate-[appear-top-nav_0.66s_0.44s_both]"
-        >
-          <img
-            className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
             alt="my-page"
-            src={MyPage}
-            onClick={pushMyPage}
+            src={Pause}
+            onClick={paushHandler}
           />
         </AnimationBox>
       </div>
