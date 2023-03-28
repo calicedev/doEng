@@ -31,6 +31,7 @@ import MyPasswordPage from "pages/MyPasswordPage"
 import GoogleLoginLoadingPage from "pages/GoogleLoginLoadingPage"
 import WordCollectionPage from "pages/WordCollectionPage"
 import PlayScenePage from "pages/PlayScenePage"
+import WordTestPage from "pages/WordTestPage"
 
 // // ProtectedRoute 사용법
 // const TestApp = function () {
@@ -79,7 +80,7 @@ function App() {
             <Route path={`scene/:taleId`} element={<SceneParent />} />
             <Route
               path={`word-test/:taleId`}
-              element={<div>App.tsx에서 변경 바람</div>}
+              element={<WordTestPage />}
             ></Route>
             <Route
               path={`:taleId/:sceneOrder`}

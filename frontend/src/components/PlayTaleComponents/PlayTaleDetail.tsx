@@ -66,7 +66,7 @@ const PlayTaleDetailCompo = function ({
     navigate(`${taleId}/${PlayTaleDetailData?.sceneOrder}`)
   }
   const onTestHandler = function () {
-    navigate(`${taleId}/test`)
+    navigate(`word-test/${taleId}`)
   }
   const graphRef = useRef<HTMLDivElement>(null)
   const { width: graphWidth, height: graphHeight } = useWidthHeight(graphRef)
