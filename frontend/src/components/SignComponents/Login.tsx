@@ -14,6 +14,7 @@ import { findActions } from "store/findSlice"
 import apiRequest from "utils/axios"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { tokenActions } from "store/tokenSlice"
+import GoogleIcon from "../../assets/images/Google_Social.png"
 // import { useUserMutation } from "hooks/queries/queries"
 
 function Login() {
@@ -170,6 +171,27 @@ function Login() {
     dispatch(findActions.resetState({}))
   }, [])
 
+  // const { mutateAsync } = useMutation({
+  //   mutationFn: function () {
+  //     return apiRequest({
+  //       method: `post`,
+  //       url: `/api/auth/id`,
+  //       data: {
+  //         name: "한견",
+  //         email: "hgh21233@naver.com",
+  //       },
+  //     })
+  //   },
+  //   onSuccess: function () {
+  //     console.log("상관 없이 실행됩니다~")
+  //   },
+  // })
+  // const testHandler = function () {
+  //   mutateAsync().then((res) => {
+  //     console.log(res)
+  //   })
+  // }
+
   return (
     <>
       <form
@@ -217,6 +239,17 @@ function Login() {
           )}
         </button>
         <div
+          className={`box-border flex items-center justify-center bg-opacity-80 rounded-full min-h-[45px] max-h-[80px] min-w-[288px] h-[6.9vh] max-w-[480px] w-[15vw] font-hopang-black text-3xl border-[4px] shadow-xl duration-[0.66s] hover:scale-105 mt-[1vh] cursor-pointer py-2 bg-gradient-to-br from-gray-200 to-gray-50 hover:from-gray-50 hover:to-gray-200`}
+          onClick={googleLoginHandler}
+        >
+          <img
+            alt="구글"
+            src={GoogleIcon}
+            className="h-full rounded-full border-[3px] mr-2"
+          />
+          구글 로그인
+        </div>
+        <div
           className={`box-border flex flex-row items-center justify-center min-h-[45px] max-h-[80px] min-w-[288px] h-[8vh] max-w-[480px] w-[40vw] gap-4 mt-4`}
         >
           <div
@@ -231,14 +264,9 @@ function Login() {
           >
             회원 가입
           </div>
-          <div
-            className={`box-border flex basis-[50%] items-center justify-center w-full h-full rounded-full font-hopang-white cursor-pointer shadow-2xl border-[4px] border-yellow-500 bg-gradient-to-br from-yellow-200 to-yellow-400 duration-[0.66s] hover:scale-105 hover:skew-x-[5deg] hover:-skew-y-[5deg] text-sm sm:text-xl mobile:text-lg md:text-2xl lg:text-3xl text-black`}
-            onClick={googleLoginHandler}
-          >
-            구글 로그인
-          </div>
         </div>
       </form>
+      {/* <div onClick={testHandler}>테스트</div> */}
     </>
   )
 }
