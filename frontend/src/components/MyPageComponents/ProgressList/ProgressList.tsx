@@ -1,5 +1,4 @@
 import React from "react"
-import dummy from "../DummyData/ProgressList.json"
 
 import { useProgressTaleList } from "hooks/queries/queries"
 import { queryKeys } from "hooks/queries/queryKeys"
