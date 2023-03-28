@@ -29,6 +29,8 @@ import { toastActions } from "store/toastSlice"
 import PayBridgePage from "pages/PayBridgePage"
 import MyPasswordPage from "pages/MyPasswordPage"
 import GoogleLoginLoadingPage from "pages/GoogleLoginLoadingPage"
+import WordCollectionPage from "pages/WordCollectionPage"
+import PlayScenePage from "pages/PlayScenePage"
 
 // // ProtectedRoute 사용법
 // const TestApp = function () {
@@ -73,6 +75,8 @@ function App() {
         <Route element={<ProtectedRoute />}>
           <Route path={`playtale`} element={<PlayTalePage />}>
             <Route path={``} element={<PlayTaleList />} />
+            <Route path={`word/collect`} element={<WordCollectionPage />} />
+            <Route path={`scene`} element={<PlayScenePage />} />
             <Route
               path={`:taleId/test`}
               element={<div>App.tsx에서 변경 바람</div>}
