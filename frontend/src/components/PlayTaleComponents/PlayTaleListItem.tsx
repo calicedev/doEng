@@ -1,4 +1,4 @@
-import AnimationBox from "components/UI/AnimationBox"
+import AnimationBox, { textOneByOnePpyong } from "components/UI/AnimationBox"
 import { PlayTale } from "hooks/queries/queries"
 import { useNavigate } from "react-router-dom"
 import { useEffect, useState } from "react"
@@ -10,9 +10,10 @@ interface PropsPlayTaleItem {
   animationOrder: number
 }
 
-const animationOrders = {}
-
-const PlayTaleListItem = function ({ tale }: PropsPlayTaleItem) {
+const PlayTaleListItem = function ({
+  tale,
+  animationOrder,
+}: PropsPlayTaleItem) {
   const navigate = useNavigate()
   const [isModal, setIsModal] = useState<boolean>(false)
   const clickHandler = function () {
@@ -45,7 +46,7 @@ const PlayTaleListItem = function ({ tale }: PropsPlayTaleItem) {
       )}
       <AnimationBox
         boxClasses={`basis-[24%] h-[50%] flex flex-col items-center rounded-[13px] border-[3px] border-black shadow-lg flex items-center justify-center ${lockDownClasses}`}
-        appearClassName={`animate-[ppyong_0.22s_0.44s_both]`}
+        appearClassName={textOneByOnePpyong[animationOrder + 5]}
       >
         <img
           alt={`이미지aaa`}

@@ -6,6 +6,7 @@ type AnimateBoxProps = {
   appearClassName?: string
   disappearClassName?: string
   boxClasses?: string
+  boxKey?: string
 }
 
 const AnimationBox: FC<PropsWithChildren<AnimateBoxProps>> = function ({
@@ -14,6 +15,7 @@ const AnimationBox: FC<PropsWithChildren<AnimateBoxProps>> = function ({
   appearClassName,
   disappearClassName,
   boxClasses,
+  boxKey = `animattion-box-${Math.random}`,
 }) {
   const { isRender, animationClasses, animationEndHandler } = useAnimate(
     isOpened,
@@ -26,6 +28,7 @@ const AnimationBox: FC<PropsWithChildren<AnimateBoxProps>> = function ({
         <div
           className={`${animationClasses} ${boxClasses}`}
           onAnimationEnd={animationEndHandler}
+          key={boxKey}
         >
           {children}
         </div>
