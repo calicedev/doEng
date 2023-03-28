@@ -44,4 +44,6 @@ public interface MemberService {
     void checkSignUpEmailSend(RequestSignupEmailDto requestDto);
 
     boolean checkPhone(String phone);
+
+    String checkEmailDuplicate(String email);
 }
