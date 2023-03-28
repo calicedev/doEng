@@ -20,12 +20,15 @@ const SceneParent = function () {
       <div>씬</div>
       <div>씬</div>
       <div>씬</div>
-      <TaleScene
-        taleId={parseInt(taleId)}
-        sceneOrder={sceneOrder}
-        changeScene={changeSceneHandler}
-      />
-      <InteractionComp />
+      {sceneData?.interactiveType ? (
+        <InteractionComp />
+      ) : (
+        <TaleScene
+          taleId={parseInt(taleId)}
+          sceneOrder={sceneOrder}
+          changeScene={changeSceneHandler}
+        />
+      )}
     </>
   )
 }
