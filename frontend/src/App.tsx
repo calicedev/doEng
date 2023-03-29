@@ -70,13 +70,10 @@ function App() {
           <Route path={`profile/edit`} element={<ProfileEditPage />} />
           <Route path={`profile/password`} element={<ProfilePwdEditPage />} />
         </Route>
+        <Route path={`/ai`} element={<InteractionComp />}></Route>
         <Route element={<ProtectedRoute />}>
           <Route path={`playtale`} element={<PlayTalePage />}>
             <Route path={``} element={<PlayTaleList />} />
-            <Route
-              path={`:taleId/test`}
-              element={<div>App.tsx에서 변경 바람</div>}
-            ></Route>
             <Route
               path={`:taleId/:sceneOrder`}
               element={<SceneParent />}
