@@ -1,4 +1,4 @@
-package com.ssafy.doeng.googleLogin;
+package com.ssafy.doeng.oauth2;
 
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -13,7 +13,6 @@ import org.springframework.http.HttpMethod;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
 
 @RequiredArgsConstructor
@@ -23,17 +22,13 @@ public class GoogleOauth implements SocialOauth {
     //applications.yml 에서 value annotation을 통해서 값을 받아온다.
     @Value("https://accounts.google.com/o/oauth2/auth")
     private String GOOGLE_SNS_LOGIN_URL;
-
-    @Value("102010842807-o1qoah69al8s2eojt7vm0nm6smalu1sr.apps.googleusercontent.com")
+    @Value("${spring.security.oauth2.client.registration.google.client-id}")
     private String GOOGLE_SNS_CLIENT_ID;
-
-    @Value("https://j8a601.p.ssafy.io/member/google")
+    @Value("${spring.security.oauth2.client.registration.google.redirect-uri}")
     private String GOOGLE_SNS_CALLBACK_URL;
-
-    @Value("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")
+    @Value("${spring.security.oauth2.client.registration.google.client-secret}")
     private String GOOGLE_SNS_CLIENT_SECRET;
-
-    @Value("https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile")
+    @Value("${spring.security.oauth2.client.registration.google.scope}")
     private String GOOGLE_DATA_ACCESS_SCOPE;
 
     private final ObjectMapper objectMapper;
