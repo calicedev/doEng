@@ -1,3 +1,4 @@
+import LinearTracking from "components/CanvasComponents/MouseTracking/LinearTracking"
 import MouseTracking from "components/CanvasComponents/MouseTracking/MouseTracking"
 import { useWidthHeight } from "hooks/useWidthHwight"
 import { useRef } from "react"
@@ -8,7 +9,7 @@ const LoadingComp = function () {
   return (
     <>
       <div ref={divRef} className="canvas-under-bg-container h-full w-full">
-        <MouseTracking canvasWidth={width} canvasHeight={height} />
+        <LinearTracking canvasWidth={width} canvasHeight={height} />
       </div>
     </>
   )
