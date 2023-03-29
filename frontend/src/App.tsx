@@ -89,18 +89,6 @@ function App() {
         </Route>
         <Route path={`pay`} element={<ProtectedRoute />}>
           <Route path=":isSuccess" element={<PayBridgePage />} />
-          {/* <Route
-            path={`success/:taleId`}
-            element={
-              <div>
-                결제 되셨구요 엘리턴트는 바꾸셔야 합니다. pg_token? 옵니다.
-              </div>
-            }
-          />
-          <Route
-            path={`fail/:taleId`}
-            element={<div>결제 안되셨구요 엘리턴트는 바꾸셔야 합니다.</div>}
-          /> */}
         </Route>
         <Route path={`*`} element={<NotFoundPage />} />
       </Routes>
