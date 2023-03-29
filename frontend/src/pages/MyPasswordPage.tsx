@@ -4,7 +4,7 @@ import { Navigate } from "react-router-dom"
 
 function MyPasswordPage() {
   const { isCert } = useStoreSelector((state) => state.password)
-  console.log(isCert)
+
   if (isCert) {
     return <Navigate to={`progress`} />
   }

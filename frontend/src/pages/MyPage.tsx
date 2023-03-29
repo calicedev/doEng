@@ -5,6 +5,7 @@ import MyPageNavigation from "components/MyPageComponents/common/MyPageNavigatio
 import MyPageTab from "components/MyPageComponents/common/MyPageTab"
 import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import { passwordActions } from "store/passwordSlice"
+import MyPasswordPage from "./MyPasswordPage"
 
 function MyPage() {
   const { isCert } = useStoreSelector((state) => state.password)
@@ -23,8 +24,14 @@ function MyPage() {
         id={`mypage-container`}
         className={`flex flex-col overflow-hidden relative w-full h-full border-2 border-orange-400 bg-yellow-50 rounded-lg bg-opacity-[0.85]`}
       >
-        <MyPageTab />
-        <Outlet />
+        {isCert ? (
+          <>
+            <MyPageTab />
+            <Outlet />
+          </>
+        ) : (
+          <MyPasswordPage />
+        )}
       </div>
     </div>
   )
