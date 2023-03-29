@@ -80,8 +80,7 @@ module.exports = {
           "url('/src/assets/images/TaleNavLogoContainer.png')",
         "play-detail-open-book": `url("/src/assets/images/DetailBackground.png")`,
         "play-detail-right-osolgil": `url("/src/assets/images/DetailRightBackground.png")`,
-        "gradient-radial":
-          "radial-gradientt(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1))",
+        "gradient-radial": `radial-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1)), url("/src/assets/images/DetailRightBackground.png")`,
       },
       // animate-[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction]
       animation: {
@@ -300,8 +299,8 @@ module.exports = {
           "100%": { transform: "scale(50) rotate(45deg)", opacity: 0 },
         },
         "appear-opacity-softly": {
-          "0%": { transform: "opacity: 0" },
-          "100%": { transform: "opacity: 1" },
+          "0%": { opacity: 0 },
+          "100%": { opacity: 1 },
         },
         shake: {
           "0%": { transform: "rotate(0.0deg)" },

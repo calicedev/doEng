@@ -21,7 +21,7 @@ const GoogleLoginLoadingPage = function () {
         })
           .then((res) => {
             console.log(res)
-            navigate("/mypage")
+            navigate("/")
           })
           .catch((err) => {
             console.log(err)

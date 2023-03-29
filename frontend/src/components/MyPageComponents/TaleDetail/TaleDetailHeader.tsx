@@ -6,11 +6,14 @@ import { useNavigate, useParams } from "react-router-dom"
 import apiRequest from "utils/axios"
 import MyPageButton from "../common/MyPageButton"
 import StarRating from "../common/StarRating"
+import { useStoreDispatch } from "hooks/useStoreSelector"
+import { payActions } from "store/paySlice"
 
 interface Props {}
 
 const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({}) {
   const navigate = useNavigate()
+  const dispatch = useStoreDispatch()
   const { taleId } = useParams() as { taleId: string }
   const {
     isLoading: taleLoading,
@@ -20,6 +23,7 @@ const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({}) {
 
   const tryPayment = function (event: MouseEvent<HTMLButtonElement>) {
     event.preventDefault()
+    dispatch(payActions.setWannaBought({ taleId: parseInt(taleId) }))
 
     const config = {
       next_redirect_pc_url: "",
@@ -48,6 +52,7 @@ const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({}) {
       },
     }).then((res) => {
       console.log(res)
+      dispatch(payActions.setTid({ tid: res.data.tid }))
       window.location.href = `${res.data.next_redirect_pc_url}`
     })
   }
