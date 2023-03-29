@@ -1,3 +1,7 @@
+#환경변수 파일
+application.properties
+aws.yml
+
 HELP.md
 .gradle
 build/
