@@ -15,6 +15,7 @@ import com.ssafy.doeng.errors.code.PaymentErrorCode;
 import com.ssafy.doeng.errors.code.TaleErrorCode;
 import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.service.Common;
+import com.ssafy.doeng.service.aws.AwsS3Service;
 import com.ssafy.doeng.service.word.WordService;
 import java.util.ArrayList;
 import java.util.List;
@@ -35,6 +36,7 @@ public class WordServiceImpl implements WordService {
     private final static Logger LOGGER = LoggerFactory.getLogger(TaleController.class);
     private final TaleRepository taleRepository;
 
+    private final AwsS3Service awsS3Service;
     @Override
     @Transactional(readOnly = true)
     public ResponseWordListDto getWord(long memberId) {
@@ -54,10 +56,10 @@ public class WordServiceImpl implements WordService {
         return wordList.stream().map(
                 word -> ResponseWordDto.builder()
                         .id(word.getId())
-                        .image(word.getImage())
+                        .image(awsS3Service.getTemporaryUrl(word.getImage()))
                         .engWord(word.getEngWord())
                         .korWord(word.getKorWord())
-                        .voice(word.getVoice())
+                        .voice(awsS3Service.getTemporaryUrl(word.getVoice()))
                         .build()
         ).collect(Collectors.toList());
     }
@@ -97,9 +99,9 @@ public class WordServiceImpl implements WordService {
                             .id(crtWord.getId())
                             .engWord(crtWord.getEngWord())
                             .korWord(crtWord.getKorWord())
-                            .voice(crtWord.getVoice())
+                            .voice(awsS3Service.getTemporaryUrl(crtWord.getVoice()))
                             .image(crtWord.getImage())
-                            .wrongImage(wrongWordList.get(i).getImage())
+                            .wrongImage(awsS3Service.getTemporaryUrl(wrongWordList.get(i).getImage()))
                     .build());
         }
         return testList;

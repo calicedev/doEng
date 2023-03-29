@@ -2,6 +2,7 @@ package com.ssafy.doeng.controller;
 
 import com.ssafy.doeng.data.dto.info.request.RequestMaterialInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestSceneInfoDto;
+import com.ssafy.doeng.data.dto.info.request.RequestSceneInfoOnlyDto;
 import com.ssafy.doeng.data.dto.info.request.RequestScriptInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestTaleHasMaterialInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestTaleInfoDto;
@@ -35,6 +36,13 @@ public class InfoController {
     public ResponseEntity<String> postScene( RequestSceneInfoDto requestSceneInfoDto) {
         LOGGER.info("scene 저장");
         infoService.saveScene(requestSceneInfoDto);
+        return ResponseEntity.ok().body("scene 저장 완료");
+    }
+
+    @PostMapping("/scene/only")
+    public ResponseEntity<String> postSceneOnly(RequestSceneInfoOnlyDto requestSceneInfoOnlyDto) {
+        LOGGER.info("scene 저장");
+        infoService.saveSceneOnly(requestSceneInfoOnlyDto);
         return ResponseEntity.ok().body("scene 저장 완료");
     }
 

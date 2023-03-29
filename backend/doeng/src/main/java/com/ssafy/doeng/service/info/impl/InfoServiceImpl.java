@@ -3,6 +3,7 @@ package com.ssafy.doeng.service.info.impl;
 import com.ssafy.doeng.data.dto.aws.FileDto;
 import com.ssafy.doeng.data.dto.info.request.RequestMaterialInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestSceneInfoDto;
+import com.ssafy.doeng.data.dto.info.request.RequestSceneInfoOnlyDto;
 import com.ssafy.doeng.data.dto.info.request.RequestScriptInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestTaleHasMaterialInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestTaleInfoDto;
@@ -114,6 +115,21 @@ public class InfoServiceImpl implements InfoService {
         LOGGER.info("[InfoServiceImpl] scene 저장 완료");
     }
 
+    @Override
+    public void saveSceneOnly(RequestSceneInfoOnlyDto requestSceneInfoOnlyDto) {
+        LOGGER.info("[InfoServiceImpl] scene 저장");
+
+        MultipartFile image = requestSceneInfoOnlyDto.getImage();
+        FileDto imageDto;
+        try {
+            awsS3Service.upload(image, "word/1");
+        } catch (IOException e) {
+            e.printStackTrace();
+            throw new RuntimeException(e);
+        }
+
+        LOGGER.info("[InfoServiceImpl] scene 저장 완료");
+    }
     @Override
     public void saveScript(RequestScriptInfoDto requestScriptInfoDto) {
         LOGGER.info("[InfoServiceImpl] script 저장");
