@@ -7,5 +7,3 @@ services:
     container_name: doeng-react-green
     ports:
       - "3001:3001"
-    # stdin_open: true # docker run -i
-    # tty: true        # docker run -t
