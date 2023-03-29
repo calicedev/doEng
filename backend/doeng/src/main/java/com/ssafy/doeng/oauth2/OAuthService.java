@@ -1,9 +1,7 @@
-package com.ssafy.doeng.googleLogin;
+package com.ssafy.doeng.oauth2;
 
 import com.ssafy.doeng.data.dto.member.TokenDto;
 import com.ssafy.doeng.data.dto.member.request.RequestMemberDto;
-import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
-import com.ssafy.doeng.data.entity.member.Authority;
 import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.repository.member.MemberRepository;
 import com.ssafy.doeng.errors.code.MemberErrorCode;
@@ -11,7 +9,6 @@ import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.jwt.TokenProvider;
 import com.ssafy.doeng.util.RedisUtil;
 import java.io.IOException;
-import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;

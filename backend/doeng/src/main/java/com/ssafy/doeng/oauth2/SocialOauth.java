@@ -1,4 +1,4 @@
-package com.ssafy.doeng.googleLogin;
+package com.ssafy.doeng.oauth2;
 
 import org.springframework.http.ResponseEntity;
 

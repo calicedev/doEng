@@ -1,6 +1,5 @@
-package com.ssafy.doeng.googleLogin;
+package com.ssafy.doeng.oauth2;
 
-import antlr.Token;
 import com.ssafy.doeng.data.dto.member.TokenDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
