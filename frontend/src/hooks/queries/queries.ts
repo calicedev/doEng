@@ -255,3 +255,17 @@ export const useUserMutation = function () {
     },
   })
 }
+
+export const useTestMutation = function () {
+  const queryClient = useQueryClient()
+  return useMutation(
+    function (request: AxiosRequestConfig) {
+      return apiRequest(request)
+    },
+    {
+      onSuccess() {
+        queryClient.invalidateQueries(queryKeys.game())
+      },
+    },
+  )
+}

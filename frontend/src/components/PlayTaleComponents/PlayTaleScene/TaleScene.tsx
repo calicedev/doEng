@@ -73,6 +73,9 @@ function TaleScene({
       <audio ref={backgroundMusicAudioRef} />
       <audio ref={scriptListAudioRef} />
       {/* <div onClick={plusScene}>gd</div> */}
+      <div>
+        <img src={sceneDetail?.image} /> 이미지{" "}
+      </div>
       <div>씬 데이터</div>
     </>
   )

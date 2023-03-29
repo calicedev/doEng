@@ -14,8 +14,9 @@ const interceptorRequest = axios.create({
 })
 
 const apiRequest = axios.create({
-  baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
+  // baseURL: "https://j8a601.p.ssafy.io", // 서버 주소
   // baseURL: "http://70.12.246.176:8200", // 서버 주소
+  baseURL: "http://70.12.247.228:8080",
   withCredentials: true, // 쿠키 사용을 위해 설정
   timeout: 10000, // 10초까지만 대기
 })

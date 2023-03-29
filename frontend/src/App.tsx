@@ -31,6 +31,8 @@ import MyPasswordPage from "pages/MyPasswordPage"
 import GoogleLoginLoadingPage from "pages/GoogleLoginLoadingPage"
 import WordCollectionPage from "pages/WordCollectionPage"
 import PlayScenePage from "pages/PlayScenePage"
+import WordTestPage from "pages/WordTestPage"
+import WordTestResultPage from "pages/WordTestResultPage"
 
 // // ProtectedRoute 사용법
 // const TestApp = function () {
@@ -72,6 +74,7 @@ function App() {
           <Route path={`profile/edit`} element={<ProfileEditPage />} />
           <Route path={`profile/password`} element={<ProfilePwdEditPage />} />
         </Route>
+        <Route path={`/ai`} element={<InteractionComp />}></Route>
         <Route element={<ProtectedRoute />}>
           <Route path={`playtale`} element={<PlayTalePage />}>
             <Route path={``} element={<PlayTaleList />} />
@@ -79,7 +82,11 @@ function App() {
             <Route path={`scene/:taleId`} element={<SceneParent />} />
             <Route
               path={`word-test/:taleId`}
-              element={<div>App.tsx에서 변경 바람</div>}
+              element={<WordTestPage />}
+            ></Route>
+            <Route
+              path={`word-test/:taleId/result`}
+              element={<WordTestResultPage />}
             ></Route>
             <Route
               path={`:taleId/:sceneOrder`}
