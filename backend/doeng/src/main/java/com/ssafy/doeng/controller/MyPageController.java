@@ -4,6 +4,7 @@ import com.ssafy.doeng.config.auth.LoginId;
 import com.ssafy.doeng.data.dto.review.request.RequestReviewDto;
 import com.ssafy.doeng.data.dto.review.request.RequestReviewModifyDto;
 import com.ssafy.doeng.data.dto.review.response.ResponseAllReviewDto;
+import com.ssafy.doeng.data.dto.tale.request.RequestTalePaymentDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleListDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleDetailDto;
@@ -102,5 +103,13 @@ public class MyPageController {
         ResponseAllReviewDto reviewListDto = reviewService.getReviewList(taleId, id, pageable);
 
         return ResponseEntity.ok().body(reviewListDto);
+    }
+
+    @PostMapping("/purchased")
+    public ResponseEntity<String> postPurchased(@RequestBody RequestTalePaymentDto requestTalePaymentDto, @LoginId Long id) {
+        LOGGER.info("[MyPageController] 결제 받기 api 호출");
+        requestTalePaymentDto.setMemberId(id);
+        taleService.postTalePayment(requestTalePaymentDto);
+        return ResponseEntity.ok().body("결제 정보 저장을 완료하였습니다.");
     }
 }

@@ -15,7 +15,6 @@ import lombok.ToString;
 public class RequestTalePaymentDto {
     private long memberId;
     private long taleId;
-
     public void setMemberId(long memberId) {
         this.memberId = memberId;
     }
