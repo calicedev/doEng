@@ -1,128 +1,101 @@
-import { useMutation, useQuery } from "@tanstack/react-query"
 import { useParams } from "react-router-dom"
 import apiRequest from "utils/axios"
 import { useRef, useEffect, useCallback, useState } from "react"
 import axios from "axios"
+import { io } from "socket.io-client"
 
-const InteractionComp = function () {
-  const [isDrawing, setIsDrawing] = useState<boolean>(false)
+const serverUrl =
+  "ws://70.12.247.228:8080/ws/face?answer=happy&taleid=1&sceneId=2&memberId=1"
+
+const InteractionComp: React.FC = () => {
   const videoRef = useRef<HTMLVideoElement>(null)
-  const { taleId, sceneorder } = useParams()
-  // const { isLoading, error, data } = useQuery(
-  //   [`tale`, taleId, sceneorder],
-  //   function () {
-  //     return apiRequest({ method: `get`, url: ``, data: {} }).then(
-  //       (res) => res.data,
-  //     )
-  //   },
-  // )
-  const { mutate, mutateAsync } = useMutation(function () {
-    return apiRequest({
-      method: ``,
-      url: ``,
-    })
-  }, {})
+  const [isPlaying, setIsPlaying] = useState<boolean>(false)
+  const [webSocket, setWebSocket] = useState<WebSocket | null>(null)
+  const [videoResult, setVideoResult] = useState<string>("")
 
-  const getUserCamera = function () {
+  // 비디오 재생
+  useEffect(() => {
     navigator.mediaDevices
-      .getUserMedia({
-        video: { facingMode: "user", frameRate: { ideal: 20, max: 30 } },
-        audio: false,
-      })
+      .getUserMedia({ video: true })
       .then((stream) => {
         if (videoRef.current) {
-          let video = videoRef.current
-          video.srcObject = stream
-          video.play()
+          videoRef.current.srcObject = stream
+          videoRef.current.play()
+          setIsPlaying(true)
         }
       })
       .catch((err) => {
-        console.log(err)
+        console.error("Could not access camera", err)
       })
+  }, [])
+
+  useEffect(() => {
+    console.log(webSocket)
+    let intervalId: NodeJS.Timeout | null = null
+
+    if (webSocket) {
+      webSocket.addEventListener("open", () => {
+        console.log("open")
+        intervalId = setInterval(() => {
+          // webSocket.send("abcd")
+          const video = videoRef.current
+          if (video) {
+            const canvas = document.createElement("canvas")
+            const ctx = canvas.getContext("2d")
+            canvas.width = video.videoWidth
+            canvas.height = video.videoHeight
+            ctx?.drawImage(video, 0, 0, canvas.width, canvas.height)
+            canvas.toBlob(
+              (blob) => {
+                webSocket.send(blob ? blob : "")
+                console.log(blob)
+              },
+              "image/jpeg",
+              0.7,
+            )
+          }
+        }, 1000)
+      })
+
+      webSocket.addEventListener("close", () => {
+        console.log("close")
+        if (intervalId) {
+          clearInterval(intervalId)
+        }
+      })
+    }
+
+    return () => {
+      if (intervalId) {
+        clearInterval(intervalId)
+      }
+    }
+  }, [webSocket])
+
+  // 비디오 일시정지
+  const handleVideo = () => {
+    if (isPlaying) {
+      videoRef.current?.pause()
+      setIsPlaying(false)
+
+      webSocket?.close()
+      setWebSocket(null)
+
+      return
+    }
+    videoRef.current?.play()
+    setIsPlaying(true)
+
+    const ws = new WebSocket(serverUrl)
+    setWebSocket(ws)
   }
 
-  const canvasRef = useRef<HTMLCanvasElement>(null)
-
-  const setCanvas = useCallback(function (
-    canvas: HTMLCanvasElement,
-    ctx: CanvasRenderingContext2D,
-  ) {
-    const devicePixelRatio = window.devicePixelRatio ?? 1
-    if (canvas && ctx) {
-      canvas.style.width = 640 + "px"
-      canvas.style.height = 480 + "px"
-      canvas.width = 640 * devicePixelRatio
-      canvas.height = 480 * devicePixelRatio
-      ctx.scale(devicePixelRatio, devicePixelRatio)
-    }
-  },
-  [])
-  const [imgURL, setImgURL] = useState<string>("")
-
-  const animate = useCallback(
-    function (ctx: CanvasRenderingContext2D, canvas: HTMLCanvasElement) {
-      ctx.clearRect(0, 0, 640, 480)
-      if (videoRef.current) {
-        ctx.drawImage(videoRef.current, 0, 0, 640, 480)
-      }
-    },
-    [videoRef],
-  )
-
-  useEffect(
-    function () {
-      const canvas = canvasRef.current
-      const ctx = canvas?.getContext(`2d`)
-      if (canvas && ctx) {
-        setCanvas(canvas, ctx)
-        let requestId: number
-        const requestAnimation = function () {
-          requestId = window.requestAnimationFrame(requestAnimation)
-          animate(ctx, canvas)
-        }
-
-        requestAnimation()
-        return function () {
-          window.cancelAnimationFrame(requestId)
-        }
-      }
-    },
-    [animate, canvasRef, setCanvas],
-  )
-
-  useEffect(
-    function () {
-      getUserCamera()
-    },
-    [videoRef],
-  )
-
-  useEffect(
-    function () {
-      const a = setInterval(function () {
-        const url = canvasRef.current?.toDataURL()!
-        setImgURL(() => url)
-        // console.log(url)
-        console.log("ㅎㅇ")
-      }, 1000)
-
-      // return clearInterval(a)
-      if (!canvasRef.current) {
-        return clearInterval(a)
-      }
-    },
-    [canvasRef],
-  )
-
   return (
-    <>
-      <video ref={videoRef} className="hidden" />
-      {!isDrawing ? (
-        <canvas ref={canvasRef} className={`interaction-video`} />
-      ) : (
-        <canvas />
-      )}
-    </>
+    <div className={`flex flex-column items-center`}>
+      <button onClick={handleVideo}>{isPlaying ? "일시정지" : "플레이"}</button>
+      <video ref={videoRef} />
+      <div>{videoResult}</div>
+    </div>
   )
 }
 
