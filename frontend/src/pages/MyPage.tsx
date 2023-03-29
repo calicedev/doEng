@@ -10,17 +10,7 @@ function MyPage() {
   const { isCert } = useStoreSelector((state) => state.password)
   const navigate = useNavigate()
   const dispatch = useStoreDispatch()
-  useEffect(function () {
-    dispatch(passwordActions.wrongPassword({}))
-  }, [])
-  useEffect(
-    function () {
-      if (!isCert) {
-        navigate(`/mypage`)
-      }
-    },
-    [isCert],
-  )
+
   return (
     <div
       className="flex flex-col gap-2 w-full h-full p-5 bg-cover bg-center bg-no-repeat "
@@ -31,7 +21,7 @@ function MyPage() {
       <MyPageNavigation />
       <div
         id={`mypage-container`}
-        className={`flex flex-col overflow-hidden relative w-full h-full border-2 border-orange-400 bg-yellow-50 rounded-lg`}
+        className={`flex flex-col overflow-hidden relative w-full h-full border-2 border-orange-400 bg-yellow-50 rounded-lg bg-opacity-[0.85]`}
       >
         <MyPageTab />
         <Outlet />

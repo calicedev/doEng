@@ -8,15 +8,15 @@ import { NavLink } from "react-router-dom"
 export default function MyPageTab() {
   // NavLink 기본 tailwind Class
   const defaultClass =
-    "flex-1 flex justify-center items-center text-lg py-1 font-bold "
+    "flex-1 flex justify-center items-center text-[36px] py-1 bg-opacity-[0.78] duration-[0.22s] "
   // NavLink 활성 시 tailwind Class
-  const activeClass = "bg-orange-500 text-white"
+  const activeClass = "bg-orange-500 text-white font-hopang-black"
   // NavLink 비활성 시 tailwind Class
   const inactiveClass =
-    "bg-white bg-opacity-80 text-orange-500 border-orange-400 border-b-2"
+    "bg-white bg-opacity-80 text-orange-500 border-orange-400 border-b-2 font-hopang-white "
 
   return (
-    <div className={`flex sticky left-0 top-0 w-full`}>
+    <div className={`flex sticky left-0 top-0 w-full h-[7.1%]`}>
       <NavLink
         to="/mypage/progress"
         className={({ isActive }) =>

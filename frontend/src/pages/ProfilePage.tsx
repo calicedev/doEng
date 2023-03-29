@@ -5,7 +5,7 @@ import Profile from "components/MyPageComponents/Profile/ProfilePassword"
 
 export default function ProfilePage() {
   return (
-    <div className="p-10">
+    <div className="p-10 h-full w-full">
       <ProfileHeader path="profile" />
       {/* <Profile /> */}
       <ProfileInfo />

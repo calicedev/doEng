@@ -86,7 +86,7 @@ function ProfilePwdEditForm() {
   }
 
   return (
-    <div className="flex flex-col gap-10 p-10">
+    <div className="flex flex-col p-10 h-full justify-evenly">
       <MyPageInput
         type="originalPwd"
         inputRef={oldPasswordRef}
@@ -103,7 +103,14 @@ function ProfilePwdEditForm() {
         onChange={newPassword2ChangeHandler}
       />
 
-      <div onClick={ProfilePwdEditHandler}>바꿔바꿔</div>
+      <div className="flex flex-col gap-10 flex-1 items-end">
+        <div
+          onClick={ProfilePwdEditHandler}
+          className="box-border flex items-center justify-center bg-opacity-80 rounded-full h-auto w-auto px-7 py-3 font-hopang-black text-3xl border-[4px] shadow-xl duration-[0.66s] hover:scale-105 cursor-pointer bg-gradient-to-tl from-lime-400 to-lime-200 border-lime-500"
+        >
+          수정 완료
+        </div>
+      </div>
     </div>
   )
 }

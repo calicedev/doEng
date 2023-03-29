@@ -7,16 +7,8 @@ import MyPageInput from "../common/MyPageInput"
 import { useSelector } from "react-redux"
 import { useUserData } from "hooks/queries/queries"
 import { useInput } from "hooks/useInput"
-
-interface userData {
-  id: number
-  memberId: string
-  email: string
-  nickname: string
-  name: string
-  phone: string
-  createdAt: string
-}
+import CommonLoading from "components/UI/CommonLoading"
+import LoadingPage from "pages/LoadingPage"
 
 function ProfileInfo() {
   // const user = useSelector((state) => state.user)
@@ -34,11 +26,7 @@ function ProfileInfo() {
   const { setFirstData: emailFirstData } = useInput(emailRef)
   const { setFirstData: phoneFirstData } = useInput(phoneRef)
 
-  const {
-    isLoading: queryLoading,
-    error: queryError,
-    data: user,
-  } = useUserData()
+  const { isLoading: userLoading, error: userError, data: user } = useUserData()
 
   useEffect(
     function () {
@@ -50,10 +38,17 @@ function ProfileInfo() {
     },
     [user?.name, user?.nickname, user?.memberId, user?.email, user?.phone],
   )
+  if (userLoading) {
+    return (
+      <LoadingPage>
+        <div className="text-[44px]">로딩중...</div>
+      </LoadingPage>
+    )
+  }
 
   return (
-    <div className="flex flex-col gap-10 p-10">
-      <div className="flex gap-10">
+    <div className="flex flex-col p-10 h-full justify-center">
+      <div className="flex gap-10 flex-1">
         <MyPageInput type="name" inputRef={nameRef} disabled={true} />
         <MyPageInput type="nickname" inputRef={nickRef} disabled={true} />
       </div>
@@ -65,13 +60,3 @@ function ProfileInfo() {
 }
 
 export default ProfileInfo
-
-const exData = {
-  id: 1,
-  memberId: "doeng1",
-  email: "abcd@gmail.com",
-  nickname: "두잉",
-  name: "홍길동",
-  phone: "010-8832-2029",
-  createdAt: "2017-09-11",
-}

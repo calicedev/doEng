@@ -66,7 +66,7 @@ const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({}) {
         style={{ paddingBottom: "110%" }}
       >
         <img
-          src={taleDetail?.title}
+          src={taleDetail?.backgroundImage}
           className={`absolute top-0 left-0 w-full h-full object-cover`}
         />
       </div>

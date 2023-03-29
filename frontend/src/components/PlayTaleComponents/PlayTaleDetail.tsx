@@ -23,7 +23,6 @@ const PlayTaleDetailCompo = function ({
 }: PropsWithChildren<Props>) {
   const navigate = useNavigate()
   const { data: PlayTaleDetailData } = usePlayTaleDetail(taleId)
-  console.log(PlayTaleDetailData)
   const [isOpen, setIsOpen] = useState<boolean>(true)
   const restartHandler = function () {
     // navigate()
@@ -106,7 +105,7 @@ const PlayTaleDetailCompo = function ({
           className={`absolute top-[7%] right-[5%] min-w-[50px] min-h-[50px] max-w-[80px] max-h-[80px] cursor-pointer hover:scale-110 duration-[0.33s] z-50`}
         />
         <div
-          className="h-full flex flex-col items-center justify-end pt-[5%] pb-[11.5%] bg-opacity-60 pr-[0.5%]"
+          className="h-full flex flex-col items-center justify-between pt-[5%] pb-[11.5%] bg-opacity-60 pr-[0.5%]"
           style={{ width: `${customWidth}px` }}
         >
           <div className="basis-[10%] h-full flex flex-row font-hopang-black text-[3rem]">

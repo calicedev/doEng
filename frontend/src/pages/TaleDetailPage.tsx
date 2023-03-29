@@ -52,10 +52,10 @@ const TaleDetailPage = function () {
         <TitleContent title={`준비물`}>{materialList}</TitleContent>
         {taleDetail?.purchased && (
           <TitleContent title={`내 리뷰`}>
-            <MyReview review={taleDetail?.myReview} />
+            <MyReview />
           </TitleContent>
         )}
-        <ReviewList reviewList={taleDetail?.reviewList} />
+        <ReviewList />
       </div>
     </div>
   )

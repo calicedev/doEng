@@ -1,4 +1,5 @@
-import { Review } from "hooks/queries/queries"
+import { SpinnerDots } from "components/UI/Spinner"
+import { Review, useReviewList } from "hooks/queries/queries"
 import { useWidthHeight } from "hooks/useWidthHwight"
 import React, {
   FC,
@@ -8,23 +9,53 @@ import React, {
   useEffect,
   useState,
 } from "react"
+import { useParams } from "react-router-dom"
 import StarRating from "../common/StarRating"
 
-interface Props {
-  reviewList: Review[]
-}
+const ReviewList = function () {
+  const { taleId } = useParams() as { taleId: string }
+  const { data: reviews, isLoading } = useReviewList(parseInt(taleId))
 
-const ReviewList = function ({ reviewList }: PropsWithChildren<Props>) {
+  if (isLoading) {
+    return <SpinnerDots />
+  }
+  if (!reviews) {
+    return (
+      <div
+        className={`overflow-y-auto flex flex-col p-3 rounded-lg bg-white bg-opacity-80 drop-shadow-xl font-hopang-black text-[2rem] items-center justify-center`}
+      >
+        알 수 없는 에러가 발생했습니다. 새로고침 해주세요.
+      </div>
+    )
+  }
+
+  if (reviews?.reviewList.length === 0) {
+    return (
+      <div
+        className={`overflow-y-auto flex flex-col p-3 rounded-lg bg-white bg-opacity-80 drop-shadow-xl font-hopang-black text-[2rem] items-center justify-center`}
+      >
+        리뷰가 없습니다!
+      </div>
+    )
+  }
   return (
     <div
-      className={`overflow-y-auto flex flex-col p-3 rounded-lg bg-white bg-opacity-80 drop-shadow-xl`}
+      className={`overflow-y-auto flex flex-col p-3 rounded-lg bg-white bg-opacity-80 drop-shadow-xl font-hopang-black text-[2rem]`}
     >
       <div
         className={`overflow-y-auto flex flex-col gap-5 max-h-[400px] sm:h-auto`}
       >
-        {reviewList.map((review) => (
-          <ReviewItem key={`review-${review.id}`} review={review} />
-        ))}
+        {reviews.reviewList ? (
+          reviews.reviewList.map((review) => (
+            <ReviewItem key={`review-${review.id}`} review={review} />
+          ))
+        ) : (
+          <div
+            className={`overflow-y-auto flex flex-col p-3 rounded-lg bg-white bg-opacity-80 drop-shadow-xl`}
+          >
+            리뷰가 없습니다!
+          </div>
+        )}
       </div>
     </div>
   )

@@ -8,6 +8,7 @@ import { useStoreDispatch } from "hooks/useStoreSelector"
 import { useUserData, useUserMutation } from "hooks/queries/queries"
 import { tokenActions } from "store/tokenSlice"
 import { DispatchToast } from "store"
+import { passwordActions } from "store/passwordSlice"
 
 /*
 마이페이지(/mypage) 상단에 나오는 네비게이션 바
@@ -25,10 +26,11 @@ export default function MyPageNavigation() {
       .then((res) => {
         console.log(res)
         dispatch(tokenActions.deleteTokens({}))
+        dispatch(passwordActions.wrongPassword({}))
         dispatch(DispatchToast("로그아웃 성공!", true))
+        navigate(`/`)
       })
       .catch((err) => {
-        console.log(err)
         dispatch(DispatchToast("로그아웃에 실패하셨습니다.", false))
       })
   }

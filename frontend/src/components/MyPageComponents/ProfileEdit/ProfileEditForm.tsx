@@ -19,8 +19,9 @@ function ProfileEditForm() {
   } = useUserData()
 
   const dispatch = useStoreDispatch()
+  const navigate = useNavigate()
 
-  const { mutate: ProfileEditMutate } = useUserMutation()
+  const { mutateAsync: ProfileEditMutate } = useUserMutation()
   const [profileName, setProfileName] = useState(user?.name || "")
   const [profileNickname, setProfileNickname] = useState(user?.nickname || "")
   const [nameRef, nickRef, idRef, emailRef, phoneRef] = [
@@ -85,38 +86,38 @@ function ProfileEditForm() {
         name: nameInput,
         nickname: nickInput,
       },
+    }).then((res) => {
+      navigate(`/mypage/profile`)
     })
   }
 
   return (
-    <div className="flex flex-col gap-10 p-10">
-      <div className="flex gap-10"></div>
-      <MyPageInput
-        inputRef={nameRef}
-        type="name"
-        onChange={nameChangeHandler}
-      />
-      <MyPageInput
-        inputRef={nickRef}
-        type="nickname"
-        onChange={nickChangeHandler}
-      />
-      <div onClick={profileEditHandler}>바꿔바꿔</div>
-      <MyPageInput type="id" inputRef={idRef} disabled={true} />
+    <div className="flex flex-col p-10 h-full justify-evenly">
+      <div className="flex flex-col gap-10 flex-1">
+        <MyPageInput
+          inputRef={nameRef}
+          type="name"
+          onChange={nameChangeHandler}
+        />
+        <MyPageInput
+          inputRef={nickRef}
+          type="nickname"
+          onChange={nickChangeHandler}
+        />
+      </div>
+      <div className="flex flex-col gap-10 flex-1 items-end">
+        <div
+          onClick={profileEditHandler}
+          className="box-border flex items-center justify-center bg-opacity-80 rounded-full h-auto w-auto px-7 py-3 font-hopang-black text-3xl border-[4px] shadow-xl duration-[0.66s] hover:scale-105 cursor-pointer bg-gradient-to-tl from-lime-400 to-lime-200 border-lime-500"
+        >
+          수정 완료
+        </div>
+      </div>
+      {/* <MyPageInput type="id" inputRef={idRef} disabled={true} />
       <MyPageInput type="email" inputRef={emailRef} disabled={true} />
-      <MyPageInput type="phone" inputRef={phoneRef} disabled={true} />
+      <MyPageInput type="phone" inputRef={phoneRef} disabled={true} /> */}
     </div>
   )
 }
 
 export default ProfileEditForm
-
-const exData = {
-  id: 1,
-  memberId: "doeng1",
-  email: "abcd@gmail.com",
-  nickname: "두잉",
-  name: "홍길동",
-  phone: "010-8832-2029",
-  createdAt: "2017-09-11",
-}

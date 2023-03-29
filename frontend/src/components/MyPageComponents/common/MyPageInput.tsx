@@ -65,8 +65,11 @@ const MyPageInput = function ({
   }[type]
 
   return (
-    <div className={`flex-1 flex flex-col gap-1`}>
-      <label htmlFor={`mypage-input-${type}`} className={`text-lg font-bold`}>
+    <div className={`flex-1 flex flex-col gap-3`}>
+      <label
+        htmlFor={`mypage-input-${type}`}
+        className={`text-lg font-bold font-jalnan text-[33px]`}
+      >
         {label}
       </label>
       <input
@@ -76,7 +79,7 @@ const MyPageInput = function ({
         placeholder={placeholder}
         disabled={disabled}
         onChange={onChange}
-        className={`py-1 px-2 bg-white rounded shadow-xl text-lg `}
+        className={`py-3 px-5 bg-white rounded-full shadow-xl text-lg text-[22px]`}
       />
     </div>
   )

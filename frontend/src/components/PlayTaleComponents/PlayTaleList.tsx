@@ -11,24 +11,22 @@ import { useQuery } from "@tanstack/react-query"
 import { queryKeys } from "hooks/queries/queryKeys"
 import { usePlayTaleList } from "hooks/queries/queries"
 import SuperHeroLanding from "./SuperHeroLanding"
-
-interface Tale {
-  id: number
-  title: string
-  backgroundImage: string
-  score: number
-  purchased: boolean
-}
+import LoadingPage from "pages/LoadingPage"
+import { SpinnerDots } from "components/UI/Spinner"
 
 const PlayTaleList = function () {
   const imgRef = useRef<HTMLImageElement>(null)
   const { width, height } = useWidthHeight(imgRef)
 
-  const { isLoading, error, data: PlayTaleList } = usePlayTaleList()
+  const {
+    isInitialLoading,
+    isLoading,
+    error,
+    data: PlayTaleList,
+  } = usePlayTaleList()
 
-  console.log(PlayTaleList)
-  if (!PlayTaleList) {
-    return <LoadingComp />
+  if (isLoading) {
+    return <LoadingPage />
   }
   return (
     <>
@@ -55,15 +53,19 @@ const PlayTaleList = function () {
         className="w-full h-[48%] flex flex-row overflow-y-scroll flex-wrap gap-[1%] px-30% absolute top-[38%] pl-[25.25%] pr-[24%]"
         // style={{ width: `${width}px` }}
       >
-        {PlayTaleList.map((tale, idx: number) => {
-          return (
-            <PlayTaleListItem
-              tale={tale}
-              key={`play-tale-${tale.id}`}
-              animationOrder={idx}
-            />
-          )
-        })}
+        {PlayTaleList ? (
+          PlayTaleList.map((tale, idx: number) => {
+            return (
+              <PlayTaleListItem
+                tale={tale}
+                key={`play-tale-${tale.id}`}
+                animationOrder={idx}
+              />
+            )
+          })
+        ) : (
+          <SpinnerDots />
+        )}
       </div>
       {/* </div> */}
     </>

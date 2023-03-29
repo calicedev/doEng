@@ -9,7 +9,10 @@ import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query"
 import apiRequest from "utils/axios"
 import { DispatchToast } from "store"
 import { useStoreDispatch } from "hooks/useStoreSelector"
-import { Review } from "hooks/queries/queries"
+import { Review, useReviewList } from "hooks/queries/queries"
+import { queryKeys } from "hooks/queries/queryKeys"
+import { AxiosRequestConfig } from "axios"
+import { SpinnerDots } from "components/UI/Spinner"
 
 // interface Review {
 //   id: number
@@ -18,28 +21,17 @@ import { Review } from "hooks/queries/queries"
 //   content: string
 // }
 
-interface Props {
-  review: Review
-}
-
-const MyReview = function ({ review }: PropsWithChildren<Props>) {
+const MyReview = function () {
   const navigate = useNavigate()
   const dispatch = useStoreDispatch()
   const queryClient = useQueryClient()
   const { taleId } = useParams() as { taleId: string } // 참조: https://velog.io/@euji42/Typescript-useParams-%ED%83%80%EC%9E%85-oi26j7va
-  // if (!taleId) {
-  //   navigate(-1)
-  //   return <div>부적절한 접근입니다.</div>
-  // }
+  const { data: review, isLoading } = useReviewList(parseInt(taleId))
 
-  const [isUpdating, setIsUpdating] = useState(false)
-  const [score, setScore] = useState(review ? review.score : 0)
-  const [content, setContent] = useState(review ? review.content : "")
-
-  const { mutate: postReview } = useMutation(
-    function () {
+  const { mutateAsync: mutateReview } = useMutation({
+    mutationFn: function (requestType: string) {
       return apiRequest({
-        method: `post`,
+        method: requestType,
         url: `/api/mypage/review/${taleId}`,
         data: {
           score,
@@ -47,85 +39,101 @@ const MyReview = function ({ review }: PropsWithChildren<Props>) {
         },
       })
     },
-    {
-      onSuccess: function () {
-        queryClient.invalidateQueries([`tale`, parseInt(taleId)])
-      },
-      onError: function () {
-        dispatch(DispatchToast("리뷰 작성 실패! 재시도 바랍니다.", false))
-      },
+    onSuccess: function () {
+      queryClient.invalidateQueries(queryKeys.store())
     },
-  )
-  const { mutate: putReview } = useMutation(
-    function () {
-      return apiRequest({
-        method: `put`,
-        url: `/api/mypage/review/${taleId}`,
-        data: {
-          score,
-          content,
-        },
-      })
-    },
-    {
-      onSuccess: function () {
-        queryClient.invalidateQueries([`tale`, parseInt(taleId)])
-      },
-      onError: function () {
-        dispatch(DispatchToast("리뷰 수정 실패! 재시도 바랍니다.", false))
-      },
-    },
-  )
-  const { mutate: delReview } = useMutation(
-    function () {
+  })
+  const { mutateAsync: delReview } = useMutation({
+    mutationFn: function () {
       return apiRequest({
         method: `delete`,
-        url: `/api/mypage/review/${taleId}`,
+        url: `/api/mypage/review/${review?.myReview.id}`,
+      })
+    },
+    onSuccess: function () {
+      queryClient.invalidateQueries(queryKeys.store())
+    },
+  })
+  const { mutateAsync: putReview } = useMutation({
+    mutationFn: function () {
+      return apiRequest({
+        method: `put`,
+        url: `/api/mypage/review/${review?.myReview.id}`,
         data: {
           score,
           content,
         },
       })
     },
-    {
-      onSuccess: function () {
-        queryClient.invalidateQueries([`tale`, parseInt(taleId)])
-      },
-      onError: function () {
-        dispatch(DispatchToast("리뷰 삭제 실패! 재시도 바랍니다.", false))
-      },
+    onSuccess: function () {
+      queryClient.invalidateQueries(queryKeys.store())
     },
+  })
+  const [isUpdating, setIsUpdating] = useState(false)
+  const [score, setScore] = useState(
+    review?.myReview ? review.myReview.score : 0,
+  )
+  const [content, setContent] = useState(
+    review?.myReview ? review.myReview.content : "",
   )
 
   const createReview = function () {
-    postReview()
+    mutateReview("post")
+      .then((res) => {
+        dispatch(DispatchToast("리뷰 작성 성공!", true))
+      })
+      .catch((err) => {
+        dispatch(DispatchToast("리뷰 작성 실패! 재시도 바랍니다.", false))
+      })
   }
-
   const updateReview = function () {
     putReview()
+      .then((res) => {
+        setIsUpdating(() => false)
+        dispatch(DispatchToast("리뷰 수정 완료!", true))
+      })
+      .catch((err) => {
+        dispatch(DispatchToast("리뷰 수정 실패! 재시도 바랍니다.", false))
+      })
   }
-
   const deleteReview = function () {
+    // mutateReview("delete")
     delReview()
+      .then((res) => {
+        setScore(() => 0)
+        setContent(() => "")
+        dispatch(DispatchToast("리뷰 삭제 완료!", true))
+      })
+      .catch((err) => {
+        dispatch(DispatchToast("리뷰 삭제 실패! 재시도 바랍니다.", false))
+      })
   }
 
   // 리뷰 수정 취소
   const cancelUpdating = () => {
-    setScore(review ? review.score : 0)
-    setContent(review ? review.content : "")
+    setScore(review?.myReview.score ? review.myReview.score : 0)
+    setContent(review?.myReview ? review.myReview.content : "")
     setIsUpdating(false)
   }
 
   const containerClass = `flex flex-col gap-2`
   const innerClass = `flex justify-between gap-6 text-lg`
   const inputClass = `flex-1 rounded px-3`
+  if (isLoading) {
+    return <SpinnerDots />
+  }
   return (
     <>
-      {!review ? (
+      {!review?.myReview ? (
         <div className={`${containerClass}`}>
           <InputStarRating size={`large`} rating={score} setRating={setScore} />
           <div className={`${innerClass}`}>
-            <input value={content} type="text" className={`${inputClass}`} />
+            <input
+              value={content}
+              type="text"
+              className={`${inputClass}`}
+              onChange={(e) => setContent(e.target.value)}
+            />
             <MyPageButton text="작성" color={`orange`} onClick={createReview} />
           </div>
         </div>
@@ -145,9 +153,9 @@ const MyReview = function ({ review }: PropsWithChildren<Props>) {
         </div>
       ) : (
         <div className={`${containerClass}`}>
-          <StarRating rating={review.score} size={`large`} />
+          <StarRating rating={review?.myReview?.score || 0} size={`large`} />
           <div className={`${innerClass}`}>
-            <p className={`flex-1`}>{review.content}</p>
+            <p className={`flex-1`}>{review?.myReview?.content || ""}</p>
             <IconButton
               icon={<BsFillPencilFill />}
               size={`small`}
