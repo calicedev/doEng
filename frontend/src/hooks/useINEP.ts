@@ -2,6 +2,7 @@ import axios, { AxiosRequestConfig, AxiosResponse } from "axios"
 import { useEffect, useState, useMemo } from "react"
 import { DispatchToast } from "store"
 import apiRequest from "utils/axios"
+import { useUserData } from "./queries/queries"
 import { useStoreDispatch } from "./useStoreSelector"
 
 const useINEP = function (
@@ -11,52 +12,61 @@ const useINEP = function (
 ) {
   const dispatch = useStoreDispatch()
   const [dupValid, setDupValid] = useState<boolean | null>(null)
+  const { data: userData } = useUserData()
   const {
     typeName,
     requestData,
-  }: { typeName: string; requestData: AxiosRequestConfig } = useMemo(
-    function () {
-      let typeName: string
-      let requestData: AxiosRequestConfig
-      if (hookType === "email") {
-        typeName = "이메일"
-        requestData = {
-          method: `get`,
-          url: `/api/auth/check/email/${value}`,
+    oldData,
+  }: { typeName: string; requestData: AxiosRequestConfig; oldData: string } =
+    useMemo(
+      function () {
+        let typeName: string
+        let requestData: AxiosRequestConfig
+        let oldData: string
+        if (hookType === "email") {
+          typeName = "이메일"
+          requestData = {
+            method: `get`,
+            url: `/api/auth/check/email/${value}`,
+          }
+          oldData = userData?.email || ""
+        } else if (hookType === "phone") {
+          typeName = "폰 번호"
+          requestData = {
+            method: `get`,
+            url: `/api/auth/check/phone/${value}`,
+          }
+          oldData = userData?.phone || ""
+        } else if (hookType === "nick") {
+          typeName = "닉네임"
+          requestData = {
+            method: `get`,
+            url: `/api/auth/check/nickname/${value}`,
+          }
+          oldData = userData?.nickname || ""
+        } else if (hookType === "id") {
+          typeName = "아이디"
+          requestData = {
+            method: `get`,
+            url: `/api/auth/check/memberId/${value}`, // auth-id로 변경 예정
+          }
+          oldData = userData?.memberId || ""
+        } else {
+          typeName = `${value}`
+          requestData = {
+            method: `get`,
+            url: `/api/auth/check/${hookType}/${value}`,
+          }
+          oldData = ""
         }
-      } else if (hookType === "phone") {
-        typeName = "폰 번호"
-        requestData = {
-          method: `get`,
-          url: `/api/auth/check/phone/${value}`,
-        }
-      } else if (hookType === "nick") {
-        typeName = "닉네임"
-        requestData = {
-          method: `get`,
-          url: `/api/auth/check/nickname/${value}`,
-        }
-      } else if (hookType === "id") {
-        typeName = "아이디"
-        requestData = {
-          method: `get`,
-          url: `/api/auth/check/memberId/${value}`, // auth-id로 변경 예정
-        }
-      } else {
-        typeName = `${value}`
-        requestData = {
-          method: `get`,
-          url: `/api/auth/check/${hookType}/${value}`,
-        }
-      }
-      return { typeName, requestData }
-    },
-    [hookType, value],
-  )
+        return { typeName, requestData, oldData }
+      },
+      [hookType, value],
+    )
 
   useEffect(
     function () {
-      if (!isValid) {
+      if (!isValid || value === oldData) {
         return
       }
       setDupValid(() => null)
@@ -67,7 +77,12 @@ const useINEP = function (
             const val = res.data === false
             setDupValid(() => val)
             if (val) {
-              dispatch(DispatchToast(`사용 가능한 ${typeName}입니다!`, true))
+              dispatch(
+                DispatchToast(
+                  `${value}는 사용 가능한 ${typeName}입니다!`,
+                  true,
+                ),
+              )
             } else {
               dispatch(
                 DispatchToast(

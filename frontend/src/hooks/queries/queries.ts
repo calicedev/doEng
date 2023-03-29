@@ -230,16 +230,28 @@ export const useWordTestResult = function (taleId: number) {
   })
 }
 
+// export const useUserMutation = function () {
+//   const queryClient = useQueryClient()
+//   return useMutation(
+//     function (request: AxiosRequestConfig) {
+//       return apiRequest(request)
+//     },
+//     {
+//       onSuccess() {
+//         queryClient.invalidateQueries(queryKeys.user())
+//       },
+//     },
+//   )
+// }
+
 export const useUserMutation = function () {
   const queryClient = useQueryClient()
-  return useMutation(
-    function (request: AxiosRequestConfig) {
+  return useMutation({
+    mutationFn: function (request: AxiosRequestConfig) {
       return apiRequest(request)
     },
-    {
-      onSuccess() {
-        queryClient.invalidateQueries(queryKeys.user())
-      },
+    onSuccess: function () {
+      queryClient.invalidateQueries(queryKeys.user())
     },
-  )
+  })
 }
