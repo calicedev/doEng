@@ -3,6 +3,7 @@ import { SpinnerDots } from "../components/UI/Spinner"
 import { useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import apiRequest from "../utils/axios"
+import LoadingPage from "./LoadingPage"
 
 const GoogleLoginLoadingPage = function () {
   const navigate = useNavigate()
@@ -30,7 +31,7 @@ const GoogleLoginLoadingPage = function () {
     },
     [searchParams],
   )
-  return <SpinnerDots />
+  return <LoadingPage loadingText="구글 로그인 진행중..." />
 }
 
 export default GoogleLoginLoadingPage

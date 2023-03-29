@@ -13,6 +13,7 @@ import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import { payActions } from "store/paySlice"
 import axios from "axios"
 import { DispatchToast } from "store"
+import LoadingPage from "./LoadingPage"
 
 const PayBridgePage = function () {
   const queryClient = useQueryClient()
@@ -104,14 +105,7 @@ const PayBridgePage = function () {
     [isSuccess],
   )
 
-  return (
-    <>
-      <LoadingComp />
-      <div className="w-full h-full flex items-center justify-center">
-        <div>ㅎㅇ</div>
-      </div>
-    </>
-  )
+  return <LoadingPage loadingText="결제 진행중입니다..." />
 }
 
 export default PayBridgePage
