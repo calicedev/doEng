@@ -10,6 +10,7 @@ import toastSlice, { toastActions } from "./toastSlice"
 import userSlice, { userActions } from "./userSlice"
 import findSlice from "./findSlice"
 import passwordSlice from "./passwordSlice"
+import wordTestSlice from "./wordTestSlice"
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
@@ -21,6 +22,7 @@ const rootReducers = combineReducers({
   find: findSlice,
   user: userSlice,
   password: passwordSlice,
+  wordTest: wordTestSlice,
 })
 
 const persistConfig = {

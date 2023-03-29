@@ -6,7 +6,12 @@ interface Props {
 }
 
 function WordCard({ word }: PropsWithChildren<Props>) {
-  return <div>{word.engWord}</div>
+  return (
+    <div>
+      {word.engWord}
+      <img src={word.image} /> 이미지{" "}
+    </div>
+  )
 }
 
 export default WordCard

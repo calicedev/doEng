@@ -32,6 +32,7 @@ import GoogleLoginLoadingPage from "pages/GoogleLoginLoadingPage"
 import WordCollectionPage from "pages/WordCollectionPage"
 import PlayScenePage from "pages/PlayScenePage"
 import WordTestPage from "pages/WordTestPage"
+import WordTestResultPage from "pages/WordTestResultPage"
 
 // // ProtectedRoute 사용법
 // const TestApp = function () {
@@ -81,6 +82,10 @@ function App() {
             <Route
               path={`word-test/:taleId`}
               element={<WordTestPage />}
+            ></Route>
+            <Route
+              path={`word-test/:taleId/result`}
+              element={<WordTestResultPage />}
             ></Route>
             <Route
               path={`:taleId/:sceneOrder`}
