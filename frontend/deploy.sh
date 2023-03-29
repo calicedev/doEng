@@ -1,7 +1,6 @@
 #!/bin/bash
 
 # Get the current active version
-pwd
 EXIST_BLUE=$(docker-compose -p doeng-frontend-blue -f docker-compose.blue.yaml ps | grep Up)
 
 # Set the new version to deploy
@@ -29,11 +28,12 @@ if [ -n "$EXIST_AFTER" ]; then
     ln -s /etc/nginx/sites-available/doeng-front-$NEW_VERSION.conf /etc/nginx/sites-enabled/doeng-front-$NEW_VERSION.conf
     docker exec doeng-nginx nginx -s reload
 
-    # 이전 도커 컴포즈 종료 및 삭제(--rmi 포함)
-    docker-compose -p doeng-frontend-$CURRENT_VERSION -f docker-compose.$CURRENT_VERSION.yaml down --rmi all
+    # 이전 도커 컴포즈 종료 및 삭제
+    docker-compose -p doeng-frontend-$CURRENT_VERSION -f docker-compose.$CURRENT_VERSION.yaml down
+    echo The new docker-compose succeded to start
 
 else
-    docker-compose -p doeng-frontend-$NEW_VERSION -f docker-compose.$NEW_VERSION.yaml down --rmi all
+    docker-compose -p doeng-frontend-$NEW_VERSION -f docker-compose.$NEW_VERSION.yaml down
     echo The new docker-compose failed to start
 fi
 
