@@ -55,10 +55,10 @@ public class SceneServiceImpl implements SceneService {
         List<ResopnseSceneDto> returnDto = scenes.stream().map(
                 scene -> ResopnseSceneDto.builder()
                         .id(scene.getId())
-                        .image(scene.getImage())
+                        .image(awsS3Service.getTemporaryUrl(scene.getImage()))
                         .sceneOrder(scene.getSceneOrder())
                         .interactiveType(scene.getInteractiveType())
-                        .backgroundMusic(scene.getBackgroundMusic())
+                        .backgroundMusic(awsS3Service.getTemporaryUrl(scene.getBackgroundMusic()))
                         .scriptList(makeScriptList(scene.getScripts()))
                         .word(wordToDto(scene.getWord()))
                         .build()

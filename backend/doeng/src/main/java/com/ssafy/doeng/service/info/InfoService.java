@@ -2,6 +2,7 @@ package com.ssafy.doeng.service.info;
 
 import com.ssafy.doeng.data.dto.info.request.RequestMaterialInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestSceneInfoDto;
+import com.ssafy.doeng.data.dto.info.request.RequestSceneInfoOnlyDto;
 import com.ssafy.doeng.data.dto.info.request.RequestScriptInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestTaleHasMaterialInfoDto;
 import com.ssafy.doeng.data.dto.info.request.RequestTaleInfoDto;
@@ -15,4 +16,5 @@ public interface InfoService {
     void saveMaterial(RequestMaterialInfoDto requestMaterialInfoDto);
 
     void saveTaleHasMaterial(RequestTaleHasMaterialInfoDto requestTaleHasMaterialInfoDto);
+    void saveSceneOnly(RequestSceneInfoOnlyDto requestSceneInfoOnlyDto);
 }
