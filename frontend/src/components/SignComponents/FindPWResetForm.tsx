@@ -108,7 +108,7 @@ const FindPWResetForm = function () {
       axiosRequest(
         {
           method: `put`,
-          url: `/api/member/password`,
+          url: `/api/auth/password`,
           data: {
             memberId: `${id}`,
             password: `${pw1Input}`,

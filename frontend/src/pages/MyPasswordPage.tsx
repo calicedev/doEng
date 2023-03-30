@@ -3,9 +3,9 @@ import { useStoreSelector } from "hooks/useStoreSelector"
 import { Navigate } from "react-router-dom"
 
 function MyPasswordPage() {
-  const { isCert } = useStoreSelector((state) => state.password)
+  const { isCert, isGoogle } = useStoreSelector((state) => state.password)
 
-  if (isCert) {
+  if (isCert || isGoogle) {
     return <Navigate to={`progress`} />
   }
   return (

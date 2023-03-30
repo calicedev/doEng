@@ -22,7 +22,13 @@ const GoogleLoginLoadingPage = function () {
         })
           .then((res) => {
             console.log(res)
-            navigate("/")
+            if (res.data.type === "login") {
+              navigate(`/`)
+              return res
+            } else if (res.data.type === "signup") {
+              navigate("/google/info")
+              return res
+            }
           })
           .catch((err) => {
             console.log(err)

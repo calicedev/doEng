@@ -2,10 +2,12 @@ import { createSlice } from "@reduxjs/toolkit"
 
 interface passwordStore {
   isCert: boolean
+  isGoogle: boolean
 }
 
 const initialState: passwordStore = {
   isCert: false,
+  isGoogle: false,
 }
 
 const passwordSlice = createSlice({
@@ -17,6 +19,10 @@ const passwordSlice = createSlice({
     },
     wrongPassword(state, action) {
       state.isCert = false
+      state.isGoogle = false
+    },
+    setGoogle(state, action) {
+      state.isGoogle = true
     },
   },
 })

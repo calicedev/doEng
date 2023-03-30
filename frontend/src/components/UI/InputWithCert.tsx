@@ -1,6 +1,5 @@
 import axios from "axios"
 import useApi from "hooks/useApi"
-import useINEP from "hooks/useINEP"
 import { useInput } from "hooks/useInput"
 import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import { PropsWithChildren, useRef, useEffect, useState } from "react"
