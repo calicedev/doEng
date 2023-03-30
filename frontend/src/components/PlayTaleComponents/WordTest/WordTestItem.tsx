@@ -9,8 +9,6 @@ interface Props {
 }
 
 function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
-  const [selectedImage, setSelectedImage] = useState("")
-
   const handleImageClick = (imagePath: string) => {
     if (imagePath === wordInfo.image) {
       handleResponse(true)

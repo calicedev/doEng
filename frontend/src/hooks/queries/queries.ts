@@ -64,6 +64,18 @@ export interface WordTest {
   testList: TestWord[]
 }
 
+export interface TestResult {
+  id: number
+  image: string
+  engWord: string
+  korWord: string
+}
+
+export interface WordResult {
+  title: string
+  testList: TestResult[]
+}
+
 export interface ProgressTale extends ID {
   title: string
   backgroundImage: string
@@ -259,6 +271,15 @@ export const useWordTestResult = function (taleId: number) {
         url: `/api/word-test/${taleId}`,
       }).then((res) => res.data)
     },
+  })
+}
+
+export const useWordTestResultSave = function () {
+  return useQuery<WordResult>(queryKeys.wordList(), function () {
+    return apiRequest({
+      method: `get`,
+      url: `/api/word-test/result`,
+    }).then((res) => res.data)
   })
 }
 
