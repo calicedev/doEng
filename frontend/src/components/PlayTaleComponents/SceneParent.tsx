@@ -13,15 +13,15 @@ const SceneParent = function () {
   const changeSceneHandler = function () {
     setSceneOrder((v) => v + 1)
   }
-  console.log(sceneData)
   return (
     <>
       <GameNavigator />
-      <div>씬</div>
-      <div>씬</div>
-      <div>씬</div>
       {sceneData?.interactiveType ? (
-        <InteractionComp />
+        <InteractionComp
+          taleId={parseInt(taleId)}
+          sceneOrder={sceneOrder}
+          changeScene={changeSceneHandler}
+        />
       ) : (
         <TaleScene
           taleId={parseInt(taleId)}

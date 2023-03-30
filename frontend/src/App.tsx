@@ -74,7 +74,12 @@ function App() {
           <Route path={`profile/edit`} element={<ProfileEditPage />} />
           <Route path={`profile/password`} element={<ProfilePwdEditPage />} />
         </Route>
-        <Route path={`/ai`} element={<InteractionComp />}></Route>
+        <Route
+          path={`/ai`}
+          element={
+            <InteractionComp taleId={1} sceneOrder={5} changeScene={() => {}} />
+          }
+        ></Route>
         <Route element={<ProtectedRoute />}>
           <Route path={`playtale`} element={<PlayTalePage />}>
             <Route path={``} element={<PlayTaleList />} />

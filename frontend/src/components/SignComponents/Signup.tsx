@@ -33,7 +33,8 @@ function Signup() {
     },
     {
       onSuccess: function () {
-        queryClient.invalidateQueries(queryKeys.user())
+        // queryClient.invalidateQueries(queryKeys.user())
+        queryClient.invalidateQueries({ queryKey: queryKeys.user() })
       },
     },
   )

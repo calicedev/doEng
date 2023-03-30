@@ -1,5 +1,6 @@
 import { useUserData } from "hooks/queries/queries"
 import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
+import LoadingPage from "pages/LoadingPage"
 import SignPage from "pages/SignPage"
 import { PropsWithChildren, useEffect } from "react"
 import { Navigate, Outlet, Route } from "react-router-dom"
@@ -25,7 +26,7 @@ const ProtectedRoute = function ({ children }: PropsWithChildren<Props>) {
     [isLoading, data?.id],
   )
   return isLoading ? (
-    <SpinnerDots />
+    <LoadingPage />
   ) : data?.id ? (
     <Outlet />
   ) : (

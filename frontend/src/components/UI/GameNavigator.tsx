@@ -20,7 +20,7 @@ const GameNavigator = function () {
     src: string
   }
   return (
-    <div className="box-border fixed top-0 left-0 w-full h-[13.3%] flex flex-row justify-between py-3 px-5">
+    <div className="box-border fixed top-0 left-0 w-full h-[13.3%] flex flex-row justify-between py-3 px-5 z-[50]">
       <AnimationBox appearClassName="animate-appear-top-nav">
         <div
           className={`flex justify-center items-center w-auto h-full py-2 cursor-pointer hover:scale-[103%] duration-[0.22s]`}

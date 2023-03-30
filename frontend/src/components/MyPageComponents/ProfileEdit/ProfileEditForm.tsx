@@ -87,6 +87,7 @@ function ProfileEditForm() {
         nickname: nickInput,
       },
     }).then((res) => {
+      dispatch(DispatchToast("개인정보 변경 성공!", true))
       navigate(`/mypage/profile`)
     })
   }
