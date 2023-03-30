@@ -41,10 +41,11 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
       console.log(wordTest, "wordtest")
       WordTestMutate({
         method: `post`,
-        url: `api/word-test`,
+        url: `/api/word-test`,
         data: { wordList },
       })
         .then((res) => {
+          console.log(res, "😎😋😊")
           console.log("성공성공이당")
         })
         .catch((err) => {
