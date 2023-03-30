@@ -19,7 +19,7 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
   const { taleId } = useParams() as { taleId: string }
   const navigate = useNavigate()
   const { mutateAsync: WordTestMutate } = useTestMutation()
-  const wordTestList = useStoreSelector((state) => state.wordTest.wordTestList)
+  const wordList = useStoreSelector((state) => state.wordTest.wordTestList)
 
   console.log(wordInfo, "989898")
 
@@ -32,15 +32,17 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
       taleId: parseInt(taleId),
       correct: response,
     }
-    if (currentWordIndex < 5) {
+    if (currentWordIndex < 4) {
       dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
+      console.log(wordTest, "wordtest")
       setCurrentWordIndex(currentWordIndex + 1)
     } else {
       dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
+      console.log(wordTest, "wordtest")
       WordTestMutate({
         method: `post`,
         url: `api/word-test`,
-        data: { wordTestList },
+        data: { wordList },
       })
         .then((res) => {
           console.log("성공성공이당")
@@ -48,6 +50,7 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
         .catch((err) => {
           console.log(err)
         })
+      dispatch(wordTestActions.resetWordTest({ wordTest: wordTest }))
       navigate("result")
     }
   }
