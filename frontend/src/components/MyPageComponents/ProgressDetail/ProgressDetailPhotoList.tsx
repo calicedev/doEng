@@ -8,12 +8,14 @@ interface Props {
   photoCard: ProgressScene
 }
 
+const PHOTOS_PER_PAGE = 3
+
 function ProgressDetailPhotoCard({ photoCard }: PropsWithChildren<Props>) {
   const [isModal, setIsModal] = useState(false)
   const [currentPage, setCurrentPage] = useState(0)
-  const pageSize = 3
+
   const totalPages = photoCard.imageList
-    ? Math.ceil(photoCard.imageList.length / pageSize)
+    ? Math.ceil(photoCard.imageList.length / PHOTOS_PER_PAGE)
     : 1
 
   const handlePageChange = (page: number) => {
@@ -23,18 +25,22 @@ function ProgressDetailPhotoCard({ photoCard }: PropsWithChildren<Props>) {
   const handleImageClick = (image: string) => {
     setIsModal(true)
   }
+
   return (
     <>
-      <div
-        className={`cursor-pointer`}
-        onClick={() => handleImageClick(photoCard.imageList[0].image)}
-      >
-        <img
-          src={photoCard.imageList && photoCard.imageList[0].image}
-          alt="progressPhotoCard"
-          className="w-full"
-        />
-        {photoCard.sceneTitle}
+      <div className=" relative h-full w-[25%] mr-5 ml-5">
+        <div className="bg-white w-full h-full rotate-12 shadow-lg"></div>
+        <div
+          className="absolute top-0 left-0 w-full h-full p-5 shadow-lg overflow-hidden transform hover:rotate-3 hover:-translate-x-1 hover:-translate-y-1 duration-200 cursor-pointe bg-white"
+          onClick={() => handleImageClick(photoCard.imageList[0].image)}
+        >
+          <img
+            src={photoCard.imageList && photoCard.imageList[0].image}
+            alt="progressPhotoCard"
+            className="w-full"
+          />
+          {photoCard.sceneTitle}
+        </div>
       </div>
 
       {isModal && (
@@ -49,7 +55,10 @@ function ProgressDetailPhotoCard({ photoCard }: PropsWithChildren<Props>) {
               className={`grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4`}
             >
               {photoCard.imageList
-                .slice(currentPage * pageSize, (currentPage + 1) * pageSize)
+                .slice(
+                  currentPage * PHOTOS_PER_PAGE,
+                  (currentPage + 1) * PHOTOS_PER_PAGE,
+                )
                 .map((image: ProgressImage) => (
                   <div
                     className={`overflow-hidden relative w-[400px]`}

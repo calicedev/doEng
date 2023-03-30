@@ -1,32 +1,29 @@
-import TaleStoreItem from "components/MyPageComponents/TaleStore/TaleStoreItem"
-import AnimationBox, { textOneByOne } from "components/UI/AnimationBox"
-import CommonLoading from "components/UI/CommonLoading"
 import { useStoreTaleList } from "hooks/queries/queries"
+import { useStoreDispatch } from "hooks/useStoreSelector"
+import { DispatchToast } from "store"
+import CommonLoading from "components/UI/CommonLoading"
+import AnimationBox, { textOneByOne } from "components/UI/AnimationBox"
+import TaleStoreItem from "components/MyPageComponents/TaleStore/TaleStoreItem"
 
-////////////////////////////////////////////////////////////////
-// react query 사용해보기
 const TaleStoreList = function () {
+  const dispatch = useStoreDispatch()
   const {
     isLoading: taleLoading,
     error: taleError,
-    data: tale,
+    data: taleList,
   } = useStoreTaleList()
-  // console.log(tale)
 
-  if (taleLoading) {
-    return <CommonLoading></CommonLoading>
-  }
-  if (!tale) {
-    return <div>잘못된 접근입니다.</div>
+  if (taleError) {
+    dispatch(DispatchToast("동화책 정보를 불러오지 못했습니다.", false))
   }
 
   return (
     <>
       {taleLoading ? (
-        <div>로딩 중</div>
-      ) : tale ? (
+        <CommonLoading />
+      ) : (
         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-          {tale?.map((tale, idx) => (
+          {taleList?.map((tale, idx) => (
             <AnimationBox
               appearClassName={`${textOneByOne[idx]}`}
               key={`tale-store-items-${tale.id}`}
@@ -35,8 +32,6 @@ const TaleStoreList = function () {
             </AnimationBox>
           ))}
         </div>
-      ) : (
-        <div>잘못된 접근입니다.</div>
       )}
     </>
   )

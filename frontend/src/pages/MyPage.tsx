@@ -1,16 +1,12 @@
-import React, { useEffect } from "react"
-import { Outlet, useNavigate } from "react-router-dom"
+import { Outlet } from "react-router-dom"
 import BackgroundImg from "assets/images/MyPageBackground.png"
-import MyPageNavigation from "components/MyPageComponents/common/MyPageNavigation"
+import { useStoreSelector } from "hooks/useStoreSelector"
+import MyPasswordPage from "pages/MyPasswordPage"
 import MyPageTab from "components/MyPageComponents/common/MyPageTab"
-import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
-import { passwordActions } from "store/passwordSlice"
-import MyPasswordPage from "./MyPasswordPage"
+import MyPageNavigation from "components/MyPageComponents/common/MyPageNavigation"
 
 function MyPage() {
   const { isCert } = useStoreSelector((state) => state.password)
-  const navigate = useNavigate()
-  const dispatch = useStoreDispatch()
 
   return (
     <div
