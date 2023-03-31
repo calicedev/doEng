@@ -1,4 +1,4 @@
-import React, { useState, PropsWithChildren } from "react"
+import React, { useState, useEffect, PropsWithChildren, useRef } from "react"
 import { TestWord } from "hooks/queries/queries"
 import { useDispatch } from "react-redux"
 import {} from "store/wordTestSlice"
@@ -9,6 +9,11 @@ interface Props {
 }
 
 function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
+  const [wordAudio, setWordAudio] = useState<HTMLAudioElement | null>(null)
+  const wordAudioRef = useRef<HTMLAudioElement>(null)
+  const [isPlaying, setIsPlaying] = useState(false)
+  const audio = new Audio(wordInfo.voice)
+
   const handleImageClick = (imagePath: string) => {
     if (imagePath === wordInfo.image) {
       handleResponse(true)
@@ -16,6 +21,13 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
       handleResponse(false)
     }
   }
+
+  audio.onended = () => setIsPlaying(false)
+
+  useEffect(() => {
+    setIsPlaying(true)
+    audio.play()
+  }, [wordInfo.voice])
 
   return (
     <div>
