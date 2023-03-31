@@ -1,9 +1,8 @@
-package com.ssafy.doeng.googleLogin;
+package com.ssafy.doeng.oauth2;
 
 import com.ssafy.doeng.data.dto.member.TokenDto;
 import com.ssafy.doeng.data.dto.member.request.RequestMemberDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
-import com.ssafy.doeng.data.entity.member.Authority;
 import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.repository.member.MemberRepository;
 import com.ssafy.doeng.errors.code.MemberErrorCode;
@@ -14,6 +13,7 @@ import java.io.IOException;
 import java.util.UUID;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -44,7 +44,6 @@ public class OAuthService {
                 throw new IllegalArgumentException("알 수 없는 소셜 로그인 형식입니다.");
             }
         }
-//        response.sendRedirect(redirectURL);
         return redirectURL;
     }
 
@@ -56,47 +55,52 @@ public class OAuthService {
                 ResponseEntity<String> accessTokenResponse = googleOauth.requestAccessToken(code);
                 //응답 객체가 JSON형식으로 되어 있으므로, 이를 deserialization해서 자바 객체에 담을 것이다.
                 GoogleOAuthToken oAuthToken = googleOauth.getAccessToken(accessTokenResponse);
+                if(oAuthToken != null){
+                    //액세스 토큰을 다시 구글로 보내 구글에 저장된 사용자 정보가 담긴 응답 객체를 받아온다.
+                    ResponseEntity<String> userInfoResponse = googleOauth.requestUserInfo(oAuthToken);
+                    //다시 JSON 형식의 응답 객체를 자바 객체로 역직렬화한다.
+                    GoogleUser googleUser = googleOauth.getUserInfo(userInfoResponse);
+                    //우리 서버의 db와 대조하여 해당 user가 존재하는 지 확인한다.
+                    String memberId = googleUser.getId();
 
-                //액세스 토큰을 다시 구글로 보내 구글에 저장된 사용자 정보가 담긴 응답 객체를 받아온다.
-                ResponseEntity<String> userInfoResponse = googleOauth.requestUserInfo(oAuthToken);
-                //다시 JSON 형식의 응답 객체를 자바 객체로 역직렬화한다.
-                GoogleUser googleUser = googleOauth.getUserInfo(userInfoResponse);
+                    try {
+                        Member member = memberRepository.findByMemberId(memberId).orElseThrow(
+                                () -> new ErrorException(MemberErrorCode.MEMBER_DUPLICATE));
+                        //서버에 user가 존재하면 앞으로 회원 인가 처리를 위한 jwtToken을 발급한다.
 
-                //우리 서버의 db와 대조하여 해당 user가 존재하는 지 확인한다.
-                String username = googleUser.getEmail();
-                if (memberRepository.findByEmail(username).isEmpty()) {
+                        RequestMemberDto requestDto = RequestMemberDto.builder() // 빌더어노테이션으로 생성된 빌더클래스 생성자
+                                .memberId(member.getMemberId())
+                                .password("11111")
+                                .build();
 
+                        UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
+                        // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
+                        //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
+                        //    customeruservice에서 처리함.
+                        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+                        // 3. 인증 정보를 기반으로 JWT 토큰 생성
+                        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+                        // 4. 토큰 담아서 보내고 redis애 저장
+                        redisUtil.setDataExpire("token_"+member.getId(), tokenDto.getRefreshtoken(),60 * 60 * 24 * 7 * 1000);
+                        return new GetSocialOAuthRes(memberId,null, null, tokenDto, "login");
+                    } catch (Exception e){
+                        //e.printStackTrace();
+                        return new GetSocialOAuthRes(memberId, googleUser.getName(),
+                                googleUser.email, null, "signup");
 
+                    }
+                }else {
+                    System.out.println("Invalid ID token.");
                 }
 
-                if (username != null) {
-                    System.out.println("1+++++++++++++++++++++");
-                    Member member = memberRepository.findByEmail(username).orElseThrow(
-                            () -> new ErrorException(MemberErrorCode.MEMBER_DUPLICATE));
-                    //서버에 user가 존재하면 앞으로 회원 인가 처리를 위한 jwtToken을 발급한다.
-                    RequestMemberDto requestDto = new RequestMemberDto();
-                    requestDto.setMemberId(member.getMemberId());
-                    requestDto.setPassword("11111");
-                    System.out.println("2+++++++++++++++++++++");
-                    UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
-                    System.out.println("3+++++++++++++++++++++");
-                    // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
-                    //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
-                    //    customeruservice에서 처리함.
-                    Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
-                    // 3. 인증 정보를 기반으로 JWT 토큰 생성
-                    System.out.println("4+++++++++++++++++++++");
-                    TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-                    //액세스 토큰과 Authorization, 이외 정보들이 담긴 자바 객체를 다시 전송한다.
-                    redisUtil.setDataExpire("token_"+member.getId(), tokenDto.getRefreshtoken(),60 * 60L * 24 * 7);
-                    return new GetSocialOAuthRes(tokenDto, username, oAuthToken.getAccess_token(), oAuthToken.getToken_type());
-                } else {
-                    throw new IllegalArgumentException("계정이 존재하지 않습니다.");
-                }
             }
             default: {
                 throw new IllegalArgumentException("알 수 없는 소셜 로그인 형식입니다.");
             }
         }
     }
+
+
+
+
 }

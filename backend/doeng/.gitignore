@@ -44,3 +44,5 @@ out/
 ### aws
 src/main/resources/aws.yml
 src/main/resources/application.properties
+src/main/resources/application-oauth.yml
+

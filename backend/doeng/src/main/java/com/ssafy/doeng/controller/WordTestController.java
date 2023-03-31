@@ -3,15 +3,11 @@ package com.ssafy.doeng.controller;
 
 import com.ssafy.doeng.config.auth.LoginId;
 import com.ssafy.doeng.data.dto.word.request.RequestListPostGetWord;
-import com.ssafy.doeng.data.dto.word.request.RequestPostGetWord;
 import com.ssafy.doeng.data.dto.word.request.RequestWordTestDto;
-import com.ssafy.doeng.data.dto.word.response.ResponseTestWordDto;
 import com.ssafy.doeng.data.dto.word.response.ResponseWordTestDto;
-import com.ssafy.doeng.service.review.ReviewService;
+import com.ssafy.doeng.data.dto.word.response.ResponseWordTestResultDto;
 import com.ssafy.doeng.service.test.TestService;
 import com.ssafy.doeng.service.word.WordService;
-import java.util.ArrayList;
-import java.util.List;
 import javax.validation.Valid;
 import javax.validation.constraints.Min;
 import lombok.RequiredArgsConstructor;
@@ -45,12 +41,20 @@ public class WordTestController {
     }
 
     @PostMapping()
-    public ResponseEntity<String> postGetWord(@RequestBody @Valid RequestListPostGetWord wordList, @LoginId long memberId) {
+    public ResponseEntity<ResponseWordTestResultDto> postGetWord(@RequestBody @Valid RequestListPostGetWord wordList, @LoginId long memberId) {
         wordList.setMemberId(memberId);
         System.out.println();
         LOGGER.info("[WordTestController] postGetWord getSize : {}, memberId : {}", wordList.getWordList().size(), wordList.getMemberId());
-        testService.save(wordList);
+        int count = testService.save(wordList);
         LOGGER.info("[WordTestController] postGetWord 종료");
-        return ResponseEntity.ok().body("정상적으로 저장을 처리했습니다.");
+        testService.getWordTestResult(count, wordList.getWordList().get(0).getTaleId(), memberId);
+        return ResponseEntity.ok().body(testService.getWordTestResult(34, 1, 15));
     }
+
+    @GetMapping("/test")
+    public ResponseEntity<?> test(@LoginId long memberId) {
+        LOGGER.info("++++++++++test+++++++++");
+        return ResponseEntity.ok().body(testService.getWordTestResult(34, 1, 15));
+    }
+
 }

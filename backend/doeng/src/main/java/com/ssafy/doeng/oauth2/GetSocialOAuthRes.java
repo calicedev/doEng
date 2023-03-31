@@ -1,6 +1,5 @@
-package com.ssafy.doeng.googleLogin;
+package com.ssafy.doeng.oauth2;
 
-import antlr.Token;
 import com.ssafy.doeng.data.dto.member.TokenDto;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -11,8 +10,9 @@ import lombok.Setter;
 @Setter
 @AllArgsConstructor
 public class GetSocialOAuthRes {
-    private TokenDto jwtToken;
-    private String username;
-    private String accessToken;
-    private String tokenType;
+    private String memberId;
+    private String name;
+    private String email;
+    private TokenDto tokenDto;
+    private String type;
 }
