@@ -6,6 +6,7 @@ import apiRequest from "../utils/axios"
 import LoadingPage from "./LoadingPage"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import { googleActions } from "store/googleSlice"
+import { passwordActions } from "store/passwordSlice"
 
 const GoogleLoginLoadingPage = function () {
   const navigate = useNavigate()
@@ -27,13 +28,14 @@ const GoogleLoginLoadingPage = function () {
             console.log(res)
             if (res.data.type === "login") {
               dispatch(googleActions.resetGoogleSlice({}))
+              dispatch(passwordActions.setGoogle({}))
               navigate(`/`)
             } else if (res.data.type === "signup") {
               dispatch(
                 googleActions.setGoogleSlice({
-                  gId: res.data.memberId,
-                  gmail: res.data.email,
-                  gname: res.data.name,
+                  gId: `${res.data.memberId}`,
+                  gmail: `${res.data.email}`,
+                  gname: `${res.data.name}`,
                 }),
               )
               navigate("/member/google/info")

@@ -80,7 +80,6 @@ function TaleScene({
     },
     [sceneDetail?.backgroundMusic],
   )
-  const addSceneOrder = function () {}
 
   const engScripts = useMemo(
     function () {
@@ -125,19 +124,19 @@ function TaleScene({
     [sceneOrder, sceneDetailLoading],
   )
 
-  useEffect(() => {
-    if (scriptListAudio) {
-      scriptListAudio.addEventListener("ended", () => {
-        if (maxlength && sceneOrder < maxlength) {
-          // changeScene()
-          const timeoutId = setTimeout(changeScene, 3000)
-          return function () {
-            clearTimeout(timeoutId)
-          }
-        }
-      })
-    }
-  }, [scriptListAudio, sceneDetail, sceneOrder, sceneDetailLoading])
+  // useEffect(() => {
+  //   if (scriptListAudio) {
+  //     scriptListAudio.addEventListener("ended", () => {
+  //       if (maxlength && sceneOrder < maxlength) {
+  //         // changeScene()
+  //         const timeoutId = setTimeout(changeScene, 3000)
+  //         return function () {
+  //           clearTimeout(timeoutId)
+  //         }
+  //       }
+  //     })
+  //   }
+  // }, [scriptListAudio, sceneDetail, sceneOrder, sceneDetailLoading])
 
   //   const plusScene = function () {
   //     if (maxlength && sceneOrder < maxlength) {
