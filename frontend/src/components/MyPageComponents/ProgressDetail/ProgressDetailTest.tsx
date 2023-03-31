@@ -22,64 +22,59 @@ function ProgressDetailTest({ taleTest }: PropsWithChildren<Props>) {
   const totalWords: number = taleTest.wordList.length
   const totalTests: number = taleTest.testCount
   return (
-    <div>
-      <table className="table-auto border-collapse border-spacing-20 border-orange-400 border-4">
-        <thead>
-          <tr>
-            <th className="bg-orange-200">Result</th>
-            {[...Array(taleTest.testCount)].map((_, i) => (
-              <th
-                key={i}
-                className=" bg-orange-200 border-4 border-collapse border-orange-400 px-4 py-2"
-              >
-                {i + 1}회
-              </th>
-            ))}
-            <th className="bg-orange-200  border-orange-400 border-4">
-              정답률
+    <table className="table-auto border-collapse whitespace-nowrap border-orange-400 border-4 overflow-x-scroll">
+      <thead>
+        <tr>
+          <th className="bg-orange-200">Result</th>
+          {[...Array(taleTest.testCount)].map((_, i) => (
+            <th
+              key={i}
+              className=" bg-orange-200 border-4 border-collapse border-orange-400 px-4 py-2"
+            >
+              {i + 1}회
             </th>
-          </tr>
-        </thead>
-        <tbody>
-          {taleTest.wordList.map((word) => (
-            <tr key={word.engWord}>
-              <td className="border-4 border-collapse border-orange-400 px-4 py-2">
-                {word.engWord}
-              </td>
-              {word.correctList.map((correct, i) => (
-                <td
-                  key={i}
-                  className="border-4 border-collapse border-orange-400 px-4 py-2"
-                >
-                  {correct.toString()}
-                </td>
-              ))}
-              <td className="border-4 border-collapse border-orange-400 px-4 py-2">
-                {(
-                  (wordTrueCounts[taleTest.wordList.indexOf(word)] /
-                    totalTests) *
-                  100
-                ).toFixed(2)}
-                %
-              </td>
-            </tr>
           ))}
-          <tr>
+          <th className="bg-orange-200  border-orange-400 border-4">정답률</th>
+        </tr>
+      </thead>
+      <tbody>
+        {taleTest.wordList.map((word) => (
+          <tr key={word.engWord}>
             <td className="border-4 border-collapse border-orange-400 px-4 py-2">
-              점수
+              {word.engWord}
             </td>
-            {testTrueCounts?.map((count, i) => (
+            {word.correctList.map((correct, i) => (
               <td
                 key={i}
                 className="border-4 border-collapse border-orange-400 px-4 py-2"
               >
-                {count}
+                {correct.toString()}
               </td>
             ))}
+            <td className="border-4 border-collapse border-orange-400 px-4 py-2">
+              {(
+                (wordTrueCounts[taleTest.wordList.indexOf(word)] / totalTests) *
+                100
+              ).toFixed(2)}
+              %
+            </td>
           </tr>
-        </tbody>
-      </table>
-    </div>
+        ))}
+        <tr>
+          <td className="border-4 border-collapse border-orange-400 px-4 py-2">
+            점수
+          </td>
+          {testTrueCounts?.map((count, i) => (
+            <td
+              key={i}
+              className="border-4 border-collapse border-orange-400 px-4 py-2"
+            >
+              {count}
+            </td>
+          ))}
+        </tr>
+      </tbody>
+    </table>
   )
 }
 
