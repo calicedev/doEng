@@ -98,6 +98,8 @@ const GoogleAdditionalInput = function () {
         await apiRequest({
           method: `get`,
           url: `/api/auth/login/GOOGLE`,
+        }).then((res) => {
+          window.location.href = res.data
         })
         dispatch(googleActions.resetGoogleSlice({}))
       })
