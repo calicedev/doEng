@@ -22,7 +22,8 @@ const testResultSlice = createSlice({
   initialState,
   reducers: {
     saveTestResult(state, action) {
-      state.testList = [action.payload.wordResult]
+      state.testList = action.payload.wordResult.testList
+      state.title = action.payload.wordResult.title
       console.log(state.testList, ">>>>>>>>")
     },
   },
