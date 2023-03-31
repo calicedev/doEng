@@ -274,15 +274,6 @@ export const useWordTestResult = function (taleId: number) {
   })
 }
 
-export const useWordTestResultSave = function () {
-  return useQuery<WordResult>(queryKeys.wordList(), function () {
-    return apiRequest({
-      method: `get`,
-      url: `/api/word-test/result`,
-    }).then((res) => res.data)
-  })
-}
-
 // export const useUserMutation = function () {
 //   const queryClient = useQueryClient()
 //   return useMutation(
