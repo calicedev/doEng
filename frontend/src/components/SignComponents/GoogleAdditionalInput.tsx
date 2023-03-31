@@ -26,8 +26,8 @@ const GoogleAdditionalInput = function () {
   const queryClient = useQueryClient()
   const { gId, gmail, gname, code } = useStoreSelector((state) => state.google)
   const { mutateAsync } = useMutation({
-    mutationFn: function () {
-      return apiRequest({
+    mutationFn: async function () {
+      return await apiRequest({
         method: `post`,
         baseURL: `https://j8a601.p.ssafy.io`,
         url: `/api/auth/google`,
@@ -93,9 +93,8 @@ const GoogleAdditionalInput = function () {
   const loginHandler = function (e: FormEvent) {
     e.preventDefault()
     mutateAsync()
-      .then(() => {
-        dispatch(googleActions.resetGoogleSlice({}))
-        apiRequest({
+      .then(async () => {
+        await apiRequest({
           method: `get`,
           url: `/api/auth/login/GOOGLE`,
         }).then((res) => {
