@@ -6,12 +6,10 @@ import axios from "axios"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import { tokenActions } from "store/tokenSlice"
 import LoadingPage from "./LoadingPage"
-import { useStoreDispatch } from "hooks/useStoreSelector"
 import { googleActions } from "store/googleSlice"
 import { passwordActions } from "store/passwordSlice"
 
 const GoogleLoginLoadingPage = function () {
-  const dispatch = useStoreDispatch()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
   const dispatch = useStoreDispatch()
@@ -34,9 +32,9 @@ const GoogleLoginLoadingPage = function () {
             if (res.data.type === "login") {
               dispatch(googleActions.resetGoogleSlice({}))
               dispatch(passwordActions.setGoogle({}))
-               dispatch(
-              tokenActions.setAccessToken({
-                accessToken: res.headers[`accesstoken`],
+              dispatch(
+                tokenActions.setAccessToken({
+                  accessToken: res.headers[`accesstoken`],
                 }),
               )
               dispatch(
