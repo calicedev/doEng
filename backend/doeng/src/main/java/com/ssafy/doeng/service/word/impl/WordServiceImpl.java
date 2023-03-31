@@ -96,11 +96,12 @@ public class WordServiceImpl implements WordService {
         for (int i = 0; i < testWordList.size(); i++) {
             Word crtWord = testWordList.get(i);
             testList.add(ResponseTestWordDto.builder()
+                    
                             .id(crtWord.getId())
                             .engWord(crtWord.getEngWord())
                             .korWord(crtWord.getKorWord())
                             .voice(awsS3Service.getTemporaryUrl(crtWord.getVoice()))
-                            .image(crtWord.getImage())
+                            .image(awsS3Service.getTemporaryUrl(crtWord.getImage()))
                             .wrongImage(awsS3Service.getTemporaryUrl(wrongWordList.get(i).getImage()))
                     .build());
         }
