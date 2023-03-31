@@ -8,6 +8,7 @@ import { tokenActions } from "store/tokenSlice"
 import LoadingPage from "./LoadingPage"
 import { googleActions } from "store/googleSlice"
 import { passwordActions } from "store/passwordSlice"
+import apiRequest from "utils/axios"
 
 const GoogleLoginLoadingPage = function () {
   const navigate = useNavigate()
@@ -18,7 +19,7 @@ const GoogleLoginLoadingPage = function () {
     function () {
       const code = searchParams.get(`code`)
       if (code) {
-        axios({
+        apiRequest({
           method: `get`,
           baseURL: `https://j8a601.p.ssafy.io`,
           url: `/api/auth/login/code/GOOGLE/callback`,
@@ -56,6 +57,7 @@ const GoogleLoginLoadingPage = function () {
           })
           .catch((err) => {
             console.log(err)
+            console.log("ASDasdaD?????????????????")
           })
       }
     },
