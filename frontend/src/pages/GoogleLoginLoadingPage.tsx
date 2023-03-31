@@ -19,9 +19,10 @@ const GoogleLoginLoadingPage = function () {
     function () {
       const code = searchParams.get(`code`)
       if (code) {
-        apiRequest({
+        axios({
           method: `get`,
-          baseURL: `https://j8a601.p.ssafy.io`,
+          // baseURL: `https://j8a601.p.ssafy.io`,
+          baseURL: "http://70.12.246.176:8200", // 로컬(혜은) 주소
           url: `/api/auth/login/code/GOOGLE/callback`,
           params: {
             code,

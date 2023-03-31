@@ -51,9 +51,11 @@ function Login() {
   const googleLoginHandler = function () {
     apiRequest({
       method: `get`,
+      baseURL: "http://70.12.246.176:8200", // 로컬(혜은) 주소
       url: `/api/auth/login/GOOGLE`,
     })
       .then((res) => {
+        dispatch(tokenActions.deleteTokens({}))
         // apiRequest({
         //   method: ``,
         //   url: ``,
