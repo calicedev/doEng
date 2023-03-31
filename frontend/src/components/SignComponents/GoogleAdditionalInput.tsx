@@ -95,39 +95,14 @@ const GoogleAdditionalInput = function () {
     mutateAsync()
       .then(async () => {
         dispatch(googleActions.resetGoogleSlice({}))
-        await axios({
+        await apiRequest({
           method: `get`,
-          url: `/api/auth/login/code/GOOGLE/callback`,
-          params: {
-            code,
-          },
+          url: `/api/auth/login/GOOGLE`,
         })
-          .then((res) => {
-            if (res.data.type === "login") {
-              const access = res.headers[`accesstoken`]
-              const refresh = res.headers[`refreshtoken`]
-              if (access) {
-                dispatch(tokenActions.setAccessToken({ accessToken: access }))
-              }
-              if (refresh) {
-                dispatch(
-                  tokenActions.setRefreshToken({ refreshToken: refresh }),
-                )
-              }
-            }
-            console.log(res)
-            window.location.href = res.data
-            return res
-          })
-          .then((res) => {
-            navigate(`/`)
-          })
-          .catch((err) => {
-            console.log("구글 관련")
-            console.log(err)
-          })
+        dispatch(googleActions.resetGoogleSlice({}))
       })
       .catch((err) => {
+        dispatch(googleActions.resetGoogleSlice({}))
         dispatch(DispatchToast("실패! 재시도 바랍니다.", false))
       })
   }
