@@ -16,7 +16,7 @@ function ProgressDetailHeader({ tale }: PropsWithChildren<Props>) {
   return (
     <div className={`flex flex-col items-center gap-4`}>
       <div
-        className={`overflow-hidden relative w-[80%] rounded drop-shadow-md`}
+        className={`overflow-hidden relative w-[80%] rounded bg-white drop-shadow-md`}
         style={{ paddingBottom: "110%" }}
       >
         <img
@@ -24,7 +24,7 @@ function ProgressDetailHeader({ tale }: PropsWithChildren<Props>) {
           className={`absolute top-0 left-0 w-full h-full object-cover`}
         />
       </div>
-      <div className={`font-bold text-xl grid place-content-center p-3`}>
+      <div className={`font-bold text-3xl grid place-content-center p-3`}>
         {tale.title}
       </div>
       <MyPageButton text="책 상세" onClick={toTaleDetail} />

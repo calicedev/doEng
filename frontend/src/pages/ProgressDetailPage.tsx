@@ -29,11 +29,11 @@ function ProgressDetailPage() {
         <CommonLoading />
       ) : progressDetail ? (
         <div className="flex flex-col items-center sm:flex-row sm:items-stretch gap-10 p-6 overflow-y-auto">
-          <div className={`min-w-[300px] w-[80%] sm:w-[30%]`}>
+          <div className={`self-center min-w-[300px] w-[80%] sm:w-[30%]`}>
             <ProgressDetailHeader tale={progressDetail} />
           </div>
           <div className="flex-1 flex flex-col gap-5">
-            <div className="flex-1">
+            <div className="w-full h-[50%]">
               {progressDetail.sceneList && (
                 <ProgressDetailSceneList
                   key={progressDetail.id}
@@ -41,7 +41,7 @@ function ProgressDetailPage() {
                 />
               )}
             </div>
-            <div className={`flex-1`}>
+            <div className={`w-full h-[50%] overflow-scroll`}>
               {progressDetail.testResult && (
                 <ProgressDetailTest taleTest={progressDetail.testResult} />
               )}

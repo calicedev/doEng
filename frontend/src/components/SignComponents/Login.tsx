@@ -79,11 +79,12 @@ function Login() {
 
     axios({
       method: `post`,
-      baseURL: `https://j8a601.p.ssafy.io`,
+      baseURL: "http://70.12.246.176:8200",
       url: `/api/auth/login`,
       data: { memberId: `${idInput}`, password: `${passwordInput}` },
     })
       .then((res) => {
+        console.log(res)
         dispatch(
           tokenActions.setAccessToken({
             accessToken: res.headers[`accesstoken`],

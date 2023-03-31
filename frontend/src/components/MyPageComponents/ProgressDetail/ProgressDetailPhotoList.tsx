@@ -26,18 +26,20 @@ function ProgressDetailPhotoCard({ photoCard }: PropsWithChildren<Props>) {
     setIsModal(true)
   }
 
+  // absolute top-0 left-0 h-full p-5 shadow-lg overflow-hidden transform hover:rotate-3 hover:-translate-x-1 hover:-translate-y-1 duration-200 cursor-pointe bg-white"
+
   return (
     <>
-      <div className=" relative h-full w-[25%] mr-5 ml-5">
-        <div className="bg-white w-full h-full rotate-12 shadow-lg"></div>
+      <div className="relative h-full mr-5 ml-5">
+        <div className="bg-white h-full rotate-12 shadow-lg z-0"></div>
         <div
-          className="absolute top-0 left-0 w-full h-full p-5 shadow-lg overflow-hidden transform hover:rotate-3 hover:-translate-x-1 hover:-translate-y-1 duration-200 cursor-pointe bg-white"
+          className={`overflow-hidden relative w-[80%] rounded bg-white drop-shadow-md z-3`}
           onClick={() => handleImageClick(photoCard.imageList[0].image)}
         >
           <img
             src={photoCard.imageList && photoCard.imageList[0].image}
-            alt="progressPhotoCard"
-            className="w-full"
+            alt="씬 대표 이미지"
+            className={`absolute top-0 left-0 w-full h-full object-cover`}
           />
           {photoCard.sceneTitle}
         </div>
