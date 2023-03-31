@@ -107,18 +107,18 @@ const GoogleAdditionalInput = function () {
               const refresh = res.headers[`refreshtoken`]
               if (access) {
                 dispatch(tokenActions.setAccessToken({ accessToken: access }))
-                dispatch(googleActions.resetGoogleSlice({}))
               }
               if (refresh) {
                 dispatch(
                   tokenActions.setRefreshToken({ refreshToken: refresh }),
                 )
-                dispatch(googleActions.resetGoogleSlice({}))
               }
             }
             return res
           })
           .then((res) => {
+            console.log("구글 자동 로그인 관련")
+            console.log(res)
             navigate(`/`)
           })
       })
