@@ -1,9 +1,15 @@
 import React, { PropsWithChildren, useState } from "react"
 import { Outlet, useParams, useNavigate } from "react-router-dom"
-import { WordTest, useTestMutation } from "hooks/queries/queries"
+import {
+  WordTest,
+  useTestMutation,
+  WordResult,
+  TestResult,
+} from "hooks/queries/queries"
 import WordTestItem from "./WordTestItem"
 import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import { wordTestActions } from "store/wordTestSlice"
+import { testResultActions } from "store/testResultSlice"
 
 interface Props {
   wordInfo: WordTest
@@ -32,6 +38,7 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
       taleId: parseInt(taleId),
       correct: response,
     }
+
     if (currentWordIndex < 4) {
       dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
       console.log(wordTest, "wordtest")
@@ -46,6 +53,9 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
       })
         .then((res) => {
           console.log(res, "😎😋😊")
+          console.log(res.data, "😎😋😊")
+          const wordResult: WordResult = res.data
+          dispatch(testResultActions.saveTestResult({ wordResult }))
           console.log("성공성공이당")
         })
         .catch((err) => {
