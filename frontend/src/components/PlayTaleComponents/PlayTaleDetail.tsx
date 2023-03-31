@@ -125,7 +125,7 @@ const PlayTaleDetailCompo = function ({
             <img
               alt="메인 이미지"
               src={PlayTaleDetailData?.mainImage}
-              className="w-[98%]"
+              className="w-[98%] bg-img-gradient"
               // className="basis-[50%]"+
             />
           </AnimationBox>
@@ -177,12 +177,13 @@ const PlayTaleDetailCompo = function ({
               <AnimationBox
                 boxClasses={`h-[30%] w-[23%] absolute ${cardClasses[idx]}`}
                 appearClassName={`${cardAnimClasses[idx]}`}
+                key={`play-tale-anim-box-${idx}`}
               >
                 <div
                   key={`play-tale-card-${idx}`}
                   className={`h-full w-full bg-gray-400 border-amber-700 border-[3px] shadow-amber-900 shadow-lg bg-opacity-50 cursor-pointer  rounded-[8px] duration-[0.33s] hover:scale-[105%]`}
                 >
-                  답은...
+                  답은...{playWord.engWord}
                 </div>
               </AnimationBox>
             ))}

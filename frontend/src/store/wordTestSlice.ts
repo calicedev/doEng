@@ -10,7 +10,7 @@ interface wordTestStore {
   correct: boolean
 }
 
-const initialState = {
+const initialState: wordTestListStore = {
   wordTestList: [],
 }
 
@@ -19,8 +19,15 @@ const wordTestSlice = createSlice({
   initialState,
   reducers: {
     appendWordTest(state, action) {
-      console.log(state.wordTestList)
-      // state.wordTestList = [...state.wordTestList, action.payload.wordTest]
+      if (state.wordTestList === undefined) {
+        state.wordTestList = [action.payload.wordTest]
+      }
+      state.wordTestList = [...state.wordTestList, action.payload.wordTest]
+      console.log(state.wordTestList, ">>>>>>>>")
+    },
+    resetWordTest(state, action) {
+      state.wordTestList = []
+      console.log(state.wordTestList, "<<<<<<<")
     },
   },
 })

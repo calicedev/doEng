@@ -51,7 +51,8 @@ const MyReview = function () {
       })
     },
     onSuccess: function () {
-      queryClient.invalidateQueries(queryKeys.store())
+      // queryClient.invalidateQueries(queryKeys.store())
+      queryClient.invalidateQueries({ queryKey: queryKeys.store() })
     },
   })
   const { mutateAsync: putReview } = useMutation({
@@ -66,7 +67,8 @@ const MyReview = function () {
       })
     },
     onSuccess: function () {
-      queryClient.invalidateQueries(queryKeys.store())
+      // queryClient.invalidateQueries(queryKeys.store())
+      queryClient.invalidateQueries({ queryKey: queryKeys.store() })
     },
   })
   const [isUpdating, setIsUpdating] = useState(false)

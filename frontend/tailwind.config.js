@@ -80,7 +80,7 @@ module.exports = {
           "url('/src/assets/images/TaleNavLogoContainer.png')",
         "play-detail-open-book": `url("/src/assets/images/DetailBackground.png")`,
         "play-detail-right-osolgil": `url("/src/assets/images/DetailRightBackground.png")`,
-        "gradient-radial": `radial-gradient(rgba(255, 255, 255, 0), rgba(255, 255, 255, 1)), url("/src/assets/images/DetailRightBackground.png")`,
+        "scene-back": `url("/src/assets/images/SceneBack.png")`,
       },
       // animate-[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction]
       animation: {

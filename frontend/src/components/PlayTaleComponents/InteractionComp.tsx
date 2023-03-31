@@ -10,7 +10,17 @@ import CanvasInteraction from "./CanvasInteraction"
 const serverUrl =
   "http://70.12.247.228:8080/face?answer=happy&taleid=1&sceneId=2&memberId=1"
 
-const InteractionComp: React.FC = () => {
+interface Props {
+  taleId: number
+  sceneOrder: number
+  changeScene: () => void
+}
+
+const InteractionComp: React.FC<Props> = ({
+  taleId,
+  sceneOrder,
+  changeScene,
+}) => {
   const [isVideo, setIsVideo] = useState(true)
 
   const handleType = () => {

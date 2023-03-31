@@ -33,6 +33,7 @@ import WordCollectionPage from "pages/WordCollectionPage"
 import PlayScenePage from "pages/PlayScenePage"
 import WordTestPage from "pages/WordTestPage"
 import WordTestResultPage from "pages/WordTestResultPage"
+import GoogleAdditionalInput from "components/SignComponents/GoogleAdditionalInput"
 
 // // ProtectedRoute 사용법
 // const TestApp = function () {
@@ -62,6 +63,7 @@ function App() {
           <Route path={`signup`} element={<Signup />} />
           <Route path={`find`} element={<Find />} />
           <Route path={`google`} element={<GoogleLoginLoadingPage />} />
+          <Route path={`google/info`} element={<GoogleAdditionalInput />} />
         </Route>
         <Route path={`/mypage`} element={<MyPage />}>
           <Route path={``} element={<MyPasswordPage />} />
@@ -74,7 +76,12 @@ function App() {
           <Route path={`profile/edit`} element={<ProfileEditPage />} />
           <Route path={`profile/password`} element={<ProfilePwdEditPage />} />
         </Route>
-        <Route path={`/ai`} element={<InteractionComp />}></Route>
+        <Route
+          path={`/ai`}
+          element={
+            <InteractionComp taleId={1} sceneOrder={5} changeScene={() => {}} />
+          }
+        ></Route>
         <Route element={<ProtectedRoute />}>
           <Route path={`playtale`} element={<PlayTalePage />}>
             <Route path={``} element={<PlayTaleList />} />

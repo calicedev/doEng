@@ -64,6 +64,18 @@ export interface WordTest {
   testList: TestWord[]
 }
 
+export interface TestResult {
+  id: number
+  image: string
+  engWord: string
+  korWord: string
+}
+
+export interface WordResult {
+  title: string
+  testList: TestResult[]
+}
+
 export interface ProgressTale extends ID {
   title: string
   backgroundImage: string
@@ -117,115 +129,156 @@ export interface ReviewAPIForm {
 }
 
 export const useUserData = function () {
-  return useQuery<User>(queryKeys.user(), function () {
-    return apiRequest({
-      method: `get`,
-      url: `/api/member`,
-    }).then((res) => res.data)
+  return useQuery<User>({
+    queryKey: queryKeys.user(),
+    queryFn: async function () {
+      return apiRequest({
+        method: `get`,
+        url: `/api/member`,
+      }).then((res) => res.data)
+    },
   })
 }
 
 export const useProgressTaleList = function () {
-  return useQuery<ProgressTale[]>(queryKeys.progressList(), function () {
-    return apiRequest({
-      method: `get`,
-      url: `/api/mypage/progress`,
-    }).then((res) => res.data[`taleList`])
+  return useQuery<ProgressTale[]>({
+    queryKey: queryKeys.progressList(),
+    queryFn: async function () {
+      return apiRequest({
+        method: `get`,
+        url: `/api/mypage/progress`,
+      }).then((res) => res.data[`taleList`])
+    },
   })
 }
 
 export const useProgressTaleDetail = function (taleId: number) {
-  return useQuery<ProgressTaleDetail>(
-    queryKeys.progressDetail(taleId),
-    function () {
+  return useQuery<ProgressTaleDetail>({
+    queryKey: queryKeys.progressDetail(taleId),
+    queryFn: async function () {
       return apiRequest({
         method: `get`,
         url: `/api/mypage/progress/${taleId}`,
       }).then((res) => res.data)
     },
-  )
+  })
 }
 
 export const useStoreTaleList = function () {
-  return useQuery<StoreTale[]>(queryKeys.storeList(), function () {
-    return apiRequest({
-      method: `get`,
-      url: `/api/mypage/tale-list`,
-    }).then((res) => res.data[`taleList`])
+  return useQuery<StoreTale[]>({
+    queryKey: queryKeys.storeList(),
+    queryFn: async function () {
+      return apiRequest({
+        method: `get`,
+        url: `/api/mypage/tale-list`,
+      }).then((res) => res.data[`taleList`])
+    },
   })
 }
 
 export const useStoreTaleDetail = function (taleId: number) {
-  return useQuery<StoreTaleDetail>(queryKeys.storeDetail(taleId), function () {
-    return apiRequest({
-      method: `get`,
-      url: `/api/mypage/tale-list/${taleId}`,
-    }).then((res) => res.data)
+  return useQuery<StoreTaleDetail>({
+    queryKey: queryKeys.storeDetail(taleId),
+    queryFn: async function () {
+      return apiRequest({
+        method: `get`,
+        url: `/api/mypage/tale-list/${taleId}`,
+      }).then((res) => res.data)
+    },
   })
 }
 
 export const useReviewList = function (taleId: number) {
-  return useQuery<ReviewAPIForm>(queryKeys.reviewList(taleId), function () {
-    return apiRequest({
-      method: `get`,
-      url: `/api/mypage/review/${taleId}/review-list`,
-    }).then((res) => res.data)
+  return useQuery<ReviewAPIForm>({
+    queryKey: queryKeys.reviewList(taleId),
+    queryFn: async function () {
+      return apiRequest({
+        method: `get`,
+        url: `/api/mypage/review/${taleId}/review-list`,
+      }).then((res) => res.data)
+    },
   })
 }
 
 export const usePlayTaleList = function () {
-  return useQuery<PlayTale[]>(queryKeys.playList(), function () {
-    return apiRequest({
-      method: `get`,
-      url: `/api/tale/list`,
-    }).then((res) => res.data)
+  return useQuery<PlayTale[]>({
+    queryKey: queryKeys.playList(),
+    queryFn: async function () {
+      return apiRequest({
+        method: `get`,
+        url: `/api/tale/list`,
+      }).then((res) => res.data)
+    },
   })
 }
 
 export const usePlayTaleDetail = function (taleId: number) {
-  return useQuery<PlayTaleDetail>(queryKeys.playDetail(taleId), function () {
-    return apiRequest({
-      method: `get`,
-      url: `/api/tale/${taleId}/detail`,
-    }).then((res) => res.data)
+  return useQuery<PlayTaleDetail>({
+    queryKey: queryKeys.playDetail(taleId),
+    queryFn: async function () {
+      return apiRequest({
+        method: `get`,
+        url: `/api/tale/${taleId}/detail`,
+      }).then((res) => res.data)
+    },
   })
 }
 
 export const useWordList = function () {
-  return useQuery<PlayWord[]>(queryKeys.wordList(), function () {
-    return apiRequest({
-      method: `get`,
-      url: `/api/word`,
-    }).then((res) => res.data[`wordList`])
+  return useQuery<PlayWord[]>({
+    queryKey: queryKeys.wordList(),
+    queryFn: async function () {
+      return apiRequest({
+        method: `get`,
+        url: `/api/word`,
+      }).then((res) => res.data[`wordList`])
+    },
   })
 }
 
 export const useSceneList = function (taleId: number) {
-  return useQuery<Scene[]>(queryKeys.sceneList(taleId), function () {
-    return apiRequest({
-      method: `get`,
-      url: `/api/game/${taleId}/scene`,
-    }).then((res) => res.data[`sceneList`])
+  return useQuery<Scene[]>({
+    queryKey: queryKeys.sceneList(taleId),
+    queryFn: async function () {
+      return apiRequest({
+        method: `get`,
+        url: `/api/game/${taleId}/scene`,
+      }).then((res) => res.data[`sceneList`])
+    },
   })
 }
 
 export const useSceneDetail = function (taleId: number, sceneOrder: number) {
-  return useQuery<Scene>(
-    queryKeys.sceneDetail(taleId, sceneOrder),
-    function () {
+  return useQuery<Scene>({
+    queryKey: queryKeys.sceneDetail(taleId, sceneOrder),
+    queryFn: async function () {
       return apiRequest({
         method: `get`,
         url: `/api/game/${taleId}/scene/${sceneOrder}`,
       }).then((res) => res.data)
     },
-  )
+    refetchOnWindowFocus: false,
+    refetchOnMount: false,
+  })
 }
 
 export const useWordTestResult = function (taleId: number) {
-  return useQuery<WordTest>(queryKeys.wordList(), function () {
+  return useQuery<WordTest>({
+    queryKey: queryKeys.wordList(),
+    queryFn: async function () {
+      return apiRequest({
+        method: `get`,
+        url: `/api/word-test/${taleId}`,
+      }).then((res) => res.data)
+    },
+  })
+}
+
+export const useWordTestResultSave = function () {
+  return useQuery<WordResult>(queryKeys.wordList(), function () {
     return apiRequest({
       method: `get`,
-      url: `/api/word-test/${taleId}`,
+      url: `/api/word-test/result`,
     }).then((res) => res.data)
   })
 }

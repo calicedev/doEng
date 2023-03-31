@@ -16,18 +16,32 @@ const VideoInteraction: React.FC = () => {
 
   // 비디오 재생
   useEffect(() => {
+    let a: any
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((stream) => {
+        a = stream
         if (videoRef.current) {
           videoRef.current.srcObject = stream
           videoRef.current.play()
           setIsPlaying(true)
+          console.log("실행")
         }
       })
       .catch((err) => {
         console.error("Could not access camera", err)
       })
+
+    return function () {
+      const tracks: any[] = a.getVideoTracks()
+      console.log(tracks)
+      if (tracks) {
+        tracks.forEach((track) => {
+          track.stop()
+          a.removeTrack(track)
+        })
+      }
+    }
   }, [])
 
   useEffect(() => {
