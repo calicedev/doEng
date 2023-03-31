@@ -172,13 +172,19 @@ function Login() {
 
   // const { mutateAsync } = useMutation({
   //   mutationFn: function () {
-  //     return apiRequest({
-  //       method: `post`,
-  //       url: `/api/auth/id`,
-  //       data: {
-  //         name: "한견",
-  //         email: "hgh21233@naver.com",
+  //     return axios({
+  //       method: `get`,
+  //       baseURL: `http://70.12.247.228:8080`,
+  //       url: `/test`,
+  //       proxy: {
+  //         protocol: "http",
+  //         host: `70.12.247.228`,
+  //         port: 8000,
   //       },
+  //       // data: {
+  //       //   name: "한견",
+  //       //   email: "hgh21233@naver.com",
+  //       // },
   //     })
   //   },
   //   onSuccess: function () {

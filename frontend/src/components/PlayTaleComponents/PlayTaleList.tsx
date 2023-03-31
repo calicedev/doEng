@@ -13,6 +13,7 @@ import { usePlayTaleList } from "hooks/queries/queries"
 import SuperHeroLanding from "./SuperHeroLanding"
 import LoadingPage from "pages/LoadingPage"
 import { SpinnerDots } from "components/UI/Spinner"
+import { Navigate } from "react-router-dom"
 
 const PlayTaleList = function () {
   const imgRef = useRef<HTMLImageElement>(null)
@@ -21,12 +22,15 @@ const PlayTaleList = function () {
   const {
     isInitialLoading,
     isLoading,
-    error,
+    isError,
     data: PlayTaleList,
   } = usePlayTaleList()
 
   if (isLoading) {
     return <LoadingPage />
+  }
+  if (isError) {
+    return <Navigate to={`/error`} />
   }
   return (
     <>
