@@ -36,7 +36,7 @@ const GoogleLoginLoadingPage = function () {
                   gname: res.data.name,
                 }),
               )
-              navigate("/google/info")
+              navigate("/member/google/info")
               return res
             }
           })

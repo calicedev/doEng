@@ -93,7 +93,7 @@ const GoogleAdditionalInput = function () {
     mutateAsync()
       .then(() => {
         dispatch(googleActions.resetGoogleSlice({}))
-        navigate(`/`)
+        navigate(`/member/login`)
       })
       .catch((err) => {
         dispatch(DispatchToast("실패! 재시도 바랍니다.", false))
