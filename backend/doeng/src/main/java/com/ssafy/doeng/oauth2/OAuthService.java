@@ -42,7 +42,7 @@ public class OAuthService {
             }
             break;
             default: {
-                throw new IllegalArgumentException("알 수 없는 소셜 로그인 형식입니다.");
+                throw new IllegalArgumentException("알 수 없는 소셜 로그인 형식입니다아.");
             }
         }
         return redirectURL;
@@ -52,6 +52,7 @@ public class OAuthService {
 
         switch (socialLoginType) {
             case GOOGLE: {
+                System.out.println(socialLoginType);
                 //구글로 일회성 코드를 보내 액세스 토큰이 담긴 응답객체를 받아옴
                 ResponseEntity<String> accessTokenResponse = googleOauth.requestAccessToken(code);
                 //응답 객체가 JSON형식으로 되어 있으므로, 이를 deserialization해서 자바 객체에 담을 것이다.
@@ -66,8 +67,7 @@ public class OAuthService {
 
                     try {
                         Optional<Member> memberOrigin = memberRepository.findByMemberId(memberId);
-                        System.out.println("1**********");
-                        if (memberOrigin.isPresent()) {
+
                             System.out.println("2**********");
                             Member member = memberOrigin.get();
                             System.out.println("3**********"+memberId.equals(member.getMemberId()));
@@ -89,8 +89,6 @@ public class OAuthService {
                             // 4. 토큰 담아서 보내고 redis애 저장
                             redisUtil.setDataExpire("token_"+member.getId(), tokenDto.getRefreshtoken(),60 * 60 * 24 * 7 * 1000);
                             return new GetSocialOAuthRes(memberId,null, null, tokenDto, "login");
-                        }
-                        //서버에 user가 존재하면 앞으로 회원 인가 처리를 위한 jwtToken을 발급한다.
 
 
                     } catch (Exception e){
@@ -105,7 +103,7 @@ public class OAuthService {
 
             }
             default: {
-                throw new IllegalArgumentException("알 수 없는 소셜 로그인 형식입니다.");
+                throw new IllegalArgumentException("알 수 없는 소셜 로그인 형식입니다이.");
             }
         }
     }
