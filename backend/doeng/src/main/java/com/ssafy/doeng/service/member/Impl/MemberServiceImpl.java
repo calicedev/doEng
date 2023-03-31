@@ -68,7 +68,6 @@ public class MemberServiceImpl implements MemberService {
         LOGGER.error("[signup]  회원가입 service 나감");
     }
 
-
     @Transactional
     public TokenDto login(RequestMemberDto requestDto) {
         LOGGER.info("[login] 로그인 service 들어옴");
@@ -120,10 +119,7 @@ public class MemberServiceImpl implements MemberService {
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
         // 6.  정보 업데이트
-        redisTemplate.opsForValue().set(
-                "token_"+authentication.getName(),
-                tokenDto.getRefreshtoken()
-        );
+        redisUtil.setDataExpire("token_"+authentication.getName(),  tokenDto.getRefreshtoken(),60 * 60 * 24 * 7 * 1000);
 
         LOGGER.info("[reissue] accessToken 재발급 나감");
         // 토큰 발급

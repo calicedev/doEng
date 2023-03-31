@@ -76,7 +76,6 @@ public class MemberController {
     }
 
 
-
     @PatchMapping("/password")
     public ResponseEntity modifyMemberPassword(@LoginId Long id,  @RequestBody RequestModifyMemberPasswordDto requestDto){
         LOGGER.info("[ModifyMemberPassword] 비밀번호 수정 controller 들어옴");
@@ -87,7 +86,7 @@ public class MemberController {
     @PostMapping("/check/password")
     public ResponseEntity<String> checkPassword(@LoginId Long id, @RequestBody RequestCheckPasswordDto requestDto){
         LOGGER.info("[CheckPassowrd] 비밀번호 검증 controller 들어옴");
-        return ResponseEntity.ok().body(memberService.checkPassword(id,requestDto));
+        return ResponseEntity.ok(memberService.checkPassword(id,requestDto));
     }
 
 
@@ -95,6 +94,7 @@ public class MemberController {
     public ResponseEntity checkEmailSend(@RequestBody RequestEmailDto requestDto){
         LOGGER.info("[checkEmailSend] 이메일 인증번호 요청 controller 들어옴");
         memberService.checkEmailSend(requestDto);
+        LOGGER.info("[checkEmailSend] 이메일 인증번호 요청 controller 나감");
         return new ResponseEntity(HttpStatus.OK);
     }
 
