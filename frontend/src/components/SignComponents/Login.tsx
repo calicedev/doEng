@@ -58,7 +58,6 @@ function Login() {
         //   method: ``,
         //   url: ``,
         // })
-        console.log(res)
         window.location.href = res.data
       })
       .catch((err) => {
@@ -79,11 +78,12 @@ function Login() {
 
     axios({
       method: `post`,
-      baseURL: `https://j8a601.p.ssafy.io`,
+      baseURL: "http://70.12.246.176:8200",
       url: `/api/auth/login`,
       data: { memberId: `${idInput}`, password: `${passwordInput}` },
     })
       .then((res) => {
+        console.log(res)
         dispatch(
           tokenActions.setAccessToken({
             accessToken: res.headers[`accesstoken`],
@@ -173,13 +173,19 @@ function Login() {
 
   // const { mutateAsync } = useMutation({
   //   mutationFn: function () {
-  //     return apiRequest({
-  //       method: `post`,
-  //       url: `/api/auth/id`,
-  //       data: {
-  //         name: "한견",
-  //         email: "hgh21233@naver.com",
+  //     return axios({
+  //       method: `get`,
+  //       baseURL: `http://70.12.247.228:8080`,
+  //       url: `/test`,
+  //       proxy: {
+  //         protocol: "http",
+  //         host: `70.12.247.228`,
+  //         port: 8000,
   //       },
+  //       // data: {
+  //       //   name: "한견",
+  //       //   email: "hgh21233@naver.com",
+  //       // },
   //     })
   //   },
   //   onSuccess: function () {

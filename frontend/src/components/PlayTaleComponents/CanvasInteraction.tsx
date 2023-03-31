@@ -7,7 +7,11 @@ import { io } from "socket.io-client"
 
 const serverUrl = "/doodle?answer=happy&taleid=1&sceneId=2&memberId=1"
 
-const CanvasInteraction: React.FC = () => {
+interface Props {
+  changeScene: () => void
+}
+
+const CanvasInteraction: React.FC<Props> = ({ changeScene }) => {
   // canvas
   const cavasContainerRef = useRef<HTMLDivElement>(null)
   const canvasBoardRef = useRef<HTMLCanvasElement>(null)
@@ -29,8 +33,11 @@ const CanvasInteraction: React.FC = () => {
         const data = {
           image: imageUrl,
         }
+        const config = {
+          baseURL: "http://70.12.247.228:8080",
+        }
         axios
-          .post(serverUrl, data)
+          .post("/doodle?answer=dfsdg&sceneId=1&memberId=1", data, config)
           .then((res) => {
             console.log("Drawing uploaded successfully.", res)
             setCanvasResult(res.data.result)
@@ -96,7 +103,7 @@ const CanvasInteraction: React.FC = () => {
       if (e.touches) {
         return {
           x: e.touches[0].clientX - e.target.parentNode.offsetLeft,
-          y: e.touches[0].clientY - e.target.parentNode.offsetHeight + 25,
+          y: e.touches[0].clientY - e.target.parentNode.offsetHeight,
         }
       }
       return { x: e.offsetX, y: e.offsetY }

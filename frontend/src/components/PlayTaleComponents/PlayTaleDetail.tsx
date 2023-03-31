@@ -4,13 +4,17 @@ import AnimationBox, {
 } from "components/UI/AnimationBox"
 import { PlayTaleDetail, usePlayTaleDetail } from "hooks/queries/queries"
 import { PropsWithChildren, useEffect, useRef, useState } from "react"
-import { useNavigate } from "react-router-dom"
+import { Navigate, useNavigate } from "react-router-dom"
 import DetailBackground from "../../assets/images/DetailBackground.png"
 import DetailRightBackground from "../../assets/images/DetailRightBackground.png"
 import DetailClose from "../../assets/images/DetailClose.png"
 import { useAnimate } from "hooks/useAnimate"
 import { useWidthHeight } from "hooks/useWidthHwight"
 import Graph from "components/CanvasComponents/BarGraph/Graph"
+import WordBack from "../../assets/images/wordcard.png"
+import WordCard from "./WordCard/WordCard"
+import ErrorPage from "pages/ErrorPage"
+import CommonLoading from "components/UI/CommonLoading"
 
 interface Props {
   taleId: number
@@ -22,7 +26,7 @@ const PlayTaleDetailCompo = function ({
   closeModal,
 }: PropsWithChildren<Props>) {
   const navigate = useNavigate()
-  const { data: PlayTaleDetailData } = usePlayTaleDetail(taleId)
+  const { data: PlayTaleDetailData, isError } = usePlayTaleDetail(taleId)
   const [isOpen, setIsOpen] = useState<boolean>(true)
   const restartHandler = function () {
     // navigate()
@@ -90,6 +94,10 @@ const PlayTaleDetailCompo = function ({
     "animate-[ppyong_0.33s_0.44s_both] z-[2]",
     "animate-[ppyong_0.33s_0.55s_both] z-[1]",
   ]
+
+  if (isError) {
+    return <Navigate to={`/error`} />
+  }
 
   return (
     <>
@@ -181,9 +189,26 @@ const PlayTaleDetailCompo = function ({
               >
                 <div
                   key={`play-tale-card-${idx}`}
-                  className={`h-full w-full bg-gray-400 border-amber-700 border-[3px] shadow-amber-900 shadow-lg bg-opacity-50 cursor-pointer  rounded-[8px] duration-[0.33s] hover:scale-[105%]`}
+                  className={`h-full w-full duration-[0.33s] hover:scale-[105%] flex items-center justify-center bg-word-card bg-contain bg-no-repeat bg-center`}
                 >
-                  답은...{playWord.engWord}
+                  <div className="rounded-[8px] h-full w-full p-3 flex items-center justify-center flex-col">
+                    <img
+                      alt="wordcardwrapper"
+                      src={WordBack}
+                      className="shadow-amber-900 shadow-lg rounded-[8px] h-full w-full absolute top-0 left-0 z-[0]"
+                    />
+                    <img
+                      alt={`word-${playWord.korWord}`}
+                      src={playWord.image}
+                      className="w-full z-[1]"
+                    />
+                    <span className="text-[1.3rem] z-[1]">
+                      {playWord.engWord}
+                    </span>
+                    <span className="text-[1.3rem] z-[1]">
+                      {playWord.korWord}
+                    </span>
+                  </div>
                 </div>
               </AnimationBox>
             ))}

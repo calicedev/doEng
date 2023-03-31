@@ -55,6 +55,9 @@
   -moz-user-select: none;
   -ms-user-select: none;
   user-select: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 /* bg-container보다 z-index가 높은 canvas 컨테이너 */

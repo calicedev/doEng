@@ -12,7 +12,7 @@ import React, {
   useCallback,
 } from "react"
 import { queryKeys } from "hooks/queries/queryKeys"
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import AnimationBox, {
   textOneByOne,
   textOneByOnePpyong,
@@ -32,6 +32,7 @@ function TaleScene({
 }: PropsWithChildren<TaleSceneProps>) {
   const { data } = usePlayTaleDetail(taleId)
   const maxlength = data?.sceneCount
+  const navigate = useNavigate()
 
   const {
     isLoading: sceneDetailLoading,
@@ -80,7 +81,6 @@ function TaleScene({
     },
     [sceneDetail?.backgroundMusic],
   )
-  const addSceneOrder = function () {}
 
   const engScripts = useMemo(
     function () {
@@ -110,6 +110,16 @@ function TaleScene({
     [sceneDetail?.scriptList[0].content, sceneDetailLoading],
   )
 
+  useEffect(
+    function () {
+      if (sceneOrder < maxlength!) {
+        return
+      }
+      navigate(`/playtale/${taleId}/test`)
+    },
+    [sceneOrder, maxlength],
+  )
+
   useEffect(() => {
     runBackgroundMusic()
     // playEngScript()
@@ -125,19 +135,19 @@ function TaleScene({
     [sceneOrder, sceneDetailLoading],
   )
 
-  useEffect(() => {
-    if (scriptListAudio) {
-      scriptListAudio.addEventListener("ended", () => {
-        if (maxlength && sceneOrder < maxlength) {
-          // changeScene()
-          const timeoutId = setTimeout(changeScene, 3000)
-          return function () {
-            clearTimeout(timeoutId)
-          }
-        }
-      })
-    }
-  }, [scriptListAudio, sceneDetail, sceneOrder, sceneDetailLoading])
+  // useEffect(() => {
+  //   if (scriptListAudio) {
+  //     scriptListAudio.addEventListener("ended", () => {
+  //       if (maxlength && sceneOrder < maxlength) {
+  //         // changeScene()
+  //         const timeoutId = setTimeout(changeScene, 3000)
+  //         return function () {
+  //           clearTimeout(timeoutId)
+  //         }
+  //       }
+  //     })
+  //   }
+  // }, [scriptListAudio, sceneDetail, sceneOrder, sceneDetailLoading])
 
   //   const plusScene = function () {
   //     if (maxlength && sceneOrder < maxlength) {
@@ -145,7 +155,6 @@ function TaleScene({
   //     }
   //     console.log(sceneDetail, "123")
   //   }
-  console.log(sceneDetail, "<<<<<<<<<<<<<<<")
 
   if (sceneDetailLoading) {
     return <LoadingPage />

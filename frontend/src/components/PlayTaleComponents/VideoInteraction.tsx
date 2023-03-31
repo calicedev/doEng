@@ -1,22 +1,57 @@
-import { useParams } from "react-router-dom"
+import { useNavigate, useParams } from "react-router-dom"
 import apiRequest from "utils/axios"
 import { useRef, useEffect, useCallback, useState } from "react"
 import axios from "utils/axios"
 import { io } from "socket.io-client"
+import { AxiosRequestConfig } from "axios"
+import { SpinnerDots } from "components/UI/Spinner"
 
 const serverUrl =
   "http://70.12.247.228:8080/face?answer=happy&taleid=1&sceneId=2&memberId=1"
 
-const VideoInteraction: React.FC = () => {
-  const [isVideo, setIsVideo] = useState(true)
+interface Props {
+  changeScene: () => void
+  setLoadingON: () => void
+  setLoadingOFF: () => void
+  isVideoLoading: boolean
+}
 
+const VideoInteraction: React.FC<Props> = ({
+  changeScene,
+  setLoadingOFF,
+  setLoadingON,
+  isVideoLoading,
+}) => {
+  const [isVideo, setIsVideo] = useState(true)
+  const navigate = useNavigate()
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [videoResult, setVideoResult] = useState<string>("")
 
+  // useEffect(() => {
+  //   const config = {
+  //     mehtod: "get",
+  //     url: "http://70.12.247.228:8080/test",
+  //     proxy: {
+  //       protocol: "http",
+  //       host: "70.12.247.228",
+  //       port: 8080,
+  //     },
+  //   }
+  //   axios
+  //     .request(config)
+  //     .then((res) => {
+  //       console.log(res)
+  //     })
+  //     .catch((err) => {
+  //       console.log(err)
+  //     })
+  // }, [])
+
   // 비디오 재생
   useEffect(() => {
     let a: any
+    setLoadingON()
     navigator.mediaDevices
       .getUserMedia({ video: true })
       .then((stream) => {
@@ -27,19 +62,27 @@ const VideoInteraction: React.FC = () => {
           setIsPlaying(true)
           console.log("실행")
         }
+        return stream
+      })
+      .then(() => {
+        setLoadingOFF()
       })
       .catch((err) => {
         console.error("Could not access camera", err)
       })
 
     return function () {
-      const tracks: any[] = a.getVideoTracks()
-      console.log(tracks)
-      if (tracks) {
-        tracks.forEach((track) => {
-          track.stop()
-          a.removeTrack(track)
-        })
+      try {
+        const tracks: any[] = a.getVideoTracks()
+        console.log(tracks)
+        if (tracks) {
+          tracks.forEach((track) => {
+            track.stop()
+            a.removeTrack(track)
+          })
+        }
+      } catch {
+        navigate(`/error`)
       }
     }
   }, [])
@@ -57,8 +100,25 @@ const VideoInteraction: React.FC = () => {
           canvas.height = video.videoHeight
           ctx?.drawImage(video, 0, 0, canvas.width, canvas.height)
           const imageUrl = canvas.toDataURL("image/jpeg", 1.0)
-          axios
-            .post(serverUrl, { image: imageUrl })
+          const config: AxiosRequestConfig = {}
+          axios({
+            baseURL: "http://70.12.247.228:8080",
+            proxy: {
+              protocol: "http",
+              host: "70.12.247.228",
+              port: 8080,
+            },
+            method: `post`,
+            url: `/face?answer=dfsdg&sceneId=1&memberId=1`,
+            data: {
+              image: imageUrl,
+            },
+            params: {
+              answer: "happy",
+              sceneId: "1",
+              memberId: "1",
+            },
+          })
             .then((res) => {
               console.log("Image uploaded successfully.", res)
               setVideoResult(res.data.result)
@@ -99,10 +159,26 @@ const VideoInteraction: React.FC = () => {
     setIsPlaying(true)
   }
 
+  const [hideVideo, setHideVideo] = useState<string>("")
+  useEffect(
+    function () {
+      if (isVideoLoading) {
+        setHideVideo(() => "hidden")
+      } else {
+        setHideVideo(() => "")
+      }
+    },
+    [isVideoLoading],
+  )
+
   return (
-    <div className={`flex flex-column items-center`}>
-      <button onClick={handleVideo}>{isPlaying ? "일시정지" : "플레이"}</button>
-      <video ref={videoRef} />
+    <div className={`flex flex-col items-center justify-center`}>
+      <button onClick={handleVideo}>{isPlaying ? "일시정지" : "재진행"}</button>
+      {isVideoLoading ? <SpinnerDots /> : null}
+      <video
+        ref={videoRef}
+        className={`rounded-[22px] shadow-2xl ${hideVideo}`}
+      />
       <div>{videoResult}</div>
     </div>
   )
