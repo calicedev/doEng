@@ -7,7 +7,11 @@ import { io } from "socket.io-client"
 const serverUrl =
   "http://70.12.247.228:8080/face?answer=happy&taleid=1&sceneId=2&memberId=1"
 
-const VideoInteraction: React.FC = () => {
+interface Props {
+  changeScene: () => void
+}
+
+const VideoInteraction: React.FC<Props> = () => {
   const [isVideo, setIsVideo] = useState(true)
 
   const videoRef = useRef<HTMLVideoElement>(null)

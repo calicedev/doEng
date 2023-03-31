@@ -31,7 +31,7 @@ const GoogleAdditionalInput = function () {
         url: `/api/auth`,
         data: {
           memberId: gId,
-          password: "",
+          password: "11111",
           nickname: nickInput,
           name: gname,
           email: gmail,
