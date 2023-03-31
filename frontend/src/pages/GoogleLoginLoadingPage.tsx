@@ -31,7 +31,7 @@ const GoogleLoginLoadingPage = function () {
               dispatch(passwordActions.setGoogle({}))
               navigate(`/`)
             } else if (res.data.type === "signup") {
-              dispatch(googleActions.setCode({ code: code }))
+              dispatch(googleActions.setGCode({ code: code }))
               dispatch(
                 googleActions.setGoogleSlice({
                   gId: `${res.data.memberId}`,

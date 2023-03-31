@@ -22,7 +22,7 @@ const googleSlice = createSlice({
       state.gmail = action.payload.gmail
       state.gname = action.payload.gname
     },
-    setCode(state, action) {
+    setGCode(state, action) {
       state.code = action.payload.code
     },
   },
