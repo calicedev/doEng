@@ -79,7 +79,7 @@ function Login() {
 
     axios({
       method: `post`,
-      baseURL: "http://70.12.246.176:8200",
+      baseURL: "https://j8a601.p.ssafy.io",
       url: `/api/auth/login`,
       data: { memberId: `${idInput}`, password: `${passwordInput}` },
     })

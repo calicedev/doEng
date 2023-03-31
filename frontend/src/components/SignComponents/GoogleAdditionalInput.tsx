@@ -25,26 +25,6 @@ const GoogleAdditionalInput = function () {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
   const { gId, gmail, gname } = useStoreSelector((state) => state.google)
-  const { mutateAsync } = useMutation({
-    mutationFn: function () {
-      return axios({
-        method: `post`,
-        baseURL: `https://j8a601.p.ssafy.io`,
-        url: `/api/auth/google`,
-        data: {
-          memberId: gId,
-          password: "",
-          nickname: nickInput,
-          name: gname,
-          email: gmail,
-          phone: phoneInput,
-        },
-      })
-    },
-    onSuccess: function () {
-      queryClient.invalidateQueries(queryKeys.user())
-    },
-  })
   const [idInputRef, emailInputRef, nickInputRef, nameRef, phoneRef] = [
     useRef<HTMLInputElement>(null),
     useRef<HTMLInputElement>(null),
@@ -89,6 +69,26 @@ const GoogleAdditionalInput = function () {
     isValid: phoneValid,
   } = useInput(phoneRef, phoneValidation)
 
+  const { mutateAsync } = useMutation({
+    mutationFn: function () {
+      return axios({
+        method: `post`,
+        baseURL: `https://j8a601.p.ssafy.io`,
+        url: `/api/auth/google`,
+        data: {
+          memberId: gId,
+          password: "",
+          nickname: nickInput,
+          name: gname,
+          email: gmail,
+          phone: phoneInput,
+        },
+      })
+    },
+    onSuccess: function () {
+      queryClient.invalidateQueries(queryKeys.user())
+    },
+  })
   const dispatch = useStoreDispatch()
   const loginHandler = function (e: FormEvent) {
     e.preventDefault()
