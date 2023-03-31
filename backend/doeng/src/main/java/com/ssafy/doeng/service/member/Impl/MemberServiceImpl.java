@@ -58,6 +58,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     public void signup(RequestSignupDto requestDto) {
+        System.out.println(requestDto.getMemberId().getClass().getSimpleName());
         LOGGER.error("[signup] 회원가입 service 들어옴");
         if (memberRepository.existsByMemberId(requestDto.getMemberId())) {
             throw new ErrorException(MemberErrorCode.MEMBER_DUPLICATE);
@@ -76,32 +77,42 @@ public class MemberServiceImpl implements MemberService {
         // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
         //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
         //    customeruservice에서 처리함.
-        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        System.out.println("222222222222");
+        try{
+            Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+            System.out.println("44444444444444");
+            TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+            //3-1. 받아온 memberId로 pk id 조회
+            Long id = memberRepository.findIdByMemberId(authentication.getName());
+            // 4. RefreshToken Redis에 저장 24시간
+            ;
+            redisUtil.setDataExpire("token_"+id, tokenDto.getRefreshtoken(),60 * 60 * 24 * 7 * 1000);
+            // 5. 토큰 발급
+            LOGGER.info("[login] 로그인 service 나감");
+            return tokenDto;
+        }
+        catch (Exception e){
+            throw new ErrorException(MemberErrorCode.MEMBER_WRONG_MEMBER);
+        }
         // 3. 인증 정보를 기반으로 JWT 토큰 생성
-        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-        //3-1. 받아온 memberId로 pk id 조회
-        Long id = memberRepository.findIdByMemberId(authentication.getName());
-        // 4. RefreshToken Redis에 저장 24시간
-        ;
-        redisUtil.setDataExpire("token_"+id, tokenDto.getRefreshtoken(),60 * 60 * 24 * 7 * 1000);
-        // 5. 토큰 발급
-        LOGGER.info("[login] 로그인 service 나감");
-        return tokenDto;
+
     }
 
     @Transactional
     public TokenDto reissue(RequestTokenDto requestDto) {
+        System.out.println(requestDto.getAccesstoken());
+        System.out.println(requestDto.getRefreshtoken());
         LOGGER.info("[reissue] accessToken 재발급 들어옴");
-
+        System.out.println("1111111111111111");
         // 1. Refresh Token이 유효하지 않다고 돌려보냄.
         if (!tokenProvider.validateToken(requestDto.getRefreshtoken())) {
             throw new ErrorException(MemberErrorCode.REFRESHTOKEN_NOTVALIDATE);
         }
-
+        System.out.println("111122222222222211");
         // 2. Access Token 에서 memberId 가져오기
         // 이때 accesstoken이 조작되었으면 getAuthentication 단계에서 throw 던저버린다.
         Authentication authentication = tokenProvider.getAuthentication(requestDto.getAccesstoken());
-
+        System.out.println("113333333333311");
         // 2-1. memberId로 id 조회하기
         String rt = redisTemplate.opsForValue().get("token_"+memberRepository.findIdByMemberId(authentication.getName()));
 
