@@ -3,6 +3,7 @@ package com.ssafy.doeng.data.dto.member.request;
 import com.ssafy.doeng.data.entity.member.Authority;
 import com.ssafy.doeng.data.entity.member.Member;
 import lombok.AllArgsConstructor;
+import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -13,6 +14,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@Builder
 public class RequestMemberDto {
 
     private String memberId;

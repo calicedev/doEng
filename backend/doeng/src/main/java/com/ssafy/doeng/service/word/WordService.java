@@ -9,4 +9,5 @@ public interface WordService {
     ResponseWordListDto getWord(long memberId);
 
     ResponseWordTestDto getWordTest(RequestWordTestDto requestDto);
+
 }
