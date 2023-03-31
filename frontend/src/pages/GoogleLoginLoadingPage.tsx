@@ -6,11 +6,15 @@ import axios from "axios"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import { tokenActions } from "store/tokenSlice"
 import LoadingPage from "./LoadingPage"
+import { useStoreDispatch } from "hooks/useStoreSelector"
+import { googleActions } from "store/googleSlice"
+import { passwordActions } from "store/passwordSlice"
 
 const GoogleLoginLoadingPage = function () {
   const dispatch = useStoreDispatch()
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+  const dispatch = useStoreDispatch()
 
   useEffect(
     function () {
@@ -27,17 +31,32 @@ const GoogleLoginLoadingPage = function () {
         })
           .then((res) => {
             console.log(res)
-            navigate("/")
-            dispatch(
+            if (res.data.type === "login") {
+              dispatch(googleActions.resetGoogleSlice({}))
+              dispatch(passwordActions.setGoogle({}))
+               dispatch(
               tokenActions.setAccessToken({
                 accessToken: res.headers[`accesstoken`],
-              }),
-            )
-            dispatch(
-              tokenActions.setRefreshToken({
-                refreshToken: res.headers[`refreshtoken`],
-              }),
-            )
+                }),
+              )
+              dispatch(
+                tokenActions.setRefreshToken({
+                  refreshToken: res.headers[`refreshtoken`],
+                }),
+              )
+              navigate(`/`)
+            } else if (res.data.type === "signup") {
+              dispatch(googleActions.setGCode({ code: code }))
+              dispatch(
+                googleActions.setGoogleSlice({
+                  gId: `${res.data.memberId}`,
+                  gmail: `${res.data.email}`,
+                  gname: `${res.data.name}`,
+                }),
+              )
+              navigate("/member/google/info")
+              return res
+            }
           })
           .catch((err) => {
             console.log(err)

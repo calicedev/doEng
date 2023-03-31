@@ -20,7 +20,7 @@ import { useNavigate } from "react-router-dom"
 import Toast from "components/UI/Toast"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import { DispatchToast } from "store"
-import useINEP from "hooks/useINEP"
+import useINEP2 from "hooks/useINEP2"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import apiRequest from "utils/axios"
 import { queryKeys } from "hooks/queries/queryKeys"
@@ -220,10 +220,10 @@ function Signup() {
     }
   }, [])
 
-  const { dupValid: emailDupValid } = useINEP(emailInput, "email", emailValid)
-  const { dupValid: phoneDupValid } = useINEP(phoneInput, "phone", phoneValid)
-  const { dupValid: nickDupValid } = useINEP(nickInput, "nick", nickValid)
-  const { dupValid: idDupValid } = useINEP(idInput, "id", idValid)
+  const { dupValid: emailDupValid } = useINEP2(emailInput, "email", emailValid)
+  const { dupValid: phoneDupValid } = useINEP2(phoneInput, "phone", phoneValid)
+  const { dupValid: nickDupValid } = useINEP2(nickInput, "nick", nickValid)
+  const { dupValid: idDupValid } = useINEP2(idInput, "id", idValid)
 
   const {
     isLoading: signupLoading,
@@ -330,7 +330,7 @@ function Signup() {
 
   return (
     <div
-      className={`flex flex-col items-start justify-start rounded-[2pc] bg-white bg-opacity-75 w-auto h-full px-[2vw] py-[2vh] min-h-[700px]`}
+      className={`flex flex-col items-start justify-start rounded-[2pc] bg-white bg-opacity-75 w-[96%] h-[95%] px-[2vw] py-[2vh] min-h-[700px] mx-[2%]`}
     >
       <img
         alt={`로고`}

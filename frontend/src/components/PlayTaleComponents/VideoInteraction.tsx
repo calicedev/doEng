@@ -5,7 +5,11 @@ import axios from "utils/axios"
 import { io } from "socket.io-client"
 import { AxiosRequestConfig } from "axios"
 
-const VideoInteraction: React.FC = () => {
+interface Props {
+  changeScene: () => void
+}
+
+const VideoInteraction: React.FC<Props> = () => {
   const [isVideo, setIsVideo] = useState(true)
 
   const videoRef = useRef<HTMLVideoElement>(null)

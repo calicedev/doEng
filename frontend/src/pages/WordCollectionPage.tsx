@@ -3,7 +3,6 @@ import WordCollect from "components/PlayTaleComponents/WordCollection/WordCollec
 function WordCollectionPage() {
   return (
     <>
-      <div>단어 도감 페이지</div>
       <WordCollect />
     </>
   )

@@ -5,7 +5,13 @@ import axios from "utils/axios"
 import { FaEraser } from "react-icons/fa"
 import { io } from "socket.io-client"
 
-const CanvasInteraction: React.FC = () => {
+const serverUrl = "/doodle?answer=happy&taleid=1&sceneId=2&memberId=1"
+
+interface Props {
+  changeScene: () => void
+}
+
+const CanvasInteraction: React.FC<Props> = ({ changeScene }) => {
   // canvas
   const cavasContainerRef = useRef<HTMLDivElement>(null)
   const canvasBoardRef = useRef<HTMLCanvasElement>(null)

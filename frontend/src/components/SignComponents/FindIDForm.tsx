@@ -39,7 +39,7 @@ const FindIDForm = function () {
     axiosRequest(
       {
         method: `post`,
-        url: `/api/member/id`,
+        url: `/api/auth/id`,
         data: {
           name: nameInput,
           email: emailInput,

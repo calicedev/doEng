@@ -44,7 +44,6 @@ const InputInSignup = function ({
         setTextClasses(() => `text-black`)
         setBorderClasses(() => `border-black-500 border-[4px]`)
       } else if (isValid === true && dupValid === true) {
-        console.log("하이?")
         setBgClasses(() => `bg-blue-200`)
         setTextClasses(() => `text-blue-900`)
         setBorderClasses(() => `border-blue-500 border-[4px]`)

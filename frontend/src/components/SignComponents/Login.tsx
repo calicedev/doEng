@@ -58,7 +58,6 @@ function Login() {
         //   method: ``,
         //   url: ``,
         // })
-        console.log(res)
         window.location.href = res.data
       })
       .catch((err) => {
