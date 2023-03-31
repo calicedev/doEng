@@ -4,10 +4,13 @@ import { useEffect } from "react"
 import { useNavigate, useSearchParams } from "react-router-dom"
 import apiRequest from "../utils/axios"
 import LoadingPage from "./LoadingPage"
+import { useStoreDispatch } from "hooks/useStoreSelector"
+import { googleActions } from "store/googleSlice"
 
 const GoogleLoginLoadingPage = function () {
   const navigate = useNavigate()
   const [searchParams] = useSearchParams()
+  const dispatch = useStoreDispatch()
   useEffect(
     function () {
       const code = searchParams.get(`code`)
@@ -26,6 +29,13 @@ const GoogleLoginLoadingPage = function () {
               navigate(`/`)
               return res
             } else if (res.data.type === "signup") {
+              dispatch(
+                googleActions.setGoogleSlice({
+                  gId: res.data.memberId,
+                  gmail: res.data.email,
+                  gname: res.data.name,
+                }),
+              )
               navigate("/google/info")
               return res
             }

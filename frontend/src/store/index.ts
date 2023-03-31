@@ -12,6 +12,7 @@ import findSlice from "./findSlice"
 import passwordSlice from "./passwordSlice"
 import wordTestSlice from "./wordTestSlice"
 import paySlice from "./paySlice"
+import GoogleSlice from "./googleSlice"
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
 
@@ -24,6 +25,7 @@ const rootReducers = combineReducers({
   password: passwordSlice,
   wordTest: wordTestSlice,
   pay: paySlice,
+  google: GoogleSlice,
 })
 
 const persistConfig = {
