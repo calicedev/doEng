@@ -12,6 +12,7 @@ import { useNavigate } from "react-router-dom"
 import { DispatchToast } from "store"
 import { googleActions } from "store/googleSlice"
 import { tokenActions } from "store/tokenSlice"
+import apiRequest from "utils/axios"
 import {
   emailValidation,
   idValidation,
@@ -26,7 +27,7 @@ const GoogleAdditionalInput = function () {
   const { gId, gmail, gname, code } = useStoreSelector((state) => state.google)
   const { mutateAsync } = useMutation({
     mutationFn: function () {
-      return axios({
+      return apiRequest({
         method: `post`,
         baseURL: `https://j8a601.p.ssafy.io`,
         url: `/api/auth/google`,
@@ -114,13 +115,16 @@ const GoogleAdditionalInput = function () {
                 )
               }
             }
+            console.log(res)
             window.location.href = res.data
             return res
           })
           .then((res) => {
-            console.log("구글 자동 로그인 관련")
-            console.log(res)
             navigate(`/`)
+          })
+          .catch((err) => {
+            console.log("구글 관련")
+            console.log(err)
           })
       })
       .catch((err) => {
