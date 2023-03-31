@@ -3,8 +3,10 @@ package com.ssafy.doeng.jwt;
 import com.ssafy.doeng.data.dto.member.TokenDto;
 import com.ssafy.doeng.errors.code.MemberErrorCode;
 import com.ssafy.doeng.errors.exception.ErrorException;
+import com.ssafy.doeng.errors.response.ErrorResponse;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.ExpiredJwtException;
+import io.jsonwebtoken.JwtException;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -24,6 +26,8 @@ import javax.crypto.spec.SecretKeySpec;
 import javax.xml.bind.DatatypeConverter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
@@ -37,7 +41,7 @@ public class TokenProvider {
     //토큰의 생성 토큰의 유효성 검증 해주는 애들
     private static final String AUTHORITIES_KEY = "auth";
     private static final String BEARER_TYPE = "bearer";
-    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 30 * 1;            // 30분
+    private static final long ACCESS_TOKEN_EXPIRE_TIME = 1000 * 1 * 5;            // 30분
     //private static final long ACCESS_TOKEN_EXPIRE_TIME = 10;            // 3초
     private static final long REFRESH_TOKEN_EXPIRE_TIME = 60 * 60 * 24 * 7 * 1000;  // 7일
 
@@ -87,9 +91,9 @@ public class TokenProvider {
     public Authentication getAuthentication(String accesstoken) {
         // 토큰 복호화
         Claims claims = parseClaims(accesstoken);
-
         // 서버는 받은 accessToken이 조작되지 않았는지 확인한다.
         if (claims.get(AUTHORITIES_KEY) == null) {
+            System.out.println("+_+_+_+");
             throw new ErrorException(MemberErrorCode.NO_PERMISSION_TOKEN);
         }
         // 클레임에서 권한 정보 가져오기
@@ -110,23 +114,21 @@ public class TokenProvider {
             Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(token);
             return true;
         } catch (io.jsonwebtoken.security.SecurityException | MalformedJwtException e) {
-            log.info("잘못된 JWT 서명입니다.");
+            throw new JwtException("잘못된 JWT 서명입니다.");
         } catch (ExpiredJwtException e) {
-            log.info("만료된 JWT 토큰입니다.");
+            throw new JwtException("만료된 JWT 토큰입니다.");
         } catch (UnsupportedJwtException e) {
-            log.info("지원되지 않는 JWT 토큰입니다.");
+            throw new JwtException("지원되지 않는 JWT 토큰입니다.");
         } catch (IllegalArgumentException e) {
-            log.info("JWT 토큰이 잘못되었습니다.");
+            throw new JwtException("JWT 토큰이 잘못되었습니다.");
         }
-        return false;
     }
 
     private Claims parseClaims(String accesstoken) {
         try {
             return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJws(accesstoken).getBody();
-        } catch (Exception e) {
-            // access 조작 되었을 때.
-            throw new ErrorException(MemberErrorCode.NO_PERMISSION_TOKEN);
+        } catch (ExpiredJwtException e) {
+            return e.getClaims();
         }
     }
 
