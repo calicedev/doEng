@@ -1,9 +1,9 @@
 import React from "react"
 import { useParams } from "react-router-dom"
 import dummy from "components/MyPageComponents/DummyData/ProgressDetail.json"
-import ProgressDetail from "components/MyPageComponents/ProgressDetail/ProgressDetail"
+import ProgressDetailHeader from "components/MyPageComponents/ProgressDetail/ProgressDetailHeader"
 import ProgressDetailTest from "components/MyPageComponents/ProgressDetail/ProgressDetailTest"
-import ProgressDetailPhoto from "components/MyPageComponents/ProgressDetail/ProgressDetailPhoto"
+import ProgressDetailSceneList from "components/MyPageComponents/ProgressDetail/ProgressDetailSceneList"
 import {
   useProgressTaleDetail,
   ProgressTaleDetail,
@@ -12,58 +12,46 @@ import {
   ProgressImage,
 } from "hooks/queries/queries"
 
+import CommonLoading from "components/UI/CommonLoading"
+
 function ProgressDetailPage() {
   const { taleId } = useParams() as { taleId: string }
 
   const {
     isLoading: progressDetailLoading,
     error: progressDetailError,
-    data: progressDetailData,
+    data: progressDetail,
   } = useProgressTaleDetail(parseInt(taleId))
-  console.log("1111111111111111")
-  console.log(progressDetailData)
 
   return (
-    <div className="h-full flex flex-nowrap">
-      <div className=" basis-1/3 p-10 place-self-center">
-        {progressDetailLoading ? (
-          <>
-            <div>로딩중입니다</div>
-          </>
-        ) : progressDetailData ? (
-          <ProgressDetail tale={progressDetailData} />
-        ) : (
-          <div>진행중인 동화가 존재하지 않습니다</div>
-        )}
-      </div>
-      <div className={`flex flex-col basis-2/3`}>
-        <div className=" basis-1/2">
-          {progressDetailLoading ? (
-            <>
-              <div>로딩중입니다</div>
-            </>
-          ) : progressDetailData?.sceneList ? (
-            <ProgressDetailPhoto
-              key={progressDetailData.id}
-              talePhoto={progressDetailData.sceneList}
-            />
-          ) : (
-            <div>사진이 존재하지 않습니다</div>
-          )}
+    <>
+      {progressDetailLoading ? (
+        <CommonLoading />
+      ) : progressDetail ? (
+        <div className="flex flex-col items-center sm:flex-row sm:items-stretch gap-10 p-6 overflow-y-auto">
+          <div className={`self-center min-w-[300px] w-[80%] sm:w-[30%]`}>
+            <ProgressDetailHeader tale={progressDetail} />
+          </div>
+          <div className="flex-1 flex flex-col gap-5">
+            <div className="w-full h-[50%]">
+              {progressDetail.sceneList && (
+                <ProgressDetailSceneList
+                  key={progressDetail.id}
+                  photoList={progressDetail.sceneList}
+                />
+              )}
+            </div>
+            <div className={`w-full h-[50%] overflow-scroll`}>
+              {progressDetail.testResult && (
+                <ProgressDetailTest taleTest={progressDetail.testResult} />
+              )}
+            </div>
+          </div>
         </div>
-        <div className="basis-1/2 place-self-center pt-[10%]">
-          {progressDetailLoading ? (
-            <>
-              <div>로딩중입니다</div>
-            </>
-          ) : progressDetailData?.testResult ? (
-            <ProgressDetailTest taleTest={progressDetailData.testResult} />
-          ) : (
-            <div>테스트 결과가 존재하지 않습니다</div>
-          )}
-        </div>
-      </div>
-    </div>
+      ) : (
+        <></>
+      )}
+    </>
   )
 }
 

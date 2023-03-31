@@ -10,40 +10,37 @@ interface Props {
 
 function ProgressListItem({ tale }: PropsWithChildren<Props>) {
   const navigate = useNavigate()
-  const pushProgressListDetail = () => {
+  const toProgressDetail = () => {
     navigate(`/mypage/progress/${tale.id}`)
   }
-  const barRef = useRef<HTMLDivElement>(null)
-  const { width, height } = useWidthHeight(barRef)
   return (
     <div
-      className=" border-[3px] border-orange-300 bg-white rounded-lg flex flex-col items-center gap-2 relative p-3 min-w-[180px] cursor-pointer ease-in-out duration-300 hover:scale-110"
-      onClick={pushProgressListDetail}
+      className="flex flex-col items-center gap-1 relative min-w-[180px] px-3 py-1 border-[3px] rounded-lg border-orange-300 bg-white bg-opacity-90 cursor-pointer ease-in-out duration-300 hover:scale-110"
+      onClick={toProgressDetail}
     >
       <div
-        className={`basis-[70%] overflow-hidden relative z-0 w-full rounded drop-shadow-lg`}
+        className={`overflow-hidden relative z-0 w-full rounded drop-shadow-lg`}
         style={{ paddingBottom: "133.33%" }}
       >
         <img
           className="absolute top-0 left-0 w-full h-full object-cover"
           src={tale.backgroundImage}
-          alt="progressBackground"
-        />{" "}
+          alt="동화책 이미지"
+        />
       </div>
-      <div className="relative">{tale.title}</div>
+      <div>{tale.title}</div>
 
-      <div
-        ref={barRef}
-        className="relative w-full bg-gray-200 rounded-full mb-0.5 dark:bg-gray-700 flex justify-center"
-      >
+      <div className="flex justify-center relative w-full mb-0.5 rounded-full bg-gray-200 dark:bg-gray-700 ">
         <div
-          className="bg-green-600 rounded-full h-[72%] dark:bg-green-500 absolute top-[50%] left-[3%] translate-y-[-50%] duration-[0.33s]"
+          className="absolute top-[50%] left-[3%] translate-y-[-50%] h-[72%] rounded-full bg-lime-500 dark:bg-green-500 duration-[0.33s]"
           style={{
-            width: `0`, // `${tale.progress * 0.94}%`,
+            width: `${100 * 0.94}%`,
             transform: `width: 100%`,
           }}
         ></div>
-        <div className="z-[5]">{tale.progress || 0}%</div>
+        <div className="py-[3px] text-white text-sm z-[5]">
+          {tale.progress}%
+        </div>
       </div>
     </div>
   )
