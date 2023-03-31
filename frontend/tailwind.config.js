@@ -82,6 +82,7 @@ module.exports = {
         "play-detail-right-osolgil": `url("/src/assets/images/DetailRightBackground.png")`,
         "scene-back": `url("/src/assets/images/SceneBack.png")`,
         "title-pan": `url("/src/assets/images/TitlePan.png")`,
+        "word-card": `url("/src/assets/images/wordcard.png")`,
       },
       // animate-[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction]
       animation: {

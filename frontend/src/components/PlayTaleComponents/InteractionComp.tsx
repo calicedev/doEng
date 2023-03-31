@@ -27,6 +27,15 @@ const InteractionComp: React.FC<Props> = ({
   changeScene,
 }) => {
   const [isVideo, setIsVideo] = useState(true)
+  const [loadingCam, setLoadingCam] = useState<boolean>(true)
+  const [setLoadingON, setLoadingOFF] = [
+    function () {
+      setLoadingCam(() => true)
+    },
+    function () {
+      setLoadingCam(() => false)
+    },
+  ]
   const { data: sceneDetail } = useSceneDetail(taleId, sceneOrder)
 
   const handleType = () => {
@@ -38,6 +47,22 @@ const InteractionComp: React.FC<Props> = ({
   }
   const divRef = useRef<HTMLDivElement>(null)
   const { height } = useWidthHeight(divRef)
+  const [seconds, setSeconds] = useState(60)
+
+  useEffect(() => {
+    if (loadingCam) {
+      return
+    }
+    if (seconds >= 0) {
+      const intervalId = setInterval(() => {
+        setSeconds(seconds - 1)
+      }, 1000)
+      return () => clearInterval(intervalId)
+    }
+    if (seconds < 0) {
+      changeScene()
+    }
+  }, [seconds, loadingCam])
 
   return (
     <div className="flex flex-col h-full w-full bg-scene-back content-center bg-no-repeat bg-cover items-center justify-center">
@@ -64,10 +89,16 @@ const InteractionComp: React.FC<Props> = ({
         <div className="basis-[50%] w-[50%] flex flex-col h-full items-center justify-center">
           <button onClick={handleType}>{isVideo ? "카메라" : "캔버스"}</button>
           {isVideo ? (
-            <VideoInteraction changeScene={changeScene} />
+            <VideoInteraction
+              changeScene={changeScene}
+              setLoadingOFF={setLoadingOFF}
+              setLoadingON={setLoadingON}
+              isVideoLoading={loadingCam}
+            />
           ) : (
             <CanvasInteraction changeScene={changeScene} />
           )}
+          <div>{seconds}</div>
         </div>
       </div>
       <div

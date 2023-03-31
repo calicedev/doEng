@@ -34,6 +34,7 @@ import PlayScenePage from "pages/PlayScenePage"
 import WordTestPage from "pages/WordTestPage"
 import WordTestResultPage from "pages/WordTestResultPage"
 import GoogleAdditionalInput from "components/SignComponents/GoogleAdditionalInput"
+import ErrorPage from "pages/ErrorPage"
 
 // // ProtectedRoute 사용법
 // const TestApp = function () {
@@ -104,6 +105,7 @@ function App() {
         <Route path={`pay`} element={<ProtectedRoute />}>
           <Route path=":isSuccess" element={<PayBridgePage />} />
         </Route>
+        <Route path="/error" element={<ErrorPage />} />
         <Route path={`*`} element={<NotFoundPage />} />
       </Routes>
     </div>
