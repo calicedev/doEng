@@ -114,6 +114,7 @@ const GoogleAdditionalInput = function () {
                 )
               }
             }
+            window.location.href = res.data
             return res
           })
           .then((res) => {
