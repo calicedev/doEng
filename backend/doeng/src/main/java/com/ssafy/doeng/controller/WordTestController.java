@@ -46,15 +46,11 @@ public class WordTestController {
         System.out.println();
         LOGGER.info("[WordTestController] postGetWord getSize : {}, memberId : {}", wordList.getWordList().size(), wordList.getMemberId());
         int count = testService.save(wordList);
+        long taleId = wordList.getWordList().get(0).getTaleId();
         LOGGER.info("[WordTestController] postGetWord 종료");
-        testService.getWordTestResult(count, wordList.getWordList().get(0).getTaleId(), memberId);
-        return ResponseEntity.ok().body(testService.getWordTestResult(34, 1, 15));
+        testService.getWordTestResult(count, taleId , memberId);
+        return ResponseEntity.ok().body(testService.getWordTestResult(count, taleId, memberId));
     }
 
-    @GetMapping("/test")
-    public ResponseEntity<?> test(@LoginId long memberId) {
-        LOGGER.info("++++++++++test+++++++++");
-        return ResponseEntity.ok().body(testService.getWordTestResult(34, 1, 15));
-    }
 
 }

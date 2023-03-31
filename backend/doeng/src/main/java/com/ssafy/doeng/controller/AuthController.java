@@ -144,10 +144,13 @@ public class AuthController {
     public ResponseEntity callback(
             @PathVariable(name = "socialLoginType") String socialLoginPath,
             @RequestParam(name = "code") String code, HttpServletResponse response) throws IOException {
+
+        System.out.println("1");
         SocialLoginType socialLoginType = SocialLoginType.valueOf(socialLoginPath.toUpperCase());
         GetSocialOAuthRes a = oAuthService.oAuthLogin(socialLoginType, code);
-
+        System.out.println("2");
         if(a.getTokenDto()==null){
+            System.out.println("3");
             ResponseGoogleSignupType responseGoogleSignupType = ResponseGoogleSignupType
                     .builder()
                     .type("signup")
@@ -157,16 +160,17 @@ public class AuthController {
                     .build();
             return new ResponseEntity<>(responseGoogleSignupType, HttpStatus.OK);
         }
+        System.out.println("4");
         HttpHeaders headers = new HttpHeaders();
         headers.set("accesstoken", a.getTokenDto().getAccesstoken());
         headers.set("refreshtoken", a.getTokenDto().getRefreshtoken());
-        ResponseGoogleLoginType responseGoogleLoginType = ResponseGoogleLoginType.builder().type("login").build();
+        ResponseGoogleLoginType responseGoogleLoginType = ResponseGoogleLoginType.builder().type(a.getType()).build();
+        System.out.println(responseGoogleLoginType.getType()+"기현++++++++++++++++++++");
         return new ResponseEntity<>(responseGoogleLoginType, headers, HttpStatus.OK);
     }
 
     @PostMapping("/google")
     public ResponseEntity<Void> googleSignup(@RequestBody RequestSignupDto requestDto) {
-        requestDto.setPassword("11111");
         LOGGER.info("[signup] 소셜 회원가입 controller 들어옴");
         memberService.signup(requestDto);
         LOGGER.info("[signup] 소셜 회원가입 controller 나감");

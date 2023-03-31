@@ -5,14 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0834dee4-39fb-459c-a4c6-2c8e8287cf27" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/controller/MemberController.java" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/controller/MemberController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/controller/WordTestController.java" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/controller/WordTestController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/data/dto/member/request/RequestMemberDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/data/dto/member/request/RequestMemberDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/oauth2/GetSocialOAuthRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/oauth2/GetSocialOAuthRes.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/oauth2/OAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/oauth2/OAuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/service/member/Impl/CustomUserDetailsService.java" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/service/member/Impl/CustomUserDetailsService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/service/member/Impl/MemberServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/service/member/Impl/MemberServiceImpl.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -57,27 +51,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent">{
-  &quot;keyToString&quot;: {
-    &quot;ASKED_MARK_IGNORED_FILES_AS_EXCLUDED&quot;: &quot;true&quot;,
-    &quot;ASKED_SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.OpenProjectViewOnStart&quot;: &quot;true&quot;,
-    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
-    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
-    &quot;WebServerToolWindowFactoryState&quot;: &quot;false&quot;,
-    &quot;last_opened_file_path&quot;: &quot;C:/S08P22A601&quot;,
-    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
-    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
-    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
-    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
-    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
-    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
-    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
-    &quot;settings.editor.selected.configurable&quot;: &quot;settings.sync&quot;,
-    &quot;spring.configuration.checksum&quot;: &quot;4707b44b8e1df8ce79f3709f359f993e&quot;,
-    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "ASKED_MARK_IGNORED_FILES_AS_EXCLUDED": "true",
+    "ASKED_SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "RunOnceActivity.OpenProjectViewOnStart": "true",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "WebServerToolWindowFactoryState": "false",
+    "last_opened_file_path": "C:/S08P22A601",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "project.structure.last.edited": "SDKs",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "settings.sync",
+    "spring.configuration.checksum": "4707b44b8e1df8ce79f3709f359f993e",
+    "vue.rearranger.settings.migration": "true"
   }
-}</component>
+}]]></component>
   <component name="RunManager">
     <configuration name="DoengApplication" type="SpringBootApplicationConfigurationType" factoryName="Spring Boot" nameIsGenerated="true">
       <module name="doeng.main" />
@@ -102,6 +96,7 @@
       <workItem from="1678322631270" duration="37000" />
       <workItem from="1678322835828" duration="13000" />
       <workItem from="1680146713926" duration="8000" />
+      <workItem from="1680224314875" duration="57000" />
     </task>
     <servers />
   </component>
