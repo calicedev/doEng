@@ -145,12 +145,13 @@ public class AuthController {
             @PathVariable(name = "socialLoginType") String socialLoginPath,
             @RequestParam(name = "code") String code, HttpServletResponse response) throws IOException {
 
-        System.out.println("1");
+        System.out.println("********************************1");
+        System.out.println("********************************1");
         SocialLoginType socialLoginType = SocialLoginType.valueOf(socialLoginPath.toUpperCase());
         GetSocialOAuthRes a = oAuthService.oAuthLogin(socialLoginType, code);
-        System.out.println("2");
+        System.out.println("*******************************2");
         if(a.getTokenDto()==null){
-            System.out.println("3");
+            System.out.println("*******************************3");
             ResponseGoogleSignupType responseGoogleSignupType = ResponseGoogleSignupType
                     .builder()
                     .type("signup")
