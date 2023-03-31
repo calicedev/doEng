@@ -28,10 +28,10 @@ const GoogleAdditionalInput = function () {
       return axios({
         method: `post`,
         baseURL: `https://j8a601.p.ssafy.io`,
-        url: `/api/auth`,
+        url: `/api/auth/google`,
         data: {
           memberId: gId,
-          password: "11111",
+          password: "",
           nickname: nickInput,
           name: gname,
           email: gmail,
