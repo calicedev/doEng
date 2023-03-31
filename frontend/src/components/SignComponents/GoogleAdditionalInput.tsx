@@ -93,6 +93,7 @@ const GoogleAdditionalInput = function () {
     mutateAsync()
       .then(() => {
         dispatch(googleActions.resetGoogleSlice({}))
+        dispatch(DispatchToast("다시 로그인 해주세요!", true))
         navigate(`/member/login`)
       })
       .catch((err) => {
@@ -175,7 +176,7 @@ const GoogleAdditionalInput = function () {
       <button
         className={`box-border flex items-center justify-center bg-opacity-80 rounded-full min-h-[45px] max-h-[80px] min-w-[288px] h-[8vh] max-w-[480px] w-[40vw] px-6 py-4 font-hopang-black text-3xl border-[4px] shadow-xl duration-[0.66s] hover:scale-105 hover:skew-x-[-1deg] hover:skew-y-[-1deg] ${loginBtnClasses}`}
       >
-        하이요
+        완료
       </button>
     </form>
   )

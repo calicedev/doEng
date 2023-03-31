@@ -27,7 +27,6 @@ const GoogleLoginLoadingPage = function () {
             console.log(res)
             if (res.data.type === "login") {
               navigate(`/`)
-              return res
             } else if (res.data.type === "signup") {
               dispatch(
                 googleActions.setGoogleSlice({
