@@ -40,7 +40,8 @@ public interface TestRepository extends JpaRepository<Test, Long> {
             + "on t.word = w "
             + "where t.tale =:tale "
             + "and t.member=:member "
-            + "and t.testCount=:count ")
+            + "and t.testCount=:count "
+            +" and t.isCorrect=true")
 
     List<Word> getWordByCountTale(@Param("count") int count, @Param("tale") Tale tale,
             @Param("member") Member member);

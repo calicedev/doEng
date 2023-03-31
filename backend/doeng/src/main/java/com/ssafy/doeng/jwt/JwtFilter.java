@@ -1,11 +1,16 @@
 package com.ssafy.doeng.jwt;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import io.jsonwebtoken.JwtException;
 import java.io.IOException;
+import java.util.HashMap;
+import java.util.Map;
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import org.springframework.http.MediaType;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.StringUtils;
@@ -29,11 +34,15 @@ public class JwtFilter extends OncePerRequestFilter {
         String jwt = resolveToken(request);
         // 2. validateToken 으로 토큰 유효성 검사
         // 정상 토큰이면 해당 토큰으로 Authentication 을 가져와서 SecurityContext 에 저장
-        if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
-            Authentication authentication = tokenProvider.getAuthentication(jwt);
-            SecurityContextHolder.getContext().setAuthentication(authentication);
+        try {
+            if (StringUtils.hasText(jwt) && tokenProvider.validateToken(jwt)) {
+                Authentication authentication = tokenProvider.getAuthentication(jwt);
+                SecurityContextHolder.getContext().setAuthentication(authentication);
+            }
+            filterChain.doFilter(request, response);
+        }catch (JwtException ex){
+            setErrorResponse(request, response, ex);
         }
-        filterChain.doFilter(request, response);
     }
 
     // Request Header 에서 토큰 정보를 꺼내오기
@@ -43,5 +52,18 @@ public class JwtFilter extends OncePerRequestFilter {
             return bearerToken.substring(7);
         }
         return null;
+    }
+
+    public void setErrorResponse(HttpServletRequest req, HttpServletResponse res, Throwable ex) throws IOException {
+
+        res.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
+        res.setContentType("application/json");
+        res.setCharacterEncoding("UTF-8");
+        try {
+            String json = new ObjectMapper().writeValueAsString(new MessageResponseDto(false,"SC_UNAUTHORIZED",
+                    ex.getMessage() ));
+            res.getWriter().write(json);
+        } catch (Exception e) {
+        }
     }
 }
