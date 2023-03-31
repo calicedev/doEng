@@ -11,6 +11,7 @@ import { FormEvent, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
 import { DispatchToast } from "store"
 import { googleActions } from "store/googleSlice"
+import { tokenActions } from "store/tokenSlice"
 import {
   emailValidation,
   idValidation,
@@ -22,7 +23,7 @@ import {
 const GoogleAdditionalInput = function () {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { gId, gmail, gname } = useStoreSelector((state) => state.google)
+  const { gId, gmail, gname, code } = useStoreSelector((state) => state.google)
   const { mutateAsync } = useMutation({
     mutationFn: function () {
       return axios({
@@ -91,10 +92,35 @@ const GoogleAdditionalInput = function () {
   const loginHandler = function (e: FormEvent) {
     e.preventDefault()
     mutateAsync()
-      .then(() => {
+      .then(async () => {
         dispatch(googleActions.resetGoogleSlice({}))
-        dispatch(DispatchToast("다시 로그인 해주세요!", true))
-        navigate(`/member/login`)
+        await axios({
+          method: `get`,
+          url: `/api/auth/login/code/GOOGLE/callback`,
+          params: {
+            code,
+          },
+        })
+          .then((res) => {
+            if (res.data.type === "login") {
+              const access = res.headers[`accesstoken`]
+              const refresh = res.headers[`refreshtoken`]
+              if (access) {
+                dispatch(tokenActions.setAccessToken({ accessToken: access }))
+                dispatch(googleActions.resetGoogleSlice({}))
+              }
+              if (refresh) {
+                dispatch(
+                  tokenActions.setRefreshToken({ refreshToken: refresh }),
+                )
+                dispatch(googleActions.resetGoogleSlice({}))
+              }
+            }
+            return res
+          })
+          .then((res) => {
+            navigate(`/`)
+          })
       })
       .catch((err) => {
         dispatch(DispatchToast("실패! 재시도 바랍니다.", false))
