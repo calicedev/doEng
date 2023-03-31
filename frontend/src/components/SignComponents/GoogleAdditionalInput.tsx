@@ -93,13 +93,14 @@ const GoogleAdditionalInput = function () {
   const loginHandler = function (e: FormEvent) {
     e.preventDefault()
     mutateAsync()
-      .then(async () => {
-        await apiRequest({
-          method: `get`,
-          url: `/api/auth/login/GOOGLE`,
-        }).then((res) => {
-          window.location.href = res.data
-        })
+      .then(() => {
+        // apiRequest({
+        //   method: `get`,
+        //   url: `/api/auth/login/GOOGLE`,
+        // }).then((res) => {
+        //   window.location.href = res.data
+        // })
+        window.location.href = `https://accounts.google.com/o/oauth2/auth?scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=code&redirect_uri=https://j8a601.p.ssafy.io/member/google&client_id=102010842807-o1qoah69al8s2eojt7vm0nm6smalu1sr.apps.googleusercontent.com`
         dispatch(googleActions.resetGoogleSlice({}))
       })
       .catch((err) => {

@@ -49,21 +49,22 @@ function Login() {
   } = useApi()
 
   const googleLoginHandler = function () {
-    apiRequest({
-      method: `get`,
-      url: `/api/auth/login/GOOGLE`,
-    })
-      .then((res) => {
-        // apiRequest({
-        //   method: ``,
-        //   url: ``,
-        // })
-        window.location.href = res.data
-      })
-      .catch((err) => {
-        console.log(err)
-        dispatch(DispatchToast("재시도 부탁드립니다!", false))
-      })
+    // apiRequest({
+    //   method: `get`,
+    //   url: `/api/auth/login/GOOGLE`,
+    // })
+    //   .then((res) => {
+    //     // apiRequest({
+    //     //   method: ``,
+    //     //   url: ``,
+    //     // })
+    //     window.location.href = res.data
+    //   })
+    //   .catch((err) => {
+    //     console.log(err)
+    //     dispatch(DispatchToast("재시도 부탁드립니다!", false))
+    //   })
+    window.location.href = `https://accounts.google.com/o/oauth2/auth?scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=code&redirect_uri=https://j8a601.p.ssafy.io/member/google&client_id=102010842807-o1qoah69al8s2eojt7vm0nm6smalu1sr.apps.googleusercontent.com`
   }
 
   const loginHandler = function (e: FormEvent) {
