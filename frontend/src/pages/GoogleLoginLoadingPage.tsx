@@ -21,7 +21,6 @@ const GoogleLoginLoadingPage = function () {
         axios({
           method: `get`,
           baseURL: `https://j8a601.p.ssafy.io`,
-          // baseURL: `http://localhost:8200`,
           url: `/api/auth/login/code/GOOGLE/callback`,
           params: {
             code,
@@ -44,7 +43,6 @@ const GoogleLoginLoadingPage = function () {
               )
               navigate(`/`)
             } else if (res.data.type === "signup") {
-              dispatch(googleActions.setGCode({ code: code }))
               dispatch(
                 googleActions.setGoogleSlice({
                   gId: `${res.data.memberId}`,

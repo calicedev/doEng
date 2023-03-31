@@ -24,7 +24,7 @@ import {
 const GoogleAdditionalInput = function () {
   const navigate = useNavigate()
   const queryClient = useQueryClient()
-  const { gId, gmail, gname, code } = useStoreSelector((state) => state.google)
+  const { gId, gmail, gname } = useStoreSelector((state) => state.google)
   const { mutateAsync } = useMutation({
     mutationFn: async function () {
       return await apiRequest({
@@ -94,13 +94,12 @@ const GoogleAdditionalInput = function () {
     e.preventDefault()
     mutateAsync()
       .then(() => {
-        // apiRequest({
-        //   method: `get`,
-        //   url: `/api/auth/login/GOOGLE`,
-        // }).then((res) => {
-        //   window.location.href = res.data
-        // })
-        window.location.href = `https://accounts.google.com/o/oauth2/auth?scope=https://www.googleapis.com/auth/userinfo.email%20https://www.googleapis.com/auth/userinfo.profile&response_type=code&redirect_uri=https://j8a601.p.ssafy.io/member/google&client_id=102010842807-o1qoah69al8s2eojt7vm0nm6smalu1sr.apps.googleusercontent.com`
+        axios({
+          method: `get`,
+          url: `/api/auth/login/GOOGLE`,
+        }).then((res) => {
+          window.location.href = res.data
+        })
         dispatch(googleActions.resetGoogleSlice({}))
       })
       .catch((err) => {

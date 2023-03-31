@@ -87,7 +87,7 @@ apiRequest.interceptors.response.use(
           return Promise.reject(err)
         })
     } else if (response.status === 403) {
-      store.dispatch(DispatchToast("403 에러입니다.", false))
+      store.dispatch(DispatchToast("권한이 없습니다.", false))
     } else if (response.status >= 500) {
       store.dispatch(
         DispatchToast(
