@@ -33,16 +33,20 @@ const GoogleLoginLoadingPage = function () {
             if (res.data.type === "login") {
               dispatch(googleActions.resetGoogleSlice({}))
               dispatch(passwordActions.setGoogle({}))
-              dispatch(
-                tokenActions.setAccessToken({
-                  accessToken: res.headers[`accesstoken`],
-                }),
-              )
-              dispatch(
-                tokenActions.setRefreshToken({
-                  refreshToken: res.headers[`refreshtoken`],
-                }),
-              )
+              if (res.headers[`accesstoken`]) {
+                dispatch(
+                  tokenActions.setAccessToken({
+                    accessToken: res.headers[`accesstoken`],
+                  }),
+                )
+              }
+              if (res.headers[`refreshtoken`]) {
+                dispatch(
+                  tokenActions.setRefreshToken({
+                    refreshToken: res.headers[`refreshtoken`],
+                  }),
+                )
+              }
               navigate(`/`)
             } else if (res.data.type === "signup") {
               dispatch(
@@ -58,7 +62,6 @@ const GoogleLoginLoadingPage = function () {
           })
           .catch((err) => {
             console.log(err)
-            console.log("ASDasdaD?????????????????")
           })
       }
     },
