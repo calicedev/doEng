@@ -81,7 +81,7 @@ module.exports = {
         "play-detail-open-book": `url("/src/assets/images/DetailBackground.png")`,
         "play-detail-right-osolgil": `url("/src/assets/images/DetailRightBackground.png")`,
         "scene-back": `url("/src/assets/images/SceneBack.png")`,
-        "title-pan": `url("/src/assets/images/TitlePan.png)`,
+        "title-pan": `url("/src/assets/images/TitlePan.png")`,
       },
       // animate-[animationName_easingFunction_durationInSeconds_iterationsCount_delayInSeconds_direction]
       animation: {
