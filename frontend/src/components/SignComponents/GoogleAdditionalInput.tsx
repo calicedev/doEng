@@ -93,9 +93,9 @@ const GoogleAdditionalInput = function () {
   const loginHandler = function (e: FormEvent) {
     e.preventDefault()
     mutateAsync()
-      .then(async () => {
+      .then(() => {
         dispatch(googleActions.resetGoogleSlice({}))
-        await apiRequest({
+        apiRequest({
           method: `get`,
           url: `/api/auth/login/GOOGLE`,
         }).then((res) => {
