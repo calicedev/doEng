@@ -62,12 +62,12 @@ apiRequest.interceptors.response.use(
       interceptorRequest.defaults.headers.common[`accesstoken`] = accessToken
       interceptorRequest.defaults.headers.common[`refreshtoken`] = refreshToken
 
-      const config = {
+      const config: AxiosRequestConfig = {
         method: "post",
         url: `/api/auth/reissue`,
       }
 
-      interceptorRequest(config)
+      return interceptorRequest(config)
         .then((res) => {
           console.log("토큰 재발급 성공", res)
           const newAccessToken = res.headers["accesstoken"]

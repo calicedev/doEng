@@ -3,7 +3,7 @@ import React, { FC, PropsWithChildren, MouseEvent, ReactNode } from "react"
 interface Props {
   icon: ReactNode // 아이콘: <svg/> react-icons 라이브러리 사용을 추천
   label?: string // 라벨: 아이콘과 함께 띄울 문구
-  onClick?: (e: MouseEvent<HTMLElement>) => void // 클릭 시 동작 함수
+  onClick?: () => void // 클릭 시 동작 함수
   size?: "small" | "medium" | "large" // 크기: sizing 옵션
   colorClass?: string // 색깔: tailwind 클래스
   disabled?: boolean // 아이콘 클릭 가능 여부
@@ -55,9 +55,9 @@ const IconButton: FC<PropsWithChildren<Props>> = function ({
   }
 
   // disabled 옵션에 따라 버튼 동작여부 결정
-  const handleClick = (e: MouseEvent<HTMLElement>) => {
+  const handleClick = () => {
     if (disabled) return
-    onClick(e)
+    onClick()
   }
 
   return (

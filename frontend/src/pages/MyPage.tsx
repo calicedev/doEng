@@ -6,7 +6,7 @@ import MyPageTab from "components/MyPageComponents/common/MyPageTab"
 import MyPageNavigation from "components/MyPageComponents/common/MyPageNavigation"
 
 function MyPage() {
-  const { isCert } = useStoreSelector((state) => state.password)
+  const { isCert, isGoogle } = useStoreSelector((state) => state.password)
 
   return (
     <div
@@ -20,7 +20,7 @@ function MyPage() {
         id={`mypage-container`}
         className={`flex flex-col overflow-hidden relative w-full h-full border-2 border-orange-400 bg-yellow-50 rounded-lg bg-opacity-[0.85]`}
       >
-        {isCert ? (
+        {isCert || isGoogle ? (
           <>
             <MyPageTab />
             <Outlet />

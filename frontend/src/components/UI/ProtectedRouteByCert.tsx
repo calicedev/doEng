@@ -10,10 +10,10 @@ import { SpinnerDots } from "./Spinner"
 interface Props {}
 
 const ProtectedRouteByCert = function ({ children }: PropsWithChildren<Props>) {
-  const { isCert } = useStoreSelector((state) => state.password)
+  const { isCert, isGoogle } = useStoreSelector((state) => state.password)
   const dispatch = useStoreDispatch()
 
-  return isCert ? <MyPage /> : <Navigate to={`/mypage`} />
+  return isCert || isGoogle ? <MyPage /> : <Navigate to={`/mypage`} />
 }
 
 export default ProtectedRouteByCert
