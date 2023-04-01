@@ -77,7 +77,7 @@ apiRequest.interceptors.response.use(
 
           // 기존 요청 새로운 token으로 재시도
           originalConfig.headers.Authorization = `Bearer ${newAccessToken}`
-          return apiRequest(originalConfig)
+          return axios(originalConfig)
         })
         .catch((err) => {
           console.log("토큰 재발급 에러 : ", err)
