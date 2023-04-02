@@ -46,4 +46,6 @@ public interface MemberService {
     boolean checkPhone(String phone);
 
     String checkEmailDuplicate(String email);
+
+    TokenDto googleSignup(RequestSignupDto requestDto);
 }
