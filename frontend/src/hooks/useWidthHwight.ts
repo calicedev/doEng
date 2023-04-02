@@ -22,7 +22,7 @@ export const useWidthHeight: useWidthHeightHook = function (ref) {
         window.removeEventListener("resize", setCustomWidthHeight)
       }
     },
-    [ref]
+    [ref],
   )
 
   return { width, height }

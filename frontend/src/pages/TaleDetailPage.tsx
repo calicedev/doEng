@@ -45,7 +45,7 @@ const TaleDetailPage = function () {
   }
 
   return (
-    <div className="flex flex-col items-center sm:flex-row sm:items-stretch gap-10 p-6 overflow-y-auto">
+    <div className="flex flex-col items-center sm:flex-row sm:items-stretch gap-10 h-full p-6 overflow-y-auto">
       <TaleDetailHeader />
       <div className="flex-1 flex flex-col gap-5">
         <TitleContent title={`줄거리`}>{taleDetail?.description}</TitleContent>
