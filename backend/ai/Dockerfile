@@ -16,5 +16,5 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 COPY . /code/app
 
 # Set the command to run the uvicorn server.
-CMD uvicorn app.main:app --reload --port ${port}
+CMD uvicorn app.main:app --reload --port 9000
 # CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "${port}"]
