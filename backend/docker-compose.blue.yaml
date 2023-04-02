@@ -1,0 +1,32 @@
+version: '3.6'
+
+services:
+  doeng:
+    build:
+      context: ./doeng
+      args:
+        port: 8200
+    image: doeng-springboot-image-blue
+    container_name: doeng-springboot-blue
+    ports:
+      - '8200:8200'
+  doengFlux:
+    build:
+      context: ./doengFlux
+      args:
+        port: 8000
+    image: doeng-flux-image-blue
+    container_name: doeng-flux-blue
+    ports:
+      - '8000:8000'
+  doengAi:
+    build:
+      context: ./ai
+      args:
+        port: 9000
+    image: doeng-ai-image-blue
+    container_name: doeng-ai-blue
+    ports:
+      - '9000:9000'
+    # stdin_open: true # docker run -i
+    # tty: true        # docker run -t
