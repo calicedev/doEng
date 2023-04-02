@@ -18,7 +18,7 @@ function Modal({
         <>
           <div
             onClick={closeModal}
-            className={`flex justify-center items-center absolute z-50 top-0 right-0 bg-black bg-opacity-50 w-full h-full`}
+            className={`flex justify-center items-center absolute z-50 top-0 right-0 bg-black bg-opacity-80 w-full h-full`}
           >
             <div
               className={`${parentClasses}`}

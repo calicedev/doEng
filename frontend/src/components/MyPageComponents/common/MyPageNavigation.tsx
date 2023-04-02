@@ -31,7 +31,10 @@ export default function MyPageNavigation() {
         navigate(`/`)
       })
       .catch((err) => {
+        dispatch(tokenActions.deleteTokens({}))
+        dispatch(passwordActions.wrongPassword({}))
         dispatch(DispatchToast("로그아웃에 실패하셨습니다.", false))
+        navigate(`/member/login`)
       })
   }
 

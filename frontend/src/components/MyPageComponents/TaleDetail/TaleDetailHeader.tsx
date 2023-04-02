@@ -59,11 +59,10 @@ const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({}) {
 
   return (
     <div
-      className={`flex flex-col items-center gap-4 min-w-[250px] w-[80%] sm:w-[27%]`}
+      className={`self-center flex flex-col items-center gap-4 min-w-[250px] w-[80%] sm:w-[27%]`}
     >
       <div
-        className={`overflow-hidden relative w-[80%] rounded drop-shadow-md`}
-        style={{ paddingBottom: "110%" }}
+        className={`overflow-hidden relative w-[80%] pb-[110%] rounded bg-white shadow-lg`}
       >
         <img
           src={taleDetail?.backgroundImage}

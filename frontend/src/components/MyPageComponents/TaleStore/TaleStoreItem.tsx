@@ -28,8 +28,7 @@ const TaleStoreItem = function ({ tale }: PropsWithChildren<Props>) {
         />
       )}
       <div
-        className={`overflow-hidden relative z-0 w-full rounded drop-shadow-lg`}
-        style={{ paddingBottom: "133.33%" }}
+        className={`overflow-hidden relative z-0 w-full pb-[133%] rounded bg-white drop-shadow-lg`}
       >
         <img
           src={tale.backgroundImage}
