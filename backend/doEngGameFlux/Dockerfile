@@ -12,6 +12,6 @@ ARG port
 COPY $JAR_FILE_PATH app.jar
 
 # Execute Command in container
-ENTRYPOINT java -jar /app.jar --server.port=$port
+ENTRYPOINT java -jar /app.jar --server.port=8000
 
 # Written by holicmiku who posts this notion.
