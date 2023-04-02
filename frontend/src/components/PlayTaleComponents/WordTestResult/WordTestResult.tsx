@@ -4,6 +4,9 @@ import WordTestResultItem from "./WordTestResultItem"
 import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import { testResultActions } from "store/testResultSlice"
 import { useNavigate } from "react-router-dom"
+import TaleNavigator from "components/UI/TaleNavigator"
+import SuperHeroLanding from "components/PlayTaleComponents/SuperHeroLanding"
+import WordTestBack from "assets/images/wordTestBack.png"
 
 function WordTestResult() {
   const navigate = useNavigate()
@@ -18,6 +21,14 @@ function WordTestResult() {
 
   return (
     <>
+      <TaleNavigator />
+      <SuperHeroLanding>
+        <img
+          alt="단어테스트 배경"
+          src={WordTestBack}
+          className="w-full h-full -z-10"
+        />
+      </SuperHeroLanding>
       <div>테스트 결과 컴포</div>
       {wordResult.title}
       {wordResult.testList ? (
