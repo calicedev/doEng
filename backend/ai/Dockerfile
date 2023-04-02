@@ -1,6 +1,8 @@
 # Start from the official Python base image.
 FROM python:3.9
 
+ARG port
+
 # Set the current working directory to /code.
 WORKDIR /code
 
@@ -14,4 +16,5 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 COPY . /code/app
 
 # Set the command to run the uvicorn server.
-CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", $port]
+CMD uvicorn app.main:app --reload --port ${port}
+# CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "${port}"]
