@@ -12,7 +12,7 @@ services:
       - '8200:8200'
   doengFlux:
     build:
-      context: ./doengFlux
+      context: ./doEngGameFlux
       args:
         port: 8000
     image: doeng-flux-image-blue
