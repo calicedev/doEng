@@ -173,8 +173,11 @@ public class AuthController {
     @PostMapping("/google")
     public ResponseEntity<Void> googleSignup(@RequestBody RequestSignupDto requestDto) {
         LOGGER.info("[signup] 소셜 회원가입 controller 들어옴");
-        memberService.signup(requestDto);
+        TokenDto tokenDto = memberService.googleSignup(requestDto);
+        HttpHeaders headers = new HttpHeaders();
+        headers.set("accesstoken", tokenDto.getAccesstoken());
+        headers.set("refreshtoken", tokenDto.getRefreshtoken());
         LOGGER.info("[signup] 소셜 회원가입 controller 나감");
-        return new ResponseEntity(HttpStatus.OK);
+        return new ResponseEntity(headers,HttpStatus.OK);
     }
 }

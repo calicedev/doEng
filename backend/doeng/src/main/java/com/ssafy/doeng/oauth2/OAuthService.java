@@ -52,7 +52,6 @@ public class OAuthService {
 
         switch (socialLoginType) {
             case GOOGLE: {
-                System.out.println(socialLoginType);
                 //구글로 일회성 코드를 보내 액세스 토큰이 담긴 응답객체를 받아옴
                 ResponseEntity<String> accessTokenResponse = googleOauth.requestAccessToken(code);
                 //응답 객체가 JSON형식으로 되어 있으므로, 이를 deserialization해서 자바 객체에 담을 것이다.
@@ -68,24 +67,18 @@ public class OAuthService {
                     try {
                         Optional<Member> memberOrigin = memberRepository.findByMemberId(memberId);
 
-                            System.out.println("2**********");
                             Member member = memberOrigin.get();
-                            System.out.println("3**********"+memberId.equals(member.getMemberId()));
                             RequestMemberDto requestDto = RequestMemberDto.builder() // 빌더어노테이션으로 생성된 빌더클래스 생성자
                                     .memberId(member.getMemberId())
                                     .password("")
                                     .build();
-                            System.out.println("4**********");
                             UsernamePasswordAuthenticationToken authenticationToken = requestDto.toAuthentication();
                             // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
                             //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
                             //    customeruservice에서 처리함.
-                            System.out.println("45**********");
                             Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
                             // 3. 인증 정보를 기반으로 JWT 토큰 생성
-                            System.out.println("6**********");
                             TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
-                            System.out.println("7**********");
                             // 4. 토큰 담아서 보내고 redis애 저장
                             redisUtil.setDataExpire("token_"+member.getId(), tokenDto.getRefreshtoken(),60 * 60 * 24 * 7 * 1000);
                             return new GetSocialOAuthRes(memberId,null, null, tokenDto, "login");
