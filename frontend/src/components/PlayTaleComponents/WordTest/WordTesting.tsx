@@ -10,6 +10,9 @@ import WordTestItem from "./WordTestItem"
 import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import { wordTestActions } from "store/wordTestSlice"
 import { testResultActions } from "store/testResultSlice"
+import TaleNavigator from "components/UI/TaleNavigator"
+import SuperHeroLanding from "components/PlayTaleComponents/SuperHeroLanding"
+import WordTestBack from "assets/images/wordTestBack.png"
 
 interface Props {
   wordInfo: WordTest
@@ -70,6 +73,15 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
 
   return (
     <>
+      <TaleNavigator />
+      <SuperHeroLanding>
+        <img
+          alt="단어테스트 배경"
+          src={WordTestBack}
+          className="w-full h-full -z-10"
+        />
+      </SuperHeroLanding>
+
       <WordTestItem
         key="item-${WordInfo.title}"
         wordInfo={currentWordInfo}

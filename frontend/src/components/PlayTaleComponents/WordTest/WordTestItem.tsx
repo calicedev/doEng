@@ -30,19 +30,20 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
   }, [wordInfo.voice])
 
   return (
-    <div>
-      단어 테스트 아이템
-      <img
-        src={wordInfo.image}
-        alt={wordInfo.engWord}
-        onClick={() => handleImageClick(wordInfo.image)}
-      />
-      <img
-        src={wordInfo.wrongImage}
-        alt={wordInfo.engWord}
-        onClick={() => handleImageClick(wordInfo.wrongImage)}
-      />
-    </div>
+    <>
+      <div className="grid grid-cols-2 w-[90%]">
+        <img
+          src={wordInfo.image}
+          alt={wordInfo.engWord}
+          onClick={() => handleImageClick(wordInfo.image)}
+        />
+        <img
+          src={wordInfo.wrongImage}
+          alt={wordInfo.engWord}
+          onClick={() => handleImageClick(wordInfo.wrongImage)}
+        />
+      </div>
+    </>
   )
 }
 
