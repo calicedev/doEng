@@ -1,0 +1,11 @@
+cloud:
+  aws:
+    credentials:
+      accessKey: AKIARMPQX6X5QNPVGDBO
+      secretKey: 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
+    s3:
+      bucket: doengservice
+    region:
+      static: ap-northeast-2
+    stack:
+      auto: false

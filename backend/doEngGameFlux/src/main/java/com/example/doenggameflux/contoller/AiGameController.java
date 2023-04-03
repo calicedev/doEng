@@ -1,6 +1,7 @@
 package com.example.doenggameflux.contoller;
 
 import com.example.doenggameflux.component.DBComponentHttp;
+import com.example.doenggameflux.component.TokenComponent;
 import com.example.doenggameflux.config.WebSocketConfig;
 import com.example.doenggameflux.config.urlEnum.WebSocketMapping;
 import com.example.doenggameflux.dto.response.FaceResultResponseDto;
@@ -32,7 +33,7 @@ public class AiGameController {
     static private final String BASIC_URL = "http://localhost:8000/analyze";
     static final Logger LOGGER = LoggerFactory.getLogger(WebSocketConfig.class);
     private final DBComponentHttp dbComponent;
-
+    private final TokenComponent tokenComponent;
     @GetMapping("/test")
     public Mono<String> test() {
         return Mono.just("안녕하세요");
@@ -42,7 +43,8 @@ public class AiGameController {
     public Mono<String> requestFaceAi(@RequestBody Mono<String> image,
             @RequestParam("answer") String answer,
             @RequestParam("sceneId") long sceneId,
-            @RequestParam("memberId") long memberId) {
+            @RequestParam("memberId") long memberId,
+            ServerWebExchange exchange) {
         return image.map(s -> {
                     Map<String, String> map = new HashMap<>();
                     map.put("answer", answer);
@@ -89,17 +91,16 @@ public class AiGameController {
     public Mono<String> requestDoodleAi(@RequestBody Mono<String> image,
             @RequestParam("answer") String answer,
             @RequestParam("sceneId") long sceneId,
-            @RequestParam("memberId") long memberId,
             ServerWebExchange exchange) {
-        System.out.println(exchange.getRequest().getHeaders().getFirst("accesstoken"));
-        System.out.println(exchange.getRequest().getHeaders().getFirst("refreshtoken"));
-        System.out.println(exchange.getRequest().getHeaders().getFirst("Authorization"));
-
         return image.map(s -> {
                     Map<String, String> map = new HashMap<>();
-                    System.out.println(s);
                     map.put("answer", answer);
                     map.put("image", s);
+                    Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization"));
+                    memberId.subscribe(result -> {
+                        Long longValue = result;
+                        System.out.println(longValue+"++++++++++++++++++++++++++++++++"); // Long 값 출력 (100)
+                    });
                     return map;
                 })
                 .flatMap(map -> makeWebClient(map, "/doodle"))
@@ -107,7 +108,8 @@ public class AiGameController {
                     boolean rtn = message.isResult();
                     if (rtn) {
                         byte[] decodedImage = Base64.getDecoder().decode(message.getImage());
-                        return dbComponent.saveData(decodedImage, sceneId, memberId)
+                        Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization"));
+                        return dbComponent.saveData(decodedImage, sceneId, memberId.block())
                                 .then(Mono.just("true"));
                     }
                     return Mono.just("false");
