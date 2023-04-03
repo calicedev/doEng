@@ -5,7 +5,7 @@ interface Props {
   label?: string // 라벨: 아이콘과 함께 띄울 문구
   onClick?: () => void // 클릭 시 동작 함수
   size?: "small" | "medium" | "large" // 크기: sizing 옵션
-  colorClass?: string // 색깔: tailwind 클래스
+  color?: "ivory" | "gray" | "black" // 색깔: color 옵션
   disabled?: boolean // 아이콘 클릭 가능 여부
   labelPosition?: "up" | "down" | "left" | "right" // 아이콘을 기준으로 한 라벨의 위치
 }
@@ -15,7 +15,7 @@ const IconButton: FC<PropsWithChildren<Props>> = function ({
   label = "",
   onClick = () => {},
   size = "medium",
-  colorClass = "text-black",
+  color = "gray",
   disabled = false,
   labelPosition = "down",
 }) {
@@ -51,6 +51,20 @@ const IconButton: FC<PropsWithChildren<Props>> = function ({
     case "large":
       iconSizeClass = "text-6xl"
       labelSizeClass = "text-xl"
+      break
+  }
+
+  // 컬러를 조절하는 tailwind 클래스 할당
+  let colorClass = ""
+  switch (color) {
+    case "ivory":
+      colorClass = "text-yellow-100 hover:text-yellow-50"
+      break
+    case "gray":
+      colorClass = "text-gray-600 hover:text-gray-900"
+      break
+    case "black":
+      colorClass = "text-black"
       break
   }
 

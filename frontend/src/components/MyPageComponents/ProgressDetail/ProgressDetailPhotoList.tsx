@@ -26,7 +26,7 @@ function ProgressDetailPhotoList({ imageList }: PropsWithChildren<Props>) {
 
   return (
     <>
-      <div className="flex justify-between">
+      <div className="flex justify-between gap-10">
         <IconButton
           icon={<FaChevronLeft />}
           disabled={currentPage === 0}
@@ -53,7 +53,7 @@ function ProgressDetailPhotoList({ imageList }: PropsWithChildren<Props>) {
           onClick={() => handlePageChange(currentPage + 1)}
         />
       </div>
-      <div className="text-white text-sm text-center">
+      <div className="mt-2 text-white text-sm text-center">
         Page {currentPage + 1} of {totalPages}
       </div>
     </>

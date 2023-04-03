@@ -9,6 +9,7 @@ import ProgressDetailSceneItem from "./ProgressDetailSceneItem"
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa"
 import IconButton from "components/UI/IconButton"
 import { ProgressScene } from "hooks/queries/queries"
+import AnimationBox, { textOneByOne } from "components/UI/AnimationBox"
 import { useWidthHeight } from "hooks/useWidthHwight"
 
 interface Props {
@@ -30,7 +31,7 @@ function ProgressDetailSceneList({ sceneList }: PropsWithChildren<Props>) {
   }, [])
 
   const numScenes = useMemo(() => {
-    if (width > 1024) {
+    if (width >= 1024) {
       return 3
     } else if (width >= 768) {
       return 2
@@ -51,18 +52,27 @@ function ProgressDetailSceneList({ sceneList }: PropsWithChildren<Props>) {
 
   return (
     <div className="w-full h-full">
-      <div className={`font-bold`}>학습 앨범</div>
-      <div className={`flex gap-7 items-center h-full w-full`}>
+      <div className={`text-2xl font-bold mb-2`}>학습 앨범</div>
+      <div className={`flex items-center gap-10 sm:gap-8 h-full`}>
         <IconButton
           icon={<FaChevronLeft />}
           disabled={currentPage === 0}
           onClick={() => handlePageChange(currentPage - 1)}
         />
-        {sceneList
-          .slice(currentPage * numScenes, (currentPage + 1) * numScenes)
-          .map((scene: ProgressScene) => (
-            <ProgressDetailSceneItem key={`scene-${scene.id}`} scene={scene} />
-          ))}
+        <div
+          className={`flex-1 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-10 md:gap-12`}
+        >
+          {sceneList
+            .slice(currentPage * numScenes, (currentPage + 1) * numScenes)
+            .map((scene: ProgressScene, idx) => (
+              <AnimationBox
+                key={`scene-${scene.id}`}
+                appearClassName={`${textOneByOne[idx + 3]}`}
+              >
+                <ProgressDetailSceneItem scene={scene} />
+              </AnimationBox>
+            ))}
+        </div>
         <IconButton
           icon={<FaChevronRight />}
           disabled={currentPage === totalPages - 1}

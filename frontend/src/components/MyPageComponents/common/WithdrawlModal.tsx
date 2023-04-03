@@ -20,19 +20,6 @@ const WithdrawlModal = function ({ closeModal }: PropsWithChildren<Props>) {
     })
   }
 
-  // const withdraw = () => {
-  //   axiosRequest(
-  //     {
-  //       method: "delete",
-  //       url: `/api/member`,
-  //     },
-  //     (res) => {
-  //       closeModal()
-  //     },
-  //     "회원 탈퇴에 실패했습니다.",
-  //   )
-  // }
-
   return (
     <div className="flex flex-col gap-10 px-14 py-10 rounded-lg bg-yellow-50">
       <p className="text-xl font-bold">탈퇴 하시겠습니까?</p>

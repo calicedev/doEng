@@ -23,7 +23,7 @@ function ProgressDetailSceneItem({ scene }: PropsWithChildren<Props>) {
   return (
     <>
       <div className="flex-1 self-center relative">
-        <div className="bg-white shadow-lg rotate-[10deg]">
+        <div className="bg-white shadow-lg rotate-[8deg]">
           <div className="pb-[70%]"></div>
         </div>
         <div className="absolute top-0 left-0 w-full px-3 pt-3 pb-1 bg-white shadow-lg hover:rotate-[-3deg] duration-200 ease-in-out cursor-pointer">
@@ -37,7 +37,7 @@ function ProgressDetailSceneItem({ scene }: PropsWithChildren<Props>) {
               className={`absolute top-0 left-0 w-full h-full object-cover`}
             />
           </div>
-          <div className="text-sm text-center">{scene.sceneTitle}</div>
+          <div className="py-1 text-sm text-center">{scene.sceneTitle}</div>
         </div>
       </div>
       {isModal && (

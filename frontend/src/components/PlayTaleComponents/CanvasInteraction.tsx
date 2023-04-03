@@ -1,7 +1,7 @@
 import { useParams } from "react-router-dom"
 import apiRequest from "utils/axios"
 import { useRef, useEffect, useCallback, useState } from "react"
-import axios from "utils/axios"
+import axios from "axios"
 import { FaEraser } from "react-icons/fa"
 import { io } from "socket.io-client"
 
@@ -18,8 +18,26 @@ const CanvasInteraction: React.FC<Props> = ({ changeScene }) => {
   const resetRef = useRef<HTMLDivElement>(null)
   const [canvasResult, setCanvasResult] = useState("")
 
-  // const canvas = canvasBoardRef.current
-  // const context = canvas?.getContext("2d")
+  const send = () => {
+    const config = {
+      baseURL: "http://70.12.247.228:8080", // 로컬(제혁) 주소
+      mehtod: "get",
+      url: "/",
+      proxy: {
+        protocol: "http",
+        host: "70.12.247.228",
+        port: 8080,
+      },
+    }
+    apiRequest
+      .request(config)
+      .then((res) => {
+        console.log(res)
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
 
   // canvas 캡쳐해서 보내기
   useEffect(() => {
@@ -30,14 +48,19 @@ const CanvasInteraction: React.FC<Props> = ({ changeScene }) => {
     intervalId = setInterval(() => {
       if (canvas) {
         const imageUrl = canvas.toDataURL("image/jpeg", 1.0)
-        const data = {
-          image: imageUrl,
-        }
-        const config = {
+        apiRequest({
+          method: `post`,
           baseURL: "http://70.12.247.228:8080",
-        }
-        axios
-          .post("/doodle?answer=dfsdg&sceneId=1&memberId=1", data, config)
+          url: `/game/doodle`,
+          data: {
+            image: imageUrl,
+          },
+          params: {
+            answer: "moustache",
+            sceneId: "1",
+            memberId: "1",
+          },
+        })
           .then((res) => {
             console.log("Drawing uploaded successfully.", res)
             setCanvasResult(res.data.result)
@@ -173,6 +196,7 @@ const CanvasInteraction: React.FC<Props> = ({ changeScene }) => {
         </div>
       </div>
       <div>{canvasResult}</div>
+      <div onClick={send}>전송</div>
     </div>
   )
 }

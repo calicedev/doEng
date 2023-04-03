@@ -69,7 +69,7 @@ const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({}) {
           className={`absolute top-0 left-0 w-full h-full object-cover`}
         />
       </div>
-      <p className={`font-bold text-2xl text-center`}>{taleDetail?.title}</p>
+      <p className={`font-bold text-3xl text-center`}>{taleDetail?.title}</p>
       <div className={`flex gap-2 text-xl items-center`}>
         <StarRating rating={taleDetail?.score!} size="medium" />{" "}
         {taleDetail?.score}

@@ -13,6 +13,7 @@ import {
 } from "hooks/queries/queries"
 
 import CommonLoading from "components/UI/CommonLoading"
+import AnimationBox from "components/UI/AnimationBox"
 
 function ProgressDetailPage() {
   const { taleId } = useParams() as { taleId: string }
@@ -30,23 +31,27 @@ function ProgressDetailPage() {
       ) : progressDetail ? (
         <div
           id="progress-detail-container"
-          className="flex flex-col items-center sm:flex-row sm:items-stretch gap-10 h-full p-6 overflow-x-hidden overflow-y-auto"
+          className="flex flex-col items-center sm:flex-row sm:items-stretch gap-7 w-full h-full p-6 overflow-x-hidden overflow-y-auto"
         >
           <div
-            className={`self-center min-w-[250px] max-w-[400px] w-[80%] sm:w-[30%]`}
+            className={`self-center w-[80%] sm:w-[40%] md:w-[30%] lg:w-[25%]`}
           >
-            <ProgressDetailHeader tale={progressDetail} />
+            <AnimationBox appearClassName="animate-appear-from-left-fast">
+              <ProgressDetailHeader tale={progressDetail} />
+            </AnimationBox>
           </div>
-          <div className="flex-1 flex flex-col gap-5 w-full">
-            <div className="flex-1 w-full">
+          <div className="flex-1 flex flex-col gap-16 sm:gap-10 w-[100%] sm:w-[60%] md:w-[70%] lg:w-[75%] h-full">
+            <div className="w-full h-[40%]">
               {progressDetail.sceneList && (
-                <ProgressDetailSceneList
-                  key={progressDetail.id}
-                  sceneList={progressDetail.sceneList}
-                />
+                <AnimationBox appearClassName="animate-appear-from-bottom-fast">
+                  <ProgressDetailSceneList
+                    key={progressDetail.id}
+                    sceneList={progressDetail.sceneList}
+                  />
+                </AnimationBox>
               )}
             </div>
-            <div className={`flex-1 w-full`}>
+            <div className={`w-full h-[50%]`}>
               {progressDetail.testResult && (
                 <ProgressDetailTest testResult={progressDetail.testResult} />
               )}

@@ -16,6 +16,7 @@ import { useQuery } from "@tanstack/react-query"
 import apiRequest from "utils/axios"
 import { SpinnerDots } from "components/UI/Spinner"
 import { Material, useStoreTaleDetail } from "hooks/queries/queries"
+import AnimationBox from "components/UI/AnimationBox"
 
 // React Query 작업 /////////////////////////////////
 const TaleDetailPage = function () {
@@ -45,9 +46,11 @@ const TaleDetailPage = function () {
   }
 
   return (
-    <div className="flex flex-col items-center sm:flex-row sm:items-stretch gap-10 h-full p-6 overflow-y-auto">
-      <TaleDetailHeader />
-      <div className="flex-1 flex flex-col gap-5">
+    <div className="flex flex-col sm:flex-row items-center sm:items-stretch gap-10 h-full p-6 overflow-y-auto">
+      <AnimationBox appearClassName="animate-appear-from-left-fast">
+        <TaleDetailHeader />
+      </AnimationBox>
+      <div className="flex-1 flex flex-col w-full gap-5">
         <TitleContent title={`줄거리`}>{taleDetail?.description}</TitleContent>
         <TitleContent title={`준비물`}>{materialList}</TitleContent>
         {taleDetail?.purchased && (
@@ -55,7 +58,9 @@ const TaleDetailPage = function () {
             <MyReview />
           </TitleContent>
         )}
-        <ReviewList />
+        <AnimationBox appearClassName="animate-appear-from-bottom-fast">
+          <ReviewList />
+        </AnimationBox>
       </div>
     </div>
   )
@@ -70,10 +75,12 @@ const TitleContent: FC<PropsWithChildren<Props>> = function ({
   children,
 }) {
   return (
-    <div className="flex flex-col gap-2 font-medium">
-      <div className="font-bold text-xl">{title}</div>
-      {children}
-    </div>
+    <AnimationBox appearClassName="animate-appear-from-bottom-fast">
+      <div className="flex flex-col gap-2 font-medium">
+        <div className="font-bold text-2xl">{title}</div>
+        <div className="text-xl">{children}</div>
+      </div>
+    </AnimationBox>
   )
 }
 

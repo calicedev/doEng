@@ -5,9 +5,8 @@ import Profile from "components/MyPageComponents/Profile/ProfilePassword"
 
 export default function ProfilePage() {
   return (
-    <div className="p-10 h-full w-full">
+    <div className="overflow-y-auto h-full w-full px-8 pt-8 pb-0 sm:px-16">
       <ProfileHeader path="profile" />
-      {/* <Profile /> */}
       <ProfileInfo />
     </div>
   )

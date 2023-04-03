@@ -3,12 +3,10 @@ import ProfileHeader from "components/MyPageComponents/common/ProfileHeader"
 
 function ProfileEditPage() {
   return (
-    <>
-      <div className="p-10 h-full w-full">
-        <ProfileHeader path="edit" />
-        <ProfileEditForm />
-      </div>
-    </>
+    <div className="overflow-y-auto h-full w-full px-8 pt-8 pb-0 sm:px-16">
+      <ProfileHeader path="edit" />
+      <ProfileEditForm />
+    </div>
   )
 }
 
