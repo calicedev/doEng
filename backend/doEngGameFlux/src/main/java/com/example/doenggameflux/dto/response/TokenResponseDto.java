@@ -8,4 +8,6 @@ import lombok.Setter;
 @Setter
 public class TokenResponseDto {
     private long id;
+    public TokenResponseDto(){}
+
 }

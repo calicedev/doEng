@@ -13,6 +13,7 @@ import com.ssafy.doeng.data.dto.member.request.RequestResetMemberPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupEmailDto;
 import com.ssafy.doeng.data.dto.member.request.RequestTokenDto;
+import com.ssafy.doeng.data.dto.member.response.ResponseAiTokenDto;
 import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -99,8 +100,9 @@ public class MemberController {
     }
 
     @GetMapping("/ai")
-    public ResponseEntity<Long> ai(@LoginId Long id){
-        return ResponseEntity.ok(id);
+    public ResponseEntity<ResponseAiTokenDto> ai(@LoginId Long id){
+        ResponseAiTokenDto responseAiTokenDto= ResponseAiTokenDto.builder().id(id).build();
+        return ResponseEntity.ok(responseAiTokenDto);
     }
 
 
