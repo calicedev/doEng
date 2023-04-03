@@ -102,6 +102,8 @@ public class MemberController {
     @GetMapping("/ai")
     public ResponseEntity<ResponseAiTokenDto> ai(@LoginId Long id){
         ResponseAiTokenDto responseAiTokenDto= ResponseAiTokenDto.builder().id(id).build();
+        System.out.println("여기까지 잘 됩니다!!!!!!!");
+        System.out.println(responseAiTokenDto.getId());
         return ResponseEntity.ok(responseAiTokenDto);
     }
 
