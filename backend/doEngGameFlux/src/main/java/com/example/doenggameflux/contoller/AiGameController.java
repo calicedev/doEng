@@ -92,27 +92,22 @@ public class AiGameController {
             @RequestParam("answer") String answer,
             @RequestParam("sceneId") long sceneId,
             ServerWebExchange exchange) {
+            Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization"));
         return image.map(s -> {
-                    Map<String, String> map = new HashMap<>();
-                    map.put("answer", answer);
-                    map.put("image", s);
-                    Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization"));
                     System.out.println("+++++++++++++++");
-                    memberId.subscribe(memberIdValue -> {
-                        // memberId 값을 사용하는 코드 작성
-                        System.out.println("Member ID: " + memberIdValue);
+                    return memberId.cache().map(memberIdValue -> {
+                        Map<String, String> map = new HashMap<>();
+                        map.put("answer", answer);
+                        map.put("image", s);
+                        return map;
                     });
-
-                    return map;
                 })
-                .flatMap(map -> makeWebClient(map, "/doodle"))
+                .flatMap(map -> map.flatMap(param -> makeWebClient(param, "/doodle")))
                 .flatMap(message -> {
                     boolean rtn = message.isResult();
                     if (rtn) {
                         byte[] decodedImage = Base64.getDecoder().decode(message.getImage());
-                        Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization"));
-
-                        return memberId.flatMap(aLong -> )dbComponent.saveData(decodedImage, sceneId, memberId.block())
+                        return memberId.cache().flatMap(memberIdValue ->  dbComponent.saveData(decodedImage, sceneId, memberIdValue))
                                 .then(Mono.just("true"));
                     }
                     return Mono.just("false");
