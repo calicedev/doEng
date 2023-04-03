@@ -45,7 +45,6 @@ public class FaceWebsocketHandler implements WebSocketHandler {
         MultiValueMap<String, String> queryParams = UriComponentsBuilder.fromUri(uri).build()
                 .getQueryParams();
 
-        TokenComponent.jwtConfirm(session).log().subscribe();
 
         if (session.getAttributes().containsKey("memberId")) {
 
