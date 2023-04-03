@@ -64,11 +64,14 @@ const MyPageInput = function ({
     confirmPwd: "password",
   }[type]
 
+  const disabledClass = `bg-gray-50 text-gray-600`
+  const abledClass = `bg-white`
+
   return (
-    <div className={`flex-1 flex flex-col gap-3`}>
+    <div className={`flex flex-col gap-1 w-full`}>
       <label
         htmlFor={`mypage-input-${type}`}
-        className={`text-lg font-bold font-jalnan text-[33px]`}
+        className={`text-xl font-bold font-jalnan`}
       >
         {label}
       </label>
@@ -79,7 +82,10 @@ const MyPageInput = function ({
         placeholder={placeholder}
         disabled={disabled}
         onChange={onChange}
-        className={`py-3 px-5 bg-white rounded-full shadow-xl text-lg text-[22px]`}
+        className={
+          `px-4 py-2 rounded-full shadow-xl text-2xl ` +
+          (disabled ? disabledClass : abledClass)
+        }
       />
     </div>
   )

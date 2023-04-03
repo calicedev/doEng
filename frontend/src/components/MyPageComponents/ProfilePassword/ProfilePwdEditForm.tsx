@@ -9,6 +9,7 @@ import useINEP from "hooks/useINEP"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import axios from "axios"
 import { DispatchToast } from "store"
+import AnimationBox from "components/UI/AnimationBox"
 
 function ProfilePwdEditForm() {
   const dispatch = useStoreDispatch()
@@ -86,32 +87,31 @@ function ProfilePwdEditForm() {
   }
 
   return (
-    <div className="flex flex-col p-10 h-full justify-evenly">
-      <MyPageInput
-        type="originalPwd"
-        inputRef={oldPasswordRef}
-        onChange={oldPasswordChangeHandler}
-      />
-      <MyPageInput
-        type="newPwd"
-        inputRef={newPassword1Ref}
-        onChange={newPassword1ChangeHandler}
-      />
-      <MyPageInput
-        type="confirmPwd"
-        inputRef={newPassword2Ref}
-        onChange={newPassword2ChangeHandler}
-      />
-
-      <div className="flex flex-col gap-10 flex-1 items-end">
+    <AnimationBox appearClassName="animate-appear-from-bottom-fast">
+      <div className="flex flex-col px-6 sm:px-14 py-5 gap-10">
+        <MyPageInput
+          type="originalPwd"
+          inputRef={oldPasswordRef}
+          onChange={oldPasswordChangeHandler}
+        />
+        <MyPageInput
+          type="newPwd"
+          inputRef={newPassword1Ref}
+          onChange={newPassword1ChangeHandler}
+        />
+        <MyPageInput
+          type="confirmPwd"
+          inputRef={newPassword2Ref}
+          onChange={newPassword2ChangeHandler}
+        />
         <div
           onClick={ProfilePwdEditHandler}
-          className="box-border flex items-center justify-center bg-opacity-80 rounded-full h-auto w-auto px-7 py-3 font-hopang-black text-3xl border-[4px] shadow-xl duration-[0.66s] hover:scale-105 cursor-pointer bg-gradient-to-tl from-lime-400 to-lime-200 border-lime-500"
+          className="self-end flex items-center justify-center px-5 py-2 font-hopang-black text-lime-700 text-2xl border-[4px] rounded-full border-lime-500 bg-opacity-80 bg-gradient-to-tl from-lime-400 to-lime-200 shadow-xl duration-200 hover:scale-105 cursor-pointer"
         >
-          수정 완료
+          변경하기
         </div>
       </div>
-    </div>
+    </AnimationBox>
   )
 }
 

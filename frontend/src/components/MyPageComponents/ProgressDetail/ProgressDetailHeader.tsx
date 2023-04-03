@@ -26,7 +26,7 @@ function ProgressDetailHeader({ tale }: PropsWithChildren<Props>) {
           className={`absolute top-0 left-0 w-full h-full object-cover`}
         />
       </div>
-      <div className={`font-bold text-2xl text-center`}>{tale.title}</div>
+      <div className={`font-bold text-3xl text-center`}>{tale.title}</div>
       <MyPageButton text="책 상세" onClick={toTaleDetail} />
     </div>
   )

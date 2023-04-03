@@ -23,6 +23,7 @@ const useINEP = function (
         let typeName: string
         let requestData: AxiosRequestConfig
         let oldData: string
+
         if (hookType === "email") {
           typeName = "이메일"
           requestData = {
@@ -67,6 +68,7 @@ const useINEP = function (
   useEffect(
     function () {
       if (!isValid || value === oldData) {
+        dispatch(DispatchToast(`invalid에 걸림`, false))
         return
       }
       setDupValid(() => null)
@@ -108,7 +110,7 @@ const useINEP = function (
         clearTimeout(timeId)
       }
     },
-    [typeName, requestData, isValid],
+    [typeName, requestData, isValid, value],
   )
 
   return { dupValid }

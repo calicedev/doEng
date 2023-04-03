@@ -15,7 +15,6 @@ interface Props {
 function ProgressDetailTest({ testResult }: PropsWithChildren<Props>) {
   const headerRef = useRef<HTMLElement | null>(null)
   const { width: headerWidth, height: headerHeight } = useWidthHeight(headerRef)
-
   const containerRef = useRef<HTMLElement | null>(null)
   const { width: containerWidth, height: containerHeight } =
     useWidthHeight(containerRef)
@@ -65,14 +64,15 @@ function ProgressDetailTest({ testResult }: PropsWithChildren<Props>) {
   const totalTests: number = testResult.testCount
   return (
     <div
-      style={{
-        width: `${width}px`,
-        height: `${headerHeight / 2}px`,
-      }}
+      className="w-full h-full pb-7"
+      // style={{
+      //   width: `${width}px`,
+      //   height: `${headerHeight / 2}px`,
+      // }}
     >
-      <div className={`font-bold`}>단어 테스트</div>
-      <div className="overflow-scroll w-full h-full">
-        <table className="table-auto border-collapse border-[3px] border-orange-400 text-sm text-center whitespace-nowrap">
+      <div className={`font-bold mb-2`}>단어 테스트</div>
+      <div className="overflow-scroll w-full h-full p-2">
+        <table className="table-auto border-collapse border-[3px] border-orange-400 text-base text-center whitespace-nowrap">
           <thead>
             <tr>
               <th className="bg-orange-200">Result</th>

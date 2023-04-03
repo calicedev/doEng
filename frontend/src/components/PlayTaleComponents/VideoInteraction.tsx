@@ -1,7 +1,7 @@
 import { useNavigate, useParams } from "react-router-dom"
 import apiRequest from "utils/axios"
 import { useRef, useEffect, useCallback, useState } from "react"
-import axios from "utils/axios"
+import axios from "axios"
 import { io } from "socket.io-client"
 import { AxiosRequestConfig } from "axios"
 import { SpinnerDots } from "components/UI/Spinner"
@@ -28,26 +28,6 @@ const VideoInteraction: React.FC<Props> = ({
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [videoResult, setVideoResult] = useState<string>("")
 
-  // useEffect(() => {
-  //   const config = {
-  //     mehtod: "get",
-  //     url: "http://70.12.247.228:8080/test",
-  //     proxy: {
-  //       protocol: "http",
-  //       host: "70.12.247.228",
-  //       port: 8080,
-  //     },
-  //   }
-  //   axios
-  //     .request(config)
-  //     .then((res) => {
-  //       console.log(res)
-  //     })
-  //     .catch((err) => {
-  //       console.log(err)
-  //     })
-  // }, [])
-
   // 비디오 재생
   useEffect(() => {
     let a: any
@@ -60,7 +40,6 @@ const VideoInteraction: React.FC<Props> = ({
           videoRef.current.srcObject = stream
           videoRef.current.play()
           setIsPlaying(true)
-          console.log("실행")
         }
         return stream
       })
@@ -100,16 +79,10 @@ const VideoInteraction: React.FC<Props> = ({
           canvas.height = video.videoHeight
           ctx?.drawImage(video, 0, 0, canvas.width, canvas.height)
           const imageUrl = canvas.toDataURL("image/jpeg", 1.0)
-          const config: AxiosRequestConfig = {}
-          axios({
-            baseURL: "http://70.12.247.228:8080",
-            proxy: {
-              protocol: "http",
-              host: "70.12.247.228",
-              port: 8080,
-            },
+          apiRequest({
             method: `post`,
-            url: `/face?answer=dfsdg&sceneId=1&memberId=1`,
+            baseURL: "http://70.12.247.228:8080",
+            url: `/game/face?answer=dfsdg&sceneId=1&memberId=1`,
             data: {
               image: imageUrl,
             },

@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom"
 import React, { useState, useMemo, PropsWithChildren } from "react"
 import Modal from "components/UI/Modal"
 import WithdrawlModal from "./WithdrawlModal"
+import AnimationBox from "components/UI/AnimationBox"
 
 interface Props {
   path: "profile" | "edit" | "password"
@@ -62,13 +63,15 @@ const Profile = function ({ path }: PropsWithChildren<Props>) {
           <WithdrawlModal closeModal={() => setIsModal(false)} />
         </Modal>
       )}
-      <div className="flex flex-col gap-4">
-        <div className="flex justify-between mx-3">
-          <h1 className="text-3xl font-bold">{title}</h1>
-          <div className="flex gap-5">{buttons}</div>
+      <AnimationBox appearClassName="animate-appear-from-top-fast">
+        <div className="flex flex-col gap-4">
+          <div className="flex flex-col sm:flex-row justify-between items-center gap-5 sm:gap-0 mx-3">
+            <h1 className="text-3xl font-bold">{title}</h1>
+            <div className="flex gap-5">{buttons}</div>
+          </div>
+          <div className="w-full h-2 bg-orange-600 rounded-xl" />
         </div>
-        <div className="w-full h-2 bg-orange-600 rounded-xl" />
-      </div>
+      </AnimationBox>
     </>
   )
 }

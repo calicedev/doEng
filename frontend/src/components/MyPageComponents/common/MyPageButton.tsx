@@ -24,13 +24,13 @@ const MyPageButton: FC<ButtonProps> = ({
   // 사이즈 관련 Tailwind Class 할당
   const sizeClass = {
     small: "text-base px-3 py-1",
-    medium: "text-lg px-4 py-1",
-    large: "text-xl px-5 py-2",
+    medium: "text-xl px-5 py-1",
+    large: "text-2xl px-7 py-3",
   }[size]
 
   return (
     <button
-      className={`rounded ${colorClass} ${sizeClass} text-white font-bold focus:outline-none`}
+      className={`rounded ${colorClass} ${sizeClass} text-white font-bold focus:outline-none duration-200 ease-in-out hover:scale-105`}
       {...rest}
     >
       {text}

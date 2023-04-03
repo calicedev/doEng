@@ -9,6 +9,7 @@ import { useUserData } from "hooks/queries/queries"
 import { useInput } from "hooks/useInput"
 import CommonLoading from "components/UI/CommonLoading"
 import LoadingPage from "pages/LoadingPage"
+import AnimationBox from "components/UI/AnimationBox"
 
 function ProfileInfo() {
   // const user = useSelector((state) => state.user)
@@ -36,26 +37,27 @@ function ProfileInfo() {
       emailFirstData(user?.email || "")
       phoneFirstData(user?.phone || "")
     },
-    [user?.name, user?.nickname, user?.memberId, user?.email, user?.phone],
+    [user],
   )
-  if (userLoading) {
-    return (
-      <LoadingPage>
-        <div className="text-[44px]">로딩중...</div>
-      </LoadingPage>
-    )
-  }
 
   return (
-    <div className="flex flex-col p-10 h-full justify-center">
-      <div className="flex gap-10 flex-1">
-        <MyPageInput type="name" inputRef={nameRef} disabled={true} />
-        <MyPageInput type="nickname" inputRef={nickRef} disabled={true} />
-      </div>
-      <MyPageInput type="id" inputRef={idRef} disabled={true} />
-      <MyPageInput type="email" inputRef={emailRef} disabled={true} />
-      <MyPageInput type="phone" inputRef={phoneRef} disabled={true} />
-    </div>
+    <>
+      {userLoading ? (
+        <CommonLoading />
+      ) : (
+        <AnimationBox appearClassName="animate-appear-from-bottom-fast">
+          <div className="flex flex-col px-6 sm:px-14 py-5 gap-5">
+            <div className="flex flex-col lg:flex-row gap-5 lg:gap-10">
+              <MyPageInput type="name" inputRef={nameRef} disabled={true} />
+              <MyPageInput type="nickname" inputRef={nickRef} disabled={true} />
+            </div>
+            <MyPageInput type="id" inputRef={idRef} disabled={true} />
+            <MyPageInput type="email" inputRef={emailRef} disabled={true} />
+            <MyPageInput type="phone" inputRef={phoneRef} disabled={true} />
+          </div>
+        </AnimationBox>
+      )}
+    </>
   )
 }
 

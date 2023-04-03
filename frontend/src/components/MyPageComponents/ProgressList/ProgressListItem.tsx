@@ -30,11 +30,11 @@ function ProgressListItem({ tale }: PropsWithChildren<Props>) {
       </div>
       <div>{tale.title}</div>
 
-      <div className="flex justify-center relative w-full mb-0.5 rounded-full bg-gray-200 dark:bg-gray-700 ">
+      <div className="flex justify-center relative w-full mb-0.5 rounded-full bg-gray-300 dark:bg-gray-700 ">
         <div
           className="absolute top-[50%] left-[3%] translate-y-[-50%] h-[72%] rounded-full bg-lime-500 dark:bg-green-500 duration-[0.33s]"
           style={{
-            width: `${100 * 0.94}%`,
+            width: `${tale.progress * 0.94}%`,
             transform: `width: 100%`,
           }}
         ></div>

@@ -40,18 +40,20 @@ export default function MyPageNavigation() {
 
   return (
     <div className="flex justify-between items-center px-4">
-      <Logo />
+      <div className="hover:rotate-[-3deg] duration-200 ease-in-out">
+        <Logo />
+      </div>
       <div className={`flex gap-20`}>
         <IconButton
           icon={<TbArrowBigLeftFilled />}
-          colorClass={`text-yellow-100`}
+          color={`ivory`}
           label="메인으로"
           size="large"
           onClick={() => navigate("/")}
         />
         <IconButton
           icon={<HiUserCircle />}
-          colorClass={`text-yellow-100`}
+          color={`ivory`}
           label="로그아웃"
           size="large"
           onClick={logoutHandler}
