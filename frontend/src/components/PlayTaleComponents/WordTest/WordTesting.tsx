@@ -33,23 +33,24 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
 
   console.log(wordInfo, "989898")
 
-  const [currentWordIndex, setCurrentWordIndex] = useState<number>(0)
+  // const [currentWordIndex, setCurrentWordIndex] = useState<number>(0)
   const dispatch = useStoreDispatch()
 
   const handleResponse = (response: boolean) => {
     const wordTest: wordTestStore = {
-      wordId: wordInfo.testList[currentWordIndex].id,
+      wordId: wordInfo.testList[wordList.length].id,
       taleId: parseInt(taleId),
       correct: response,
     }
 
-    if (currentWordIndex < 4) {
+    if (wordList.length < 5) {
       dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
       console.log(wordTest, "wordtest")
-      setCurrentWordIndex(currentWordIndex + 1)
+      // setCurrentWordIndex(currentWordIndex + 1)
     } else {
       dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
-      console.log(wordTest, "wordtest")
+      console.log(wordList, "wordList2222")
+
       WordTestMutate({
         method: `post`,
         url: `/api/word-test`,
@@ -70,7 +71,7 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
     }
   }
 
-  const currentWordInfo = wordInfo.testList[currentWordIndex]
+  const currentWordInfo = wordInfo.testList[wordList.length]
 
   return (
     <>
@@ -86,7 +87,7 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
           src={WordTestTitle}
           className=" z-20 fixed top-[-15%] h-[40%] w-[40%]"
         />
-        <div className="z-30 fixed top-[9%] text-[220%] text-white">
+        <div className="z-30 fixed top-[9%] text-[220%] text-orange-900">
           {wordInfo.title}
         </div>
       </SuperHeroLanding>
