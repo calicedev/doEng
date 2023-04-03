@@ -23,12 +23,16 @@ interface TaleSceneProps {
   taleId: number
   sceneOrder: number
   changeScene: () => void
+  isKor?: boolean
+  isPause?: boolean
 }
 
 function TaleScene({
   taleId,
   sceneOrder,
   changeScene,
+  isKor = false,
+  isPause = false,
 }: PropsWithChildren<TaleSceneProps>) {
   const { data } = usePlayTaleDetail(taleId)
   const maxlength = data?.sceneCount
@@ -99,11 +103,11 @@ function TaleScene({
   const korScripts = useMemo(
     function () {
       let korLi: string[] = []
-      if (sceneDetail?.scriptList[0].content) {
+      if (sceneDetail?.scriptList[1].content) {
         // for (let v of sceneDetail?.scriptList[0].content) {
         //   korLi.push(v)
         // }
-        korLi = sceneDetail.scriptList[0].content.split(" ")
+        korLi = sceneDetail.scriptList[1].content.split(" ")
       }
       return korLi
     },
@@ -127,12 +131,32 @@ function TaleScene({
 
   useEffect(
     function () {
-      const a = setTimeout(playKorScript, 2700)
-      return function () {
-        clearTimeout(a)
+      if (isKor) {
+        scriptListAudioRef.current?.pause()
+        const a = setTimeout(playKorScript, 100)
+        return function () {
+          clearTimeout(a)
+        }
+      } else {
+        scriptListAudioRef.current?.pause()
+        const a = setTimeout(playEngScript, 100)
+        return function () {
+          clearTimeout(a)
+        }
       }
     },
-    [sceneOrder, sceneDetailLoading],
+    [sceneOrder, sceneDetailLoading, isKor],
+  )
+
+  useEffect(
+    function () {
+      if (isPause) {
+        scriptListAudioRef.current?.play()
+      } else {
+        scriptListAudioRef.current?.pause()
+      }
+    },
+    [isPause, scriptListAudioRef.current],
   )
 
   // useEffect(() => {
@@ -166,14 +190,15 @@ function TaleScene({
       <div className="h-full w-full bg-scene-back content-center bg-no-repeat bg-cover relative">
         <img
           src={sceneDetail?.image}
-          className="h-[88%] w-auto bg-img-gradient object-contain top-[50%] left-[50%] absolute translate-x-[-50%] translate-y-[-55%] z-[40]"
+          className="h-[88%] w-full bg-img-gradient object-contain top-[50%] left-[50%] absolute translate-x-[-50%] translate-y-[-55%] z-[40]"
         />
-        <div className="relative z-[49] left-[50%] bottom-[-70%] w-[70%] h-[20%] p-5 flex flex-row flex-wrap items-center justify-center translate-x-[-50%] font-jalnan text-[26px] gap-[1rem]">
+        <div className="relative z-[49] left-[50%] bottom-[-70%] w-[70%] h-auto p-5 flex flex-row flex-wrap items-center justify-center translate-x-[-50%] font-jalnan text-[26px] gap-[0.5rem]">
           {engScripts.map((val, idx) => {
             return (
               <>
                 <AnimationBox
                   key={`stript-eng-${idx}`}
+                  boxClasses="drop-shadow-xl"
                   appearClassName={`${textOneByOne[idx + 5]}`}
                 >
                   {val}
@@ -182,10 +207,27 @@ function TaleScene({
             )
           })}
         </div>
+        <div className="relative z-[49] left-[50%] bottom-[-70%] w-[70%] h-auto p-5 flex flex-row flex-wrap items-center justify-center translate-x-[-50%] font-jalnan text-[26px] gap-[0.5rem]">
+          {isKor
+            ? korScripts.map((val, idx) => {
+                return (
+                  <>
+                    <AnimationBox
+                      key={`stript-eng-${idx}`}
+                      boxClasses="drop-shadow-xl"
+                      appearClassName={`${textOneByOne[idx + 5]}`}
+                    >
+                      {val}
+                    </AnimationBox>
+                  </>
+                )
+              })
+            : null}
+        </div>
       </div>
       <div
         onClick={changeScene}
-        className="absolute z-[49] left-0 bottom-[50%] p-5"
+        className="absolute z-[49] left-0 bottom-[50%] p-5 drop-shadow-xl"
       >
         {sceneDetail?.scriptList[0].content}
       </div>

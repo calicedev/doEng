@@ -19,12 +19,14 @@ interface Props {
   taleId: number
   sceneOrder: number
   changeScene: () => void
+  isKor?: boolean
 }
 
 const InteractionComp: React.FC<Props> = ({
   taleId,
   sceneOrder,
   changeScene,
+  isKor = false,
 }) => {
   const [isVideo, setIsVideo] = useState(true)
   const [loadingCam, setLoadingCam] = useState<boolean>(true)

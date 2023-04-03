@@ -6,19 +6,28 @@ import MyPage from "../../assets/images/TaleNav3MyPage.png"
 // import TaleNavLogoContainer from "../../assets/images/TaleNavLogoContainer.png"
 import AnimationBox from "./AnimationBox"
 import { useNavigate } from "react-router-dom"
+import { PropsWithChildren } from "react"
 
-const GameNavigator = function () {
+interface Props {
+  toggleKor: () => void
+  togglePause: () => void
+}
+
+const GameNavigator = function ({
+  toggleKor,
+  togglePause,
+}: PropsWithChildren<Props>) {
   const navigate = useNavigate()
   const pushHome = function () {
     navigate(`/`)
   }
-  const paushHandler = function () {
-    console.log("멈춰!")
+  const pauseHandler = function () {
+    togglePause()
   }
-  interface navItem {
-    alt: string
-    src: string
+  const toggleKorHandler = function () {
+    toggleKor()
   }
+
   return (
     <div className="box-border fixed top-0 left-0 w-full h-[13.3%] flex flex-row justify-between py-3 px-5 z-[100]">
       <AnimationBox appearClassName="animate-appear-top-nav">
@@ -39,6 +48,7 @@ const GameNavigator = function () {
             className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
             alt="tutorial"
             src={Tutorial}
+            onClick={toggleKorHandler}
           />
         </AnimationBox>
         <AnimationBox
@@ -49,7 +59,7 @@ const GameNavigator = function () {
             className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
             alt="my-page"
             src={Pause}
-            onClick={paushHandler}
+            onClick={pauseHandler}
           />
         </AnimationBox>
       </div>

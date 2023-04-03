@@ -24,6 +24,20 @@
     transparent 100%
   );
 }
+.bg-img-gradient-inner {
+  -webkit-mask: radial-gradient(
+    closest-side at center,
+    #000 0%,
+    #000 80%,
+    transparent 100%
+  );
+  mask: radial-gradient(
+    closest-side at center,
+    #000 0%,
+    #000 80%,
+    transparent 100%
+  );
+}
 
 .bg-vegis {
   user-select: none;
