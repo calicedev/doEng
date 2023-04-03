@@ -30,7 +30,7 @@ import reactor.core.publisher.Mono;
 public class AiGameController {
 
     static private final String URL = WebSocketMapping.FACE.getUrl();
-    static private final String BASIC_URL = "http://localhost:8000/analyze";
+    static private final String BASIC_URL = "http://70.12.245.22:8000/analyze";
     static final Logger LOGGER = LoggerFactory.getLogger(WebSocketConfig.class);
     private final DBComponentHttp dbComponent;
     private final TokenComponent tokenComponent;
@@ -92,24 +92,22 @@ public class AiGameController {
             @RequestParam("answer") String answer,
             @RequestParam("sceneId") long sceneId,
             ServerWebExchange exchange) {
+            Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization")).cache();
         return image.map(s -> {
-                    Map<String, String> map = new HashMap<>();
-                    map.put("answer", answer);
-                    map.put("image", s);
-                    Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization"));
-                    memberId.subscribe(result -> {
-                        Long longValue = result;
-                        System.out.println(longValue+"++++++++++++++++++++++++++++++++"); // Long 값 출력 (100)
+                    System.out.println("+++++++++++++++");
+                    return memberId.map(memberIdValue -> {
+                        Map<String, String> map = new HashMap<>();
+                        map.put("answer", answer);
+                        map.put("image", s);
+                        return map;
                     });
-                    return map;
                 })
-                .flatMap(map -> makeWebClient(map, "/doodle"))
+                .flatMap(map -> map.flatMap(param -> makeWebClient(param, "/doodle")))
                 .flatMap(message -> {
                     boolean rtn = message.isResult();
                     if (rtn) {
                         byte[] decodedImage = Base64.getDecoder().decode(message.getImage());
-                        Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization"));
-                        return dbComponent.saveData(decodedImage, sceneId, memberId.block())
+                        return memberId.cache().flatMap(memberIdValue ->  dbComponent.saveData(decodedImage, sceneId, memberIdValue))
                                 .then(Mono.just("true"));
                     }
                     return Mono.just("false");

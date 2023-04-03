@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono;
 
 @Component
 public class TokenComponent {
-    static private final String BASIC_URL = "https://j8a601.p.ssafy.io/api/member/ai";
+    static private final String BASIC_URL = "http://localhost:8200/api/member/ai";
     public static Mono<Long> jwtConfirm(String auth) {
         Mono<String> token = Mono.just(auth);
         return token.map(s -> {
