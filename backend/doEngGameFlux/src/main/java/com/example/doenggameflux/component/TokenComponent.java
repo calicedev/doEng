@@ -1,24 +1,38 @@
 package com.example.doenggameflux.component;
 
-import java.net.URI;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.example.doenggameflux.dto.response.TokenResponseDto;
 import org.springframework.http.HttpHeaders;
 import org.springframework.stereotype.Component;
-import org.springframework.util.MultiValueMap;
-import org.springframework.web.reactive.socket.WebSocketSession;
-import org.springframework.web.util.UriComponentsBuilder;
+import org.springframework.web.reactive.function.client.WebClient;
 import reactor.core.publisher.Mono;
+
 
 @Component
 public class TokenComponent {
-    public static Mono<HttpHeaders> jwtConfirm(WebSocketSession session) {
-        HttpHeaders headers = session.getHandshakeInfo().getHeaders();
-        Mono<HttpHeaders> confirm = Mono.just(headers);
-        return confirm.map(httpHeaders -> {
-            System.out.println("여기는 jwt Confirm" + session.getId());
-            URI uri = session.getHandshakeInfo().getUri();
-            MultiValueMap<String, String> queryParams = UriComponentsBuilder.fromUri(uri).build().getQueryParams();
-            session.getAttributes().put("memberId", queryParams.getFirst("memberId"));
-            return httpHeaders;
-        });
+    static private final String BASIC_URL = "https://j8a601.p.ssafy.io/api/member/ai";
+    public static Mono<Long> jwtConfirm(String auth) {
+        Mono<String> token = Mono.just(auth);
+        return token.map(s -> {
+                    Map<String, String> map = new HashMap<>();
+                    map.put("accesstoken", s);
+                    return map;
+                })
+                .flatMap(map -> makeWebClient(map))
+                .flatMap(message -> {
+                    return Mono.just(message.getId());
+                }).log();
+    }
+
+    private static Mono<TokenResponseDto> makeWebClient(Map<String, String> map)  {
+        return WebClient.builder()
+                .baseUrl(BASIC_URL)
+                .defaultHeader(HttpHeaders.AUTHORIZATION, map.get("accesstoken"))
+                .build()
+                .get()
+                .retrieve()
+                .bodyToMono(TokenResponseDto.class);
     }
 }
