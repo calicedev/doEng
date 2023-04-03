@@ -92,10 +92,10 @@ public class AiGameController {
             @RequestParam("answer") String answer,
             @RequestParam("sceneId") long sceneId,
             ServerWebExchange exchange) {
-            Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization"));
+            Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization")).cache();
         return image.map(s -> {
                     System.out.println("+++++++++++++++");
-                    return memberId.cache().map(memberIdValue -> {
+                    return memberId.map(memberIdValue -> {
                         Map<String, String> map = new HashMap<>();
                         map.put("answer", answer);
                         map.put("image", s);
