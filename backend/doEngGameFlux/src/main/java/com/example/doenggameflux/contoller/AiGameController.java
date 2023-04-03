@@ -30,7 +30,7 @@ import reactor.core.publisher.Mono;
 public class AiGameController {
 
     static private final String URL = WebSocketMapping.FACE.getUrl();
-    static private final String BASIC_URL = "http://localhost:8000/analyze";
+    static private final String BASIC_URL = "http://70.12.245.22:8000/analyze";
     static final Logger LOGGER = LoggerFactory.getLogger(WebSocketConfig.class);
     private final DBComponentHttp dbComponent;
     private final TokenComponent tokenComponent;
@@ -97,10 +97,12 @@ public class AiGameController {
                     map.put("answer", answer);
                     map.put("image", s);
                     Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization"));
-                    memberId.subscribe(result -> {
-                        Long longValue = result;
-                        System.out.println(longValue+"++++++++++++++++++++++++++++++++"); // Long 값 출력 (100)
+                    System.out.println("+++++++++++++++");
+                    memberId.subscribe(memberIdValue -> {
+                        // memberId 값을 사용하는 코드 작성
+                        System.out.println("Member ID: " + memberIdValue);
                     });
+
                     return map;
                 })
                 .flatMap(map -> makeWebClient(map, "/doodle"))
@@ -109,7 +111,8 @@ public class AiGameController {
                     if (rtn) {
                         byte[] decodedImage = Base64.getDecoder().decode(message.getImage());
                         Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization"));
-                        return dbComponent.saveData(decodedImage, sceneId, memberId.block())
+
+                        return memberId.flatMap(aLong -> )dbComponent.saveData(decodedImage, sceneId, memberId.block())
                                 .then(Mono.just("true"));
                     }
                     return Mono.just("false");
