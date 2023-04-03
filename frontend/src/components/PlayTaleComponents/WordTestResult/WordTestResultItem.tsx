@@ -9,7 +9,7 @@ function WordTestResultItem({ word }: PropsWithChildren<Props>) {
   return (
     <>
       {word.engWord}
-      <img src={word.image} />
+      <img src={word.image} className="h-full w-full" />
     </>
   )
 }

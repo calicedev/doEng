@@ -1,7 +1,13 @@
 import React, { useState, useEffect, PropsWithChildren, useRef } from "react"
+import { useNavigate } from "react-router-dom"
+
 import { TestWord } from "hooks/queries/queries"
 import { useDispatch } from "react-redux"
 import {} from "store/wordTestSlice"
+import wordKorean from "assets/images/wordKorean.png"
+import wordListen from "assets/images/wordListen.png"
+import wordTestBar from "assets/images/wordTestBar.png"
+import WordTestClose from "assets/images/DetailClose.png"
 
 interface Props {
   wordInfo: TestWord
@@ -13,6 +19,7 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
   const wordAudioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
   const audio = new Audio(wordInfo.voice)
+  const navigate = useNavigate()
 
   const handleImageClick = (imagePath: string) => {
     if (imagePath === wordInfo.image) {
@@ -29,18 +36,43 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
     audio.play()
   }, [wordInfo.voice])
 
+  const handleTestClose = function () {
+    navigate("/playtale")
+  }
+
   return (
     <>
-      <div className="grid grid-cols-2 w-[90%]">
+      <img
+        alt="테스트 종료"
+        src={WordTestClose}
+        className=" z-40 fixed top-[11%] h-[15%] w-[10%] ml-[76%] cursor-pointer"
+        onClick={handleTestClose}
+      />
+      <div className="z-30 fixed top-[28%] text-[250%] text-orange-900  ml-[35%]">
+        {wordInfo.engWord}
+      </div>
+      <div className="z-30 fixed w-[7%] h-[7%] top-[30%] ml-[51%]">
+        <img src={wordListen} className="cursor-pointer" />
+      </div>
+      <div className="z-30 fixed w-[7%] h-[7%] top-[30%] ml-[60%]">
+        <img src={wordKorean} className="cursor-pointer" />
+      </div>
+      <div className="z-30 fixed w-[40%] h-[40%] top-[78%] ml-[30%]">
+        <img src={wordTestBar} />
+      </div>
+
+      <div className="grid grid-cols-2 w-[75%] mt-[25%] ml-[12%]">
         <img
           src={wordInfo.image}
           alt={wordInfo.engWord}
           onClick={() => handleImageClick(wordInfo.image)}
+          className="cursor-pointer"
         />
         <img
           src={wordInfo.wrongImage}
           alt={wordInfo.engWord}
           onClick={() => handleImageClick(wordInfo.wrongImage)}
+          className="cursor-pointer"
         />
       </div>
     </>

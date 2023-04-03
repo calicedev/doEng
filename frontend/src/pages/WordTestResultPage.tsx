@@ -2,7 +2,7 @@ import WordTestResult from "components/PlayTaleComponents/WordTestResult/WordTes
 
 function WordTestResultPage() {
   return (
-    <div>
+    <div className="h-full w-full">
       <WordTestResult />
     </div>
   )

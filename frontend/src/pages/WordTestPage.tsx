@@ -14,7 +14,7 @@ function WordTestPage() {
   console.log(WordInfo, "1234444")
 
   return (
-    <>
+    <div className="h-full w-full">
       {WordInfoLoading ? (
         <div>단어 테스트 페이지 로딩중</div>
       ) : WordInfo ? (
@@ -22,7 +22,7 @@ function WordTestPage() {
       ) : (
         <div>잘못된 접근입니다.</div>
       )}
-    </>
+    </div>
   )
 }
 

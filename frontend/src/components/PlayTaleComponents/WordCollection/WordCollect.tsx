@@ -4,6 +4,7 @@ import WordCard from "../WordCard/WordCard"
 import TaleNavigator from "components/UI/TaleNavigator"
 import WordCollectBack from "assets/images/WordCollectBack.png"
 import { useState } from "react"
+import SuperHeroLanding from "../SuperHeroLanding"
 
 function WordCollect() {
   const [currentPage, setCurrentPage] = useState(1)
@@ -39,6 +40,7 @@ function WordCollect() {
     <>
       {/* <div className=" bg-yellow-900 -z-[80]"> */}
       <TaleNavigator />
+      <SuperHeroLanding />
       <img
         alt="배경"
         src={WordCollectBack}
