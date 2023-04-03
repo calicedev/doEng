@@ -112,7 +112,7 @@ public class AiGameController {
                         byte[] decodedImage = Base64.getDecoder().decode(message.getImage());
                         Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization"));
 
-                        return memberId.flatMap(aLong -> )dbComponent.saveData(decodedImage, sceneId, memberId.block())
+                        return dbComponent.saveData(decodedImage, sceneId, memberId.block())
                                 .then(Mono.just("true"));
                     }
                     return Mono.just("false");
