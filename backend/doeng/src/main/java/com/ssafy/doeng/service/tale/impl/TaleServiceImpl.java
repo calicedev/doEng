@@ -135,7 +135,7 @@ public class TaleServiceImpl implements TaleService {
         int rtn = 0;
         LocalDateTime recentlyPosted = progresses.get(0).getPlayedAt();
         for (Progress p : progresses) {
-           if (recentlyPosted.isAfter(p.getPlayedAt())){
+           if (recentlyPosted.isBefore(p.getPlayedAt())){
                Scene crtScene = p.getScene();
                rtn = crtScene.getSceneOrder();
                recentlyPosted = p.getPlayedAt();
