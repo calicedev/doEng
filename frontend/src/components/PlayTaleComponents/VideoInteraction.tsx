@@ -1,6 +1,6 @@
 import { useNavigate, useParams } from "react-router-dom"
-import apiRequest from "utils/axios"
-import { useRef, useEffect, useCallback, useState } from "react"
+import apiRequest, { gameRequest } from "utils/axios"
+import { useRef, useEffect, useCallback, useMemo, useState } from "react"
 import axios from "axios"
 import { io } from "socket.io-client"
 import { AxiosRequestConfig } from "axios"
@@ -10,64 +10,67 @@ const serverUrl =
   "http://70.12.247.228:8080/face?answer=happy&taleid=1&sceneId=2&memberId=1"
 
 interface Props {
-  changeScene: (type: `next` | `before`) => void
-  setLoadingON: () => void
-  setLoadingOFF: () => void
-  isVideoLoading: boolean
+  word: string // 영단어
+  sceneId: number // 씬Id
+  interactiveType: number // 1일 경우 표정, 2일 경우 객체
+  isVideoLoading: boolean // 비디오 로딩여부
+  setLoadingOn: () => void // 비디오 로딩상태를 on으로 바꾸는 함수
+  setLoadingOff: () => void // 비디오 로딩상태를 off로 바꾸는 함수
+  changeToCanvas: () => void // 캔버스 interaction으로 바꾸는 함수
+  changeScene: (type: `next` | `before`) => void // 다음씬으로 넘기는 함수
 }
 
 const VideoInteraction: React.FC<Props> = ({
-  changeScene,
-  setLoadingOFF,
-  setLoadingON,
+  word,
+  sceneId,
+  interactiveType,
   isVideoLoading,
+  setLoadingOn,
+  setLoadingOff,
+  changeToCanvas,
+  changeScene,
 }) => {
-  const [isVideo, setIsVideo] = useState(true)
-  const navigate = useNavigate()
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [videoResult, setVideoResult] = useState<string>("")
 
-  // 비디오 재생
+  // 마운트 시, video 태그에 카메라 stream 재생
   useEffect(() => {
-    let a: any
-    setLoadingON()
-    navigator.mediaDevices
+    let videostream: any // 카메라 스트림 저장할 변수
+    setLoadingOn() // 카메라 로딩 상태 전환
+    navigator.mediaDevices // 카메라 stream 가져오기
       .getUserMedia({ video: true })
       .then((stream) => {
-        a = stream
+        console.log(1)
+        console.log(videoRef)
+        videostream = stream // 카메라 스트림 저장
         if (videoRef.current) {
+          // video 태그에 카메라 스트림 연결 후 재생
           videoRef.current.srcObject = stream
           videoRef.current.play()
+          console.log(2)
           setIsPlaying(true)
+          setLoadingOff() // 카메라 로딩 상태 완료
         }
-        return stream
-      })
-      .then(() => {
-        setLoadingOFF()
       })
       .catch((err) => {
         console.error("Could not access camera", err)
       })
-
+    // video 태그에서 카메라 스트림 제거
     return function () {
-      try {
-        const tracks: any[] = a.getVideoTracks()
-        if (tracks) {
-          tracks.forEach((track) => {
-            track.stop()
-            a.removeTrack(track)
-          })
-        }
-      } catch {
-        // navigate(`/error`)
+      const tracks: any[] = videostream.getVideoTracks()
+      if (tracks) {
+        tracks.forEach((track) => {
+          track.stop()
+          videostream.removeTrack(track)
+        })
       }
     }
   }, [])
 
+  // 카메라 캡쳐해서 보내기
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null
-
     if (isPlaying) {
       intervalId = setInterval(() => {
         const video = videoRef.current
@@ -78,22 +81,19 @@ const VideoInteraction: React.FC<Props> = ({
           canvas.height = video.videoHeight
           ctx?.drawImage(video, 0, 0, canvas.width, canvas.height)
           const imageUrl = canvas.toDataURL("image/jpeg", 1.0)
-          apiRequest({
+          gameRequest({
             method: `post`,
-            baseURL: "http://70.12.247.228:8080",
-            url: `/game/face?answer=dfsdg&sceneId=1&memberId=1`,
+            url: `/game/${interactiveType === 1 ? "face" : "object"}`,
             data: {
               image: imageUrl,
             },
             params: {
-              answer: "happy",
-              sceneId: "1",
-              memberId: "1",
+              answer: word,
+              sceneId,
             },
           })
             .then((res) => {
               console.log("Image uploaded successfully.", res)
-              setVideoResult(res.data.result)
             })
             .catch((err) => {
               console.log("An error occurred: ", err)
@@ -101,6 +101,7 @@ const VideoInteraction: React.FC<Props> = ({
         }
       }, 5000)
     }
+    // interval cleanup
     return () => {
       if (intervalId) {
         clearInterval(intervalId)
@@ -108,8 +109,12 @@ const VideoInteraction: React.FC<Props> = ({
     }
   }, [isPlaying])
 
-  // 비디오 일시정지
-  const handleVideo = () => {
+  const hiddenClass = useMemo(() => {
+    if (isVideoLoading) return "hidden"
+    return ""
+  }, [isVideoLoading])
+
+  const togglePlaying = () => {
     if (isPlaying) {
       videoRef.current?.pause()
       setIsPlaying(false)
@@ -119,38 +124,21 @@ const VideoInteraction: React.FC<Props> = ({
     setIsPlaying(true)
   }
 
-  const handleType = () => {
-    if (isVideo) {
-      videoRef.current?.pause()
-      setIsPlaying(false)
-      setIsVideo(false)
-      return
-    }
-    setIsVideo(true)
-    videoRef.current?.play()
-    setIsPlaying(true)
-  }
-
-  const [hideVideo, setHideVideo] = useState<string>("")
-  useEffect(
-    function () {
-      if (isVideoLoading) {
-        setHideVideo(() => "hidden")
-      } else {
-        setHideVideo(() => "")
-      }
-    },
-    [isVideoLoading],
-  )
-
   return (
-    <div className={`flex flex-col items-center justify-center`}>
-      <button onClick={handleVideo}>{isPlaying ? "일시정지" : "재진행"}</button>
+    <div className={`flex flex-col gap-5 items-center justify-center`}>
       {isVideoLoading ? <SpinnerDots /> : null}
       <video
         ref={videoRef}
-        className={`rounded-[22px] shadow-2xl ${hideVideo}`}
+        className={`rounded-[22px] shadow-2xl ` + hiddenClass}
       />
+      {interactiveType === 2 && (
+        <button
+          onClick={changeToCanvas}
+          className="flex items-center justify-center px-3 py-1 font-hopang-black text-lime-700 text-xl border-[4px] rounded-full border-lime-500 bg-opacity-80 bg-gradient-to-tl from-lime-400 to-lime-200 shadow-xl duration-200 hover:scale-105 cursor-pointer"
+        >
+          그림으로 그리기
+        </button>
+      )}
       <div>{videoResult}</div>
     </div>
   )
