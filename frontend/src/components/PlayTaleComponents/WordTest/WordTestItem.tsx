@@ -20,9 +20,10 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
   const [isPlaying, setIsPlaying] = useState(false)
   const audio = new Audio(wordInfo.voice)
   const navigate = useNavigate()
+  const [imageSrc, setImageSrc] = useState<string>("")
 
-  const handleImageClick = (imagePath: string) => {
-    if (imagePath === wordInfo.image) {
+  const handleImageClick = (src: string) => {
+    if (src === wordInfo.image) {
       handleResponse(true)
     } else {
       handleResponse(false)
@@ -30,6 +31,16 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
   }
 
   audio.onended = () => setIsPlaying(false)
+
+  useEffect(() => {
+    let selectedSrc = Math.random() < 0.5 ? wordInfo.image : wordInfo.wrongImage
+    if (selectedSrc === wordInfo.image && selectedSrc === wordInfo.wrongImage) {
+      selectedSrc =
+        selectedSrc === wordInfo.image ? wordInfo.wrongImage : wordInfo.image
+    }
+
+    setImageSrc(selectedSrc)
+  }, [wordInfo.image, wordInfo.wrongImage])
 
   useEffect(() => {
     setIsPlaying(true)
@@ -61,17 +72,25 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
         <img src={wordTestBar} />
       </div>
 
-      <div className="grid grid-cols-2 w-[75%] mt-[25%] ml-[12%]">
+      <div className="grid grid-cols-2 w-[75%] mt-[25%] ml-[12%] ">
         <img
-          src={wordInfo.image}
+          src={imageSrc}
           alt={wordInfo.engWord}
-          onClick={() => handleImageClick(wordInfo.image)}
+          onClick={() => handleImageClick(imageSrc)}
           className="cursor-pointer"
         />
         <img
-          src={wordInfo.wrongImage}
+          src={
+            imageSrc === wordInfo.image ? wordInfo.wrongImage : wordInfo.image
+          }
           alt={wordInfo.engWord}
-          onClick={() => handleImageClick(wordInfo.wrongImage)}
+          onClick={() =>
+            handleImageClick(
+              imageSrc === wordInfo.image
+                ? wordInfo.wrongImage
+                : wordInfo.image,
+            )
+          }
           className="cursor-pointer"
         />
       </div>
