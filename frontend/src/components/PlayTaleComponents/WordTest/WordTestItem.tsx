@@ -18,11 +18,11 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
   const [wordAudio, setWordAudio] = useState<HTMLAudioElement | null>(null)
   const wordAudioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
-  const audio = new Audio(wordInfo.voice)
+  const audio = new Audio(wordInfo?.voice)
   const navigate = useNavigate()
 
   const handleImageClick = (imagePath: string) => {
-    if (imagePath === wordInfo.image) {
+    if (imagePath === wordInfo?.image) {
       handleResponse(true)
     } else {
       handleResponse(false)
@@ -34,7 +34,7 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
   useEffect(() => {
     setIsPlaying(true)
     audio.play()
-  }, [wordInfo.voice])
+  }, [wordInfo?.voice])
 
   const handleTestClose = function () {
     navigate("/playtale")
@@ -49,7 +49,7 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
         onClick={handleTestClose}
       />
       <div className="z-30 fixed top-[28%] text-[250%] text-orange-900  ml-[35%]">
-        {wordInfo.engWord}
+        {wordInfo?.engWord}
       </div>
       <div className="z-30 fixed w-[7%] h-[7%] top-[30%] ml-[51%]">
         <img src={wordListen} className="cursor-pointer" />
@@ -63,15 +63,15 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
 
       <div className="grid grid-cols-2 w-[75%] mt-[25%] ml-[12%]">
         <img
-          src={wordInfo.image}
-          alt={wordInfo.engWord}
-          onClick={() => handleImageClick(wordInfo.image)}
+          src={wordInfo?.image}
+          alt={wordInfo?.engWord}
+          onClick={() => handleImageClick(wordInfo?.image)}
           className="cursor-pointer"
         />
         <img
-          src={wordInfo.wrongImage}
-          alt={wordInfo.engWord}
-          onClick={() => handleImageClick(wordInfo.wrongImage)}
+          src={wordInfo?.wrongImage}
+          alt={wordInfo?.engWord}
+          onClick={() => handleImageClick(wordInfo?.wrongImage)}
           className="cursor-pointer"
         />
       </div>

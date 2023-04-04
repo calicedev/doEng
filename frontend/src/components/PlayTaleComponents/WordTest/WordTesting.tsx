@@ -33,22 +33,22 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
 
   console.log(wordInfo, "989898")
 
-  // const [currentWordIndex, setCurrentWordIndex] = useState<number>(0)
+  const [currentWordIndex, setCurrentWordIndex] = useState<number>(0)
   const dispatch = useStoreDispatch()
 
   const handleResponse = (response: boolean) => {
     const wordTest: wordTestStore = {
-      wordId: wordInfo.testList[wordList.length].id,
+      wordId: wordInfo.testList[currentWordIndex].id,
       taleId: parseInt(taleId),
       correct: response,
     }
 
-    if (wordList.length < 5) {
+    if (currentWordIndex < 4) {
       dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
       console.log(wordTest, "wordtest")
-      // setCurrentWordIndex(currentWordIndex + 1)
+      setCurrentWordIndex(currentWordIndex + 1)
     } else {
-      dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
+      // dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
       console.log(wordList, "wordList2222")
 
       WordTestMutate({
@@ -71,7 +71,7 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
     }
   }
 
-  const currentWordInfo = wordInfo.testList[wordList.length]
+  const currentWordInfo = wordInfo.testList[currentWordIndex]
 
   return (
     <>

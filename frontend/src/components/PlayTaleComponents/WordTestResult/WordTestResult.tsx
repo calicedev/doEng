@@ -24,7 +24,7 @@ function WordTestResult() {
     return <div>맞은 단어가 없습니다.</div>
   } else if (wordResult.testList.length === 1) {
     return (
-      <div>
+      <div className="w-full h-full">
         <TaleNavigator />
         <SuperHeroLanding>
           <img
@@ -41,6 +41,14 @@ function WordTestResult() {
             {wordResult.title}
           </div>
         </SuperHeroLanding>
+        <div className=" flex flex-row relative w-full h-full">
+          <div className="absolute bottom-[33%] left-[21%] w-full -rotate-6 drop-shadow-[0_35px_35px_rgba(254,255,203,1)]">
+            <WordTestResultItem
+              key={`word-result4-${wordResult.testList[0].id}`}
+              word={wordResult.testList[0]}
+            />
+          </div>
+        </div>
         <div
           className="w-[15%] h-[10%] flex items-center justify-center rounded-full cursor-pointer bg-lime-300 border-[5px] border-lime-500 shadow-lg duration-[0.33s] hover:scale-[107%] font-jalnan text-[1.1rem] md:text-[1.4rem] lg:text-[1.6rem] fixed bottom-[12%] left-[42%] "
           onClick={onFinishHandler}
@@ -51,7 +59,7 @@ function WordTestResult() {
     )
   } else if (wordResult.testList.length === 2) {
     return (
-      <div>
+      <div className="w-full h-full">
         <TaleNavigator />
         <SuperHeroLanding>
           <img
@@ -68,6 +76,20 @@ function WordTestResult() {
             {wordResult.title}
           </div>
         </SuperHeroLanding>
+        <div className=" flex flex-row relative w-full h-full">
+          <div className="absolute bottom-[33%] left-[21%] w-full -rotate-6 drop-shadow-[0_35px_35px_rgba(254,255,203,1)]">
+            <WordTestResultItem
+              key={`word-result4-${wordResult.testList[0].id}`}
+              word={wordResult.testList[0]}
+            />
+          </div>
+          <div className="absolute bottom-[18%] left-[36%] w-full rotate-6 drop-shadow-[0_35px_35px_rgba(254,255,203,1)]">
+            <WordTestResultItem
+              key={`word-result4-${wordResult.testList[1].id}`}
+              word={wordResult.testList[1]}
+            />
+          </div>
+        </div>
         <div
           className="w-[15%] h-[10%] flex items-center justify-center rounded-full cursor-pointer bg-lime-300 border-[5px] border-lime-500 shadow-lg duration-[0.33s] hover:scale-[107%] font-jalnan text-[1.1rem] md:text-[1.4rem] lg:text-[1.6rem] fixed bottom-[12%] left-[42%] "
           onClick={onFinishHandler}
@@ -78,7 +100,7 @@ function WordTestResult() {
     )
   } else if (wordResult.testList.length === 3) {
     return (
-      <div>
+      <div className="w-full h-full">
         <TaleNavigator />
         <SuperHeroLanding>
           <img
@@ -95,6 +117,26 @@ function WordTestResult() {
             {wordResult.title}
           </div>
         </SuperHeroLanding>
+        <div className=" flex flex-row relative w-full h-full">
+          <div className="absolute bottom-[33%] left-[21%] w-full -rotate-6 drop-shadow-[0_35px_35px_rgba(254,255,203,1)]">
+            <WordTestResultItem
+              key={`word-result4-${wordResult.testList[0].id}`}
+              word={wordResult.testList[0]}
+            />
+          </div>
+          <div className="absolute bottom-[18%] left-[36%] w-full rotate-6 drop-shadow-[0_35px_35px_rgba(254,255,203,1)]">
+            <WordTestResultItem
+              key={`word-result4-${wordResult.testList[1].id}`}
+              word={wordResult.testList[1]}
+            />
+          </div>
+          <div className="absolute bottom-[34%] left-[50%] w-full -rotate-6 drop-shadow-[0_35px_35px_rgba(254,255,203,1)]">
+            <WordTestResultItem
+              key={`word-result4-${wordResult.testList[2].id}`}
+              word={wordResult.testList[2]}
+            />
+          </div>
+        </div>
         <div
           className="w-[15%] h-[10%] flex items-center justify-center rounded-full cursor-pointer bg-lime-300 border-[5px] border-lime-500 shadow-lg duration-[0.33s] hover:scale-[107%] font-jalnan text-[1.1rem] md:text-[1.4rem] lg:text-[1.6rem] fixed bottom-[12%] left-[42%] "
           onClick={onFinishHandler}
