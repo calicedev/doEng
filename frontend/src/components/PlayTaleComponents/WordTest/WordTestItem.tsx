@@ -18,7 +18,11 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
   const [wordAudio, setWordAudio] = useState<HTMLAudioElement | null>(null)
   const wordAudioRef = useRef<HTMLAudioElement>(null)
   const [isPlaying, setIsPlaying] = useState(false)
-  const audio = new Audio(wordInfo.voice)
+  const [isEnglishPlaying, setIsEnglishPlaying] = useState(false)
+  const [isKoreanPlaying, setIsKoreanPlaying] = useState(false)
+  const englishAudio = new Audio(wordInfo.voice)
+  const koreanAudio = new Audio(wordInfo.korVoice)
+  // const audio = new Audio(wordInfo.voice)
   const navigate = useNavigate()
   const [imageSrc, setImageSrc] = useState<string>("")
 
@@ -30,7 +34,9 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
     }
   }
 
-  audio.onended = () => setIsPlaying(false)
+  // audio.onended = () => setIsPlaying(false)
+  englishAudio.onended = () => setIsEnglishPlaying(false)
+  koreanAudio.onended = () => setIsKoreanPlaying(false)
 
   useEffect(() => {
     let selectedSrc = Math.random() < 0.5 ? wordInfo.image : wordInfo.wrongImage
@@ -44,8 +50,30 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
 
   useEffect(() => {
     setIsPlaying(true)
-    audio.play()
+    englishAudio.play()
   }, [wordInfo.voice])
+
+  useEffect(() => {
+    if (isEnglishPlaying) {
+      englishAudio.play()
+      setIsPlaying(true)
+    } else if (isKoreanPlaying) {
+      koreanAudio.play()
+      setIsPlaying(true)
+    } else {
+      setIsPlaying(false)
+    }
+  }, [isEnglishPlaying, isKoreanPlaying])
+
+  const handleEnglishClick = () => {
+    setIsEnglishPlaying(true)
+    setIsKoreanPlaying(false)
+  }
+
+  const handleKoreanClick = () => {
+    setIsKoreanPlaying(true)
+    setIsEnglishPlaying(false)
+  }
 
   const handleTestClose = function () {
     navigate("/playtale")
@@ -63,10 +91,18 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
         {wordInfo.engWord}
       </div>
       <div className="z-30 fixed w-[7%] h-[7%] top-[30%] ml-[51%]">
-        <img src={wordListen} className="cursor-pointer" />
+        <img
+          src={wordListen}
+          className="cursor-pointer"
+          onClick={handleEnglishClick}
+        />
       </div>
       <div className="z-30 fixed w-[7%] h-[7%] top-[30%] ml-[60%]">
-        <img src={wordKorean} className="cursor-pointer" />
+        <img
+          src={wordKorean}
+          className="cursor-pointer"
+          onClick={handleKoreanClick}
+        />
       </div>
       <div className="z-30 fixed w-[40%] h-[40%] top-[78%] ml-[30%]">
         <img src={wordTestBar} />
@@ -75,7 +111,6 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
       <div className="grid grid-cols-2 w-[75%] mt-[25%] ml-[12%] ">
         <img
           src={imageSrc}
-          alt={wordInfo.engWord}
           onClick={() => handleImageClick(imageSrc)}
           className="cursor-pointer"
         />
@@ -83,7 +118,6 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
           src={
             imageSrc === wordInfo.image ? wordInfo.wrongImage : wordInfo.image
           }
-          alt={wordInfo.engWord}
           onClick={() =>
             handleImageClick(
               imageSrc === wordInfo.image
