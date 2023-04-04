@@ -10,6 +10,10 @@ import WordTestItem from "./WordTestItem"
 import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import { wordTestActions } from "store/wordTestSlice"
 import { testResultActions } from "store/testResultSlice"
+import TaleNavigator from "components/UI/TaleNavigator"
+import SuperHeroLanding from "components/PlayTaleComponents/SuperHeroLanding"
+import WordTestBack from "assets/images/wordTestBack.png"
+import WordTestTitle from "assets/images/wordTestTitle.png"
 
 interface Props {
   wordInfo: WordTest
@@ -29,7 +33,7 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
 
   console.log(wordInfo, "989898")
 
-  const [currentWordIndex, setCurrentWordIndex] = useState(0)
+  const [currentWordIndex, setCurrentWordIndex] = useState<number>(0)
   const dispatch = useStoreDispatch()
 
   const handleResponse = (response: boolean) => {
@@ -44,8 +48,9 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
       console.log(wordTest, "wordtest")
       setCurrentWordIndex(currentWordIndex + 1)
     } else {
-      dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
-      console.log(wordTest, "wordtest")
+      // dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
+      console.log(wordList, "wordList2222")
+
       WordTestMutate({
         method: `post`,
         url: `/api/word-test`,
@@ -70,6 +75,23 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
 
   return (
     <>
+      <TaleNavigator />
+      <SuperHeroLanding>
+        <img
+          alt="단어테스트 배경"
+          src={WordTestBack}
+          className="w-[95%] h-[90%] -z-10 fixed top-[13%]"
+        />
+        <img
+          alt="동화 제목"
+          src={WordTestTitle}
+          className=" z-20 fixed top-[-15%] h-[40%] w-[40%]"
+        />
+        <div className="z-30 fixed top-[9%] text-[220%] text-orange-900">
+          {wordInfo.title}
+        </div>
+      </SuperHeroLanding>
+
       <WordTestItem
         key="item-${WordInfo.title}"
         wordInfo={currentWordInfo}
