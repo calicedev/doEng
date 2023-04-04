@@ -58,6 +58,7 @@ export interface Scene extends ID {
 }
 export interface TestWord extends Word {
   wrongImage: string
+  korVoice: string
 }
 export interface WordTest {
   title: string
