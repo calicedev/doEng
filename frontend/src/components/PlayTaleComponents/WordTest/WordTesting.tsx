@@ -32,7 +32,6 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
   const wordList: wordTestStore[] = useStoreSelector(
     (state) => state.wordTest.wordTestList,
   )
-  console.log(wordList, "wordlistsltikaldskfj")
   // const [currentWordIndex, setCurrentWordIndex] = useState<number>(0)
   const dispatch = useStoreDispatch()
 
