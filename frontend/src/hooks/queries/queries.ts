@@ -302,14 +302,12 @@ export const useUserMutation = function () {
 
 export const useTestMutation = function () {
   const queryClient = useQueryClient()
-  return useMutation(
-    function (request: AxiosRequestConfig) {
+  return useMutation({
+    mutationFn: function (request: AxiosRequestConfig) {
       return apiRequest(request)
     },
-    {
-      onSuccess() {
-        queryClient.invalidateQueries(queryKeys.game())
-      },
+    onSuccess: function () {
+      queryClient.invalidateQueries(queryKeys.game())
     },
-  )
+  })
 }

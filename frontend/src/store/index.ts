@@ -8,12 +8,12 @@ import exampleSlice, { exActions } from "./example-slice"
 import tokenSlice, { tokenActions } from "./tokenSlice"
 import toastSlice, { toastActions } from "./toastSlice"
 import userSlice, { userActions } from "./userSlice"
-import findSlice from "./findSlice"
-import passwordSlice from "./passwordSlice"
+import findSlice, { findActions } from "./findSlice"
+import passwordSlice, { passwordActions } from "./passwordSlice"
 import wordTestSlice from "./wordTestSlice"
 import paySlice from "./paySlice"
 import testResultSlice from "./testResultSlice"
-import GoogleSlice from "./googleSlice"
+import GoogleSlice, { googleActions } from "./googleSlice"
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
@@ -75,6 +75,15 @@ export const DispatchToast = function (message: string, isSuccess: boolean) {
     setTimeout(function () {
       dispatch(toastActions.toastOff({}))
     }, 4000)
+  }
+}
+
+export const DispatchLogout = function () {
+  return async function (dispatch: AppDispatch) {
+    dispatch(tokenActions.deleteTokens({}))
+    dispatch(googleActions.resetGoogleSlice({}))
+    dispatch(passwordActions.wrongPassword({}))
+    dispatch(findActions.resetState({}))
   }
 }
 
