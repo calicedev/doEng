@@ -11,7 +11,7 @@ function ProgressList() {
   const {
     isLoading: progressLoading,
     isError: progressError,
-    data: progressTale,
+    data: progressData,
   } = useProgressTaleList()
 
   if (progressError) {
@@ -22,9 +22,9 @@ function ProgressList() {
     <>
       {progressLoading ? (
         <CommonLoading />
-      ) : (
+      ) : progressData?.length ? (
         <div className="grid grid-cols-2 flex-nowrap sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6 p-8">
-          {progressTale?.map((tale, idx) => (
+          {progressData?.map((tale, idx) => (
             <AnimationBox
               key={`tale-animation-${tale.id}`}
               appearClassName={`${textOneByOne[idx]}`}
@@ -32,6 +32,10 @@ function ProgressList() {
               <ProgressListItem key={`tale-${tale.id}`} tale={tale} />
             </AnimationBox>
           ))}
+        </div>
+      ) : (
+        <div className="flex justify-center items-center w-full h-full text-4xl text-amber-600">
+          진행 중인 동화책이 없습니다
         </div>
       )}
     </>

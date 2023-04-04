@@ -36,7 +36,7 @@ const TaleStoreItem = function ({ tale }: PropsWithChildren<Props>) {
           className={`absolute top-0 left-0 w-full h-full object-cover`}
         />
       </div>
-      <StarRating rating={tale.score} />
+      <StarRating rating={tale.score} size="medium" />
     </div>
   )
 }
