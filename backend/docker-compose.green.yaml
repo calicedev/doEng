@@ -1,0 +1,26 @@
+version: '3.6'
+
+services:
+  doeng:
+    build:
+      context: ./doeng
+    image: doeng-springboot-image-green
+    container_name: doeng-springboot-green
+    ports:
+      - '8201:8200'
+  doengFlux:
+    build:
+      context: ./doEngGameFlux
+    image: doeng-flux-image-green
+    container_name: doeng-flux-green
+    ports:
+      - '8001:8000'
+  doengAi:
+    build:
+      context: ./ai
+    image: doeng-ai-image-green
+    container_name: doeng-ai-green
+    ports:
+      - '9001:9000'
+    # stdin_open: true # docker run -i
+    # tty: true        # docker run -t

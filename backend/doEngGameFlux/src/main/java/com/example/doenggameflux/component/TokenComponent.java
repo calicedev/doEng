@@ -33,6 +33,11 @@ public class TokenComponent {
                 .build()
                 .get()
                 .retrieve()
-                .bodyToMono(TokenResponseDto.class);
+                .bodyToMono(TokenResponseDto.class)
+                .onErrorResume(e -> {
+                    String errorMessage = "Error: " + e.getMessage();
+                    return Mono.error(new Exception(errorMessage)); // Exception을 던지는 Mono 반환
+                    // 에러 처리 추가
+                });
     }
 }

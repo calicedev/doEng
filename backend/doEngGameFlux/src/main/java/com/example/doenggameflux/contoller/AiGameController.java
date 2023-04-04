@@ -92,27 +92,27 @@ public class AiGameController {
             @RequestParam("answer") String answer,
             @RequestParam("sceneId") long sceneId,
             ServerWebExchange exchange) {
+        Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization")).cache();
         return image.map(s -> {
-                    Map<String, String> map = new HashMap<>();
-                    map.put("answer", answer);
-                    map.put("image", s);
-                    Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization"));
                     System.out.println("+++++++++++++++");
-                    memberId.subscribe(memberIdValue -> {
-                        // memberId 값을 사용하는 코드 작성
-                        System.out.println("Member ID: " + memberIdValue);
+                    return memberId.map(memberIdValue -> {
+                        Map<String, String> map = new HashMap<>();
+                        map.put("answer", answer);
+                        map.put("image", s);
+                        return map;
                     });
-
-                    return map;
                 })
-                .flatMap(map -> makeWebClient(map, "/doodle"))
+                .flatMap(map -> map.flatMap(param -> makeWebClient(param, "/doodle")))
                 .flatMap(message -> {
                     boolean rtn = message.isResult();
                     if (rtn) {
-                        byte[] decodedImage = Base64.getDecoder().decode(message.getImage());
-                        Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization"));
+                        String str = message.getImage();
+                        System.out.println(str+"****************");
+                        String str2 = str.substring(0, str.indexOf("-"));
+                        System.out.println(str2);
+                        byte[] decodedImage = Base64.getDecoder().decode(str2.getBytes());
 
-                        return dbComponent.saveData(decodedImage, sceneId, memberId.block())
+                        return memberId.cache().flatMap(memberIdValue ->  dbComponent.saveData(decodedImage, sceneId, memberIdValue))
                                 .then(Mono.just("true"));
                     }
                     return Mono.just("false");
