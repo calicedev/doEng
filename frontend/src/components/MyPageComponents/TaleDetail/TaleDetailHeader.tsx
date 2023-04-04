@@ -46,9 +46,9 @@ const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({}) {
         quantity: 1,
         total_amount: taleDetail?.price || 1000000,
         tax_free_amount: 0,
-        approval_url: `https://j8a601.p.ssafy.io//pay/success`,
-        fail_url: `https://j8a601.p.ssafy.io//pay/fail`,
-        cancel_url: `https://j8a601.p.ssafy.io//pay/fail`,
+        approval_url: `https://j8a601.p.ssafy.io/pay/success`,
+        fail_url: `https://j8a601.p.ssafy.io/pay/fail`,
+        cancel_url: `https://j8a601.p.ssafy.io/pay/fail`,
       },
     }).then((res) => {
       console.log(res.data.tid)

@@ -4,7 +4,7 @@ import { useWidthHeight } from "../hooks/useWidthHwight"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import { useNavigate } from "react-router-dom"
 import LoadingComp from "components/UI/LoadingComp"
-import * as Q from "../hooks/queries/queries"
+import { useUserData } from "hooks/queries/queries"
 
 function HomePage() {
   const navigate = useNavigate()
@@ -12,6 +12,7 @@ function HomePage() {
   const canvasDivRef = useRef<HTMLDivElement>(null)
   const { width: canvasWidth, height: canvasHeight } =
     useWidthHeight(canvasDivRef)
+  const { data } = useUserData()
   // const a = Q.useUserData()
   // const b = Q.useProgressTaleList()
   // console.log(b.data)
