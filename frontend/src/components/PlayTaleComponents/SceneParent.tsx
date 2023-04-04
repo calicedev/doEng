@@ -21,7 +21,7 @@ const SceneParent = function ({ nowSceneOrder = 1 }: Props) {
   const navigate = useNavigate()
   const { sceneOrder: paramsSceneOrder } = useParams() as { sceneOrder: string }
   const [sceneOrder, setSceneOrder] = useState<number>(
-    parseInt(paramsSceneOrder),
+    parseInt(paramsSceneOrder) || nowSceneOrder,
   )
   const [isKor, setIsKor] = useState<boolean>(false)
   const [isPause, setIsPause] = useState<boolean>(false)
@@ -122,10 +122,9 @@ const SceneParent = function ({ nowSceneOrder = 1 }: Props) {
 
   useEffect(
     function () {
-      if (sceneOrder < maxlength!) {
-        return
+      if (sceneOrder === maxlength!) {
+        navigate(`/playtale/${taleId}/test`)
       }
-      navigate(`/playtale/${taleId}/test`)
     },
     [sceneOrder, maxlength],
   )

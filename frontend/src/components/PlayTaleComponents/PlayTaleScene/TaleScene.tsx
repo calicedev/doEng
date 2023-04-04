@@ -97,28 +97,24 @@ function TaleScene({
           {isKor
             ? korScripts.map((val, idx) => {
                 return (
-                  <>
-                    <AnimationBox
-                      key={`stript-eng-${idx}`}
-                      boxClasses="drop-shadow-xl text-stroke text-[55px]"
-                      appearClassName={`${textOneByOne[idx + 5]}`}
-                    >
-                      {val}
-                    </AnimationBox>
-                  </>
+                  <AnimationBox
+                    key={`stript-eng-${idx}`}
+                    boxClasses="drop-shadow-xl text-stroke text-[55px]"
+                    appearClassName={`${textOneByOne[idx + 5]}`}
+                  >
+                    {val}
+                  </AnimationBox>
                 )
               })
             : engScripts.map((val, idx) => {
                 return (
-                  <>
-                    <AnimationBox
-                      key={`stript-eng-${idx}`}
-                      boxClasses="drop-shadow-xl text-stroke text-[55px]"
-                      appearClassName={`${textOneByOne[idx + 5]}`}
-                    >
-                      {val}
-                    </AnimationBox>
-                  </>
+                  <AnimationBox
+                    key={`stript-eng-${idx}`}
+                    boxClasses="drop-shadow-xl text-stroke text-[55px]"
+                    appearClassName={`${textOneByOne[idx + 5]}`}
+                  >
+                    {val}
+                  </AnimationBox>
                 )
               })}
         </div>
