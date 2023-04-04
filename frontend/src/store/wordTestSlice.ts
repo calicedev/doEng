@@ -29,7 +29,6 @@ const wordTestSlice = createSlice({
       state.wordTestList = []
       console.log(state.wordTestList, "<<<<<<<")
     },
-    saveTestResult(state, action) {},
   },
 })
 

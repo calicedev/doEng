@@ -17,7 +17,7 @@ interface Props {
   setLoadingOn: () => void // 비디오 로딩상태를 on으로 바꾸는 함수
   setLoadingOff: () => void // 비디오 로딩상태를 off로 바꾸는 함수
   changeToCanvas: () => void // 캔버스 interaction으로 바꾸는 함수
-  changeScene: () => void // 다음씬으로 넘기는 함수
+  changeScene: (type: `next` | `before`) => void // 다음씬으로 넘기는 함수
 }
 
 const VideoInteraction: React.FC<Props> = ({

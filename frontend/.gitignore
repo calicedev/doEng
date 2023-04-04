@@ -1,6 +1,8 @@
 # Created by https://www.toptal.com/developers/gitignore/api/windows,react
 # Edit at https://www.toptal.com/developers/gitignore?templates=windows,react
 
+.env
+
 ### react ###
 .DS_*
 *.log

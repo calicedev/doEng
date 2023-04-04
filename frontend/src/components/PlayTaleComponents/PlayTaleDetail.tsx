@@ -28,13 +28,6 @@ const PlayTaleDetailCompo = function ({
   const navigate = useNavigate()
   const { data: PlayTaleDetailData, isError } = usePlayTaleDetail(taleId)
   const [isOpen, setIsOpen] = useState<boolean>(true)
-  const restartHandler = function () {
-    // navigate()
-  }
-  const continueHandler = function () {
-    // navigate()
-  }
-  const wordTestHandler = function () {}
   const closeWithAnimation = function () {
     setIsOpen(() => false)
   }
@@ -66,7 +59,11 @@ const PlayTaleDetailCompo = function ({
     navigate(`${taleId}/1`)
   }
   const onContinueHandler = function () {
-    navigate(`${taleId}/${PlayTaleDetailData?.sceneOrder}`)
+    navigate(
+      `${taleId}/${
+        PlayTaleDetailData?.sceneOrder ? PlayTaleDetailData?.sceneOrder - 1 : 1
+      }`,
+    )
   }
   const onTestHandler = function () {
     navigate(`word-test/${taleId}`)

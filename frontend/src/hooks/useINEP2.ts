@@ -19,6 +19,7 @@ const useINEP2 = function (
       let typeName: string
       let requestData: AxiosRequestConfig
       let oldData: string
+
       if (hookType === "email") {
         typeName = "이메일"
         requestData = {

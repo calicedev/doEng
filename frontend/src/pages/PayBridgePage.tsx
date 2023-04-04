@@ -51,7 +51,7 @@ const PayBridgePage = function () {
       baseURL: `https://kapi.kakao.com`,
       url: `/v1/payment/approve`,
       headers: {
-        Authorization: `KakaoAK 어드민 키`,
+        Authorization: `KakaoAK ${process.env.REACT_APP_PAYMENT_KEY}`,
         "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
       },
       params: {

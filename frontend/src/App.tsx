@@ -88,18 +88,12 @@ function App() {
             <Route path={``} element={<PlayTaleList />} />
             <Route path={`word/collect`} element={<WordCollectionPage />} />
             <Route path={`scene/:taleId`} element={<SceneParent />} />
-            <Route
-              path={`word-test/:taleId`}
-              element={<WordTestPage />}
-            ></Route>
+            <Route path={`word-test/:taleId`} element={<WordTestPage />} />
             <Route
               path={`word-test/:taleId/result`}
               element={<WordTestResultPage />}
-            ></Route>
-            <Route
-              path={`:taleId/:sceneOrder`}
-              element={<SceneParent />}
-            ></Route>
+            />
+            <Route path={`:taleId/:sceneOrder`} element={<SceneParent />} />
           </Route>
         </Route>
         <Route path={`pay`} element={<ProtectedRoute />}>

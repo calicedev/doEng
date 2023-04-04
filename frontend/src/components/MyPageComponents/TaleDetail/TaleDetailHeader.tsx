@@ -35,7 +35,7 @@ const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({}) {
       baseURL: `https://kapi.kakao.com`,
       url: `/v1/payment/ready`,
       headers: {
-        Authorization: `KakaoAK 어드민 키`,
+        Authorization: `KakaoAK ${process.env.REACT_APP_PAYMENT_KEY}`,
         "Content-Type": "application/x-www-form-urlencoded;charset=utf-8",
       },
       params: {
@@ -46,12 +46,12 @@ const TaleDetailHeader: FC<PropsWithChildren<Props>> = function ({}) {
         quantity: 1,
         total_amount: taleDetail?.price || 1000000,
         tax_free_amount: 0,
-        approval_url: `http://localhost:3000/pay/success`,
-        fail_url: `http://localhost:3000/pay/fail`,
-        cancel_url: `http://localhost:3000/pay/fail`,
+        approval_url: `https://j8a601.p.ssafy.io/pay/success`,
+        fail_url: `https://j8a601.p.ssafy.io/pay/fail`,
+        cancel_url: `https://j8a601.p.ssafy.io/pay/fail`,
       },
     }).then((res) => {
-      console.log(res)
+      console.log(res.data.tid)
       dispatch(payActions.setTid({ tid: res.data.tid }))
       window.location.href = `${res.data.next_redirect_pc_url}`
     })

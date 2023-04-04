@@ -94,13 +94,14 @@ const GoogleAdditionalInput = function () {
     e.preventDefault()
     mutateAsync()
       .then((res) => {
-        apiRequest({
-          method: `get`,
-          url: `/api/auth/login/GOOGLE`,
-        }).then((res) => {
-          dispatch(googleActions.resetGoogleSlice({}))
-          window.location.href = res.data
-        })
+        const access = res.headers.accesstoken
+        const refresh = res.headers.refreshtoken
+        if (access) {
+          dispatch(tokenActions.setAccessToken({ accessToken: access }))
+        }
+        if (refresh) {
+          dispatch(tokenActions.setRefreshToken({ refreshToken: refresh }))
+        }
       })
       .catch((err) => {
         dispatch(googleActions.resetGoogleSlice({}))

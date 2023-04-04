@@ -2,6 +2,7 @@ import WordTest from "components/PlayTaleComponents/WordTest/WordTesting"
 import { Outlet, useParams } from "react-router-dom"
 import { useWordTestResult } from "hooks/queries/queries"
 import WordTesting from "components/PlayTaleComponents/WordTest/WordTesting"
+import LoadingPage from "./LoadingPage"
 
 function WordTestPage() {
   const { taleId } = useParams() as { taleId: string }
@@ -11,18 +12,13 @@ function WordTestPage() {
     data: WordInfo,
   } = useWordTestResult(parseInt(taleId))
 
-  console.log(WordInfo, "1234444")
-
+  if (!WordInfo || WordInfoLoading) {
+    return <LoadingPage />
+  }
   return (
-    <>
-      {WordInfoLoading ? (
-        <div>단어 테스트 페이지 로딩중</div>
-      ) : WordInfo ? (
-        <WordTesting key={WordInfo.title} wordInfo={WordInfo} />
-      ) : (
-        <div>잘못된 접근입니다.</div>
-      )}
-    </>
+    <div className="h-full w-full">
+      <WordTesting key={WordInfo.title} wordInfo={WordInfo} />
+    </div>
   )
 }
 

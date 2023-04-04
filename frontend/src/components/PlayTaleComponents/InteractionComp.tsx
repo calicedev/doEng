@@ -18,13 +18,15 @@ const serverUrl =
 interface Props {
   taleId: number
   sceneOrder: number
-  changeScene: () => void
+  changeScene: (type: `next` | `before`) => void
+  isKor?: boolean
 }
 
 const InteractionComp: React.FC<Props> = ({
   taleId,
   sceneOrder,
   changeScene,
+  isKor = false,
 }) => {
   const { data: sceneDetail } = useSceneDetail(taleId, sceneOrder) // 씬의 정보를 fetch
   const [seconds, setSeconds] = useState(180) // 타이머의 남은 seconds
@@ -68,6 +70,13 @@ const InteractionComp: React.FC<Props> = ({
       changeScene()
     }
   }, [seconds, isVideoLoading])
+
+  const nextScene = useCallback(function () {
+    changeScene(`next`)
+  }, [])
+  const beforeScene = useCallback(function () {
+    changeScene(`before`)
+  }, [])
 
   return (
     <>

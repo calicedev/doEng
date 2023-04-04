@@ -14,6 +14,10 @@ const TaleNavigator = function () {
   const pushMyPage = function () {
     navigate(`/mypage/progress`)
   }
+
+  const pushWordCollect = function () {
+    navigate(`/playtale/word/collect`)
+  }
   interface navItem {
     alt: string
     src: string
@@ -34,11 +38,11 @@ const TaleNavigator = function () {
           boxClasses="h-[90%]"
           appearClassName="animate-[appear-top-nav_0.66s_0.22s_both]"
         >
-          <img
+          {/* <img
             className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
             alt="tutorial"
             src={Tutorial}
-          />
+          /> */}
         </AnimationBox>
         <AnimationBox
           boxClasses="h-[90%]"
@@ -48,6 +52,7 @@ const TaleNavigator = function () {
             className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
             alt="cards"
             src={Cards}
+            onClick={pushWordCollect}
           />
         </AnimationBox>
         <AnimationBox

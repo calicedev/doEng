@@ -9,7 +9,7 @@ interface Props {
   word: string // 영단어
   sceneId: number // 씬Id
   changeToVideo: () => void // 비디오 interaction으로 바꾸는 함수
-  changeScene: () => void // 다음씬으로 넘기는 함수
+  changeScene: (type: `next` | `before`) => void // 다음씬으로 넘기는 함수
 }
 
 const CanvasInteraction: React.FC<Props> = ({

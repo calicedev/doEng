@@ -18,9 +18,7 @@ const ProtectedRoute = function ({ children }: PropsWithChildren<Props>) {
         return
       }
       if (!data?.id) {
-        dispatch(
-          DispatchToast("세션이 만료되었습니다. 다시 로그인 해주세요.", false),
-        )
+        dispatch(DispatchToast("로그인 해주세요.", false))
       }
     },
     [isLoading, data?.id],
