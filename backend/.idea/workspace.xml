@@ -5,31 +5,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="0834dee4-39fb-459c-a4c6-2c8e8287cf27" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/ai/app/classes/doodle.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai/app/classes/inceptionV3.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/ai/app/main.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/doEngGameFlux/Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.blue.yaml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.green.yaml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules.xml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/../.idea/modules/doeng.test.iml" beforeDir="false" afterPath="$PROJECT_DIR$/../.idea/modules/doeng.test.iml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai/fastapi/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/ai/.gitignore" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai/fastapi/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/ai/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai/fastapi/main.py" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai/fastapi/requirements.txt" beforeDir="false" afterPath="$PROJECT_DIR$/ai/requirements.txt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/ai/springboot/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doEngGameFlux/gradlew" beforeDir="false" afterPath="$PROJECT_DIR$/doEngGameFlux/gradlew" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doEngGameFlux/src/main/java/com/example/doenggameflux/contoller/AiGameController.java" beforeDir="false" afterPath="$PROJECT_DIR$/doEngGameFlux/src/main/java/com/example/doenggameflux/contoller/AiGameController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doEngGameFlux/src/test/java/com/example/doenggameflux/DoEngGameFluxApplicationTests.java" beforeDir="false" afterPath="$PROJECT_DIR$/doEngGameFlux/src/test/java/com/example/doenggameflux/DoEngGameFluxApplicationTests.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/Dockerfile" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/Dockerfile" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/deploy.sh" beforeDir="false" afterPath="$PROJECT_DIR$/deploy.sh" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/docker-compose.blue.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/docker-compose.green.yaml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/controller/AuthController.java" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/controller/AuthController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/data/dto/progress/request/RequestPostProgressDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/data/dto/progress/request/RequestPostProgressDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/oauth2/OAuthService.java" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/oauth2/OAuthService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/service/member/Impl/MemberServiceImpl.java" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/service/member/Impl/MemberServiceImpl.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/service/member/MemberService.java" beforeDir="false" afterPath="$PROJECT_DIR$/doeng/src/main/java/com/ssafy/doeng/service/member/MemberService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -82,12 +59,12 @@
     "RunOnceActivity.ShowReadmeOnStart": "true",
     "SHARE_PROJECT_CONFIGURATION_FILES": "true",
     "WebServerToolWindowFactoryState": "false",
-    "last_opened_file_path": "C:/S08P22A601/backend/doeng",
+    "last_opened_file_path": "C:/S08P22A601",
     "node.js.detected.package.eslint": "true",
     "node.js.detected.package.tslint": "true",
     "node.js.selected.package.eslint": "(autodetect)",
     "node.js.selected.package.tslint": "(autodetect)",
-    "project.structure.last.edited": "Project",
+    "project.structure.last.edited": "SDKs",
     "project.structure.proportion": "0.15",
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "settings.sync",
@@ -120,7 +97,6 @@
       <workItem from="1678322835828" duration="13000" />
       <workItem from="1680146713926" duration="8000" />
       <workItem from="1680224314875" duration="57000" />
-      <workItem from="1680495011223" duration="98000" />
     </task>
     <servers />
   </component>

@@ -29,21 +29,20 @@ public class DBComponentHttp {
         CustomFilePart customFilePart = CustomFilePart.create(filename, saveImage);
 
         Mono<Progress> progress = progressRepository.getByMemberIdAndSceneId(memberId, sceneId);
-//        awsS3Service
-//                .getUser()
-//                .flatMap(deleteResponse -> {
-//                    return pictureUtil
-//                            .uploadUserProfilePict(customFilePart, filename);
-//                })
-//                .log()
-//                .subscribeOn(Schedulers.boundedElastic())
-//                .subscribe();
-        saveDataBase(progress, sceneId, memberId, filename).subscribe();
-        return Mono.empty();
+        awsS3Service
+                .getUser()
+                .flatMap(deleteResponse -> {
+                    return pictureUtil
+                            .uploadUserProfilePict(customFilePart, filename);
+                })
+                .log()
+                .subscribeOn(Schedulers.boundedElastic())
+                .subscribe();
+        return saveDataBase(progress, sceneId, memberId, filename);
     }
 
     @Transactional
-    public Mono<Progress> saveDataBase(Mono<Progress> progress, long sceneId, long memberId, String filename) {
+    public Mono<String> saveDataBase(Mono<Progress> progress, long sceneId, long memberId, String filename) {
 
         return progress.switchIfEmpty(progressRepository.save(
                         Progress.builder()
@@ -61,7 +60,7 @@ public class DBComponentHttp {
                     System.out.println(progress1);
                     progressRepository.updateProgress(LocalDateTime.now(), progress1.getId()).subscribe();
                     System.out.println(progress1);
-                    return progress1;
+                    return "true";
                 });
     }
 
