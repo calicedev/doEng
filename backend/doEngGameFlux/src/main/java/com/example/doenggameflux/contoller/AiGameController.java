@@ -39,7 +39,7 @@ public class
 AiGameController {
 
     static private final String URL = WebSocketMapping.FACE.getUrl();
-    static private final String BASIC_URL = "http://localhost:8000/analyze";
+    static private final String BASIC_URL = "https://j8a601.p.ssafy.io:8000/analyze";
     static final Logger LOGGER = LoggerFactory.getLogger(WebSocketConfig.class);
     private final DBComponentHttp dbComponent;
     private final TokenComponent tokenComponent;
