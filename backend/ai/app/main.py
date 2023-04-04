@@ -39,8 +39,8 @@ class ResultDto(BaseModel):
     result: bool
 
 
-doodle_model = tf.keras.models.load_model('./model/inceptionV3_100.h5')
-model = tf.keras.models.load_model('../fast/model/_mini_XCEPTION.102-0.66.hdf5')
+doodle_model = tf.keras.models.load_model('../app/model/MobileNet.h5')
+model = tf.keras.models.load_model('../app/model/emotion62.h5')
 inceptionV3_model = tf.keras.applications.InceptionV3(
         include_top=True,
         weights="imagenet",
@@ -58,15 +58,15 @@ def predict(imgDto: ObjectImage):
 
     if imgDto.image == [] or imgDto.image == "" or imgDto.image is None : return {"result": "실패"}
 
-    image_data = imgDto.image.encode('utf-8')
-    image_data_slice = image_data[len('{"image":"data:image/png;base64,'):-2]
+    # image_data = imgDto.image.encode('utf-8')
+    image_data_slice = imgDto.image.split(',')[1]
     image_data = base64.b64decode(image_data_slice)
     img_np = np.frombuffer(image_data, dtype=np.uint8)
 
     img = cv2.imdecode(img_np, cv2.IMREAD_COLOR)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    face_cascade = cv2.CascadeClassifier('../fast/model/haarcascade_frontalface_default.xml')
+    face_cascade = cv2.CascadeClassifier('../app/model/haarcascade_frontalface_default.xml')
 
     faces = face_cascade.detectMultiScale(img ,scaleFactor=1.1,minNeighbors=5,minSize=(30,30),flags=cv2.CASCADE_SCALE_IMAGE)
 
@@ -75,7 +75,7 @@ def predict(imgDto: ObjectImage):
 
     output = img[faces[0][1]:faces[0][1] + faces[0][3], faces[0][0]: faces[0][0] + faces[0][2]]
 
-    output = cv2.resize(output, (64, 64))
+    output = cv2.resize(output, (48, 48))
     output = output.astype("float")/255.0
     output = img_to_array(output)
     output = np.expand_dims(output, axis=0)
@@ -121,7 +121,9 @@ async def analyze_object(imageDto: ObjectImage):
     result = inceptionV3_ref[idx]
     print(result)
     # 반환
-    return {"result": result == imageDto.answer}
+    answer_dto = ResultDto(image=image_b64, result=(result == imageDto.answer))
+    # 반환
+    return answer_dto
 
 
 @app.post('/analyze/doodle')
@@ -162,5 +164,10 @@ async def analyze_object(imageDto: ObjectImage):
 
     print(idx, result)
 
+    answer_dto = ResultDto(image=image_b64, result=(result == imageDto.answer))
     # 반환
-    return {"result": result == imageDto.answer, "image" : image_b64}
+    return answer_dto
+
+
+if __name__ == "__main__":
+    uvicorn.run("main:app", host="0.0.0.0")

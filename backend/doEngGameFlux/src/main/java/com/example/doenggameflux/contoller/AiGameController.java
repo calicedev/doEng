@@ -18,6 +18,7 @@ import lombok.Setter;
 import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -34,10 +35,11 @@ import reactor.core.publisher.Mono;
 @RequiredArgsConstructor
 @RestController
 @RequestMapping()
-public class AiGameController {
+public class
+AiGameController {
 
     static private final String URL = WebSocketMapping.FACE.getUrl();
-    static private final String BASIC_URL = "http://j8a601.p.ssafy.io:8000/analyze";
+    static private final String BASIC_URL = "http://localhost:8000/analyze";
     static final Logger LOGGER = LoggerFactory.getLogger(WebSocketConfig.class);
     private final DBComponentHttp dbComponent;
     private final TokenComponent tokenComponent;
@@ -54,6 +56,9 @@ public class AiGameController {
             @RequestParam("answer") String answer,
             @RequestParam("sceneId") long sceneId,
             ServerWebExchange exchange) {
+        if (exchange.getRequest().getHeaders().getFirst("Authorization") == null) {
+            return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("JWT token Not Found")).log();
+        }
         Mono<Long> memberId = tokenComponent.jwtConfirm(
                 exchange.getRequest().getHeaders().getFirst("Authorization")).cache();
         return image.map(s -> {
@@ -64,11 +69,10 @@ public class AiGameController {
                         return map;
                     });
                 })
-                .flatMap(map -> map.flatMap(param -> makeWebClient(param, "/doodle")))
+                .flatMap(map -> map.flatMap(param -> makeWebClient(param, "/face")))
                 .flatMap(message -> {
                     boolean rtn = message.isResult();
                     if (rtn) {
-                        System.out.println(message.getImage());
                         byte[] decodedImage = Base64.getDecoder().decode(message.getImage());
                         return memberId.cache().flatMap(memberIdValue -> {
                             System.out.println(memberIdValue);
@@ -91,6 +95,9 @@ public class AiGameController {
             @RequestParam("answer") String answer,
             @RequestParam("sceneId") long sceneId,
             ServerWebExchange exchange) {
+        if (exchange.getRequest().getHeaders().getFirst("Authorization") == null) {
+            return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("JWT token Not Found")).log();
+        }
         Mono<Long> memberId = tokenComponent.jwtConfirm(
                 exchange.getRequest().getHeaders().getFirst("Authorization")).cache();
         return image.map(s -> {
@@ -101,11 +108,10 @@ public class AiGameController {
                         return map;
                     });
                 })
-                .flatMap(map -> map.flatMap(param -> makeWebClient(param, "/doodle")))
+                .flatMap(map -> map.flatMap(param -> makeWebClient(param, "/object")))
                 .flatMap(message -> {
                     boolean rtn = message.isResult();
                     if (rtn) {
-                        System.out.println(message.getImage());
                         byte[] decodedImage = Base64.getDecoder().decode(message.getImage());
                         return memberId.cache().flatMap(memberIdValue -> {
                             System.out.println(memberIdValue);
@@ -128,6 +134,9 @@ public class AiGameController {
             @RequestParam("answer") String answer,
             @RequestParam("sceneId") long sceneId,
             ServerWebExchange exchange) {
+        if (exchange.getRequest().getHeaders().getFirst("Authorization") == null) {
+            return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("JWT token Not Found")).log();
+        }
         Mono<Long> memberId = tokenComponent.jwtConfirm(
                 exchange.getRequest().getHeaders().getFirst("Authorization")).cache();
         return image.map(s -> {
@@ -142,10 +151,8 @@ public class AiGameController {
                 .flatMap(message -> {
                     boolean rtn = message.isResult();
                     if (rtn) {
-                        System.out.println(message.getImage());
                         byte[] decodedImage = Base64.getDecoder().decode(message.getImage());
                         return memberId.cache().flatMap(memberIdValue -> {
-                            System.out.println(memberIdValue);
                             return dbComponent.saveData(decodedImage, sceneId, memberIdValue)
                                     .doOnSuccess(
                                             result -> System.out.println("Saved data: " + result))
@@ -193,3 +200,4 @@ public class AiGameController {
     }
 
 }
+
