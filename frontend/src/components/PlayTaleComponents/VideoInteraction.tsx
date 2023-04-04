@@ -10,7 +10,7 @@ const serverUrl =
   "http://70.12.247.228:8080/face?answer=happy&taleid=1&sceneId=2&memberId=1"
 
 interface Props {
-  changeScene: () => void
+  changeScene: (type: `next` | `before`) => void
   setLoadingON: () => void
   setLoadingOFF: () => void
   isVideoLoading: boolean
@@ -53,7 +53,6 @@ const VideoInteraction: React.FC<Props> = ({
     return function () {
       try {
         const tracks: any[] = a.getVideoTracks()
-        console.log(tracks)
         if (tracks) {
           tracks.forEach((track) => {
             track.stop()
@@ -61,7 +60,7 @@ const VideoInteraction: React.FC<Props> = ({
           })
         }
       } catch {
-        navigate(`/error`)
+        // navigate(`/error`)
       }
     }
   }, [])

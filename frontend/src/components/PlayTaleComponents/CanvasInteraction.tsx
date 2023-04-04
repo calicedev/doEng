@@ -8,7 +8,7 @@ import { io } from "socket.io-client"
 const serverUrl = "/doodle?answer=happy&taleid=1&sceneId=2&memberId=1"
 
 interface Props {
-  changeScene: () => void
+  changeScene: (type: `next` | `before`) => void
 }
 
 const CanvasInteraction: React.FC<Props> = ({ changeScene }) => {

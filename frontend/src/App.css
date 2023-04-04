@@ -10,6 +10,10 @@
 9. color/font(글꼴)
 10. animation
 */
+.text-stroke {
+  -webkit-text-stroke: 2px white;
+  /* font-weight: 900; */
+}
 .bg-img-gradient {
   -webkit-mask: radial-gradient(
     closest-side at center,

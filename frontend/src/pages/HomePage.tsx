@@ -12,7 +12,7 @@ function HomePage() {
   const canvasDivRef = useRef<HTMLDivElement>(null)
   const { width: canvasWidth, height: canvasHeight } =
     useWidthHeight(canvasDivRef)
-  const { data } = useUserData()
+  const { data: userData } = useUserData()
   // const a = Q.useUserData()
   // const b = Q.useProgressTaleList()
   // console.log(b.data)
@@ -51,12 +51,21 @@ function HomePage() {
         className={`h-full w-full flex flex-col items-center justify-center gap-4`}
       >
         <div>홈인데요 홈인데요</div>
-        <div
-          onClick={goLogin}
-          className={`cursor-pointer rounded-[8px] bg-lime-300 px-3 py-3`}
-        >
-          로그인 하세요
-        </div>
+        {userData?.id ? (
+          <div
+            onClick={goLogin}
+            className={`cursor-pointer rounded-[8px] bg-lime-300 px-3 py-3`}
+          >
+            야레야레 이미 로그인 된 상태 데스네
+          </div>
+        ) : (
+          <div
+            onClick={goLogin}
+            className={`cursor-pointer rounded-[8px] bg-lime-300 px-3 py-3`}
+          >
+            로그인 하세요
+          </div>
+        )}
         <div
           onClick={goPlaytale}
           className={`cursor-pointer rounded-[8px] bg-lime-300 px-3 py-3`}

@@ -172,6 +172,10 @@ function Login() {
     dispatch(findActions.resetState({}))
   }, [])
 
+  const goHome = function () {
+    navigate(`/`)
+  }
+
   // const { mutateAsync } = useMutation({
   //   mutationFn: function () {
   //     return axios({
@@ -208,7 +212,8 @@ function Login() {
         <img
           alt={`logo-img`}
           src={LogoImg}
-          className={`max-w-[80vw] min-w-[350px] w-[30vw] p-5`}
+          className={`max-w-[80vw] min-w-[350px] w-[30vw] p-5 cursor-pointer`}
+          onClick={goHome}
         />
         <InputWithValidation
           inputRef={idInputRef}
