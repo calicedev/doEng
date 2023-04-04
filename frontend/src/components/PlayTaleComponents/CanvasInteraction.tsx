@@ -1,77 +1,54 @@
 import { useParams } from "react-router-dom"
-import apiRequest from "utils/axios"
+import apiRequest, { gameRequest } from "utils/axios"
 import { useRef, useEffect, useCallback, useState } from "react"
 import axios from "axios"
 import { FaEraser } from "react-icons/fa"
 import { io } from "socket.io-client"
 
-const serverUrl = "/doodle?answer=happy&taleid=1&sceneId=2&memberId=1"
-
 interface Props {
-  changeScene: () => void
+  word: string // 영단어
+  sceneId: number // 씬Id
+  changeToVideo: () => void // 비디오 interaction으로 바꾸는 함수
+  changeScene: () => void // 다음씬으로 넘기는 함수
 }
 
-const CanvasInteraction: React.FC<Props> = ({ changeScene }) => {
-  // canvas
+const CanvasInteraction: React.FC<Props> = ({
+  word,
+  sceneId,
+  changeScene,
+  changeToVideo,
+}) => {
+  // 그림판 관련 useRef 형성
   const cavasContainerRef = useRef<HTMLDivElement>(null)
   const canvasBoardRef = useRef<HTMLCanvasElement>(null)
   const resetRef = useRef<HTMLDivElement>(null)
   const [canvasResult, setCanvasResult] = useState("")
 
-  const send = () => {
-    const config = {
-      baseURL: "http://70.12.247.228:8080", // 로컬(제혁) 주소
-      mehtod: "get",
-      url: "/",
-      proxy: {
-        protocol: "http",
-        host: "70.12.247.228",
-        port: 8080,
-      },
-    }
-    apiRequest
-      .request(config)
-      .then((res) => {
-        console.log(res)
-      })
-      .catch((err) => {
-        console.log(err)
-      })
-  }
-
   // canvas 캡쳐해서 보내기
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null
-
     const canvas = canvasBoardRef.current
-
     intervalId = setInterval(() => {
       if (canvas) {
         const imageUrl = canvas.toDataURL("image/jpeg", 1.0)
-        apiRequest({
+        gameRequest({
           method: `post`,
-          baseURL: "http://70.12.247.228:8080",
           url: `/game/doodle`,
           data: {
             image: imageUrl,
           },
           params: {
-            answer: "moustache",
-            sceneId: "1",
-            memberId: "1",
+            answer: word,
+            sceneId,
           },
         })
           .then((res) => {
-            console.log("Drawing uploaded successfully.", res)
             setCanvasResult(res.data.result)
           })
-          .catch((err) => {
-            console.log("An error occurred: ", err)
-          })
+          .catch((err) => {})
       }
     }, 5000)
-
-    // setInterval 삭제
+    // interval cleanup
     return () => {
       if (intervalId) {
         clearInterval(intervalId)
@@ -80,10 +57,10 @@ const CanvasInteraction: React.FC<Props> = ({ changeScene }) => {
   }, [])
 
   useEffect(() => {
+    // makeCanvas 함수내에서 context 할당 후 외부 함수들에서 사용
     const canvas = canvasBoardRef.current
     const context = canvas?.getContext("2d")
 
-    // makeCanvas 함수내에서 context 할당 후, 외부 함수들에서 사용
     let painting = false // 그림을 현재 그리고 있는지 여부
     const pickedColor = "#000000" // 선 색깔
     const lineWidth = 3 // 선 두께
@@ -179,24 +156,27 @@ const CanvasInteraction: React.FC<Props> = ({ changeScene }) => {
   }, [])
 
   return (
-    <div style={{ display: "flex" }}>
-      <div
-        ref={cavasContainerRef}
-        style={{ position: "relative", width: "600px", height: "400px" }}
-      >
+    <div
+      className={`flex flex-col gap-3 items-center justify-center w-full h-full`}
+    >
+      <div ref={cavasContainerRef} className="relative w-full h-full">
         <canvas
           ref={canvasBoardRef}
-          style={{ border: "1px solid", width: "100%", height: "100%" }}
+          className="w-full h-full rounded-[22px] shadow-2xl"
         ></canvas>
         <div
           ref={resetRef}
-          style={{ position: "absolute", bottom: 0, right: 0 }}
+          className="absolute bottom-3 right-3 text-4xl cursor-pointer"
         >
           <FaEraser />
         </div>
       </div>
-      <div>{canvasResult}</div>
-      <div onClick={send}>전송</div>
+      <button
+        onClick={changeToVideo}
+        className="flex items-center justify-center px-3 py-1 font-hopang-black text-lime-700 text-xl border-[4px] rounded-full border-lime-500 bg-opacity-80 bg-gradient-to-tl from-lime-400 to-lime-200 shadow-xl duration-200 hover:scale-105 cursor-pointer"
+      >
+        카메라로 풀기
+      </button>
     </div>
   )
 }
