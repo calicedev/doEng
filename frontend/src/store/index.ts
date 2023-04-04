@@ -10,20 +10,18 @@ import toastSlice, { toastActions } from "./toastSlice"
 import userSlice, { userActions } from "./userSlice"
 import findSlice, { findActions } from "./findSlice"
 import passwordSlice, { passwordActions } from "./passwordSlice"
-import wordTestSlice from "./wordTestSlice"
-import paySlice from "./paySlice"
-import testResultSlice from "./testResultSlice"
+import wordTestSlice, { wordTestActions } from "./wordTestSlice"
+import paySlice, { payActions } from "./paySlice"
+import testResultSlice, { testResultActions } from "./testResultSlice"
 import GoogleSlice, { googleActions } from "./googleSlice"
 
 export type AppDispatch = typeof store.dispatch
 export type RootState = ReturnType<typeof store.getState>
 
 const rootReducers = combineReducers({
-  example: exampleSlice,
   token: tokenSlice,
   toast: toastSlice,
   find: findSlice,
-  user: userSlice,
   password: passwordSlice,
   wordTest: wordTestSlice,
   pay: paySlice,
@@ -84,6 +82,10 @@ export const DispatchLogout = function () {
     dispatch(googleActions.resetGoogleSlice({}))
     dispatch(passwordActions.wrongPassword({}))
     dispatch(findActions.resetState({}))
+    dispatch(payActions.resetTid({}))
+    dispatch(payActions.resetWannaBought({}))
+    dispatch(testResultActions.resetTestResult({}))
+    dispatch(wordTestActions.resetWordTest({}))
   }
 }
 

@@ -26,6 +26,10 @@ const testResultSlice = createSlice({
       state.title = action.payload.wordResult.title
       console.log(state.testList, ">>>>>>>>")
     },
+    resetTestResult(state, action) {
+      state.testList = []
+      state.title = ""
+    },
   },
 })
 
