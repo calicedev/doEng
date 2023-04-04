@@ -130,8 +130,8 @@ public class MemberServiceImpl implements MemberService {
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
         // 6.  정보 업데이트
-        redisUtil.setDataExpire("token_"+authentication.getName(),  tokenDto.getRefreshtoken(),60 * 60 * 24 * 7 * 1000);
-
+        String a = redisUtil.getData("token_"+authentication.getName());
+        tokenDto.setRefreshtoken(a);
         LOGGER.info("[reissue] accessToken 재발급 나감");
         // 토큰 발급
         return tokenDto;

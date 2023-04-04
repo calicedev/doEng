@@ -92,7 +92,7 @@ public class AiGameController {
             @RequestParam("answer") String answer,
             @RequestParam("sceneId") long sceneId,
             ServerWebExchange exchange) {
-            Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization")).cache();
+        Mono<Long> memberId = tokenComponent.jwtConfirm(exchange.getRequest().getHeaders().getFirst("Authorization")).cache();
         return image.map(s -> {
                     System.out.println("+++++++++++++++");
                     return memberId.map(memberIdValue -> {
@@ -106,7 +106,12 @@ public class AiGameController {
                 .flatMap(message -> {
                     boolean rtn = message.isResult();
                     if (rtn) {
-                        byte[] decodedImage = Base64.getDecoder().decode(message.getImage());
+                        String str = message.getImage();
+                        System.out.println(str+"****************");
+                        String str2 = str.substring(0, str.indexOf("-"));
+                        System.out.println(str2);
+                        byte[] decodedImage = Base64.getDecoder().decode(str2.getBytes());
+
                         return memberId.cache().flatMap(memberIdValue ->  dbComponent.saveData(decodedImage, sceneId, memberIdValue))
                                 .then(Mono.just("true"));
                     }
