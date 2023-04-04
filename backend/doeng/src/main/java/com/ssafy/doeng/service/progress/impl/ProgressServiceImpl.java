@@ -16,6 +16,7 @@ import lombok.RequiredArgsConstructor;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @RequiredArgsConstructor
 @Service
@@ -26,6 +27,7 @@ public class ProgressServiceImpl implements ProgressService {
     private final SceneRepository sceneRepositroy;
 
     @Override
+    @Transactional
     public void save(RequestPostProgressDto requestDto) {
         long memberId, sceneId, taleId;
         memberId = requestDto.getMemberId();
