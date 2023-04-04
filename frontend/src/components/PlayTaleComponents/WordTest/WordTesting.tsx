@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useState } from "react"
+import React, { PropsWithChildren, useEffect, useState } from "react"
 import { Outlet, useParams, useNavigate } from "react-router-dom"
 import {
   WordTest,
@@ -29,49 +29,75 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
   const { taleId } = useParams() as { taleId: string }
   const navigate = useNavigate()
   const { mutateAsync: WordTestMutate } = useTestMutation()
-  const wordList = useStoreSelector((state) => state.wordTest.wordTestList)
-
-  console.log(wordInfo, "989898")
-
-  const [currentWordIndex, setCurrentWordIndex] = useState<number>(0)
+  const wordList: wordTestStore[] = useStoreSelector(
+    (state) => state.wordTest.wordTestList,
+  )
+  console.log(wordList, "wordlistsltikaldskfj")
+  // const [currentWordIndex, setCurrentWordIndex] = useState<number>(0)
   const dispatch = useStoreDispatch()
 
-  const handleResponse = (response: boolean) => {
+  const wordMutate = () => {
+    WordTestMutate({
+      method: `post`,
+      url: `/api/word-test`,
+      data: { wordList },
+    })
+      .then((res) => {
+        const wordResult: WordResult = res.data
+        dispatch(testResultActions.saveTestResult({ wordResult }))
+        dispatch(wordTestActions.resetWordTest({}))
+        navigate("result")
+      })
+      .catch((err) => {
+        console.log(err)
+      })
+  }
+
+  const handleResponse = async (response: boolean) => {
     const wordTest: wordTestStore = {
-      wordId: wordInfo.testList[currentWordIndex].id,
+      wordId: wordInfo.testList[wordList.length].id,
       taleId: parseInt(taleId),
       correct: response,
     }
 
-    if (currentWordIndex < 4) {
+    if (wordList.length < 5) {
       dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
       console.log(wordTest, "wordtest")
-      setCurrentWordIndex(currentWordIndex + 1)
+      // setCurrentWordIndex(currentWordIndex + 1)
     } else {
-      // dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
+      dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
       console.log(wordList, "wordList2222")
 
-      WordTestMutate({
-        method: `post`,
-        url: `/api/word-test`,
-        data: { wordList },
-      })
-        .then((res) => {
-          console.log(res, "😎😋😊")
-          console.log(res.data, "😎😋😊")
-          const wordResult: WordResult = res.data
-          dispatch(testResultActions.saveTestResult({ wordResult }))
-          console.log("성공성공이당")
-        })
-        .catch((err) => {
-          console.log(err)
-        })
-      dispatch(wordTestActions.resetWordTest({ wordTest: wordTest }))
-      navigate("result")
+      // WordTestMutate({
+      //   method: `post`,
+      //   url: `/api/word-test`,
+      //   data: { wordList },
+      // })
+      //   .then((res) => {
+      //     console.log(wordList, "😎😋😊")
+      //     console.log(res.data, "😎😋😊")
+      //     const wordResult: WordResult = res.data
+      //     dispatch(testResultActions.saveTestResult({ wordResult }))
+      //     console.log("성공성공이당")
+      //   })
+      //   .catch((err) => {
+      //     console.log(err)
+      //   })
+      // dispatch(wordTestActions.resetWordTest({ wordTest: wordTest }))
+      // navigate("result")
     }
   }
 
-  const currentWordInfo = wordInfo.testList[currentWordIndex]
+  useEffect(() => {
+    if (wordList.length === 5) {
+      wordMutate()
+    } else if (wordList.length > 5) {
+      dispatch(wordTestActions.resetWordTest({}))
+      navigate(-1)
+    }
+  }, [wordList])
+
+  const currentWordInfo = wordInfo.testList[wordList.length]
 
   return (
     <>
@@ -92,11 +118,13 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
         </div>
       </SuperHeroLanding>
 
-      <WordTestItem
-        key="item-${WordInfo.title}"
-        wordInfo={currentWordInfo}
-        handleResponse={handleResponse}
-      />
+      {wordList.length < 5 ? (
+        <WordTestItem
+          key="item-${WordInfo.title}"
+          wordInfo={currentWordInfo}
+          handleResponse={handleResponse}
+        />
+      ) : null}
     </>
   )
 }
