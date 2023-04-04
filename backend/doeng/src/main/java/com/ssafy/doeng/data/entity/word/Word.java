@@ -30,4 +30,6 @@ public class Word {
     private String image;
     @Column(nullable = false)
     private String voice;
+    @Column
+    private String korVoice;
 }

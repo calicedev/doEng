@@ -14,6 +14,7 @@ import lombok.ToString;
 public class ResponseTestWordDto {
     private long id;
     private String voice;
+    private String korVoice;
     private String image;
     private String engWord;
     private String korWord;
