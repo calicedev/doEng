@@ -32,7 +32,9 @@ function ProgressDetailSceneItem({ scene }: PropsWithChildren<Props>) {
             onClick={handleClick}
           >
             <img
-              src={scene.imageList ? scene.imageList[0].image : defaultImg}
+              src={
+                scene.imageList.length ? scene.imageList[0].image : defaultImg
+              }
               alt="씬 대표 이미지"
               className={`absolute top-0 left-0 w-full h-full object-cover`}
             />
