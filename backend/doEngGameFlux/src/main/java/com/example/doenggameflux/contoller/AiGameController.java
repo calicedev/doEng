@@ -18,18 +18,13 @@ import lombok.Setter;
 import lombok.ToString;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.reactive.function.client.WebClient;
 import org.springframework.web.reactive.function.client.WebClientResponseException;
@@ -42,7 +37,7 @@ import reactor.core.publisher.Mono;
 public class AiGameController {
 
     static private final String URL = WebSocketMapping.FACE.getUrl();
-    static private final String BASIC_URL = "http://70.12.245.22:8000/analyze";
+    static private final String BASIC_URL = "http://j8a601.p.ssafy.io:8000/analyze";
     static final Logger LOGGER = LoggerFactory.getLogger(WebSocketConfig.class);
     private final DBComponentHttp dbComponent;
     private final TokenComponent tokenComponent;
@@ -157,7 +152,7 @@ public class AiGameController {
                                     .then(Mono.just(ResponseEntity.ok().body("true")));
                         });
                     }
-                    return Mono.just(ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("false"));
+                    return Mono.just(ResponseEntity.ok().body("false"));
                 })
                 .onErrorResume(WebClientResponseException.class, e -> {
                     return Mono.just(ResponseEntity.status(e.getStatusCode()).body(e.getResponseBodyAsString()));

@@ -34,11 +34,6 @@ class ObjectImage(BaseModel):
     answer: str
 
 
-class FaceImage(BaseModel):
-    image: str
-    answer: str = None
-
-
 class ResultDto(BaseModel):
     image: str = None
     result: bool
@@ -58,7 +53,7 @@ inceptionV3_model = tf.keras.applications.InceptionV3(
 
 
 @app.post('/analyze/face')
-def predict(imgDto: FaceImage):
+def predict(imgDto: ObjectImage):
     class_labels=['angry','disgust', 'fear', 'happy','neutral','sad','surprise']
 
     if imgDto.image == [] or imgDto.image == "" or imgDto.image is None : return {"result": "실패"}
@@ -103,7 +98,7 @@ def predict(imgDto: FaceImage):
 
 
 @app.post('/analyze/object')
-async def analyze_object(imageDto: FaceImage):
+async def analyze_object(imageDto: ObjectImage):
     # 데이터 URL에서 Base64 인코딩된 이미지 데이터를 추출합니다.
     image_b64 = imageDto.image.split(",")[1]
     # Base64 디코딩을 수행합니다.
@@ -130,7 +125,7 @@ async def analyze_object(imageDto: FaceImage):
 
 
 @app.post('/analyze/doodle')
-async def analyze_object(imageDto: FaceImage):
+async def analyze_object(imageDto: ObjectImage):
 
     # 데이터 URL에서 Base64 인코딩된 이미지 데이터를 추출합니다.
     image_b64 = imageDto.image.split(",")[1]
