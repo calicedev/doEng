@@ -9,6 +9,7 @@ import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponsePaymentTaleListDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleDetailDto;
 import com.ssafy.doeng.data.dto.tale.response.ResponseProgressTaleListDto;
+import com.ssafy.doeng.service.picture.PictureService;
 import com.ssafy.doeng.service.review.ReviewService;
 import com.ssafy.doeng.service.tale.TaleService;
 import lombok.RequiredArgsConstructor;
@@ -32,6 +33,7 @@ public class MyPageController {
     private static final Logger LOGGER = LoggerFactory.getLogger(MyPageController.class);
     private final TaleService taleService;
     private final ReviewService reviewService;
+    private final PictureService pictureService;
 
     @GetMapping("/progress")
     public ResponseEntity<ResponseProgressTaleListDto> getProgress(Pageable pageable, @LoginId Long id) {
@@ -111,5 +113,12 @@ public class MyPageController {
         requestTalePaymentDto.setMemberId(id);
         taleService.postTalePayment(requestTalePaymentDto);
         return ResponseEntity.ok().body("결제 정보 저장을 완료하였습니다.");
+    }
+    
+    @DeleteMapping("/picture/{pictureId}")
+    public ResponseEntity<String> deletePicture(@PathVariable("pictureId") long pictureId, @LoginId Long id) {
+        LOGGER.info("[MyPageController] 이미지 삭제");
+        pictureService.deletePicture(pictureId, id);
+        return ResponseEntity.ok().body("사진을 삭제하였습니다.");
     }
 }
