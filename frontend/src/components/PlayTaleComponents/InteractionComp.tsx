@@ -67,7 +67,7 @@ const InteractionComp: React.FC<Props> = ({
       }
     }
     if (seconds <= 0) {
-      changeScene()
+      changeScene("next")
     }
   }, [seconds, isVideoLoading])
 
@@ -126,12 +126,6 @@ const InteractionComp: React.FC<Props> = ({
                 />
               )}
             </div>
-          </div>
-          <div
-            onClick={changeScene}
-            className="absolute z-[49] left-0 bottom-[50%] p-5"
-          >
-            {sceneDetail?.scriptList[0].content}
           </div>
         </div>
       )}
