@@ -44,8 +44,16 @@ public class TestServiceImpl implements TestService {
         Member member = common.getMember(memberId);
         Tale tale = common.getTale(wordTestResultList.get(0).getTaleId());
 
-        int currentTestCount =
-                Collections.max(testRepository.getTestCountByTaleAndMember(tale, member)) + 1;
+        List<Integer> testCounts = testRepository.getTestCountByTaleAndMember(tale, member);
+        int currentTestCount;
+        LOGGER.info("[TestServiceImpl] 테스트 갯수 찾기 testCount : {}", testCounts.size());
+        if (!testCounts.isEmpty()) {
+            currentTestCount =
+                    Collections.max(testRepository.getTestCountByTaleAndMember(tale, member)) + 1;
+        } else {
+            currentTestCount = 1;
+        }
+        LOGGER.info("[TestServiceImpl] 테스트 갯수 찾기 종료 currentTestCount : {}", currentTestCount);
 
         List<Test> testList = new ArrayList<>();
         Map<Long, Word> wordMap = makeValidWordMap(wordTestResultList);
