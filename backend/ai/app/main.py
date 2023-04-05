@@ -1,24 +1,25 @@
-import random
-
 import uvicorn
-from fastapi import FastAPI, File, UploadFile
 from pydantic import BaseModel
-from keras.models import load_model
-from tensorflow.keras.utils import img_to_array
-import tensorflow as tf
-import numpy as np
-import base64
-import cv2
-import io
-import PIL
+from fastapi import FastAPI, File, UploadFile
 from fastapi.middleware.cors import CORSMiddleware
 from tensorflow.keras.applications.inception_v3 import InceptionV3
-from classes.inceptionV3 import ref as inceptionV3_ref
-from classes.doodle import ref as doodle_ref
+
+import tensorflow as tf
+from keras.models import load_model
+from tensorflow.keras.utils import img_to_array
+
+import io
+import PIL
+import cv2
+import random
+import base64
+import numpy as np
+
+from app.classes.doodle import ref as doodle_ref
+from app.classes.inceptionV3 import ref as inceptionV3_ref
 
 app = FastAPI()
 
-i = 0
 origins = ["*"]
 app.add_middleware(
     CORSMiddleware,
@@ -39,8 +40,8 @@ class ResultDto(BaseModel):
     result: bool
 
 
-doodle_model = tf.keras.models.load_model('../app/model/MobileNet.h5')
-model = tf.keras.models.load_model('../app/model/emotion2.h5')
+doodle_model = tf.keras.models.load_model('./app/model/MobileNet.h5')
+model = tf.keras.models.load_model('./app/model/emotion2.h5')
 inceptionV3_model = tf.keras.applications.InceptionV3(
         include_top=True,
         weights="imagenet",
