@@ -53,7 +53,7 @@ public class DBComponentHttp {
                 .map(progress1 -> {
                     Picture picture = Picture.builder()
                             .progressId(progress1.getId())
-                            .image("picture/" + filename)
+                            .image("picture/" + filename + ".jpeg")
                             .createdAt(LocalDateTime.now())
                             .build();
                     pictureRepository.save(picture).log().subscribe();
