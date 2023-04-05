@@ -100,7 +100,7 @@ function ProgressDetailTest({ testResult }: PropsWithChildren<Props>) {
                     key={`${word.engWord}-${i}-${j}th`}
                     className="border-[3px] border-orange-400 px-3 py-2"
                   >
-                    {correct.toString() ? "O" : "X"}
+                    {correct ? "O" : "X"}
                   </td>
                 ))}
                 <td className="border-[3px] border-orange-400 px-3 py-2">
