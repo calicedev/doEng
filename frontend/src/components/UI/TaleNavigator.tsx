@@ -62,7 +62,7 @@ const TaleNavigator = function () {
   const dispatch = useStoreDispatch()
   const { mutateAsync: logoutMutate } = useUserMutation()
   const pushHome = function () {
-    navigate(`/`)
+    navigate(`/playtale`)
   }
   const pushMyPage = function () {
     navigate(`/mypage/progress`)
@@ -122,15 +122,15 @@ const TaleNavigator = function () {
         x={XY.x}
         y={XY.y}
       />
-      <div className="box-border fixed top-0 left-0 w-full h-[13.3%] flex flex-row justify-between py-3 px-5">
-        <AnimationBox appearClassName="animate-appear-top-nav">
-          <div
-            className={`flex justify-center items-center w-auto h-full bg-tale-nav-logo-container bg-contain bg-no-repeat py-2 cursor-pointer hover:scale-[103%] duration-[0.22s]`}
-            onClick={pushHome}
-          >
-            <img alt={`nav-logo`} src={TaleNavLogo} className="h-full" />
-          </div>
-        </AnimationBox>
+    <div className="box-border fixed top-0 left-0 w-full h-[13.3%] flex flex-row justify-between py-3 px-5 z-50">
+      <AnimationBox appearClassName="animate-appear-top-nav">
+        <div
+          className={`flex justify-center items-center w-auto h-full bg-tale-nav-logo-container bg-contain bg-no-repeat py-2 cursor-pointer hover:scale-[103%] duration-[0.22s]`}
+          onClick={pushHome}
+        >
+          <img alt={`nav-logo`} src={TaleNavLogo} className="h-full" />
+        </div>
+      </AnimationBox>
 
         <div className="flex flex-row items-center justify-center gap-2 mobile:gap-3 lg:gap-5 w-auto box-border">
           <AnimationBox
