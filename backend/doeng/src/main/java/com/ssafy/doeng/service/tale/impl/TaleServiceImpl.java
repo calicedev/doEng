@@ -272,7 +272,7 @@ public class TaleServiceImpl implements TaleService {
         LOGGER.info("[TaleServiceImpl] makeImageList 시작");
         List<ResponseProgressImageDto> returnDtoList = pictures.stream().map(picture -> ResponseProgressImageDto.builder()
                 .id(picture.getId())
-                .image(awsS3Service.getTemporaryUrl(picture.getImage()))
+                .image(awsS3Service.getTemporaryUrl(picture.getImage() + ".jpeg"))
                 .build()
         ).collect(Collectors.toList());
         LOGGER.info("[TaleServiceImpl] makeImageList 종료");
