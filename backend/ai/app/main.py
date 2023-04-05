@@ -67,7 +67,7 @@ def predict(imgDto: ObjectImage):
     img = cv2.imdecode(img_np, cv2.IMREAD_COLOR)
     img = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
 
-    face_cascade = cv2.CascadeClassifier('../app/model/haarcascade_frontalface_default.xml')
+    face_cascade = cv2.CascadeClassifier('./app/model/haarcascade_frontalface_default.xml')
 
     faces = face_cascade.detectMultiScale(img ,scaleFactor=1.1,minNeighbors=5,minSize=(30,30),flags=cv2.CASCADE_SCALE_IMAGE)
 
