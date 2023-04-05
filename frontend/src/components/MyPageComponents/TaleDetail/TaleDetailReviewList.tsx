@@ -11,6 +11,7 @@ import React, {
 } from "react"
 import { useParams } from "react-router-dom"
 import StarRating from "../common/StarRating"
+import AnimationBox from "components/UI/AnimationBox"
 
 const ReviewList = function () {
   const { taleId } = useParams() as { taleId: string }
@@ -40,23 +41,25 @@ const ReviewList = function () {
   }
   return (
     <div
-      className={`overflow-y-auto flex flex-col p-3 rounded-lg bg-white bg-opacity-80 drop-shadow-xl font-hopang-black text-[2rem]`}
+      className={`flex flex-col overflow-y-auto p-3 rounded-lg bg-white bg-opacity-80 drop-shadow-xl font-hopang-black text-[2rem]`}
     >
-      <div
-        className={`overflow-y-auto flex flex-col gap-5 max-h-[400px] sm:h-auto`}
-      >
-        {reviews.reviewList ? (
-          reviews.reviewList.map((review) => (
-            <ReviewItem key={`review-${review.id}`} review={review} />
-          ))
-        ) : (
-          <div
-            className={`overflow-y-auto flex flex-col p-3 rounded-lg bg-white bg-opacity-80 drop-shadow-xl`}
-          >
-            리뷰가 없습니다!
-          </div>
-        )}
-      </div>
+      <AnimationBox appearClassName="overflow-y-auto animate-appear-from-bottom-fast">
+        <div
+          className={` flex flex-col overflow-y-auto gap-5 max-h-[400px] sm:h-auto`}
+        >
+          {reviews.reviewList ? (
+            reviews.reviewList.map((review) => (
+              <ReviewItem key={`review-${review.id}`} review={review} />
+            ))
+          ) : (
+            <div
+              className={`flex flex-col overflow-y-auto p-3 rounded-lg bg-white bg-opacity-80 drop-shadow-xl`}
+            >
+              리뷰가 없습니다!
+            </div>
+          )}
+        </div>
+      </AnimationBox>
     </div>
   )
 }
@@ -73,7 +76,7 @@ const ReviewItem = function ({ review }: PropsWithChildren<ItemProps>) {
   return (
     <div className={`flex flex-col text-base`}>
       <div className={`flex gap-3 items-center text-lg font-semibold`}>
-        {review.userId}
+        {review.nickname}
         <StarRating rating={review.score} />
       </div>
       <p>{review.content}</p>

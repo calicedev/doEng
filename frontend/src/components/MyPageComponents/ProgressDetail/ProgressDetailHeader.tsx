@@ -14,10 +14,7 @@ function ProgressDetailHeader({ tale }: PropsWithChildren<Props>) {
   }
 
   return (
-    <div
-      id="progress-detail-header"
-      className={`flex flex-col items-center gap-4`}
-    >
+    <div className={`flex flex-col items-center gap-4`}>
       <div
         className={`overflow-hidden relative w-[80%] pb-[110%] rounded bg-white drop-shadow-md`}
       >

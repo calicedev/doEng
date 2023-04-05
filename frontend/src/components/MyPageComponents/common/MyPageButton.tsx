@@ -30,7 +30,7 @@ const MyPageButton: FC<ButtonProps> = ({
 
   return (
     <button
-      className={`rounded ${colorClass} ${sizeClass} text-white font-bold focus:outline-none duration-200 ease-in-out hover:scale-105`}
+      className={`rounded ${colorClass} ${sizeClass} text-white font-bold focus:outline-none cursor-pointer duration-200 ease-in-out hover:scale-105`}
       {...rest}
     >
       {text}
