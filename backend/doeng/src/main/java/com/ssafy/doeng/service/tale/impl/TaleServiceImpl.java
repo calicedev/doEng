@@ -209,29 +209,32 @@ public class TaleServiceImpl implements TaleService {
                 .title(tale.getTitle())
                 .backgroundImage(awsS3Service.getTemporaryUrl(tale.getBackgroundImage()))
                 .sceneList(makeSceneList(member, scenes))
-                .testResult(makeTest(testList, maxCount))
+                .testResult(makeTest(testList, maxCount, scenes))
                 .build();
         LOGGER.info("[TaleServiceImpl] getProgressTaleDetail dto 종료");
         return progressTaleDetailDto;
     }
 
-    private ResponseProgressTestResultDto makeTest(List<Test> testList, int maxCount) {
+    private ResponseProgressTestResultDto makeTest(List<Test> testList, int maxCount, List<Scene> scenes) {
         LOGGER.info("[TaleServiceImpl] makeTest dto 시작");
+        List<String> words = new ArrayList<>();
+        for (Scene s:scenes) {
+            words.add(s.getWord().getEngWord());
+        }
 
         List<ResponseProgressWordListDto> testResult = new ArrayList<>();
-        if (maxCount > 0) {
-            int wordCount = testList.size() / maxCount;
-            for (int i = 0; i < wordCount; i++) {
-                List<Boolean> correctList = new ArrayList<>();
-                for (int j = i * maxCount; j < (i + 1) * maxCount; j++) {
-                    correctList.add(testList.get(j).isCorrect());
-                }
-                testResult.add(ResponseProgressWordListDto.builder()
-                        .engWord(testList.get(i * maxCount).getWord().getEngWord())
-                        .correctList(correctList)
-                        .build());
+        int wordCount = words.size();
+        for (int i = 0; i < wordCount; i++) {
+            List<Boolean> correctList = new ArrayList<>();
+            for (int j = i * maxCount; j < (i + 1) * maxCount; j++) {
+                correctList.add(testList.get(j).isCorrect());
             }
+            testResult.add(ResponseProgressWordListDto.builder()
+                    .engWord(words.get(i))
+                    .correctList(correctList)
+                    .build());
         }
+
         LOGGER.info("[TaleServiceImpl] makeTest dto 종료");
 
         return ResponseProgressTestResultDto.builder()
@@ -272,7 +275,7 @@ public class TaleServiceImpl implements TaleService {
         LOGGER.info("[TaleServiceImpl] makeImageList 시작");
         List<ResponseProgressImageDto> returnDtoList = pictures.stream().map(picture -> ResponseProgressImageDto.builder()
                 .id(picture.getId())
-                .image(awsS3Service.getTemporaryUrl(picture.getImage() + ".jpeg"))
+                .image(awsS3Service.getTemporaryUrl(picture.getImage()))
                 .build()
         ).collect(Collectors.toList());
         LOGGER.info("[TaleServiceImpl] makeImageList 종료");
