@@ -47,20 +47,20 @@ const TaleDetailPage = function () {
 
   return (
     <div className="flex flex-col sm:flex-row items-center sm:items-stretch gap-10 h-full p-6 overflow-y-auto">
-      <AnimationBox appearClassName="animate-appear-from-left-fast">
-        <TaleDetailHeader />
-      </AnimationBox>
-      <div className="flex-1 flex flex-col w-full gap-5">
+      <div className={`self-center w-[80%] sm:w-[40%] md:w-[30%] lg:w-[22%]`}>
+        <AnimationBox appearClassName="animate-appear-from-left-fast">
+          <TaleDetailHeader />
+        </AnimationBox>
+      </div>
+      <div className="flex-1 flex flex-col gap-10 sm:gap-10 w-[100%] sm:w-[60%] md:w-[70%] lg:w-[78%] h-full">
         <TitleContent title={`줄거리`}>{taleDetail?.description}</TitleContent>
-        <TitleContent title={`준비물`}>{materialList}</TitleContent>
+        {/* <TitleContent title={`준비물`}>{materialList}</TitleContent> */}
         {taleDetail?.purchased && (
           <TitleContent title={`내 리뷰`}>
             <MyReview />
           </TitleContent>
         )}
-        <AnimationBox appearClassName="animate-appear-from-bottom-fast">
-          <ReviewList />
-        </AnimationBox>
+        <ReviewList />
       </div>
     </div>
   )
@@ -85,81 +85,3 @@ const TitleContent: FC<PropsWithChildren<Props>> = function ({
 }
 
 export default TaleDetailPage
-
-const exData = {
-  id: 1,
-  title: "기여운 강아지가 가방에 들어가는 이야기",
-  backgroundImage:
-    "https://mblogthumb-phinf.pstatic.net/MjAyMDExMDZfMTE3/MDAxNjA0NjIzMDcyMTIx.dnBY_69oDFP8FcsQRrUEN-ndhP6LeSO9XC-1jaXATi4g._cIMEdFaQO5rIwq6R_hqSdSXM1CGmDsIl4QGDPcPvWYg.PNG.skyzzang011/2.png?type=w800",
-  description:
-    "오백살까지 살고싶은 말티즈는 공주님을 구하러 마법의 성으로 떠나가는데...",
-  score: 4.2,
-  price: 1500000,
-  purchased: true,
-  materialList: [
-    {
-      id: 1,
-      name: "용기",
-    },
-    {
-      id: 2,
-      name: "빵",
-    },
-  ],
-  myReview: {
-    id: 1,
-    memberId: "Okieee",
-    score: 4,
-    content: "정말 재밌는 체고의 동화채깁니다",
-  },
-  reviewList: [
-    {
-      id: 2,
-      memberId: "calice",
-      score: 3,
-      content: "오와 너무 잼ㅆ어ㅛ 실화인가요?",
-    },
-    {
-      id: 3,
-      memberId: "user12",
-      score: 4,
-      content: "내안에 흐겸룡이 ㅇ루부짖느다",
-    },
-    {
-      id: 4,
-      memberId: "calice",
-      score: 3,
-      content: "오와 너무 잼ㅆ어ㅛ 실화인가요?",
-    },
-    {
-      id: 5,
-      memberId: "user12",
-      score: 4,
-      content: "내안에 흐겸룡이 ㅇ루부짖느다",
-    },
-    {
-      id: 6,
-      memberId: "calice",
-      score: 3,
-      content: "오와 너무 잼ㅆ어ㅛ 실화인가요?",
-    },
-    {
-      id: 7,
-      memberId: "user12",
-      score: 4,
-      content: "내안에 흐겸룡이 ㅇ루부짖느다",
-    },
-    {
-      id: 8,
-      memberId: "calice",
-      score: 3,
-      content: "오와 너무 잼ㅆ어ㅛ 실화인가요?",
-    },
-    {
-      id: 9,
-      memberId: "user12",
-      score: 4,
-      content: "내안에 흐겸룡이 ㅇ루부짖느다",
-    },
-  ],
-}

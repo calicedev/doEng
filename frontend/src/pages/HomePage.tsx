@@ -6,6 +6,12 @@ import { useNavigate } from "react-router-dom"
 import LoadingComp from "components/UI/LoadingComp"
 import { useUserData } from "hooks/queries/queries"
 import HomeNavigator from "components/UI/HomeNavigator"
+import NavBack from "assets/images/intro/bg001-removebg.png"
+import One from "assets/images/intro/001.png"
+import Two from "assets/images/intro/002.png"
+import Three from "assets/images/intro/003.png"
+import Four from "assets/images/intro/004.png"
+import Five from "assets/images/intro/005.png"
 
 function HomePage() {
   const navigate = useNavigate()
@@ -41,18 +47,34 @@ function HomePage() {
 
   return (
     <div className="h-full w-full box-border">
-      <HomeNavigator />
-      <LoadingComp />
+      {/* <HomeNavigator /> */}
+      {/* <LoadingComp /> */}
       {/* <div
         ref={canvasDivRef}
         className={`w-full h-full blur-sm canvas-under-bg-container`}
       >
         <Wave canvasWidth={canvasWidth} canvasHeight={canvasHeight} />
       </div> */}
+      <img src={NavBack} className="fixed -top-[15%]" />
+      <HomeNavigator />
       <div
         className={`h-full w-full flex flex-col items-center justify-center gap-4`}
       >
-        <div>홈인데요 홈인데요</div>
+        <img src={One} className="w-[50%] mt-[220%]" />
+        <img src={Two} className="w-[50%]" />
+        <img src={Three} className="w-[50%]" />
+        <img src={Four} className="w-[50%]" />
+        <img src={Five} className="w-[50%]" />
+
+        {/* <HomeNavigator /> */}
+
+        {/* <img src={One} className="absolute top-0 w-[80%]" />
+        <img src={Two} className="absolute top-[170%] w-[80%]" />
+        <img src={Three} className="absolute top-[330%] w-[80%]" />
+        <img src={Four} className="absolute top-[390%] w-[80%]" />
+        <img src={Five} className="absolute top-[550%] w-[80%]" /> */}
+
+        {/* <div>홈인데요 홈인데요</div>
         {userData?.id ? (
           <div
             onClick={goLogin}
@@ -79,7 +101,7 @@ function HomePage() {
           className={`cursor-pointer rounded-[8px] bg-lime-300 px-3 py-3`}
         >
           마이 페이지 보세요
-        </div>
+        </div> */}
       </div>
     </div>
   )

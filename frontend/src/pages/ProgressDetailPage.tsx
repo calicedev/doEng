@@ -29,10 +29,7 @@ function ProgressDetailPage() {
       {progressDetailLoading ? (
         <CommonLoading />
       ) : progressDetail ? (
-        <div
-          id="progress-detail-container"
-          className="flex flex-col items-center sm:flex-row sm:items-stretch gap-7 w-full h-full p-6 overflow-x-hidden overflow-y-auto"
-        >
+        <div className="flex flex-col items-center sm:flex-row sm:items-stretch gap-7 w-full h-full p-6 overflow-x-hidden overflow-y-auto">
           <div
             className={`self-center w-[80%] sm:w-[40%] md:w-[30%] lg:w-[25%]`}
           >

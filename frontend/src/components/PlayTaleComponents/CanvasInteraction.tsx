@@ -23,38 +23,44 @@ const CanvasInteraction: React.FC<Props> = ({
   const canvasBoardRef = useRef<HTMLCanvasElement>(null)
   const resetRef = useRef<HTMLDivElement>(null)
   const [canvasResult, setCanvasResult] = useState("")
+  const [isCorrect, setIsCorrect] = useState<boolean>(false)
 
   // canvas 캡쳐해서 보내기
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null
     const canvas = canvasBoardRef.current
-    intervalId = setInterval(() => {
-      if (canvas) {
-        const imageUrl = canvas.toDataURL("image/jpeg", 1.0)
-        gameRequest({
-          method: `post`,
-          url: `/game/doodle`,
-          data: {
-            image: imageUrl,
-          },
-          params: {
-            answer: word,
-            sceneId,
-          },
-        })
-          .then((res) => {
-            setCanvasResult(res.data.result)
+    if (!isCorrect) {
+      intervalId = setInterval(() => {
+        if (canvas) {
+          const imageUrl = canvas.toDataURL("image/jpeg", 1.0)
+          gameRequest({
+            method: `post`,
+            url: `/game/doodle`,
+            data: {
+              image: imageUrl,
+            },
+            params: {
+              answer: word,
+              sceneId,
+            },
           })
-          .catch((err) => {})
-      }
-    }, 5000)
+            .then((res) => {
+              if (res.data === true) {
+                setIsCorrect(true)
+                changeScene("next")
+              }
+            })
+            .catch((err) => {})
+        }
+      }, 5000)
+    }
     // interval cleanup
     return () => {
       if (intervalId) {
         clearInterval(intervalId)
       }
     }
-  }, [])
+  }, [isCorrect])
 
   useEffect(() => {
     // makeCanvas 함수내에서 context 할당 후 외부 함수들에서 사용
