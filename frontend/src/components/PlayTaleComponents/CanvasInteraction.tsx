@@ -9,21 +9,22 @@ interface Props {
   word: string // 영단어
   sceneId: number // 씬Id
   changeToVideo: () => void // 비디오 interaction으로 바꾸는 함수
-  changeScene: (type: `next` | `before`) => void // 다음씬으로 넘기는 함수
+  isCorrect: boolean // 정답 여부
+  setIsCorrect: (type: boolean) => void // 정답 여부를 바꾸는 함수
 }
 
 const CanvasInteraction: React.FC<Props> = ({
   word,
   sceneId,
-  changeScene,
   changeToVideo,
+  isCorrect,
+  setIsCorrect,
 }) => {
   // 그림판 관련 useRef 형성
   const cavasContainerRef = useRef<HTMLDivElement>(null)
   const canvasBoardRef = useRef<HTMLCanvasElement>(null)
   const resetRef = useRef<HTMLDivElement>(null)
   const [canvasResult, setCanvasResult] = useState("")
-  const [isCorrect, setIsCorrect] = useState<boolean>(false)
 
   // canvas 캡쳐해서 보내기
   useEffect(() => {
@@ -47,7 +48,6 @@ const CanvasInteraction: React.FC<Props> = ({
             .then((res) => {
               if (res.data === true) {
                 setIsCorrect(true)
-                changeScene("next")
               }
             })
             .catch((err) => {})
