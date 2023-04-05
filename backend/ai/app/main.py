@@ -40,7 +40,7 @@ class ResultDto(BaseModel):
 
 
 doodle_model = tf.keras.models.load_model('../app/model/MobileNet.h5')
-model = tf.keras.models.load_model('../app/model/emotion62.h5')
+model = tf.keras.models.load_model('../app/model/emotion2.h5')
 inceptionV3_model = tf.keras.applications.InceptionV3(
         include_top=True,
         weights="imagenet",
@@ -167,4 +167,3 @@ async def analyze_object(imageDto: ObjectImage):
     answer_dto = ResultDto(image=image_b64, result=(result == imageDto.answer))
     # 반환
     return answer_dto
-
