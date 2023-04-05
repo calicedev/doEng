@@ -304,6 +304,10 @@ module.exports = {
           "0%": { opacity: 0 },
           "100%": { opacity: 1 },
         },
+        "disappear-opacity-softly": {
+          "0%": { opacity: 1 },
+          "100%": { opacity: 0 },
+        },
         shake: {
           "0%": { transform: "rotate(0.0deg)" },
           "10%": { transform: "rotate(14deg)" },
