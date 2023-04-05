@@ -5,6 +5,7 @@ import { useStoreDispatch } from "hooks/useStoreSelector"
 import { useNavigate } from "react-router-dom"
 import LoadingComp from "components/UI/LoadingComp"
 import { useUserData } from "hooks/queries/queries"
+import HomeNavigator from "components/UI/HomeNavigator"
 
 function HomePage() {
   const navigate = useNavigate()
@@ -40,6 +41,7 @@ function HomePage() {
 
   return (
     <div className="h-full w-full box-border">
+      <HomeNavigator />
       <LoadingComp />
       {/* <div
         ref={canvasDivRef}

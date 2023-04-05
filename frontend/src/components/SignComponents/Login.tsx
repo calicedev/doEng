@@ -15,6 +15,7 @@ import apiRequest from "utils/axios"
 import { useMutation, useQueryClient } from "@tanstack/react-query"
 import { tokenActions } from "store/tokenSlice"
 import GoogleIcon from "../../assets/images/Google_Social.png"
+import { queryKeys } from "hooks/queries/queryKeys"
 // import { useUserMutation } from "hooks/queries/queries"
 
 function Login() {
@@ -95,8 +96,8 @@ function Login() {
             refreshToken: res.headers[`refreshtoken`],
           }),
         )
-        queryClient.invalidateQueries(["user"])
-        navigate(`/`)
+        queryClient.invalidateQueries(queryKeys.user())
+        navigate(`/playtale`)
 
         // dispatch(DispatchToast("성공", true))
       })

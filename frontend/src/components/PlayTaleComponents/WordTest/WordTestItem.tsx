@@ -90,14 +90,14 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
       <div className="z-30 fixed top-[28%] text-[250%] text-orange-900  ml-[35%]">
         {wordInfo.engWord}
       </div>
-      <div className="z-30 fixed w-[7%] h-[7%] top-[30%] ml-[51%]">
+      <div className="z-30 fixed w-[7%] h-[7%] top-[28%] ml-[51%]">
         <img
           src={wordListen}
           className="cursor-pointer"
           onClick={handleEnglishClick}
         />
       </div>
-      <div className="z-30 fixed w-[7%] h-[7%] top-[30%] ml-[60%]">
+      <div className="z-30 fixed w-[7%] h-[7%] top-[28%] ml-[60%]">
         <img
           src={wordKorean}
           className="cursor-pointer"
@@ -108,7 +108,7 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
         <img src={wordTestBar} />
       </div>
 
-      <div className="grid grid-cols-2 w-[75%] mt-[25%] ml-[12%] ">
+      <div className="grid grid-cols-2 fixed w-[75%] bottom-[13%] ml-[12%] scr">
         <img
           src={imageSrc}
           onClick={() => handleImageClick(imageSrc)}

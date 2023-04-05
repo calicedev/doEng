@@ -5,14 +5,15 @@ import MyPage from "../../assets/images/TaleNav3MyPage.png"
 import NavLogout from "../../assets/images/LogoutIcon.png"
 // import TaleNavLogoContainer from "../../assets/images/TaleNavLogoContainer.png"
 import AnimationBox from "./AnimationBox"
-import { useNavigate } from "react-router-dom"
-import { useUserMutation } from "hooks/queries/queries"
-import { useStoreDispatch } from "hooks/useStoreSelector"
+import { Navigate, useNavigate } from "react-router-dom"
+import { useUserData, useUserMutation } from "hooks/queries/queries"
+import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import { tokenActions } from "store/tokenSlice"
 import { passwordActions } from "store/passwordSlice"
 import { DispatchLogout, DispatchToast } from "store"
-import { PropsWithChildren, useState, useEffect } from "react"
+import { PropsWithChildren, useState, useEffect, useCallback } from "react"
 import ReactDOM from "react-dom"
+import LoadingPage from "pages/LoadingPage"
 import { useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "hooks/queries/queryKeys"
 
@@ -55,11 +56,11 @@ const MouseDescription = function ({
     </>
   )
 }
-
-const TaleNavigator = function () {
+const HomeNavigator = function () {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const dispatch = useStoreDispatch()
+  const { data: userData, isLoading, isError } = useUserData()
   const { mutateAsync: logoutMutate } = useUserMutation()
   const pushHome = function () {
     navigate(`/`)
@@ -68,26 +69,32 @@ const TaleNavigator = function () {
     navigate(`/mypage/progress`)
   }
 
-  const pushWordCollect = function () {
-    navigate(`/playtale/word/collect`)
+  const pushPlayTale = function () {
+    navigate(`/playtale`)
   }
-  const logoutHandler = function () {
-    logoutMutate({
-      method: `delete`,
-      url: `/api/member/logout`,
-    })
-      .then((res) => {
-        queryClient.removeQueries(queryKeys.user())
-        dispatch(DispatchLogout())
-        dispatch(DispatchToast("로그아웃 성공!", true))
-        navigate(`/member/login`)
+  const loginNLogoutHandler = function () {
+    if (userData?.id) {
+      logoutMutate({
+        method: `delete`,
+        url: `/api/member/logout`,
       })
-      .catch((err) => {
-        queryClient.removeQueries(queryKeys.user())
-        dispatch(DispatchLogout())
-        dispatch(DispatchToast("로그아웃에 실패하셨습니다.", false))
-        navigate(`/member/login`)
-      })
+        .then((res) => {
+          queryClient.removeQueries(queryKeys.user())
+          dispatch(DispatchLogout())
+          dispatch(DispatchToast("로그아웃 성공!", true))
+        })
+        .then(() => {
+          navigate(`/member/login`)
+        })
+        .catch((err) => {
+          queryClient.removeQueries(queryKeys.user())
+          dispatch(DispatchLogout())
+          dispatch(DispatchToast("로그아웃에 실패하셨습니다.", false))
+          navigate(`/member/login`)
+        })
+    } else {
+      navigate(`/member/login`)
+    }
   }
   const [description, setDescription] = useState<string>("")
   const [XY, setXY] = useState<{ x: number; y: number }>({ x: -500, y: -500 })
@@ -98,22 +105,29 @@ const TaleNavigator = function () {
       return { x: e.clientX, y: e.clientY }
     })
   }
-  const changeWordDesc = function () {
+  const changeWordDesc = useCallback(function () {
     setDescOpen(() => true)
-    setDescription(() => `단어장`)
-  }
-  const changeMyPageDesc = function () {
+    setDescription(() => `내 동화`)
+  }, [])
+  const changeMyPageDesc = useCallback(function () {
     setDescOpen(() => true)
     setDescription(() => `마이 페이지`)
-  }
-  const changeLogoutDesc = function () {
+  }, [])
+  const changeLogoutDesc = useCallback(function () {
     setDescOpen(() => true)
-    setDescription(() => `로그아웃`)
-  }
+    if (userData?.id) {
+      setDescription(() => `로그아웃`)
+    } else {
+      setDescription(() => `로그인`)
+    }
+  }, [])
   const desClose = function () {
     setDescOpen(() => false)
   }
 
+  // if (isLoading) {
+  //   return <LoadingPage />
+  // }
   return (
     <>
       <MouseDescription
@@ -151,7 +165,7 @@ const TaleNavigator = function () {
               className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
               alt="cards"
               src={Cards}
-              onClick={pushWordCollect}
+              onClick={pushPlayTale}
               onMouseEnter={changeWordDesc}
               onMouseLeave={desClose}
               onMouseMove={changeXY}
@@ -179,7 +193,7 @@ const TaleNavigator = function () {
               className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
               alt="my-page"
               src={NavLogout}
-              onClick={logoutHandler}
+              onClick={loginNLogoutHandler}
               onMouseEnter={changeLogoutDesc}
               onMouseLeave={desClose}
               onMouseMove={changeXY}
@@ -191,4 +205,4 @@ const TaleNavigator = function () {
   )
 }
 
-export default TaleNavigator
+export default HomeNavigator

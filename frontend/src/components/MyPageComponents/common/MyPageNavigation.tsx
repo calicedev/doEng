@@ -1,20 +1,21 @@
-import React from "react"
 import { HiUserCircle } from "react-icons/hi"
 import { useNavigate } from "react-router-dom"
 import { TbArrowBigLeftFilled } from "react-icons/tb"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import { useUserData, useUserMutation } from "hooks/queries/queries"
-import { DispatchToast } from "store"
+import { DispatchLogout, DispatchToast } from "store"
 import { tokenActions } from "store/tokenSlice"
 import { passwordActions } from "store/passwordSlice"
 import Logo from "components/UI/Logo"
 import IconButton from "components/UI/IconButton"
+import { useQueryClient } from "@tanstack/react-query"
+import { queryKeys } from "hooks/queries/queryKeys"
 
 /*
 마이페이지(/mypage) 상단에 나오는 네비게이션 바
 */
-
 export default function MyPageNavigation() {
+  const queryClient = useQueryClient()
   const navigate = useNavigate()
   const dispatch = useStoreDispatch()
   const { mutateAsync: logoutFunc } = useUserMutation()
@@ -24,15 +25,14 @@ export default function MyPageNavigation() {
       url: `/api/member/logout`,
     })
       .then((res) => {
-        console.log(res)
-        dispatch(tokenActions.deleteTokens({}))
-        dispatch(passwordActions.wrongPassword({}))
+        queryClient.removeQueries(queryKeys.user())
+        dispatch(DispatchLogout())
         dispatch(DispatchToast("로그아웃 성공!", true))
-        navigate(`/`)
+        navigate(`/member/login`)
       })
       .catch((err) => {
-        dispatch(tokenActions.deleteTokens({}))
-        dispatch(passwordActions.wrongPassword({}))
+        queryClient.removeQueries(queryKeys.user())
+        dispatch(DispatchLogout())
         dispatch(DispatchToast("로그아웃에 실패하셨습니다.", false))
         navigate(`/member/login`)
       })

@@ -103,6 +103,9 @@ const GoogleAdditionalInput = function () {
           dispatch(tokenActions.setRefreshToken({ refreshToken: refresh }))
         }
       })
+      .then(() => {
+        navigate(`/playtale`)
+      })
       .catch((err) => {
         dispatch(googleActions.resetGoogleSlice({}))
         dispatch(DispatchToast("실패! 재시도 바랍니다.", false))

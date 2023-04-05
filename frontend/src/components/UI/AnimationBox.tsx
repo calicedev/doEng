@@ -16,6 +16,7 @@ const AnimationBox: FC<PropsWithChildren<AnimateBoxProps>> = function ({
   disappearClassName,
   boxClasses,
   boxKey = `animattion-box-${Math.random}`,
+  ...rest
 }) {
   const { isRender, animationClasses, animationEndHandler } = useAnimate(
     isOpened,
