@@ -13,6 +13,9 @@ RUN pip install --no-cache-dir --upgrade -r /code/requirements.txt
 # Copy the ./app directory inside the /code directory.
 COPY . /code/app
 
+RUN apt-get update
+RUN apt-get -y install libgl1-mesa-glx
+
 # Set the command to run the uvicorn server.
 CMD uvicorn app.main:app --reload --port 9000
 # CMD ["uvicorn", "app.main:app", "--host", "0.0.0.0", "--port", "${port}"]
