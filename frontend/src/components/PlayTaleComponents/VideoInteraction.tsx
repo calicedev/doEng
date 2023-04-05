@@ -57,13 +57,15 @@ const VideoInteraction: React.FC<Props> = ({
       })
     // video 태그에서 카메라 스트림 제거
     return function () {
-      const tracks: any[] = videostream.getVideoTracks()
-      if (tracks) {
-        tracks.forEach((track) => {
-          track.stop()
-          videostream.removeTrack(track)
-        })
-      }
+      try {
+        const tracks: any[] = videostream.getVideoTracks()
+        if (tracks) {
+          tracks.forEach((track) => {
+            track.stop()
+            videostream.removeTrack(track)
+          })
+        }
+      } catch {}
     }
   }, [])
 

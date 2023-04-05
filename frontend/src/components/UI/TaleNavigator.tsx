@@ -5,7 +5,7 @@ import MyPage from "../../assets/images/TaleNav3MyPage.png"
 import NavLogout from "../../assets/images/LogoutIcon.png"
 // import TaleNavLogoContainer from "../../assets/images/TaleNavLogoContainer.png"
 import AnimationBox from "./AnimationBox"
-import { useNavigate } from "react-router-dom"
+import { useLocation, useNavigate } from "react-router-dom"
 import { useUserMutation } from "hooks/queries/queries"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import { tokenActions } from "store/tokenSlice"
@@ -61,15 +61,22 @@ const TaleNavigator = function () {
   const navigate = useNavigate()
   const dispatch = useStoreDispatch()
   const { mutateAsync: logoutMutate } = useUserMutation()
+  const { pathname } = useLocation() // `/playtale/word/collect`
+  console.log(pathname)
+
   const pushHome = function () {
-    navigate(`/playtale`)
+    navigate(`/`)
   }
   const pushMyPage = function () {
     navigate(`/mypage/progress`)
   }
 
   const pushWordCollect = function () {
-    navigate(`/playtale/word/collect`)
+    if (pathname === `/playtale/word/collect`) {
+      navigate(`/playtale`)
+    } else {
+      navigate(`/playtale/word/collect`)
+    }
   }
   const logoutHandler = function () {
     logoutMutate({
@@ -100,7 +107,9 @@ const TaleNavigator = function () {
   }
   const changeWordDesc = function () {
     setDescOpen(() => true)
-    setDescription(() => `단어장`)
+    setDescription(() =>
+      pathname === `/playtale/word/collect` ? `동화 목록` : `단어장`,
+    )
   }
   const changeMyPageDesc = function () {
     setDescOpen(() => true)
@@ -122,15 +131,15 @@ const TaleNavigator = function () {
         x={XY.x}
         y={XY.y}
       />
-    <div className="box-border fixed top-0 left-0 w-full h-[13.3%] flex flex-row justify-between py-3 px-5 z-50">
-      <AnimationBox appearClassName="animate-appear-top-nav">
-        <div
-          className={`flex justify-center items-center w-auto h-full bg-tale-nav-logo-container bg-contain bg-no-repeat py-2 cursor-pointer hover:scale-[103%] duration-[0.22s]`}
-          onClick={pushHome}
-        >
-          <img alt={`nav-logo`} src={TaleNavLogo} className="h-full" />
-        </div>
-      </AnimationBox>
+      <div className="box-border fixed top-0 left-0 w-full h-[13.3%] flex flex-row justify-between py-3 px-5 z-50">
+        <AnimationBox appearClassName="animate-appear-top-nav">
+          <div
+            className={`flex justify-center items-center w-auto h-full bg-tale-nav-logo-container bg-contain bg-no-repeat py-2 cursor-pointer hover:scale-[103%] duration-[0.22s]`}
+            onClick={pushHome}
+          >
+            <img alt={`nav-logo`} src={TaleNavLogo} className="h-full" />
+          </div>
+        </AnimationBox>
 
         <div className="flex flex-row items-center justify-center gap-2 mobile:gap-3 lg:gap-5 w-auto box-border">
           <AnimationBox

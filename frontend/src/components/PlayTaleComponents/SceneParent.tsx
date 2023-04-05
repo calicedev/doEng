@@ -84,16 +84,17 @@ const SceneParent = function ({ nowSceneOrder = 1 }: Props) {
   const { mutateAsync: sceneMutate } = useMutation({
     mutationFn: function (v: AxiosRequestConfig) {
       return apiRequest({
+        ...v,
         method: `post`,
         url: `/api/game/scene`,
         data: {
           taleId: `${taleId}`,
           sceneId: `${sceneDetail?.id}`,
         },
-        ...v,
       })
     },
     onSuccess: function () {
+      console.log("???? 왜 인밸리데이션 안돼!")
       queryClient.invalidateQueries(queryKeys.game())
     },
   })

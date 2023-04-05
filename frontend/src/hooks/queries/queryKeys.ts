@@ -33,9 +33,10 @@ export const queryKeys = {
   /* 최상단 */
   ////////////
   user: () => [`user`] as const,
-  sceneList: (taleId: number) => [...queryKeys.user(), taleId] as const,
+  scene: () => [`scene`] as const,
+  sceneList: (taleId: number) => [...queryKeys.scene(), taleId] as const,
   sceneDetail: (taleId: number, sceneOrder: number) => [
-    ...queryKeys.user(),
+    ...queryKeys.scene(),
     taleId,
     sceneOrder,
   ], // 최상단

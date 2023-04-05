@@ -19,8 +19,8 @@ const queryClient = new QueryClient({
       retry: 1,
       // useErrorBoundary: true,
       // enabled: true,
-      // cacheTime: 10 * 60 * 1000,
-      // staleTime: 0,
+      cacheTime: 10 * 60 * 1000,
+      staleTime: 10 * 60 * 1000,
     },
     mutations: {
       // useErrorBoundary: true,
