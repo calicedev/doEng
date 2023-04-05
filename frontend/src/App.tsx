@@ -66,24 +66,18 @@ function App() {
           <Route path={`google`} element={<GoogleLoginLoadingPage />} />
           <Route path={`google/info`} element={<GoogleAdditionalInput />} />
         </Route>
-        <Route path={`/mypage`} element={<MyPage />}>
-          <Route path={``} element={<MyPasswordPage />} />
-          <Route path={`progress`} element={<ProgressListPage />} />
-          <Route path={`progress/:taleId`} element={<ProgressDetailPage />} />
-          <Route path={`talestore`} element={<TaleStorePage />} />
-          <Route path={`talestore/:taleId`} element={<TaleDetailPage />} />
-          <Route path={`profile`} element={<ProfilePage />} />
-          <Route path={`profile/info`} element={<ProfileInfo />} />
-          <Route path={`profile/edit`} element={<ProfileEditPage />} />
-          <Route path={`profile/password`} element={<ProfilePwdEditPage />} />
-        </Route>
-        <Route
-          path={`/ai`}
-          element={
-            <InteractionComp taleId={1} sceneOrder={5} changeScene={() => {}} />
-          }
-        ></Route>
         <Route element={<ProtectedRoute />}>
+          <Route path={`/mypage`} element={<MyPage />}>
+            <Route path={``} element={<MyPasswordPage />} />
+            <Route path={`progress`} element={<ProgressListPage />} />
+            <Route path={`progress/:taleId`} element={<ProgressDetailPage />} />
+            <Route path={`talestore`} element={<TaleStorePage />} />
+            <Route path={`talestore/:taleId`} element={<TaleDetailPage />} />
+            <Route path={`profile`} element={<ProfilePage />} />
+            <Route path={`profile/info`} element={<ProfileInfo />} />
+            <Route path={`profile/edit`} element={<ProfileEditPage />} />
+            <Route path={`profile/password`} element={<ProfilePwdEditPage />} />
+          </Route>
           <Route path={`playtale`} element={<PlayTalePage />}>
             <Route path={``} element={<PlayTaleList />} />
             <Route path={`word/collect`} element={<WordCollectionPage />} />

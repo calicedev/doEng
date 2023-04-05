@@ -24,7 +24,7 @@ const TaleStoreItem = function ({ tale }: PropsWithChildren<Props>) {
         <img
           src={checkImg}
           alt={`purchased`}
-          className={`absolute z-10 top-0 left-0 w-10 h-auto drop-shadow`}
+          className={`absolute z-10 top-0 left-0 w-[25%] h-auto`}
         />
       )}
       <div

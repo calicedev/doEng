@@ -33,6 +33,7 @@ const VideoInteraction: React.FC<Props> = ({
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [videoResult, setVideoResult] = useState<string>("")
+  const [isCorrect, setIsCorrect] = useState<boolean>(false)
 
   // 마운트 시, video 태그에 카메라 stream 재생
   useEffect(() => {
@@ -41,14 +42,11 @@ const VideoInteraction: React.FC<Props> = ({
     navigator.mediaDevices // 카메라 stream 가져오기
       .getUserMedia({ video: true })
       .then((stream) => {
-        console.log(1)
-        console.log(videoRef)
         videostream = stream // 카메라 스트림 저장
         if (videoRef.current) {
           // video 태그에 카메라 스트림 연결 후 재생
           videoRef.current.srcObject = stream
           videoRef.current.play()
-          console.log(2)
           setIsPlaying(true)
           setLoadingOff() // 카메라 로딩 상태 완료
         }
@@ -71,7 +69,7 @@ const VideoInteraction: React.FC<Props> = ({
   // 카메라 캡쳐해서 보내기
   useEffect(() => {
     let intervalId: NodeJS.Timeout | null = null
-    if (isPlaying) {
+    if (isPlaying && !isCorrect) {
       intervalId = setInterval(() => {
         const video = videoRef.current
         if (video) {
@@ -93,7 +91,10 @@ const VideoInteraction: React.FC<Props> = ({
             },
           })
             .then((res) => {
-              console.log("Image uploaded successfully.", res)
+              if (res.data === true) {
+                setIsCorrect(true)
+                changeScene("next")
+              }
             })
             .catch((err) => {
               console.log("An error occurred: ", err)
@@ -107,7 +108,7 @@ const VideoInteraction: React.FC<Props> = ({
         clearInterval(intervalId)
       }
     }
-  }, [isPlaying])
+  }, [isPlaying, isCorrect])
 
   const hiddenClass = useMemo(() => {
     if (isVideoLoading) return "hidden"

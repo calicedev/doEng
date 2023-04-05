@@ -111,7 +111,7 @@ export interface Material extends ID {
   name: string
 }
 export interface Review extends ID {
-  userId: string
+  nickname: string
   score: number
   content: string
 }
@@ -309,6 +309,18 @@ export const useTestMutation = function () {
     },
     onSuccess: function () {
       queryClient.invalidateQueries(queryKeys.game())
+    },
+  })
+}
+
+export const useProgressDetailMutation = function (taleId: number) {
+  const queryClient = useQueryClient()
+  return useMutation({
+    mutationFn: function (request: AxiosRequestConfig) {
+      return apiRequest(request)
+    },
+    onSuccess: function () {
+      queryClient.invalidateQueries(queryKeys.progressDetail(taleId))
     },
   })
 }

@@ -119,7 +119,7 @@ const MyReview = function () {
   }
 
   const containerClass = `flex flex-col gap-2`
-  const innerClass = `flex justify-between gap-6 text-lg`
+  const innerClass = `flex justify-between gap-6 text-xl`
   const inputClass = `flex-1 rounded px-3`
   if (isLoading) {
     return <SpinnerDots />
