@@ -5,11 +5,13 @@ import com.ssafy.doeng.data.dto.word.request.RequestListPostGetWord;
 import com.ssafy.doeng.data.dto.word.request.RequestPostGetWord;
 import com.ssafy.doeng.data.dto.word.response.ResponseTestWordResultDto;
 import com.ssafy.doeng.data.dto.word.response.ResponseWordTestResultDto;
+import com.ssafy.doeng.data.entity.MemberHasWord;
 import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.data.entity.tale.Tale;
 import com.ssafy.doeng.data.entity.test.Test;
 import com.ssafy.doeng.data.entity.word.Word;
 import com.ssafy.doeng.data.repository.test.TestRepository;
+import com.ssafy.doeng.data.repository.word.MemberHasWordRepository;
 import com.ssafy.doeng.data.repository.word.WordRepository;
 import com.ssafy.doeng.service.Common;
 import com.ssafy.doeng.service.aws.AwsS3Service;
@@ -33,6 +35,7 @@ public class TestServiceImpl implements TestService {
     private final Common common;
     private final TestRepository testRepository;
     private final WordRepository wordRepository;
+    private final MemberHasWordRepository memberHasWordRepository;
     private final AwsS3Service awsS3Service;
     @Override
     @Transactional
@@ -59,13 +62,25 @@ public class TestServiceImpl implements TestService {
         Map<Long, Word> wordMap = makeValidWordMap(wordTestResultList);
 
         wordList.getWordList().forEach(
-                word -> testList.add(Test.builder()
-                        .tale(tale)
-                        .member(member)
-                        .word(wordMap.get(word.getWordId()))
-                        .testCount(currentTestCount)
-                        .isCorrect(word.isCorrect())
-                        .build())
+                word -> {
+                    if (word.isCorrect() && !memberHasWordRepository.existsByMemberAndWord(
+                                                                    member,
+                                                                    wordMap.get(word.getWordId()))) {
+                        memberHasWordRepository.save(MemberHasWord.builder()
+                                .tale(tale)
+                                .member(member)
+                                .word(wordMap.get(word.getWordId()))
+                                .build());
+                    }
+
+                    testList.add(Test.builder()
+                            .tale(tale)
+                            .member(member)
+                            .word(wordMap.get(word.getWordId()))
+                            .testCount(currentTestCount)
+                            .isCorrect(word.isCorrect())
+                            .build());
+                }
         );
 
         testRepository.saveAll(testList);
@@ -78,7 +93,9 @@ public class TestServiceImpl implements TestService {
                 wordTestResultList.stream().map(
                         RequestPostGetWord::getWordId).collect(Collectors.toList()));
         Map<Long, Word> wordMap = new HashMap<>();
+
         getWordValid.forEach(word -> wordMap.put(word.getId(), word));
+
         return wordMap;
     }
 
