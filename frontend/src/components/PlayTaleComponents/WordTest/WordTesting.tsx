@@ -44,8 +44,8 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
       .then((res) => {
         const wordResult: WordResult = res.data
         dispatch(testResultActions.saveTestResult({ wordResult }))
-        dispatch(wordTestActions.resetWordTest({}))
         navigate("result")
+        // dispatch(wordTestActions.resetWordTest({}))
       })
       .catch((err) => {
         console.log(err)
