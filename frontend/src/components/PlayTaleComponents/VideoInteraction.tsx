@@ -17,7 +17,8 @@ interface Props {
   setLoadingOn: () => void // 비디오 로딩상태를 on으로 바꾸는 함수
   setLoadingOff: () => void // 비디오 로딩상태를 off로 바꾸는 함수
   changeToCanvas: () => void // 캔버스 interaction으로 바꾸는 함수
-  changeScene: (type: `next` | `before`) => void // 다음씬으로 넘기는 함수
+  isCorrect: boolean // 정답 여부
+  setIsCorrect: (type: boolean) => void // 정답 여부를 바꾸는 함수
 }
 
 const VideoInteraction: React.FC<Props> = ({
@@ -28,12 +29,12 @@ const VideoInteraction: React.FC<Props> = ({
   setLoadingOn,
   setLoadingOff,
   changeToCanvas,
-  changeScene,
+  isCorrect,
+  setIsCorrect,
 }) => {
   const videoRef = useRef<HTMLVideoElement>(null)
   const [isPlaying, setIsPlaying] = useState<boolean>(false)
   const [videoResult, setVideoResult] = useState<string>("")
-  const [isCorrect, setIsCorrect] = useState<boolean>(false)
 
   // 마운트 시, video 태그에 카메라 stream 재생
   useEffect(() => {
@@ -93,7 +94,6 @@ const VideoInteraction: React.FC<Props> = ({
             .then((res) => {
               if (res.data === true) {
                 setIsCorrect(true)
-                changeScene("next")
               }
             })
             .catch((err) => {

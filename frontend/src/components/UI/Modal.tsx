@@ -4,11 +4,13 @@ import { ImCross } from "react-icons/im"
 
 interface Props {
   closeModal: () => void
+  backgroundOpacity?: string
   parentClasses?: string
 }
 
 function Modal({
   closeModal,
+  backgroundOpacity = "70",
   parentClasses,
   children,
 }: PropsWithChildren<Props>) {
@@ -18,7 +20,7 @@ function Modal({
         <>
           <div
             onClick={closeModal}
-            className={`flex justify-center items-center absolute z-50 top-0 right-0 bg-black bg-opacity-80 w-full h-full`}
+            className={`flex justify-center items-center absolute z-50 top-0 right-0 bg-black bg-opacity-${backgroundOpacity} w-full h-full`}
           >
             <div
               className={`${parentClasses}`}
