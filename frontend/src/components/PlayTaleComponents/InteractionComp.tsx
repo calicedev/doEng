@@ -67,7 +67,7 @@ const InteractionComp: React.FC<Props> = ({
       }
     }
     if (seconds <= 0) {
-      changeScene(`next`)
+      changeScene("next")
     }
   }, [seconds, isVideoLoading])
 
