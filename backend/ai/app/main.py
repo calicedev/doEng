@@ -141,7 +141,7 @@ async def analyze_object(imageDto: ObjectImage):
 
     # 이미지 천저리
     image = tf.image.convert_image_dtype(image, tf.float32)
-    image = tf.image.resize(image, [299, 299])
+    image = tf.image.resize(image, [128, 128])
 
     image = tf.expand_dims(image, 0)
 
