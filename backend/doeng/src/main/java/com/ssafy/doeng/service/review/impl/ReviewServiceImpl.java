@@ -86,14 +86,14 @@ public class ReviewServiceImpl implements ReviewService {
             if(r.getMember().getId() == memberId) {
                 myReview = ResponseReviewDto.builder()
                         .id(r.getId())
-                        .userId(r.getMember().getMemberId())
+                        .nickname(r.getMember().getNickname())
                         .score(r.getScore())
                         .content(r.getContent())
                         .build();
             } else {
                 ResponseReviewDto reviewDto = ResponseReviewDto.builder()
                         .id(r.getId())
-                        .userId(r.getMember().getMemberId())
+                        .nickname(r.getMember().getNickname())
                         .score(r.getScore())
                         .content(r.getContent())
                         .build();

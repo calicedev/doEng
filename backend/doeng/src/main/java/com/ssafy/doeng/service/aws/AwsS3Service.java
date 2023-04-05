@@ -149,6 +149,14 @@ public class AwsS3Service {
 
         return preSignedURL;
     }
+
+    public void delete(String filePath){
+        boolean isExistObject = amazonS3Client.doesObjectExist(bucket, filePath);
+        if (isExistObject == true) {
+            amazonS3Client.deleteObject(bucket, filePath);
+        }
+    }
+
     private static String getUuid() {
         return UUID.randomUUID().toString().replaceAll("-", "");
     }
