@@ -8,6 +8,7 @@ import wordKorean from "assets/images/wordKorean.png"
 import wordListen from "assets/images/wordListen.png"
 import wordTestBar from "assets/images/wordTestBar.png"
 import WordTestClose from "assets/images/DetailClose.png"
+import CommonLoading from "components/UI/CommonLoading"
 
 interface Props {
   wordInfo: TestWord
@@ -77,6 +78,10 @@ function WordTestItem({ wordInfo, handleResponse }: PropsWithChildren<Props>) {
 
   const handleTestClose = function () {
     navigate("/playtale")
+  }
+
+  if (!wordInfo) {
+    return <CommonLoading />
   }
 
   return (
