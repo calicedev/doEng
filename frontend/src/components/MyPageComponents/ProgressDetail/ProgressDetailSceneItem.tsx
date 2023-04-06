@@ -5,6 +5,8 @@ import IconButton from "components/UI/IconButton"
 import { ProgressScene } from "hooks/queries/queries"
 import defaultImg from "assets/images/default_img.png"
 import Modal from "components/UI/Modal"
+import { useStoreDispatch } from "hooks/useStoreSelector"
+import { DispatchToast } from "store"
 
 interface Props {
   scene: ProgressScene
@@ -13,9 +15,13 @@ interface Props {
 function ProgressDetailSceneItem({ scene }: PropsWithChildren<Props>) {
   // 모달창 표시 여부
   const [isModal, setIsModal] = useState(false)
+  const dispatch = useStoreDispatch()
 
   const handleClick = () => {
-    if (!scene.imageList) return
+    if (scene.imageList.length === 0) {
+      dispatch(DispatchToast("사진이 없습니다! 동화를 즐겨주세요!", true))
+      return
+    }
     setIsModal(true)
   }
 

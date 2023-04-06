@@ -9,6 +9,7 @@ import LoadingPage from "./LoadingPage"
 import { googleActions } from "store/googleSlice"
 import { passwordActions } from "store/passwordSlice"
 import apiRequest from "utils/axios"
+import { DispatchLogout } from "store"
 
 const GoogleLoginLoadingPage = function () {
   const navigate = useNavigate()
@@ -29,9 +30,8 @@ const GoogleLoginLoadingPage = function () {
           },
         })
           .then((res) => {
-            console.log(res)
             if (res.data.type === "login") {
-              dispatch(googleActions.resetGoogleSlice({}))
+              dispatch(DispatchLogout())
               dispatch(passwordActions.setGoogle({}))
               if (res.headers[`accesstoken`]) {
                 dispatch(

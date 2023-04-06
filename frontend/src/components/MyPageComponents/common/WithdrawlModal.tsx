@@ -3,13 +3,17 @@ import { useNavigate, useLocation } from "react-router-dom"
 import React, { useState, useMemo, PropsWithChildren } from "react"
 import useApi from "hooks/useApi"
 import { useUserMutation } from "hooks/queries/queries"
+import { useStoreDispatch } from "hooks/useStoreSelector"
+import { DispatchLogout } from "store"
 
 interface Props {
   closeModal: () => void
 }
 
 const WithdrawlModal = function ({ closeModal }: PropsWithChildren<Props>) {
-  const { mutate: WithdrawMutate } = useUserMutation()
+  const { mutateAsync: WithdrawMutate } = useUserMutation()
+  const dispatch = useStoreDispatch()
+  const navigate = useNavigate()
 
   // 탈퇴하기
 
@@ -18,6 +22,12 @@ const WithdrawlModal = function ({ closeModal }: PropsWithChildren<Props>) {
       method: `delete`,
       url: `/api/member`,
     })
+      .then((res) => {
+        dispatch(DispatchLogout())
+      })
+      .then(() => {
+        navigate(`/`)
+      })
   }
 
   return (

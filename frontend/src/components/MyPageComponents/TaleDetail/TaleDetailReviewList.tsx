@@ -23,7 +23,7 @@ const ReviewList = function () {
   if (!reviews) {
     return (
       <div
-        className={`overflow-y-auto flex flex-col p-3 rounded-lg bg-white bg-opacity-80 drop-shadow-xl font-hopang-black text-[2rem] items-center justify-center`}
+        className={`overflow-scroll flex flex-col p-3 rounded-lg bg-white bg-opacity-80 drop-shadow-xl font-hopang-black text-[2rem] items-center justify-center`}
       >
         알 수 없는 에러가 발생했습니다. 새로고침 해주세요.
       </div>

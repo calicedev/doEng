@@ -147,7 +147,11 @@ function HomePage() {
         appearClassName="animate-[appear-from-left-with-bounce_0.33s_0.22s_both]"
         disappearClassName="animate-[disappear-from-left-with-bounce_0.33s_0.22s_both]"
       >
-        <img alt="좌나무" src={LeftWood} className="w-full translate-y-[5%]" />
+        <img
+          alt="좌나무"
+          src={LeftWood}
+          className="w-full h-[88vh] translate-y-[11%]"
+        />
       </AnimationBox>
       <AnimationBox
         isOpened={isTree}
@@ -176,7 +180,7 @@ function HomePage() {
         <img
           alt="우나무"
           src={RightWood}
-          className="w-full translate-y-[10%]"
+          className="w-full h-[88vh] translate-y-[12%]"
         />
       </AnimationBox>
       <AnimationBox
