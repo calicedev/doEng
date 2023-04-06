@@ -47,7 +47,7 @@ const GoogleLoginLoadingPage = function () {
                   }),
                 )
               }
-              navigate(`/`)
+              navigate(`/playtale`)
             } else if (res.data.type === "signup") {
               dispatch(
                 googleActions.setGoogleSlice({
