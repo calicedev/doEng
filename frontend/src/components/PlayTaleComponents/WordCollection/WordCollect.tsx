@@ -8,8 +8,8 @@ import TaleNavigator from "components/UI/TaleNavigator"
 import WordCollectBack from "assets/images/WordCollectBack.png"
 import { useState, useMemo } from "react"
 import SuperHeroLanding from "../SuperHeroLanding"
-import wordbook from "assets/images/wordbook.png"
 import Background from "assets/images/Background.png"
+import wordbook from "assets/images/wordbook.png"
 
 const ITEMS_PER_PAGE = 8
 
@@ -20,29 +20,31 @@ function WordCollect() {
   const {
     isLoading: wordListLoading,
     error: wordListError,
-    data: wordList,
+    data: wordCollectList,
+    isSuccess,
   } = useWordList()
 
-  console.log("wordList", wordList)
+  console.log("wordcollectList", wordCollectList)
 
   const currentItems = useMemo(() => {
-    if (!Array.isArray(wordList)) {
+    if (!Array.isArray(wordCollectList) || wordCollectList.length === 0) {
       return []
     }
     const indexOfLastItem = currentPage * ITEMS_PER_PAGE
     const indexOfFirstItem = indexOfLastItem - ITEMS_PER_PAGE
-    const currentItems = wordList.slice(indexOfFirstItem, indexOfLastItem)
+    const currentItems = wordCollectList.slice(
+      indexOfFirstItem,
+      indexOfLastItem,
+    )
     return currentItems
-  }, [wordList, currentPage])
-
-  console.log("currentItems", currentItems)
+  }, [wordCollectList, currentPage, isSuccess])
 
   const totalPages = useMemo(() => {
-    if (!wordList) {
+    if (!wordCollectList) {
       return 0
     }
-    return Math.ceil(wordList.length / ITEMS_PER_PAGE)
-  }, [wordList])
+    return Math.ceil(wordCollectList.length / ITEMS_PER_PAGE)
+  }, [wordCollectList])
 
   const handlePageChange = (pageNumber: number) => {
     setCurrentPage(pageNumber)
@@ -57,7 +59,6 @@ function WordCollect() {
         navigate(`/playtale`))
       ) : (
         <>
-          {/* <div className=" bg-yellow-900 -z-[80]"> */}
           <TaleNavigator />
           <img
             alt="배경"
@@ -71,7 +72,7 @@ function WordCollect() {
             className="canvas-under-bg-container bg-vegis absolute -z-[55] h-full w-full"
           />
 
-          {wordList?.length === 0 ? (
+          {wordCollectList?.length === 0 ? (
             <div>수집한 단어 카드가 없습니다.</div>
           ) : (
             <div className="w-full h-full grid grid-rows-2 grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 pl-[5%] pt-[10%] pr-[4%] pb-[10%] mr-[7%] ml-[7%] mb-[3%]">
@@ -81,7 +82,7 @@ function WordCollect() {
             </div>
           )}
 
-          <div className="fixed bottom-[7%] justify-center mt-4 ">
+          <div className="fixed bottom-[8%] justify-center mt-4 ">
             {Array.from({ length: totalPages }, (_, i) => (
               <button
                 key={i}

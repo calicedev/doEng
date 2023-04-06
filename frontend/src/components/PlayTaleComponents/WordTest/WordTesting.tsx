@@ -30,10 +30,12 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
   const { taleId } = useParams() as { taleId: string }
   const navigate = useNavigate()
   const { mutateAsync: WordTestMutate } = useTestMutation()
+  // const wordList: wordTestStore[] = useStoreSelector(
+  //   (state) => state.wordTest.wordTestList,
+  // )
   const wordList: wordTestStore[] = useStoreSelector(
-    (state) => state.wordTest.wordTestList,
+    (state) => state.wordTest.wordTestList || [],
   )
-  // const [currentWordIndex, setCurrentWordIndex] = useState<number>(0)
   const dispatch = useStoreDispatch()
 
   const wordMutate = () => {
@@ -46,7 +48,6 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
         const wordResult: WordResult = res.data
         dispatch(testResultActions.saveTestResult({ wordResult }))
         navigate("result")
-        // dispatch(wordTestActions.resetWordTest({}))
       })
       .catch((err) => {
         console.log(err)
@@ -55,36 +56,20 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
 
   const handleResponse = async (response: boolean) => {
     const wordTest: wordTestStore = {
-      wordId: wordInfo.testList[wordList.length].id,
+      // wordId: wordInfo.testList[wordList.length].id,
+      // taleId: parseInt(taleId),
+      // correct: response,
+      wordId: wordInfo.testList[wordList?.length || 0].id,
       taleId: parseInt(taleId),
       correct: response,
     }
 
-    if (wordList.length < 5) {
+    if (!wordList || wordList.length < 5) {
       dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
       console.log(wordTest, "wordtest")
-      // setCurrentWordIndex(currentWordIndex + 1)
     } else {
       dispatch(wordTestActions.appendWordTest({ wordTest: wordTest }))
       console.log(wordList, "wordList2222")
-
-      // WordTestMutate({
-      //   method: `post`,
-      //   url: `/api/word-test`,
-      //   data: { wordList },
-      // })
-      //   .then((res) => {
-      //     console.log(wordList, "😎😋😊")
-      //     console.log(res.data, "😎😋😊")
-      //     const wordResult: WordResult = res.data
-      //     dispatch(testResultActions.saveTestResult({ wordResult }))
-      //     console.log("성공성공이당")
-      //   })
-      //   .catch((err) => {
-      //     console.log(err)
-      //   })
-      // dispatch(wordTestActions.resetWordTest({ wordTest: wordTest }))
-      // navigate("result")
     }
   }
 
@@ -97,10 +82,15 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
     }
   }, [wordList])
 
-  // const currentWordInfo = wordInfo.testList[wordList.length]
   const currentWordInfo = useMemo(() => {
-    if (wordList.length === 0) {
+    if (!wordList || wordList.length === 0) {
       return wordInfo.testList[0]
+      // engWord: "",
+      // id: 0,
+      // image: "",
+      // korVoice: "",
+      // korWord: "",
+      // wrongImage: "",
     }
     return wordInfo.testList[wordList.length]
   }, [wordList])

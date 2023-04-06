@@ -20,8 +20,11 @@ function WordTestResultItem({ word }: PropsWithChildren<Props>) {
           src={word.image}
           className="absolute -top-[5%] -left-[-5%] w-[90%] h-[90%] object-contain"
         />
-        <p className="absolute top-[65%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-white font-bold text-2xl">
+        <p className="absolute bottom-[27%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-orange-800 font-bold text-2xl">
           {word.engWord}
+        </p>
+        <p className="absolute bottom-[14%] left-[50%] transform -translate-x-1/2 -translate-y-1/2 text-orange-800 font-bold text-2xl">
+          {word.korWord}
         </p>
       </div>
     </>
