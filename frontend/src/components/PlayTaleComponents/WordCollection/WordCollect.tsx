@@ -67,13 +67,15 @@ function WordCollect() {
           <img
             alt="배경"
             src={wordbook}
-            className="canvas-under-bg-container bg-vegis absolute -z-[55] h-full w-full"
+            className="canvas-under-bg-container bg-vegis absolute -z-[55] h-[90%] w-[90%] bottom-[1%]"
           />
 
           {wordCollectList?.length === 0 ? (
-            <div>수집한 단어 카드가 없습니다.</div>
+            <div className="fixed left-[28%] top-[23%] transform -translate-x-1/2 -translate-y-1/2 text-orange-800 font-bold text-4xl">
+              수집한 단어 카드가 없습니다.
+            </div>
           ) : (
-            <div className="w-full h-full grid grid-rows-2 grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 pl-[5%] pt-[10%] pr-[4%] pb-[10%] mr-[7%] ml-[7%] mb-[3%]">
+            <div className="w-full h-full grid grid-rows-2 grid-cols-2 sm:grid-cols-4 md:grid-cols-4 lg:grid-cols-4 pl-[8%] pt-[12%] pr-[7%] pb-[10%] mr-[8%] ml-[9%] mb-[3%]">
               {currentItems.map((word) => (
                 <WordCard key={`word-card-${word.id}`} word={word} />
               ))}
