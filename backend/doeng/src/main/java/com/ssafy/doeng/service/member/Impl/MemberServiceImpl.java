@@ -178,10 +178,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void MemberWithdrawal() {
+    public void MemberWithdrawal(Long id) {
         LOGGER.info("[MemberWithdrawal] 회원 탈퇴 서비스 들어옴");
-        Optional<Member> member = memberRepository.findByMemberId(SecurityUtil.getCurrentId());
+        Optional<Member> member = memberRepository.findById(id);
+        memberRepository.deleteMemberHasWordByMemberId(id);
+        memberRepository.deletePaymentByMemberId(id);
+        memberRepository.deleteProgressByMemberId(id);
+        memberRepository.deleteReviewByMemberId(id);
+        memberRepository.deleteTestByMemberId(id);
         member.ifPresent(memberRepository::delete);
+        if (redisTemplate.opsForValue().get("token_"+id) != null) {
+            // Refresh Token 삭제
+            redisTemplate.delete("token_"+id);
+        }
         LOGGER.info("[MemberWithdrawal] 회원 탈퇴 서비스 나감");
     }
 
