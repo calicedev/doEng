@@ -1,6 +1,7 @@
 import GoHome from "../../assets/images/GoHome.png"
 import Tutorial from "../../assets/images/TaleNav1Tutorial.png"
 import Pause from "../../assets/images/Pause.png"
+import Play from "assets/images/PlayNavIcon.png"
 import Cards from "../../assets/images/TaleNav2Cards.png"
 import MyPage from "../../assets/images/TaleNav3MyPage.png"
 // import TaleNavLogoContainer from "../../assets/images/TaleNavLogoContainer.png"
@@ -11,15 +12,17 @@ import { PropsWithChildren } from "react"
 interface Props {
   toggleKor: () => void
   togglePause: () => void
+  isPause: boolean
 }
 
 const GameNavigator = function ({
   toggleKor,
   togglePause,
+  isPause,
 }: PropsWithChildren<Props>) {
   const navigate = useNavigate()
   const pushHome = function () {
-    navigate(`/`)
+    navigate(`/playtale`)
   }
   const pauseHandler = function () {
     togglePause()
@@ -58,7 +61,7 @@ const GameNavigator = function ({
           <img
             className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
             alt="my-page"
-            src={Pause}
+            src={isPause ? Play : Pause}
             onClick={pauseHandler}
           />
         </AnimationBox>

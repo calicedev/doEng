@@ -15,6 +15,7 @@ import { PropsWithChildren, useState, useEffect } from "react"
 import ReactDOM from "react-dom"
 import { useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "hooks/queries/queryKeys"
+import GoHome from "../../assets/images/GoHome.png"
 
 interface hoverProps {
   isOpen: boolean
@@ -62,7 +63,6 @@ const TaleNavigator = function () {
   const dispatch = useStoreDispatch()
   const { mutateAsync: logoutMutate } = useUserMutation()
   const { pathname } = useLocation() // `/playtale/word/collect`
-  console.log(pathname)
 
   const pushHome = function () {
     navigate(`/`)
@@ -72,7 +72,10 @@ const TaleNavigator = function () {
   }
 
   const pushWordCollect = function () {
-    if (pathname === `/playtale/word/collect`) {
+    if (
+      pathname === `/playtale/word/collect` ||
+      pathname.slice(0, 10) === `/playtale/`
+    ) {
       navigate(`/playtale`)
     } else {
       navigate(`/playtale/word/collect`)
@@ -108,7 +111,10 @@ const TaleNavigator = function () {
   const changeWordDesc = function () {
     setDescOpen(() => true)
     setDescription(() =>
-      pathname === `/playtale/word/collect` ? `동화 목록` : `단어장`,
+      pathname === `/playtale/word/collect` ||
+      pathname.slice(0, 10) === `/playtale/`
+        ? `내 동화`
+        : `단어장`,
     )
   }
   const changeMyPageDesc = function () {
@@ -159,7 +165,12 @@ const TaleNavigator = function () {
             <img
               className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
               alt="cards"
-              src={Cards}
+              src={
+                pathname === `/playtale/word/collect` ||
+                pathname.slice(0, 10) === `/playtale/`
+                  ? GoHome
+                  : Cards
+              }
               onClick={pushWordCollect}
               onMouseEnter={changeWordDesc}
               onMouseLeave={desClose}

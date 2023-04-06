@@ -16,6 +16,7 @@ import ReactDOM from "react-dom"
 import LoadingPage from "pages/LoadingPage"
 import { useQueryClient } from "@tanstack/react-query"
 import { queryKeys } from "hooks/queries/queryKeys"
+import GoHome from "assets/images/GoHome.png"
 
 interface hoverProps {
   isOpen: boolean
@@ -180,7 +181,7 @@ const HomeNavigator = function ({
             <img
               className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
               alt="cards"
-              src={Cards}
+              src={GoHome}
               onClick={pushPlayTale}
               onMouseEnter={changeWordDesc}
               onMouseLeave={desClose}

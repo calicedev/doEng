@@ -49,7 +49,7 @@ export default function MyPageNavigation() {
           color={`ivory`}
           label="메인으로"
           size="large"
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/playtale")}
         />
         <IconButton
           icon={<HiUserCircle />}

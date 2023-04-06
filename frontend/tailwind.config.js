@@ -371,6 +371,36 @@ module.exports = {
           "75%": { transform: "translate(0, 20%)" },
           "100%": { transform: "translate(0, 0)" },
         },
+        "disappear-from-bottom-with-bounce": {
+          "100%": { transform: "translate(0, 120%)" },
+          "50%": { transform: "translate(0, -10%)" },
+          "25%": { transform: "translate(0, 8%)" },
+          "0%": { transform: "translate(0, 0)" },
+        },
+        "disappear-from-top-with-bounce": {
+          "100%": { transform: "translate(0, -120%)" },
+          "50%": { transform: "translate(0, 10%)" },
+          "25%": { transform: "translate(0, -8%)" },
+          "0%": { transform: "translate(0, 0)" },
+        },
+        "disappear-from-left-with-bounce": {
+          "100%": { transform: "translate(-120%, 0)" },
+          "50%": { transform: "translate(10%, 0)" },
+          "25%": { transform: "translate(-8%, 0)" },
+          "0%": { transform: "translate(0, 0)" },
+        },
+        "disappear-from-right-with-bounce": {
+          "100%": { transform: "translate(120%, 0)" },
+          "50%": { transform: "translate(-10%, 0)" },
+          "25%": { transform: "translate(8%, 0)" },
+          "0%": { transform: "translate(0, 0)" },
+        },
+        "disappear-from-bottom-with-bounce-second": {
+          "100%": { transform: "translate(0, 1000%)" },
+          "50%": { transform: "translate(0, -20%)" },
+          "25%": { transform: "translate(0, 20%)" },
+          "0%": { transform: "translate(0, 0)" },
+        },
         ppyong: {
           "0%": { transform: "scale(0%)" },
           "95%": { transform: "scale(107%)" },
