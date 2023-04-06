@@ -1,4 +1,4 @@
-import React, { PropsWithChildren, useEffect, useState } from "react"
+import React, { PropsWithChildren, useEffect, useMemo, useState } from "react"
 import { Outlet, useParams, useNavigate } from "react-router-dom"
 import {
   WordTest,
@@ -14,6 +14,7 @@ import TaleNavigator from "components/UI/TaleNavigator"
 import SuperHeroLanding from "components/PlayTaleComponents/SuperHeroLanding"
 import WordTestBack from "assets/images/wordTestBack.png"
 import WordTestTitle from "assets/images/wordTestTitle.png"
+import Background from "assets/images/Background.png"
 
 interface Props {
   wordInfo: WordTest
@@ -96,11 +97,22 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
     }
   }, [wordList])
 
-  const currentWordInfo = wordInfo.testList[wordList.length]
+  // const currentWordInfo = wordInfo.testList[wordList.length]
+  const currentWordInfo = useMemo(() => {
+    if (wordList.length === 0) {
+      return wordInfo.testList[0]
+    }
+    return wordInfo.testList[wordList.length]
+  }, [wordList])
 
   return (
     <>
       <TaleNavigator />
+      <img
+        alt="배경"
+        src={Background}
+        className="canvas-under-bg-container bg-vegis absolute -z-[60] h-full w-full"
+      />
       <SuperHeroLanding>
         <img
           alt="단어테스트 배경"

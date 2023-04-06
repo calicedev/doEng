@@ -55,16 +55,16 @@ function HomePage() {
       >
         <Wave canvasWidth={canvasWidth} canvasHeight={canvasHeight} />
       </div> */}
-      <img src={NavBack} className="fixed -top-[15%]" />
+      <img src={NavBack} className="fixed w-full h-[24%] -top-[0%]" />
       <HomeNavigator />
       <div
         className={`h-full w-full flex flex-col items-center justify-center gap-4`}
       >
-        <img src={One} className="w-[50%] mt-[220%]" />
+        <img src={One} className="w-[50%] mt-[310%]" />
         <img src={Two} className="w-[50%]" />
         <img src={Three} className="w-[50%]" />
         <img src={Four} className="w-[50%]" />
-        <img src={Five} className="w-[50%]" />
+        <img src={Five} className="w-[40%]" />
 
         {/* <HomeNavigator /> */}
 
