@@ -70,9 +70,9 @@ public class MemberController {
     }
 
     @DeleteMapping
-    public ResponseEntity memberWithdrawal(){
+    public ResponseEntity memberWithdrawal(@LoginId Long id){
         LOGGER.info("[MemberWithdrawal] 회원 탈퇴 요청 controller 들어옴");
-        memberService.MemberWithdrawal();
+        memberService.MemberWithdrawal(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 

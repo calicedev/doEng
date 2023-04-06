@@ -21,7 +21,7 @@ public interface MemberService {
     void logout(Long id);
     Member getMemberInfo(Long id);
     void modifyMemberInfo(RequestModifyMemberDto requestDto);
-    void MemberWithdrawal();
+    void MemberWithdrawal(Long id);
 
     boolean checkMemberId(String memberId);
 
