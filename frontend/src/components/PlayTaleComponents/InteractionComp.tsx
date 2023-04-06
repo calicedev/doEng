@@ -11,6 +11,8 @@ import { useWidthHeight } from "hooks/useWidthHwight"
 import AnimationBox from "components/UI/AnimationBox"
 import Modal from "components/UI/Modal"
 import WordModal from "./WordModal"
+import CorrectAudio from "../../assets/audios/correct_sound.m4a"
+import FailAudio from "../../assets/audios/fail_sound.m4a"
 
 // import TitlePan from "../../assets/images/TitlePan.png"
 
@@ -37,16 +39,13 @@ const InteractionComp: React.FC<Props> = ({
   const [isCorrect, setIsCorrect] = useState<boolean>(false) // 단어 맞춤 여부
   const [isModal, setIsModal] = useState<boolean>(false) // 모달창 여부
   const divRef = useRef<HTMLDivElement>(null)
-
-  const [correctAudio] = useState(
-    new Audio("../../../assets/audios/correct_sound.mp3"),
-  )
-  const [failAudio] = useState(
-    new Audio("../../../assets/audios/fail_sound.mp3"),
-  )
-
+  const audioRef = useRef<HTMLAudioElement>(null)
+  const [correctAudio] = useState(new Audio(CorrectAudio))
+  const [failAudio] = useState(new Audio(FailAudio))
   const { height } = useWidthHeight(divRef)
 
+  correctAudio.volume = 0.1
+  failAudio.volume = 0.1
   // loadingCam의 상태를 토글하는 함수
   const [setLoadingOn, setLoadingOff] = [
     function () {
@@ -77,6 +76,7 @@ const InteractionComp: React.FC<Props> = ({
         return () => clearInterval(intervalId)
       }
     }
+
     if (seconds <= 0) {
       failAudio.play() // 효과음 재생
       setIsModal(true) // 단어 맞춤 카드 띄우기
