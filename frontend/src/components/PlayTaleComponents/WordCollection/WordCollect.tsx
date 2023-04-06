@@ -23,10 +23,8 @@ function WordCollect() {
     data: wordList,
   } = useWordList()
 
-  console.log("wordList", wordList)
-
   const currentItems = useMemo(() => {
-    if (!Array.isArray(wordList)) {
+    if (!wordList) {
       return []
     }
     const indexOfLastItem = currentPage * ITEMS_PER_PAGE
@@ -34,8 +32,6 @@ function WordCollect() {
     const currentItems = wordList.slice(indexOfFirstItem, indexOfLastItem)
     return currentItems
   }, [wordList, currentPage])
-
-  console.log("currentItems", currentItems)
 
   const totalPages = useMemo(() => {
     if (!wordList) {

@@ -131,7 +131,7 @@ function WordTesting({ wordInfo }: PropsWithChildren<Props>) {
 
       {wordList.length < 5 ? (
         <WordTestItem
-          key="item-${WordInfo.title}"
+          key={`item-${wordInfo?.title}`}
           wordInfo={currentWordInfo}
           handleResponse={handleResponse}
         />

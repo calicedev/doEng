@@ -227,7 +227,7 @@ export const usePlayTaleDetail = function (taleId: number) {
 
 export const useWordList = function () {
   return useQuery<PlayWord[]>({
-    queryKey: queryKeys.wordList(),
+    queryKey: queryKeys.word(),
     queryFn: async function () {
       return apiRequest({
         method: `get`,

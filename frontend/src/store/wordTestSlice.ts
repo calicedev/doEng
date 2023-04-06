@@ -21,8 +21,9 @@ const wordTestSlice = createSlice({
     appendWordTest(state, action) {
       if (state.wordTestList === undefined) {
         state.wordTestList = [action.payload.wordTest]
+      } else {
+        state.wordTestList = [...state.wordTestList, action.payload.wordTest]
       }
-      state.wordTestList = [...state.wordTestList, action.payload.wordTest]
       console.log(state.wordTestList, ">>>>>>>>")
     },
     resetWordTest(state, action) {

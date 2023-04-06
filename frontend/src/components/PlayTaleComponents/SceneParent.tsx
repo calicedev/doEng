@@ -123,7 +123,7 @@ const SceneParent = function ({ nowSceneOrder = 1 }: Props) {
 
   useEffect(
     function () {
-      if (sceneOrder === maxlength!) {
+      if (sceneOrder - 1 === maxlength!) {
         navigate(`/playtale/${taleId}/test`)
       }
     },
