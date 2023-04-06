@@ -1,0 +1,9 @@
+version: "3.6"
+
+services:
+  react:
+    build: .
+    image: doeng-react-image-blue
+    container_name: doeng-react-blue
+    ports:
+      - "3000:3000"

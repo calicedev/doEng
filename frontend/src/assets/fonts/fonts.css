@@ -1,0 +1,28 @@
+@font-face {
+  font-family: "nemo";
+  src: url("./hongchaNemo.ttf") format("truetype");
+}
+@font-face {
+  font-family: "lefthand";
+  src: url("./hongchaLefthand.ttf") format("truetype");
+}
+@font-face {
+  font-family: "dolbomB";
+  src: url("./dolbomBold.ttf") format("truetype");
+}
+@font-face {
+  font-family: "dolbomR";
+  src: url("./dolbomReg.ttf") format("truetype");
+}
+@font-face {
+  font-family: "jalnan";
+  src: url("./jalnan.ttf") format("truetype");
+}
+@font-face {
+  font-family: "hopangB";
+  src: url("./hopangBlack.ttf") format("truetype");
+}
+@font-face {
+  font-family: "hopangW";
+  src: url("./hopangWhite.ttf") format("truetype");
+}
