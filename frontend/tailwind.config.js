@@ -97,6 +97,7 @@ module.exports = {
         "salangsalang-right": "salang-salang-right 5s both infinite",
         "salangsalang-right-leaf": "salang-salang-right 7s both infinite",
         "appear-top-nav": "appear-top-nav 0.66s 0.11s both",
+        "disappear-top-nav": "disappear-top-nav 0.66s 0.11s both",
         "appear-from-left-super-slow":
           "appear-from-left 2.22s ease-in-out both",
         "disappear-to-left-super-slow":
@@ -323,6 +324,12 @@ module.exports = {
           "50%": { transform: "translate(0, 10%)" },
           "75%": { transform: "translate(0, -8%)" },
           "100%": { transform: "translate(0, 0)" },
+        },
+        "disappear-top-nav": {
+          "100%": { transform: "translate(0, -150%)" },
+          "50%": { transform: "translate(0, 10%)" },
+          "25%": { transform: "translate(0, -8%)" },
+          "0%": { transform: "translate(0, 0)" },
         },
         "salang-salang-left": {
           "0%": { transform: "skew(-20deg, 20deg) translate(0,0)" },

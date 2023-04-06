@@ -64,11 +64,20 @@ export const AxiosExample = function (requestData: object) {
   }
 }
 
-export const DispatchToast = function (message: string, isSuccess: boolean) {
+export const DispatchToast = function (
+  message: string,
+  isSuccess: boolean,
+  nextURL?: string,
+) {
   return async function (dispatch: AppDispatch) {
     dispatch(toastActions.toastOff({}))
     dispatch(toastActions.setToastMessage({ message: message }))
     dispatch(toastActions.setIsSuccess({ isSuccess: isSuccess }))
+    if (nextURL) {
+      dispatch(toastActions.setURL({ url: nextURL }))
+    } else {
+      dispatch(toastActions.setURL({ url: null }))
+    }
     dispatch(toastActions.setToast({}))
     setTimeout(function () {
       dispatch(toastActions.toastOff({}))

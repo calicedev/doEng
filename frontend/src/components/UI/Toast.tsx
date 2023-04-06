@@ -1,4 +1,4 @@
-import { PropsWithChildren } from "react"
+import { PropsWithChildren, useEffect, useState } from "react"
 import {
   useStoreDispatch,
   useStoreSelector,
@@ -7,6 +7,7 @@ import ReactDOM from "react-dom"
 import AnimationBox from "./AnimationBox"
 import { toastActions } from "store/toastSlice"
 import styles from "./Toast.module.css"
+import { useNavigate } from "react-router-dom"
 
 interface Props {
   message?: string
@@ -50,10 +51,26 @@ const Toast = function ({ children }: PropsWithChildren<Props>) {
     isToast,
     isSuccess,
     message: toastMessage,
+    nextURL,
   } = useStoreSelector((state) => state.toast)
   const dispatch = useStoreDispatch()
+  const navigate = useNavigate()
   const closeToast = function () {
     dispatch(toastActions.toastOff({}))
+  }
+  const [urlClass, setURLClasses] = useState<string>(
+    nextURL ? `cursor-pointer text-blue-500` : ``,
+  )
+  useEffect(
+    function () {
+      setURLClasses(() => (nextURL ? `cursor-pointer text-blue-500` : ``))
+    },
+    [nextURL],
+  )
+  const goNextURL = function () {
+    if (nextURL) {
+      window.location.href = nextURL
+    }
   }
 
   return (
@@ -76,11 +93,18 @@ const Toast = function ({ children }: PropsWithChildren<Props>) {
                 {isSuccess ? <Smile /> : <Sad />}
               </div>
               <div
-                className={`basis-[68%] w-[68%] flex font-hopang-black items-center justify-center ${
+                className={`basis-[68%] w-[68%] flex font-hopang-black items-center justify-center whitespace-pre-line flex-col px-3 ${
                   toastMessage.length > 10 ? `text-[1.33rem] ` : `text-[1.9rem]`
                 }`}
               >
-                {toastMessage}
+                {nextURL ? toastMessage : toastMessage}
+                {nextURL && (
+                  <>
+                    <div onClick={goNextURL} className={`${urlClass}`}>
+                      이동하기
+                    </div>
+                  </>
+                )}
               </div>
             </div>
           </div>
