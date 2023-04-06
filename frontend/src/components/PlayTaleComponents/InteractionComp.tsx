@@ -128,7 +128,7 @@ const InteractionComp: React.FC<Props> = ({
               <div className="basis[50%] w-[50%] object-contain h-full flex items-center justify-center">
                 <img
                   src={sceneDetail?.image}
-                  className="object-contain bg-img-gradient"
+                  className="object-contain bg-img-gradient h-[91%]"
                 />
               </div>
               <div className="basis-[50%] w-[50%] flex flex-col h-full items-center justify-center">
