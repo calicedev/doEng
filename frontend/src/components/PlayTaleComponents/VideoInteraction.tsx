@@ -102,7 +102,7 @@ const VideoInteraction: React.FC<Props> = ({
               console.log("An error occurred: ", err)
             })
         }
-      }, 5000)
+      }, 3000)
     }
     // interval cleanup
     return () => {

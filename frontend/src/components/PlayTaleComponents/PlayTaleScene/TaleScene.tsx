@@ -78,29 +78,14 @@ function TaleScene({
           src={sceneDetail?.image}
           className="h-[88%] w-full bg-img-gradient object-contain top-[50%] left-[50%] absolute translate-x-[-50%] translate-y-[-55%] z-[40]"
         />
-        {/* <div className="relative z-[49] left-[50%] bottom-[-60%] w-[70%] h-auto p-5 flex flex-row flex-wrap items-center justify-center translate-x-[-50%] font-jalnan text-[26px] gap-[0.5rem] ">
-          {engScripts.map((val, idx) => {
-            return (
-              <>
-                <AnimationBox
-                  key={`stript-eng-${idx}`}
-                  boxClasses="drop-shadow-xl text-stroke text-[55px]"
-                  appearClassName={`${textOneByOne[idx + 5]}`}
-                >
-                  {val}
-                </AnimationBox>
-              </>
-            )
-          })}
-        </div> */}
-        <div className="relative z-[49] left-[50%] bottom-[-66%] w-[70%] h-auto p-5 flex flex-row flex-wrap items-center justify-center translate-x-[-50%] font-jalnan text-[26px] gap-[1rem]">
+        <div className="fixed z-[49] left-[50%] bottom-[5%] w-[70%] h-auto p-5 flex flex-row flex-wrap items-center justify-center translate-x-[-50%] font-jalnan text-[26px] gap-[1rem]">
           {isKor
             ? korScripts.map((val, idx) => {
                 return (
                   <AnimationBox
                     key={`stript-eng-${idx}`}
                     boxClasses="drop-shadow-xl text-stroke text-[55px]"
-                    appearClassName={`${textOneByOne[idx + 5]}`}
+                    appearClassName={`${textOneByOne[idx * 2 + 4]}`}
                   >
                     {val}
                   </AnimationBox>

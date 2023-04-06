@@ -177,11 +177,13 @@ const SceneParent = function ({ nowSceneOrder = 1 }: Props) {
   const goNext = function () {
     setSceneOrder((v) => v + 1)
     setIsKor(() => false)
+    setIsPause(() => false)
   }
   const goBefore = function () {
     setSceneOrder((v) => {
       if (v > 1) {
         setIsKor(() => false)
+        setIsPause(() => false)
         return v - 1
       } else {
         dispatch(DispatchToast("동화의 처음 장면입니다!", false))

@@ -7,7 +7,7 @@ import { useUserMutation, useUserData } from "hooks/queries/queries"
 import { nicknameValidation, nameValidation } from "utils/validation"
 import useINEP from "hooks/useINEP"
 
-import { useStoreDispatch } from "hooks/useStoreSelector"
+import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
 import { DispatchToast } from "store"
 import useINEP2 from "hooks/useINEP2"
 import AnimationBox from "components/UI/AnimationBox"
@@ -46,6 +46,7 @@ function ProfileEditForm() {
   const { setFirstData: idFirstData } = useInput(idRef)
   const { setFirstData: emailFirstData } = useInput(emailRef)
   const { setFirstData: phoneFirstData } = useInput(phoneRef)
+  const { isGoogle } = useStoreSelector((state) => state.password)
 
   useEffect(
     function () {
@@ -109,7 +110,9 @@ function ProfileEditForm() {
                 onChange={nickChangeHandler}
               />
             </div>
-            <MyPageInput type="id" inputRef={idRef} disabled={true} />
+            {isGoogle ? null : (
+              <MyPageInput type="id" inputRef={idRef} disabled={true} />
+            )}
             <MyPageInput type="email" inputRef={emailRef} disabled={true} />
             <MyPageInput type="phone" inputRef={phoneRef} disabled={true} />
             <div

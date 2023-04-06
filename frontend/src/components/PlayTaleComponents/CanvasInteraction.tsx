@@ -27,40 +27,30 @@ const CanvasInteraction: React.FC<Props> = ({
   const [canvasResult, setCanvasResult] = useState("")
 
   // canvas 캡쳐해서 보내기
-  useEffect(() => {
+  const sendCanvas = () => {
     let intervalId: NodeJS.Timeout | null = null
     const canvas = canvasBoardRef.current
-    if (!isCorrect) {
-      intervalId = setInterval(() => {
-        if (canvas) {
-          const imageUrl = canvas.toDataURL("image/jpeg", 1.0)
-          gameRequest({
-            method: `post`,
-            url: `/game/doodle`,
-            data: {
-              image: imageUrl,
-            },
-            params: {
-              answer: word,
-              sceneId,
-            },
-          })
-            .then((res) => {
-              if (res.data === true) {
-                setIsCorrect(true)
-              }
-            })
-            .catch((err) => {})
-        }
-      }, 5000)
+    if (canvas) {
+      const imageUrl = canvas.toDataURL("image/jpeg", 1.0)
+      gameRequest({
+        method: `post`,
+        url: `/game/doodle`,
+        data: {
+          image: imageUrl,
+        },
+        params: {
+          answer: word,
+          sceneId,
+        },
+      })
+        .then((res) => {
+          if (res.data === true) {
+            setIsCorrect(true)
+          }
+        })
+        .catch((err) => {})
     }
-    // interval cleanup
-    return () => {
-      if (intervalId) {
-        clearInterval(intervalId)
-      }
-    }
-  }, [isCorrect])
+  }
 
   useEffect(() => {
     // makeCanvas 함수내에서 context 할당 후 외부 함수들에서 사용
@@ -172,9 +162,15 @@ const CanvasInteraction: React.FC<Props> = ({
         ></canvas>
         <div
           ref={resetRef}
-          className="absolute bottom-3 right-3 text-4xl cursor-pointer"
+          className="absolute top-3 right-3 text-4xl cursor-pointer"
         >
           <FaEraser />
+        </div>
+        <div
+          onClick={sendCanvas}
+          className="absolute bottom-3 right-3 flex items-center justify-center px-3 py-1 font-hopang-black text-yellow-700 text-lg border-[3px] rounded-full border-yellow-500 bg-opacity-80 bg-gradient-to-tl from-yellow-400 to-yellow-200 shadow-sm duration-200 hover:scale-105 cursor-pointer"
+        >
+          제출하기
         </div>
       </div>
       <button
@@ -188,3 +184,39 @@ const CanvasInteraction: React.FC<Props> = ({
 }
 
 export default CanvasInteraction
+
+// // 일정 시간마다 canvas 캡쳐해서 보내기
+// useEffect(() => {
+//   let intervalId: NodeJS.Timeout | null = null
+//   const canvas = canvasBoardRef.current
+//   if (!isCorrect) {
+//     intervalId = setInterval(() => {
+//       if (canvas) {
+//         const imageUrl = canvas.toDataURL("image/jpeg", 1.0)
+//         gameRequest({
+//           method: `post`,
+//           url: `/game/doodle`,
+//           data: {
+//             image: imageUrl,
+//           },
+//           params: {
+//             answer: word,
+//             sceneId,
+//           },
+//         })
+//           .then((res) => {
+//             if (res.data === true) {
+//               setIsCorrect(true)
+//             }
+//           })
+//           .catch((err) => {})
+//       }
+//     }, 5000)
+//   }
+//   // interval cleanup
+//   return () => {
+//     if (intervalId) {
+//       clearInterval(intervalId)
+//     }
+//   }
+// }, [isCorrect])
