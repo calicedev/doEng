@@ -40,7 +40,7 @@ class ResultDto(BaseModel):
     result: bool
 
 
-doodle_model = tf.keras.models.load_model('./app/model/MobileNet.h5')
+doodle_model = tf.keras.models.load_model('./app/model/doodle_cnn.h5')
 model = tf.keras.models.load_model('./app/model/emotion2.h5')
 inceptionV3_model = tf.keras.applications.InceptionV3(
         include_top=True,
@@ -137,34 +137,21 @@ async def analyze_object(imageDto: ObjectImage):
     # 이미지 데이터를 PIL.Image 객체로 변환합니다.
     image_load = PIL.Image.open(io.BytesIO(image_data))
     # 이미지를 NumPy 배열로 변환합니다.
-    image = np.array(image_load)
+    image_array = np.array(image_load)
 
-    # 이미지 천저리
-    image = tf.image.convert_image_dtype(image, tf.float32)
-    image = tf.image.resize(image, [128, 128])
-
-    image = tf.expand_dims(image, 0)
+    # numpy 배열을 TensorFlow tensor로 변환
+    image_tensor = tf.convert_to_tensor(image_array, dtype=tf.float32)
+    # 이미지의 크기를 (128, 128, 3)으로 조정
+    image_tensor = tf.image.resize(image_tensor, (128, 128))
+    image_tensor = tf.expand_dims(image_tensor, 0)
 
     # 모델 구동
-    prediction = doodle_model.predict(image)
+    prediction = doodle_model.predict(image_tensor)
 
-    # print(prediction)
-
-    def softmax(a):
-        c = np.max(a)
-        exp_a = np.exp(a - c)
-        sum_exp_a = np.sum(exp_a)
-        y = exp_a / sum_exp_a
-        return y
-
-    post_prediction = softmax(prediction)
-    print(post_prediction)
     # 결과 후처리
-    idx = post_prediction.argmax()
+    idx = prediction.argmax()
     result = doodle_ref[idx]
-
-    print(idx, result)
-
     answer_dto = ResultDto(image=image_b64, result=(result == imageDto.answer))
+    
     # 반환
     return answer_dto
