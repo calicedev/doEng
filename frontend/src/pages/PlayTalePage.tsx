@@ -4,6 +4,7 @@ import { Outlet, useParams } from "react-router-dom"
 
 const PlayTalePage = function () {
   const { taleId, sceneOrder } = useParams()
+
   return (
     <>
       {/* <div className="canvas-under-bg-container w-full h-full"> */}
