@@ -14,6 +14,9 @@ import SuperHeroLanding from "./SuperHeroLanding"
 import LoadingPage from "pages/LoadingPage"
 import { SpinnerDots } from "components/UI/Spinner"
 import { Navigate } from "react-router-dom"
+import React, { useEffect } from "react"
+import { useStoreDispatch, useStoreSelector } from "hooks/useStoreSelector"
+import { wordTestActions } from "store/wordTestSlice"
 
 const PlayTaleList = function () {
   const imgRef = useRef<HTMLImageElement>(null)
@@ -25,6 +28,12 @@ const PlayTaleList = function () {
     isError,
     data: PlayTaleList,
   } = usePlayTaleList()
+
+  const dispatch = useStoreDispatch()
+
+  useEffect(() => {
+    dispatch(wordTestActions.resetWordTest({}))
+  }, [])
 
   if (isLoading) {
     return <LoadingPage />

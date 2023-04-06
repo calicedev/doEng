@@ -8,6 +8,7 @@ import TaleNavigator from "components/UI/TaleNavigator"
 import SuperHeroLanding from "components/PlayTaleComponents/SuperHeroLanding"
 import WordTestBack from "assets/images/wordTestBack.png"
 import WordTestTitle from "assets/images/wordTestTitle.png"
+import Background from "assets/images/Background.png"
 
 function WordTestResult() {
   const navigate = useNavigate()
@@ -26,6 +27,11 @@ function WordTestResult() {
     return (
       <div className="w-full h-full">
         <TaleNavigator />
+        <img
+          alt="배경"
+          src={Background}
+          className="canvas-under-bg-container bg-vegis absolute -z-[60] h-full w-full"
+        />
         <SuperHeroLanding>
           <img
             alt="단어테스트 배경"
