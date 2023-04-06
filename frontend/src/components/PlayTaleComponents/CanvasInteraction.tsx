@@ -69,7 +69,7 @@ const CanvasInteraction: React.FC<Props> = ({
 
     let painting = false // 그림을 현재 그리고 있는지 여부
     const pickedColor = "#000000" // 선 색깔
-    const lineWidth = 3 // 선 두께
+    const lineWidth = 5 // 선 두께
 
     // 그림판 생성
     const makeCanvas = () => {

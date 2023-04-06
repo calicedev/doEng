@@ -43,10 +43,8 @@ const ReviewList = function () {
     <div
       className={`flex flex-col overflow-y-auto p-3 rounded-lg bg-white bg-opacity-80 drop-shadow-xl font-hopang-black text-[2rem]`}
     >
-      <AnimationBox appearClassName="overflow-y-auto animate-appear-from-bottom-fast">
-        <div
-          className={` flex flex-col overflow-y-auto gap-5 max-h-[400px] sm:h-auto`}
-        >
+      <AnimationBox appearClassName="overflow-auto animate-appear-from-bottom-fast">
+        <div className={` flex flex-col gap-5 max-h-[400px] sm:h-auto`}>
           {reviews.reviewList ? (
             reviews.reviewList.map((review) => (
               <ReviewItem key={`review-${review.id}`} review={review} />
