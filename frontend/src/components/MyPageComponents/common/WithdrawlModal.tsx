@@ -1,24 +1,25 @@
 import MyPageButton from "components/MyPageComponents/common/MyPageButton"
 import { useNavigate, useLocation } from "react-router-dom"
 import React, { useState, useMemo, PropsWithChildren } from "react"
-import useApi from "hooks/useApi"
-import { useUserMutation } from "hooks/queries/queries"
 import { useStoreDispatch } from "hooks/useStoreSelector"
 import { DispatchLogout } from "store"
+import { useQueryClient } from "@tanstack/react-query"
+import { queryKeys } from "hooks/queries/queryKeys"
+import apiRequest from "utils/axios"
 
 interface Props {
   closeModal: () => void
 }
 
 const WithdrawlModal = function ({ closeModal }: PropsWithChildren<Props>) {
-  const { mutateAsync: WithdrawMutate } = useUserMutation()
   const dispatch = useStoreDispatch()
   const navigate = useNavigate()
+  const queryClient = useQueryClient()
 
   // 탈퇴하기
 
   const withdrawHandler = function () {
-    WithdrawMutate({
+    apiRequest({
       method: `delete`,
       url: `/api/member`,
     })
@@ -26,6 +27,8 @@ const WithdrawlModal = function ({ closeModal }: PropsWithChildren<Props>) {
         dispatch(DispatchLogout())
       })
       .then(() => {
+        queryClient.invalidateQueries(queryKeys.user())
+        queryClient.removeQueries(queryKeys.user())
         navigate(`/`)
       })
   }

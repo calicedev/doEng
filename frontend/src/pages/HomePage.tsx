@@ -59,7 +59,6 @@ function HomePage() {
       if (scrollContainerRef.current?.scrollTop > window.innerHeight) {
         setIsTree(() => true)
       } else {
-        console.log(isTree, "나무 오프")
         setIsTree(() => false)
       }
     },
