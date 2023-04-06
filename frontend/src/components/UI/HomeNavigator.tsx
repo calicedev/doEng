@@ -56,7 +56,11 @@ const MouseDescription = function ({
     </>
   )
 }
-const HomeNavigator = function () {
+const HomeNavigator = function ({
+  isOpen = true,
+  appearClassName = "",
+  disappearClassName = "",
+}) {
   const queryClient = useQueryClient()
   const navigate = useNavigate()
   const dispatch = useStoreDispatch()
@@ -136,8 +140,15 @@ const HomeNavigator = function () {
         x={XY.x}
         y={XY.y}
       />
-      <div className="box-border fixed top-0 left-0 w-full h-[13.3%] flex flex-row justify-between py-3 px-5">
-        <AnimationBox appearClassName="animate-appear-top-nav">
+      <div className="box-border fixed top-0 left-0 w-full h-[13.3%] flex flex-row py-3 px-5 justify-end">
+        <AnimationBox
+          isOpened={isOpen}
+          boxClasses={`left-0 mx-5 ${
+            isOpen ? `h-[13.3%] fixed` : `h-full absolute`
+          }`}
+          appearClassName="animate-appear-top-nav"
+          disappearClassName="animate-disappear-top-nav"
+        >
           <div
             className={`flex justify-center items-center w-auto h-full bg-tale-nav-logo-container bg-contain bg-no-repeat py-2 cursor-pointer hover:scale-[103%] duration-[0.22s]`}
             onClick={pushHome}
@@ -145,11 +156,14 @@ const HomeNavigator = function () {
             <img alt={`nav-logo`} src={TaleNavLogo} className="h-full" />
           </div>
         </AnimationBox>
+        {/* <div className="w-flex-1"></div> */}
 
-        <div className="flex flex-row items-center justify-center gap-2 mobile:gap-3 lg:gap-5 w-auto box-border">
+        <div className="flex flex-row items-center justify-end gap-2 mobile:gap-3 lg:gap-5 w-auto box-border right-0 top-0 relative">
           <AnimationBox
-            boxClasses="h-[90%]"
+            isOpened={isOpen}
+            boxClasses="h-[90%] relative top-0 right-0"
             appearClassName="animate-[appear-top-nav_0.66s_0.22s_both]"
+            disappearClassName="animate-[disappear-top-nav_0.66s_0.22s_both]"
           >
             {/* <img
             className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
@@ -158,8 +172,10 @@ const HomeNavigator = function () {
           /> */}
           </AnimationBox>
           <AnimationBox
-            boxClasses="h-[90%]"
+            isOpened={isOpen}
+            boxClasses="h-[90%] relative top-0 right-0"
             appearClassName="animate-[appear-top-nav_0.66s_0.33s_both]"
+            disappearClassName="animate-[disappear-top-nav_0.66s_0.33s_both]"
           >
             <img
               className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
@@ -172,8 +188,10 @@ const HomeNavigator = function () {
             />
           </AnimationBox>
           <AnimationBox
-            boxClasses="h-[90%]"
+            isOpened={isOpen}
+            boxClasses="h-[90%] relative top-0 right-0"
             appearClassName="animate-[appear-top-nav_0.66s_0.44s_both]"
+            disappearClassName="animate-[disappear-top-nav_0.66s_0.44s_both]"
           >
             <img
               className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"
@@ -186,8 +204,10 @@ const HomeNavigator = function () {
             />
           </AnimationBox>
           <AnimationBox
-            boxClasses="h-[90%]"
+            isOpened={isOpen}
+            boxClasses="h-[90%] relative top-0 right-0"
             appearClassName="animate-[appear-top-nav_0.66s_0.55s_both]"
+            disappearClassName="animate-[disappear-top-nav_0.66s_0.55s_both]"
           >
             <img
               className="h-full cursor-pointer hover:scale-[106%] duration-[0.22s]"

@@ -25,14 +25,26 @@ const PlayTaleListItem = function ({
     if (tale.purchased) {
       setIsModal(() => true)
     } else {
-      dispatch(DispatchToast("구매가 필요한 컨텐츠 입니다!", false))
+      dispatch(
+        DispatchToast(
+          "구매가 필요한 컨텐츠 입니다!",
+          false,
+          `https://j8a601.p.ssafy.io/mypage/talestore/${tale.id}`,
+        ),
+      )
     }
   }
   const closeModal = function () {
     if (tale.purchased) {
       setIsModal(() => false)
     } else {
-      dispatch(DispatchToast("구매가 필요한 컨텐츠 입니다!", false))
+      dispatch(
+        DispatchToast(
+          "구매가 필요한 컨텐츠 입니다!",
+          false,
+          `https://j8a601.p.ssafy.io/mypage/talestore/${tale.id}`,
+        ),
+      )
     }
   }
   const [lockDown, setLockDown] = useState<boolean>(tale.purchased)

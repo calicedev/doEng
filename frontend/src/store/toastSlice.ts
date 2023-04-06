@@ -4,12 +4,14 @@ interface toastStore {
   isToast: boolean
   isSuccess: boolean | null
   message: string
+  nextURL: null | string
 }
 
 const initialState: toastStore = {
   isToast: false,
   isSuccess: null,
   message: "",
+  nextURL: null,
 }
 
 const toastSlice = createSlice({
@@ -27,6 +29,9 @@ const toastSlice = createSlice({
     },
     setIsSuccess(state, action) {
       state.isSuccess = action.payload.isSuccess
+    },
+    setURL(state, action) {
+      state.nextURL = action.payload.url
     },
   },
 })

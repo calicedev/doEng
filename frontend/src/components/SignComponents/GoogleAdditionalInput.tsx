@@ -9,8 +9,9 @@ import { useWidthHeight } from "hooks/useWidthHwight"
 import ErrorPage from "pages/ErrorPage"
 import { FormEvent, useRef, useState } from "react"
 import { useNavigate } from "react-router-dom"
-import { DispatchToast } from "store"
+import { DispatchLogout, DispatchToast } from "store"
 import { googleActions } from "store/googleSlice"
+import { passwordActions } from "store/passwordSlice"
 import { tokenActions } from "store/tokenSlice"
 import apiRequest from "utils/axios"
 import {
@@ -102,12 +103,13 @@ const GoogleAdditionalInput = function () {
         if (refresh) {
           dispatch(tokenActions.setRefreshToken({ refreshToken: refresh }))
         }
+        dispatch(passwordActions.setGoogle({}))
       })
       .then(() => {
         navigate(`/playtale`)
       })
       .catch((err) => {
-        dispatch(googleActions.resetGoogleSlice({}))
+        dispatch(DispatchLogout())
         dispatch(DispatchToast("실패! 재시도 바랍니다.", false))
       })
   }
