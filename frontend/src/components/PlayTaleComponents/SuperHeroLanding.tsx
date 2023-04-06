@@ -18,7 +18,7 @@ const SuperHeroLanding = function ({ children }: PropsWithChildren) {
         boxClasses="bg-vegis absolute top-0 left-0 w-[36%]"
         appearClassName="animate-[appear-from-left-with-bounce_0.33s_0.11s_both]"
       >
-        <img alt="좌상단" src={LeftTreeLeaves} className="w-full" />
+        <img alt="좌상단" src={LeftTreeLeaves} className="w-full z-[100]" />
       </AnimationBox>
       <AnimationBox
         boxClasses="bg-vegis absolute left-0 w-[20%]"
@@ -30,7 +30,7 @@ const SuperHeroLanding = function ({ children }: PropsWithChildren) {
         boxClasses="bg-vegis absolute right-0 top-0 w-[39.5%]"
         appearClassName="animate-[appear-from-right-with-bounce_0.33s_0.11s_both]"
       >
-        <img alt="우상단" src={RightTreeLeaves} className="w-full scale-110" />
+        <img alt="우상단" src={RightTreeLeaves} className="w-full scale-110 " />
       </AnimationBox>
       <AnimationBox
         boxClasses="bg-vegis absolute right-0 w-[22.5%]"

@@ -81,6 +81,7 @@ const SceneParent = function ({ nowSceneOrder = 1 }: Props) {
       setSceneOrder((v) => v - 1)
     }
   }, [])
+
   const { mutateAsync: sceneMutate } = useMutation({
     mutationFn: function (v: AxiosRequestConfig) {
       return apiRequest({
@@ -94,7 +95,6 @@ const SceneParent = function ({ nowSceneOrder = 1 }: Props) {
       })
     },
     onSuccess: function () {
-      console.log("???? 왜 인밸리데이션 안돼!")
       queryClient.invalidateQueries(queryKeys.game())
     },
   })
@@ -104,14 +104,6 @@ const SceneParent = function ({ nowSceneOrder = 1 }: Props) {
       if (sceneDetail) {
         const axiosSource = axios.CancelToken.source()
         sceneMutate({ cancelToken: axiosSource.token })
-          .then((res) => {
-            // console.log(res)
-            console.log(sceneDetail?.id)
-            console.log(sceneDetail?.sceneOrder)
-          })
-          .catch((err) => {
-            // console.log(err)
-          })
 
         return function () {
           axiosSource.cancel()
@@ -123,8 +115,9 @@ const SceneParent = function ({ nowSceneOrder = 1 }: Props) {
 
   useEffect(
     function () {
+      console.log(sceneOrder - 1 === maxlength)
       if (sceneOrder - 1 === maxlength!) {
-        navigate(`/playtale/${taleId}/test`)
+        navigate(`/playtale/word-test/${taleId}`)
       }
     },
     [sceneOrder, maxlength],
@@ -167,6 +160,13 @@ const SceneParent = function ({ nowSceneOrder = 1 }: Props) {
     [isPause, scriptListAudioRef.current, backgroundMusicAudioRef.current],
   )
 
+  useEffect(
+    function () {
+      setIsPause(() => false)
+    },
+    [isKor],
+  )
+
   const toggleKor = function () {
     setIsKor((val) => !val)
   }
@@ -194,16 +194,17 @@ const SceneParent = function ({ nowSceneOrder = 1 }: Props) {
     return <CommonLoading>로딩중...</CommonLoading>
   }
 
-  if (sceneOrder === PlayTaleDetail?.sceneCount) {
-    return <Navigate to={`/playtale/word-test/${taleId}`} />
-  }
   if (sceneDetailError) {
     return <Navigate to={`/error`} />
   }
 
   return (
     <>
-      <GameNavigator toggleKor={toggleKor} togglePause={pauseHandler} />
+      <GameNavigator
+        isPause={isPause}
+        toggleKor={toggleKor}
+        togglePause={pauseHandler}
+      />
       <audio ref={backgroundMusicAudioRef} />
       <audio ref={scriptListAudioRef} />
       <div

@@ -4,6 +4,7 @@ import React, { useState, useMemo, PropsWithChildren } from "react"
 import Modal from "components/UI/Modal"
 import WithdrawlModal from "./WithdrawlModal"
 import AnimationBox from "components/UI/AnimationBox"
+import { useStoreSelector } from "hooks/useStoreSelector"
 
 interface Props {
   path: "profile" | "edit" | "password"
@@ -12,6 +13,7 @@ interface Props {
 const Profile = function ({ path }: PropsWithChildren<Props>) {
   const navigate = useNavigate()
   const [isModal, setIsModal] = useState(false)
+  const { isGoogle } = useStoreSelector((state) => state.password)
 
   const toProfile = () => {
     navigate("/mypage/profile")
@@ -45,7 +47,9 @@ const Profile = function ({ path }: PropsWithChildren<Props>) {
     edit: (
       <>
         <MyPageButton text="취소" color="gray" onClick={toProfile} />
-        <MyPageButton text="비밀번호 수정" onClick={toProfilePwdEdit} />
+        {isGoogle ? null : (
+          <MyPageButton text="비밀번호 수정" onClick={toProfilePwdEdit} />
+        )}
       </>
     ),
     password: (
