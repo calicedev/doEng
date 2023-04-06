@@ -32,7 +32,7 @@ const root = ReactDOM.createRoot(document.getElementById("root") as HTMLElement)
 root.render(
   <BrowserRouter>
     <QueryClientProvider client={queryClient}>
-      {/* <ReactQueryDevtools initialIsOpen={true} /> */}
+      {/* <ReactQueryDevtools initialIsOpen={false} /> */}
       <Provider store={store}>
         <PersistGate loading={null} persistor={persistor}>
           <App />
