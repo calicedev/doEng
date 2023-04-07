@@ -100,7 +100,7 @@ const InteractionComp: React.FC<Props> = ({
       }, 3000)
     }
   }, [isCorrect])
-
+  console.log(sceneDetail?.scriptList[1].content)
   return (
     <>
       {sceneDetail && (
@@ -116,11 +116,13 @@ const InteractionComp: React.FC<Props> = ({
               className="h-[23%] w-full top-0 z-[50] bg-title-pan flex items-center justify-center relative bottom-0 bg-contain bg-no-repeat bg-center mt-[3%]"
             >
               <div
-                className="bg-opacity-80 bg-white rounded-[13px] h-[70%] w-[40%] mb-[1%] flex items-center justify-center"
-                style={{ width: `${height * 2.2}px` }}
+                className="bg-opacity-80 bg-white rounded-[13px] h-[70%] w-[40%] mb-[1%] flex items-center justify-center text-center px-3"
+                style={{ width: `${height * 2.3}px` }}
               >
                 <AnimationBox boxClasses="text-3xl">
-                  {sceneDetail?.scriptList[0].content}
+                  {isKor
+                    ? sceneDetail?.scriptList[1].content
+                    : sceneDetail?.scriptList[0].content}
                 </AnimationBox>
               </div>
             </div>
