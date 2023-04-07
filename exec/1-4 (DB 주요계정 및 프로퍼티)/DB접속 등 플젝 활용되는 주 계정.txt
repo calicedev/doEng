@@ -1,0 +1,4 @@
+- Hostname : j8a601.p.ssafy.io
+- port: 3306
+- username : doeng_admin
+- password : zjvlfmf~cnrqofh!
