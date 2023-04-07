@@ -18,6 +18,7 @@ import com.ssafy.doeng.data.repository.member.MemberRepository;
 import com.ssafy.doeng.errors.code.MemberErrorCode;
 import com.ssafy.doeng.errors.exception.ErrorException;
 import com.ssafy.doeng.jwt.TokenProvider;
+import com.ssafy.doeng.oauth2.GetSocialOAuthRes;
 import com.ssafy.doeng.service.member.MemberService;
 import com.ssafy.doeng.service.review.impl.ReviewServiceImpl;
 import com.ssafy.doeng.util.RedisUtil;
@@ -58,7 +59,6 @@ public class MemberServiceImpl implements MemberService {
 
     @Transactional
     public void signup(RequestSignupDto requestDto) {
-        System.out.println(requestDto.getMemberId().getClass().getSimpleName());
         LOGGER.error("[signup] 회원가입 service 들어옴");
         if (memberRepository.existsByMemberId(requestDto.getMemberId())) {
             throw new ErrorException(MemberErrorCode.MEMBER_DUPLICATE);
@@ -130,8 +130,10 @@ public class MemberServiceImpl implements MemberService {
         TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
 
         // 6.  정보 업데이트
-        redisUtil.setDataExpire("token_"+authentication.getName(),  tokenDto.getRefreshtoken(),60 * 60 * 24 * 7 * 1000);
+        String a = redisUtil.getData("token_"+memberRepository.findIdByMemberId(authentication.getName()));
 
+        System.out.println("aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa"+a);
+        tokenDto.setRefreshtoken(a);
         LOGGER.info("[reissue] accessToken 재발급 나감");
         // 토큰 발급
         return tokenDto;
@@ -176,10 +178,19 @@ public class MemberServiceImpl implements MemberService {
     }
 
     @Override
-    public void MemberWithdrawal() {
+    public void MemberWithdrawal(Long id) {
         LOGGER.info("[MemberWithdrawal] 회원 탈퇴 서비스 들어옴");
-        Optional<Member> member = memberRepository.findByMemberId(SecurityUtil.getCurrentId());
+        Optional<Member> member = memberRepository.findById(id);
+        memberRepository.deleteMemberHasWordByMemberId(id);
+        memberRepository.deletePaymentByMemberId(id);
+        memberRepository.deleteProgressByMemberId(id);
+        memberRepository.deleteReviewByMemberId(id);
+        memberRepository.deleteTestByMemberId(id);
         member.ifPresent(memberRepository::delete);
+        if (redisTemplate.opsForValue().get("token_"+id) != null) {
+            // Refresh Token 삭제
+            redisTemplate.delete("token_"+id);
+        }
         LOGGER.info("[MemberWithdrawal] 회원 탈퇴 서비스 나감");
     }
 
@@ -349,6 +360,31 @@ public class MemberServiceImpl implements MemberService {
     public String checkEmailDuplicate(String email){
         String nicknameDuplicate = memberRepository.findMemberIdByEmail(email);
         return nicknameDuplicate;
+    }
+
+    @Override
+    public TokenDto googleSignup(RequestSignupDto requestDto) {
+        LOGGER.info("[googleSignup] 구글 회원가입 service 들어옴");
+        Member member = requestDto.toMember(passwordEncoder);
+        memberRepository.save(member);
+        LOGGER.info("[googleSignup] 구글 회원가입 service 나감");
+
+        LOGGER.info("[googleLogin] 구글 유저 토큰 발급");
+        RequestMemberDto requestMemberDto = RequestMemberDto.builder() // 빌더어노테이션으로 생성된 빌더클래스 생성자
+                .memberId(member.getMemberId())
+                .password("")
+                .build();
+        UsernamePasswordAuthenticationToken authenticationToken = requestMemberDto.toAuthentication();
+        // 2. 실제로 검증 (사용자 비밀번호 체크) 이 이루어지는 부분
+        //    authenticate 메서드가 실행이 될 때 CustomUserDetailsService 에서 만들었던 loadUserByUsername 메서드가 실행됨
+        //    customeruservice에서 처리함.
+        Authentication authentication = authenticationManagerBuilder.getObject().authenticate(authenticationToken);
+        // 3. 인증 정보를 기반으로 JWT 토큰 생성
+        TokenDto tokenDto = tokenProvider.generateTokenDto(authentication);
+        // 4. 토큰 담아서 보내고 redis애 저장
+        redisUtil.setDataExpire("token_"+member.getId(), tokenDto.getRefreshtoken(),60 * 60 * 24 * 7 * 1000);
+        LOGGER.info("[googleLogin] 구글 유저 토큰 발급 나감");
+        return tokenDto;
     }
 
 

@@ -4,6 +4,7 @@ import com.ssafy.doeng.data.entity.member.Member;
 import java.util.Collection;
 import java.util.Optional;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
@@ -32,5 +33,21 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
     boolean existsByPhone(String phone);
 
     Optional<Member> findByEmail(String username);
+
+    @Modifying
+    @Query("delete from MemberHasWord mw where mw.member.id = :id")
+    void deleteMemberHasWordByMemberId(@Param("id") Long id);
+    @Modifying
+    @Query("delete from Payment p where p.member.id = :id")
+    void deletePaymentByMemberId(@Param("id") Long id);
+    @Modifying
+    @Query("delete from Progress p where p.member.id = :id")
+    void deleteProgressByMemberId(@Param("id") Long id);
+    @Modifying
+    @Query("delete from Review r where r.member.id = :id")
+    void deleteReviewByMemberId(@Param("id") Long id);
+    @Modifying
+    @Query("delete from Test t where t.member.id = :id")
+    void deleteTestByMemberId(@Param("id") Long id);
 }
 

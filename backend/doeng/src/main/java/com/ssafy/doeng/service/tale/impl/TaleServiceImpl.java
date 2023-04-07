@@ -31,6 +31,7 @@ import com.ssafy.doeng.data.entity.word.Word;
 import com.ssafy.doeng.data.repository.material.MaterialRepository;
 import com.ssafy.doeng.data.repository.member.MemberRepository;
 import com.ssafy.doeng.data.repository.payment.PaymentRepository;
+import com.ssafy.doeng.data.repository.picture.PictureRepository;
 import com.ssafy.doeng.data.repository.progress.ProgressRepository;
 import com.ssafy.doeng.data.repository.review.ReviewRepository;
 import com.ssafy.doeng.data.repository.scene.SceneRepository;
@@ -74,7 +75,7 @@ public class TaleServiceImpl implements TaleService {
     private final Common common;
     private final TestRepository testRepository;
     private final MaterialRepository materialRepository;
-
+    private final PictureRepository pictureRepository;
     private final AwsS3Service awsS3Service;
 
     @Override
@@ -135,7 +136,7 @@ public class TaleServiceImpl implements TaleService {
         int rtn = 0;
         LocalDateTime recentlyPosted = progresses.get(0).getPlayedAt();
         for (Progress p : progresses) {
-           if (recentlyPosted.isAfter(p.getPlayedAt())){
+           if (recentlyPosted.isBefore(p.getPlayedAt())){
                Scene crtScene = p.getScene();
                rtn = crtScene.getSceneOrder();
                recentlyPosted = p.getPlayedAt();
@@ -207,28 +208,33 @@ public class TaleServiceImpl implements TaleService {
                 .id(tale.getId())
                 .title(tale.getTitle())
                 .backgroundImage(awsS3Service.getTemporaryUrl(tale.getBackgroundImage()))
-                .sceneList(makeSceneList(scenes))
-                .testResult(maxCount == 0 ? null : makeTest(testList, maxCount))
+                .sceneList(makeSceneList(member, scenes))
+                .testResult(makeTest(testList, maxCount, scenes))
                 .build();
         LOGGER.info("[TaleServiceImpl] getProgressTaleDetail dto 종료");
         return progressTaleDetailDto;
     }
 
-    private ResponseProgressTestResultDto makeTest(List<Test> testList, int maxCount) {
+    private ResponseProgressTestResultDto makeTest(List<Test> testList, int maxCount, List<Scene> scenes) {
         LOGGER.info("[TaleServiceImpl] makeTest dto 시작");
+        List<String> words = new ArrayList<>();
+        for (Scene s:scenes) {
+            words.add(s.getWord().getEngWord());
+        }
 
         List<ResponseProgressWordListDto> testResult = new ArrayList<>();
-        int wordCount = testList.size() / maxCount;
-        for(int i = 0; i < wordCount; i++) {
+        int wordCount = words.size();
+        for (int i = 0; i < wordCount; i++) {
             List<Boolean> correctList = new ArrayList<>();
             for (int j = i * maxCount; j < (i + 1) * maxCount; j++) {
                 correctList.add(testList.get(j).isCorrect());
             }
             testResult.add(ResponseProgressWordListDto.builder()
-                            .engWord(testList.get(i*maxCount).getWord().getEngWord())
-                            .correctList(correctList)
+                    .engWord(words.get(i))
+                    .correctList(correctList)
                     .build());
         }
+
         LOGGER.info("[TaleServiceImpl] makeTest dto 종료");
 
         return ResponseProgressTestResultDto.builder()
@@ -237,24 +243,32 @@ public class TaleServiceImpl implements TaleService {
                 .build();
     }
 
-    private List<ResponseProgressSceneDto> makeSceneList(List<Scene> sceneList) {
+    private List<ResponseProgressSceneDto> makeSceneList(Member member, List<Scene> sceneList) {
         LOGGER.info("[TaleServiceImpl] makeSceneList 시작");
+        Member m = member;
         List<ResponseProgressSceneDto> returnDto = sceneList.stream().map(
                 scene -> ResponseProgressSceneDto.builder()
                         .id(scene.getId())
                         .sceneTitle(scene.getTitle())
-                        .imageList(findProgress(scene))
+                        .imageList(findProgress(m, scene))
                         .build()
         ).collect(Collectors.toList());
         LOGGER.info("[TaleServiceImpl] makeSceneList 종료");
         return returnDto;
     }
 
-    private List<ResponseProgressImageDto> findProgress(Scene scene) {
-        if (!scene.getProgresses().isEmpty() && scene.getProgresses() != null) {
-            return makeImageList(scene.getProgresses().get(0).getPictures());
-        }
-        return null;
+    private List<ResponseProgressImageDto> findProgress(Member member, Scene scene) {
+        //에러 던지기 수정
+       Optional<Progress> progress =  progressRepository.findByMemberAndScene(member, scene);
+       if(progress.isPresent()) {
+           List<Picture> pictures = pictureRepository.findByProgress(progress.get());
+           if (!scene.getProgresses().isEmpty() && scene.getProgresses() != null) {
+               return makeImageList(pictures);
+           }
+       } else {
+            return Collections.emptyList();
+       }
+       return null;
     }
 
     private List<ResponseProgressImageDto> makeImageList(List<Picture> pictures) {
@@ -306,14 +320,14 @@ public class TaleServiceImpl implements TaleService {
             if(r.getMember().getId() == memberId) {
                 myReview = ResponseReviewDto.builder()
                         .id(r.getId())
-                        .userId(r.getMember().getMemberId())
+                        .nickname(r.getMember().getNickname())
                         .score(r.getScore())
                         .content(r.getContent())
                         .build();
             } else {
                 ResponseReviewDto reviewDto = ResponseReviewDto.builder()
                         .id(r.getId())
-                        .userId(r.getMember().getMemberId())
+                        .nickname(r.getMember().getNickname())
                         .score(r.getScore())
                         .content(r.getContent())
                         .build();

@@ -1,15 +1,10 @@
 package com.example.doenggameflux.handler;
 
 import com.example.doenggameflux.component.DBComponent;
-import com.example.doenggameflux.component.DBComponentHttp;
 import com.example.doenggameflux.component.TokenComponent;
 import com.example.doenggameflux.config.urlEnum.WebSocketMapping;
 import com.example.doenggameflux.dto.response.FaceResultResponseDto;
-import java.io.IOException;
 import java.net.URI;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.Base64;
 import java.util.HashMap;
 import java.util.Map;
@@ -45,7 +40,6 @@ public class FaceWebsocketHandler implements WebSocketHandler {
         MultiValueMap<String, String> queryParams = UriComponentsBuilder.fromUri(uri).build()
                 .getQueryParams();
 
-        TokenComponent.jwtConfirm(session).log().subscribe();
 
         if (session.getAttributes().containsKey("memberId")) {
 

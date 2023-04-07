@@ -13,6 +13,7 @@ import com.ssafy.doeng.data.dto.member.request.RequestResetMemberPasswordDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupDto;
 import com.ssafy.doeng.data.dto.member.request.RequestSignupEmailDto;
 import com.ssafy.doeng.data.dto.member.request.RequestTokenDto;
+import com.ssafy.doeng.data.dto.member.response.ResponseAiTokenDto;
 import com.ssafy.doeng.data.entity.member.Member;
 import com.ssafy.doeng.service.member.MemberService;
 import lombok.RequiredArgsConstructor;
@@ -69,9 +70,9 @@ public class MemberController {
     }
 
     @DeleteMapping
-    public ResponseEntity memberWithdrawal(){
+    public ResponseEntity memberWithdrawal(@LoginId Long id){
         LOGGER.info("[MemberWithdrawal] 회원 탈퇴 요청 controller 들어옴");
-        memberService.MemberWithdrawal();
+        memberService.MemberWithdrawal(id);
         return new ResponseEntity(HttpStatus.OK);
     }
 
@@ -99,8 +100,11 @@ public class MemberController {
     }
 
     @GetMapping("/ai")
-    public ResponseEntity<Long> ai(@LoginId Long id){
-        return ResponseEntity.ok(id);
+    public ResponseEntity<ResponseAiTokenDto> ai(@LoginId Long id){
+        ResponseAiTokenDto responseAiTokenDto= ResponseAiTokenDto.builder().id(id).build();
+        System.out.println("여기까지 잘 됩니다!!!!!!!");
+        System.out.println(responseAiTokenDto.getId());
+        return ResponseEntity.ok(responseAiTokenDto);
     }
 
 
